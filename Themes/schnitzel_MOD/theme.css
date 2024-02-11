@@ -1,0 +1,157 @@
+:root {
+  --bar-margin: 0px; /* This is the margin-right & margin-left the "Command" button & "Create Command" button have */
+  --bar-margin-alternative: auto; /* This is the margin-left & margin-right the "Command" button & "Create Command" button have */
+  --round-intense: 5px;
+  --round-strong: 4px;
+  --round-mild: 3px;
+  --round-off: 1px;
+  --round-slight: 3px;
+  --round-normal: 3px;
+  --toolbar-roundness: 4px;
+
+  --secondary-main: #171717;
+  --secondary-hover: #262626;
+  --secondary-active: #000000;
+  --secondary-selected: #262626;
+
+  --strong: #171717;
+  --strong-main: #171717;
+  --strong-hover: #1e1e1e;
+  --strong-active: #000000;
+
+  --main-background: #000000;
+
+  --main-color: #0f0f0f;
+  --hover-color: #0b0b0b;
+  --active-color: #000000;
+
+  --dark-main: #ffffff05;
+  --dark-hover: #ffffff15;
+  --dark-active: #ffffff10;
+  --dark-strong: #ffffff13;
+
+  --text: #fafafa;
+
+  --toolbar-height: 45px;
+  --toolbar-margin-side: 2px; /* Only applies to first button of toolbar */
+  --toolbar-margin-side-larger: 3px; /* Only applies to last button of toolbar */
+
+  --parameter-editor-pane-height: calc(94.5% + 18px);
+
+  --icon-size: 9px;
+}
+
+html * {
+  font-family: "Inter", "Geist", "Roboto", sans-serif !important;
+}
+
+.editor_toolbar {
+  background-color: unset !important;
+}
+
+.toolbar {
+  background-color: unset !important;
+  background: #ffffff12 !important;
+}
+
+.editor_content {
+  box-shadow: inset 0 0 5px #000000;
+  background: #000000;
+}
+
+.dropdown {
+  background: var(--secondary-main);
+  transition: all 0.05s ease !important;
+}
+.dropdown:hover {
+  background: #131313;
+}
+.dropdown:active {
+  background: var(--secondary-active);
+}
+
+btn:hover {
+  background: var(--secondary-selected);
+}
+btn:active {
+  transform: translateY(2px);
+  background: var(--secondary-active);
+}
+
+.dropdown:active {
+  transform: translateY(2px);
+}
+
+.folderContainer > .action {
+  background: linear-gradient(#0c0c0c, #000000);
+}
+
+input {
+  background: #131313;
+}
+
+.rounded_left[onclick^="newObject(0)"],
+.rounded_left[onclick^="newObject(1)"] {
+  background: #059669;
+}
+
+.rounded_left[onclick^="newObject(0)"]:hover,
+.rounded_left[onclick^="newObject(1)"]:hover {
+  background: #047857;
+}
+
+.titlebar {
+  height: 32px;
+}
+.titlebar .hitMe {
+  width: 46px !important;
+  background: none;
+}
+.titlebar .hitMe:hover {
+  background: #ffffff20;
+}
+.titlebar .hitMe[onclick^="closeEditor()"]:hover {
+  background: #e81123;
+}
+.titlebar .hitMe[onclick^="closeEditor()"]:hover div {
+  opacity: 1 !important;
+}
+
+.titlebar .hitMe:hover > div {
+  scale: 1 !important;
+}
+
+.titlebar .hitMe[onclick^="ipcRenderer.send('minimize')"] div {
+  width: var(--icon-size) !important;
+  border: 1px #ffffff60 solid !important;
+  border-radius: 0 !important;
+}
+.titlebar .hitMe[onclick^="ipcRenderer.send('maximize')"] div {
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  border: 1px #ffffff60 solid !important;
+  border-radius: 2px !important;
+}
+.titlebar .hitMe[onclick^="closeEditor()"] div {
+  rotate: 0deg !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='fill: %23ffffff; stroke: %23ffffff;' viewBox='0 0 10 10'%3E%3Cpolygon points='10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1' /%3E%3C/svg%3E") !important;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  opacity: 0.4 !important;
+}
+
+.buttontexta {
+  font-size: small;
+  margin-bottom: 2px;
+}
+
+btext {
+  font-size: small;
+  margin-bottom: 2px;
+}
+
+text {
+  font-size: small;
+  margin-bottom: 2px;
+  margin-left: 18px;
+}
