@@ -6,6 +6,46 @@ This repository serves to house mods made by the community for BMD.
 
 ## Installation
 
+### Using CLI tool
+
+- Requirement: [Node.JS](https://nodejs.org/en)
+
+1. Use npm to install [bmdm](https://github.com/qizzle/bmdm)
+
+```bash
+npm i -g bmdm
+```
+
+2. Set your path to Bot Maker for Discord
+
+```bash
+bmdm set "<PATH>"
+```
+
+> e.g. bmdm set "C:\Program Files (x86)\Steam\steamapps\common\Bot Maker For Discord"
+
+3. Use **bmdm** to install mods
+
+```bash
+bmdm all
+```
+
+> This will install all offical mods
+
+**or**
+
+```bash
+bmdm install <mod>
+```
+
+> e.g. bmdm install animesearch
+
+4. You're all set!
+
+**For more about usage of bmdm look into the [offical repository.](https://github.com/qizzle/bmdm?tab=readme-ov-file#usage)**
+
+### Manual
+
 1. Download this repository by pressing "Code" and then selecting "Download ZIP" on the repository's home page.
 2. Extract the ZIP archive.
 3. Place the "Actions" folder into your Bot Maker for Discord's AppData directory. _(e.g. C:\Program Files (x86)\Steam\steamapps\common\Bot Maker For Discord\AppData)_
