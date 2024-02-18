@@ -38,14 +38,14 @@ module.exports = {
         {
             element: "input",
             storeAs: "levelbarempty",
-            name: "Empty Level Bar Emoji",
+            name: "Empty Level Bar Character",
             placeholder: "Example: = -  Leave blank for none...",
         },
         "-",
         {
             element: "input",
             storeAs: "levelbarfilled",
-            name: "Filled level bar emoji",
+            name: "Filled Level Bar Character",
             placeholder: "Example: # - Leave blank for none...",
         },
         "-",
