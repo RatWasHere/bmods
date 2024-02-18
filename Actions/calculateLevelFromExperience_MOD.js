@@ -13,14 +13,14 @@ module.exports = {
         {
             element: "input",
             storeAs: "experience",
-            name: "Experience that will be calculated",
+            name: "Experience To Calculate",
         },
         "-",
         {
             element: "input",
             storeAs: "initialExperience",
-            name: "Experience required for the first level",
-            placeholder: "Recommended : 100 ( Note: always use the same value for all actions)",
+            name: "Required Experience For The First Level",
+            placeholder: "Recommended: 100 - Always use the same value for all actions",
         },
         "-",
         {
@@ -29,7 +29,7 @@ module.exports = {
             name: "Experience Multiplier",
             placeholder: "Recommended : 2 ( Note: always use the same value for all actions)",
         },
-        "-",
+        "_",
         {
             element: "text",
             text: "The higher the number entered, the more difficult each level becomes."
@@ -38,38 +38,38 @@ module.exports = {
         {
             element: "input",
             storeAs: "levelbarempty",
-            name: "Empty level bar emoji",
-            placeholder: "Example : = (Leave blank if you dont wanna use level bar)",
+            name: "Empty Level Bar Emoji",
+            placeholder: "Example: = -  Leave blank for none...",
         },
         "-",
         {
             element: "input",
             storeAs: "levelbarfilled",
             name: "Filled level bar emoji",
-            placeholder: "Example : # (Leave blank if you dont wanna use level bar)",
+            placeholder: "Example: # - Leave blank for none...",
         },
         "-",
         {
             element: "storageInput",
             storeAs: "userLevel",
-            name: "Store calculated level as",
+            name: "Store Calculated Level As",
         },
         "-",
         {
             element: "storageInput",
             storeAs: "requiredexp",
-            name: "Store required exp for next level as",
+            name: "Store Required Experience For The Next Level As",
         },
         "-",
         {
             element: "storageInput",
             storeAs: "levelbar",
-            name: "Store generated level bar as",
+            name: "Store Generated Level Bar As",
         },
-        "-",
+        "_",
         {
             element: "text",
-            text: "(Leave blank if you dont wanna use level bar)"
+            text: "Leave Blank If You Don't Want To Use The Level Bar..."
         },
     ],
 
