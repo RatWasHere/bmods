@@ -8,6 +8,7 @@ module.exports = {
   data: {
     name: "Mysql Query",
   },
+  category: "Global Data",
   UI: [
     {
       element: "input",
