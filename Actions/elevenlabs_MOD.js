@@ -32,7 +32,7 @@ module.exports = {
     {
       element: "input",
       storeAs: "directory",
-      name: "Where to save the file",
+      name: "Directory Where To Save The TTS File",
     },
   ],
 

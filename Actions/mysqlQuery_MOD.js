@@ -6,7 +6,7 @@
 */
 module.exports = {
   data: {
-    name: "Mysql Query",
+    name: "MySQL Query",
   },
   category: "Global Data",
   UI: [

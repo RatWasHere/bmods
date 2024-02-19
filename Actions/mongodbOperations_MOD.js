@@ -13,7 +13,7 @@ module.exports = {
     {
       element: "input",
       name: "MongoDB Connection String",
-      placeholder: "Your mongo db url",
+      placeholder: "Your MongoDB URL",
       storeAs: "mongoConnectionString",
     },
     "-",
@@ -52,7 +52,7 @@ module.exports = {
     {
       element: "largeInput",
       name: "Document (for Insert, Update, Replace)",
-      placeholder: "Make sure you use double quotes",
+      placeholder: "Make sure you use double quotes (\")",
       storeAs: "document",
     },
     "-",
