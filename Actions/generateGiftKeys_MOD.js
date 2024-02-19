@@ -16,6 +16,7 @@ function generateGiftKey() {
 }
 
 module.exports = {
+  category: "Gift Keys",
   data: {
     name: "Generate Gift Keys MOD",
   },
