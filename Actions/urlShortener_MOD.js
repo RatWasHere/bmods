@@ -2,6 +2,7 @@ module.exports = {
  data: {
     name: "URL Shortener",
  },
+ category: "Link Shortener",
  UI: [
     {
       element: "input",

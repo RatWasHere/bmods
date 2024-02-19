@@ -1,5 +1,6 @@
 module.exports = {
   data: { name: "Create Self-Contained Anchor", id: new Date().getTime() },
+  category: "Anchors",
   UI: [
     {
       element: "input",

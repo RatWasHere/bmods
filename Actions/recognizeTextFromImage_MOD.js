@@ -9,6 +9,7 @@ module.exports = {
     data: {
         name: "Recognize Text From Image",
     },
+    categroy: "Numbers",
     UI: [
         {
             element: "image",

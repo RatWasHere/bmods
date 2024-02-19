@@ -3,6 +3,7 @@ module.exports = {
   UI: [
     
   ],
+  category: "Memes",
   subtitle: "",
   script: (data) => {
     setTimeout(() => {

@@ -9,6 +9,7 @@ module.exports = {
     data: {
         name: "Calculate Level From Experience",
     },
+    categroy: "Numbers",
     UI: [
         {
             element: "input",

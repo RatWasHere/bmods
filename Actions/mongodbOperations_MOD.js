@@ -8,7 +8,7 @@ module.exports = {
   data: {
     name: "MongoDB Operations",
   },
-
+  category: "Global Data",
   UI: [
     {
       element: "input",

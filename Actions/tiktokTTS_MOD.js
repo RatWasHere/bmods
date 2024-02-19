@@ -11,6 +11,7 @@ module.exports = {
   data: {
     name: "Tiktok TTS",
   },
+  category: "AI",
   UI: [
     {
       element: "dropdown",

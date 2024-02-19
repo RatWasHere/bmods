@@ -8,6 +8,7 @@ module.exports = {
   data: {
     name: "Random Meme",
   },
+  category: "Memes",
   UI: [
     {
       element: "input",

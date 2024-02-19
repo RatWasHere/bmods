@@ -6,6 +6,7 @@ module.exports = {
  data: {
     name: "Random Cat Image URL",
  },
+ category: "Images",
  UI: [
     "-",
     {

@@ -8,6 +8,7 @@ module.exports = {
   data: {
     name: "Check Gift Key And Use MOD",
   },
+ category: "Gift Keys",
   UI: [
     {
       element: "input",

@@ -9,6 +9,7 @@ module.exports = {
   data: {
     name: "Ask AI",
   },
+  category: "AI",
   UI: [
     {
       element: "input",

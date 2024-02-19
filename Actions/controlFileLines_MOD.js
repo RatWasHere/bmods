@@ -2,6 +2,7 @@ module.exports = {
   data: {
     name: "Control File Lines",
   },
+  category: "Files",
   UI: [
     {
       element: "input",

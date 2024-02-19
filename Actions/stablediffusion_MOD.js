@@ -15,6 +15,7 @@ module.exports = {
   data: {
     name: "Stable Diffusion",
   },
+  category: "Images",
   UI: [
     {
       element: "input",

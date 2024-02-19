@@ -8,6 +8,7 @@ module.exports = {
   data: {
     name: "Anime Search",
   },
+  category: "Anime",
   UI: [
     {
       element: "input",
