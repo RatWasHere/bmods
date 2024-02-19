@@ -9,7 +9,7 @@ module.exports = {
     data: {
         name: "Recognize Text From Image",
     },
-    categroy: "Numbers",
+    category: "Numbers",
     UI: [
         {
             element: "image",
