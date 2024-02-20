@@ -73,7 +73,6 @@ module.exports = {
         port: bridge.transf(values.port),
         givenPortOnly: true // the library will attempt multiple ports in order to ensure success, to avoid this pass this option
       }).then((state) => {
-        console.log(state);
         bridge.store(values.servername, state.name);
         bridge.store(values.servermap, state.map);
         bridge.store(values.password, state.password);
