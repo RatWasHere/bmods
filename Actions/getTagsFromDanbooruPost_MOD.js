@@ -9,7 +9,7 @@ module.exports = {
   data: {
     name: "Get Tags from Danbooru Post",
   },
-  category: "Misc", // idk, change it if you want
+  category: "NSFW",
   UI: [
     {
       element: "input",

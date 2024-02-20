@@ -12,7 +12,7 @@ module.exports = {
   data: {
     name: "Get Tags from Gelbooru Post",
   },
-  category: "Misc",
+  category: "NSFW",
   UI: [
     {
       element: "input",
