@@ -14,11 +14,13 @@ module.exports = {
       element: "input",
       storeAs: "gametype",
       name: "Game Type",
+      placeholder: "Gamedig type from https://github.com/gamedig/node-gamedig/blob/HEAD/GAMES_LIST.md",
     },
     {
       element: "input",
       storeAs: "host",
       name: "Host",
+      placeholder: "Your game ip",
     },
     {
       element: "input",
