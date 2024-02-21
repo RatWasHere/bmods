@@ -8,6 +8,10 @@ module.exports = {
   data: {
     name: "MongoDB Operations",
   },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "candiedapple"
+  },
   category: "Global Data",
   UI: [
     {

@@ -351,6 +351,10 @@ function swap(json){
 }
 
 module.exports = {
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "candiedapple"
+  },
   data: {
     name: "Get Game Server Info",
   },

@@ -10,6 +10,10 @@ module.exports = {
         name: "Calculate Level From Experience",
     },
     category: "Numbers",
+    info: {
+      source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+      creator: "candiedapple"
+    },
     UI: [
         {
             element: "input",

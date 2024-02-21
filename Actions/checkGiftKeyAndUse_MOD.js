@@ -8,6 +8,10 @@ module.exports = {
   data: {
     name: "Check Gift Key And Use MOD",
   },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "candiedapple"
+  },
  category: "Gift Keys",
   UI: [
     {

@@ -8,6 +8,10 @@ module.exports = {
   data: {
     name: "Anime Search",
   },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "qschnitzel"
+  },
   category: "Anime",
   UI: [
     {

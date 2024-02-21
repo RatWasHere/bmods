@@ -9,6 +9,10 @@ module.exports = {
     data: {
         name: "Recognize Text From Image",
     },
+    info: {
+      source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+      creator: "candiedapple"
+    },
     category: "Numbers",
     UI: [
         {

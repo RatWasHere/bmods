@@ -9,6 +9,10 @@ module.exports = {
     name: "Random Meme",
   },
   category: "Memes",
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "qschnitzel"
+  },
   UI: [
     {
       element: "input",

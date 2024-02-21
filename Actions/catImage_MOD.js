@@ -7,6 +7,10 @@ module.exports = {
     name: "Random Cat Image URL",
  },
  category: "Images",
+ info: {
+  source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+  creator: "Regianus (TheKing1543) & qschnitzel"
+ },
  UI: [
     "-",
     {

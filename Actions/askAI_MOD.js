@@ -9,6 +9,10 @@ module.exports = {
   data: {
     name: "Ask AI",
   },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "qschnitzel"
+  },
   category: "AI",
   UI: [
     {

@@ -3,6 +3,10 @@ module.exports = {
     name: "URL Shortener",
  },
  category: "Link Shortener",
+ info: {
+  source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+  creator: "Rat"
+},
  UI: [
     {
       element: "input",

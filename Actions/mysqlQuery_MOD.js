@@ -9,6 +9,10 @@ module.exports = {
     name: "MySQL Query",
   },
   category: "Global Data",
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "candiedapple"
+  },
   UI: [
     {
       element: "input",

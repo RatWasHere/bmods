@@ -1,6 +1,10 @@
 module.exports = {
   data: { name: "Create Self-Contained Anchor", id: new Date().getTime() },
   category: "Anchors",
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "Rat"
+  },
   UI: [
     {
       element: "input",

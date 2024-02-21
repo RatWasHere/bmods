@@ -3,6 +3,10 @@ module.exports = {
   UI: [
     
   ],
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "Rat"
+  },
   category: "Memes",
   subtitle: "",
   script: (data) => {

@@ -16,6 +16,10 @@ function generateGiftKey() {
 }
 
 module.exports = {
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "candiedapple"
+  },
   category: "Gift Keys",
   data: {
     name: "Generate Gift Keys MOD",

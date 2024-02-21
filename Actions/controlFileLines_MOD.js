@@ -3,6 +3,10 @@ module.exports = {
     name: "Control File Lines",
   },
   category: "Files",
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "Rat"
+  },
   UI: [
     {
       element: "input",

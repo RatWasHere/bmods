@@ -15,6 +15,10 @@ module.exports = {
   data: {
     name: "Stable Diffusion",
   },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "qschnitzel"
+  },
   category: "Images",
   UI: [
     {
