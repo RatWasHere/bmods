@@ -22,6 +22,7 @@ module.exports = {
       storeAs: "store",
     },
   ],
+  category: "WebAPIs",
   subtitle: "Store HTML: $[url]$",
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
