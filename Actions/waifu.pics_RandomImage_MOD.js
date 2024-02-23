@@ -3,6 +3,10 @@ module.exports = {
       name: "waifu.pics Random Image",
     },
     category: "Images",
+    info: {
+      source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+      creator: "candiedapple"
+    },
     UI: [
       {
         element: "dropdown",
