@@ -29,7 +29,7 @@ module.exports = {
     ],
   
     async run(values, interaction, client, bridge) {
-      const language = bridge.transf(values.language)
+      const language = values.language.type
       const api = `https://evilinsult.com/generate_insult.php?lang=${language}&type=text`
   
       await fetch(api).then(
