@@ -14,12 +14,14 @@ module.exports = {
       name: "Telegram Bot Token",
       placeholder: "Enter your telegram bot token here",
     },
+    "-",
     {
       element: "input",
       storeAs: "chat_id",
       name: "Telegram Chat ID",
       placeholder: "Chat IDs always start with -",
     },
+    "-",
     {
       element: "largeInput",
       storeAs: "text",
