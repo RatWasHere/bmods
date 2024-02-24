@@ -2,6 +2,11 @@ module.exports = {
   data: {
     name: "Get HTML From Webpage",
   },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "Rat"
+  },
+  category: "WebAPIs",
   UI: [
     {
       element: "input",
