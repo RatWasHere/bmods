@@ -1,27 +1,26 @@
 module.exports = {
     data: {
-      name: "Insult Generator MOD",
+      name: "Insult Generator",
     },
-    category: "#Tao's Mods",
+    category: "Text",
     info: {
       source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
       creator: "tao"
     },
     UI: [
       {
-        element: "dropdown",
+        element: "typedDropdown",
         storeAs: "language",
         name: "Language",
-        choices: [
-          { name: "ru" },
-          { name: "en" },
-          { name: "de" },
-          { name: "cn" },
-          { name: "el" },
-          { name: "es" }
-
-        ]
+        choices: {
+          en: {name: "English"},
+          ru: {name: "Russian"},
+          de: {name: "German"},
+          cn: {name: "Chinese"},
+          es: {name: "Spanish"},
+        }
       },
+      "-",
       {
         element: "storageInput",
         storeAs: "store",
