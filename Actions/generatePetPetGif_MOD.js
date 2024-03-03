@@ -13,7 +13,7 @@ module.exports = {
         source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
         creator: "candiedapple"
     },
-    category: "Image",
+    category: "Images",
     UI: [
         {
             element: "input",
