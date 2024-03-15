@@ -6,7 +6,7 @@
 */
 module.exports = {
   data: {
-    name: "Check Gift Key And Use MOD",
+    name: "Check Gift Key And Use",
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
