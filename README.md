@@ -3,6 +3,11 @@ This repository serves to house mods made by the community for BMD.
 
 ## Installation
 
+### Using Install-mods.bat
+- Requirement: [Git](https://git-scm.com) and Windows
+
+1. Right click and run as administrator and done!
+
 ### Using CLI tool
 
 - Requirement: [Node.JS](https://nodejs.org/en)
