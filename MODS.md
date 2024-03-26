@@ -50,6 +50,6 @@ I assume you understood everything well-enough. Stuff should be self-explanatory
   commandID: string|number, // source command id
   }
 
-## Still questions?
+## Still got questions?
 
 Feel free to ask any questions in our [Discord server](https://discord.gg/whtjS7BW3u).
