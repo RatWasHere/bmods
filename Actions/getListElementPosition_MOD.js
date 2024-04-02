@@ -38,11 +38,9 @@ module.exports = {
 
         const elementPosition = list.indexOf(elementName);
 
-        if (elementPosition !== -1) {
-            console.log(`The position of "${elementName}" in the list is: ${elementPosition}`);
-        } else {
+        if (elementPosition === -1) {
             console.log(`The element "${elementName}" is not found in the list.`);
-        }
+          }
 
         bridge.store(values.store, elementPosition);
 
