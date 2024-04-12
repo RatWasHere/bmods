@@ -54,7 +54,7 @@ bmdm install <mod>
 2. Extract the ZIP archive.
 3. Place the "Actions" folder into your Bot Maker for Discord's AppData directory. _(e.g. C:\Program Files (x86)\Steam\steamapps\common\Bot Maker For Discord\AppData)_
 4. Place the "Themes" folder into the main directory of your Bot Maker for Discord installation. _(e.g. C:\Program Files (x86)\Steam\steamapps\common\Bot Maker For Discord)_
-5. Restart (or CTRL + R) the program
+5. Restart the program
 6. You're all set!
 
 ## Creating Mods
