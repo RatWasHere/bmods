@@ -16,7 +16,8 @@ module.exports = {
         "-",
         {
             element: "input",
-            name: "Json Path",
+            name: `Json Path
+            <div class="hoverablez" onclick="require('electron').shell.openExternal('https://goessner.net/articles/JsonPath/')" style="width: 20%; margin: left; padding-bottom: 12px; margin-bottom: -12px; border-radius: 8px;"><text style="margin-left:8px; padding: 3px;">Click for Guide</text></div>`,
             storeAs: "path",
             placeholder: "$.store.book[*].author",
         },
