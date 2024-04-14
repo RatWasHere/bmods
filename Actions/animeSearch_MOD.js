@@ -10,13 +10,13 @@ module.exports = {
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "qschnitzel"
+    creator: "qschnitzel",
   },
   category: "Anime",
   UI: [
     {
       element: "input",
-      storeAs: "search",
+      storeAs: "animeSearch",
       name: "Search for",
     },
     "-",
@@ -106,7 +106,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const query = bridge.transf(values.search);
+    const query = bridge.transf(values.animeSearch);
     await fetch(
       `https://api.jikan.moe/v4/anime?q=${query.replace(" ", "%20")}&sfw`
     ).then(async (response) => {
