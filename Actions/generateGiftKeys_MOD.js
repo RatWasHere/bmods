@@ -62,7 +62,7 @@ module.exports = {
     
     // Generate new keys
     const newKeys = [];
-    for (let i = 0; i < values.numKeys; i++) {
+    for (let i = 0; i < bridge.transf(values.numKeys); i++) {
       const giftKey = generateGiftKey();
       newKeys.push(giftKey);
     }
