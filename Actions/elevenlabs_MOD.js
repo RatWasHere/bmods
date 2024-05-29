@@ -31,12 +31,12 @@ module.exports = {
     {
       element: "input",
       storeAs: "text",
-      name: "Text to Speech",
+      name: "Text To Speech",
     },
     {
       element: "input",
       storeAs: "directory",
-      name: "Directory Where To Save The TTS File",
+      name: "Save File To",
     },
   ],
 

@@ -32,7 +32,7 @@ module.exports = {
             element: "input",
             storeAs: "experienceMultiplier",
             name: "Experience Multiplier",
-            placeholder: "Recommended : 2 ( Note: always use the same value for all actions)",
+            placeholder: "Recommended: 2 (Note: always use the same value for all actions)",
         },
         "_",
         {

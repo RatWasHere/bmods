@@ -26,14 +26,14 @@ module.exports = {
       element: "condition",
       storeAs: "true",
       storeActionsAs: "trueActions",
-      name: "If True",
+      name: "If True, Run",
     },
     "-",
     {
       element: "condition",
       storeAs: "false",
       storeActionsAs: "falseActions",
-      name: "If False",
+      name: "If False, Run",
     },
   ],
 

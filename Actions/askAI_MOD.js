@@ -52,9 +52,10 @@ module.exports = {
     },
     "-",
     {
-      element: "input",
-      storeAs: "exceededMessage",
-      name: "Message if Token Limit is exceeded",
+      element: "case",
+      storeAs: "exceeded",
+      storeActionsAs: "exceededActions",
+      name: "If Input Token Limit Was Exceeded, Run",
     },
     "-",
     {
@@ -71,10 +72,10 @@ module.exports = {
     const prompt = bridge.transf(values.prompt);
     const systemPrompt = bridge.transf(values.systemPrompt);
     const tokenLimit = bridge.transf(values.tokenLimit);
-    const exceededMessage = bridge.transf(values.exceededMessage);
 
     if (estimateTokenCount(prompt) >= tokenLimit) {
-      return bridge.store(values.store, exceededMessage);
+      await bridge.call(values.exceeded, values.exceededActions)
+      return
     }
 
     const body = {

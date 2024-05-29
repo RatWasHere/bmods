@@ -24,7 +24,7 @@ module.exports = {
         {
             element: "storageInput",
             storeAs: "store",
-            name: "Store recognized text As",
+            name: "Store Recognized Text As",
         },
     ],
 
