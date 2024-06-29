@@ -1,6 +1,6 @@
 module.exports = {
   data: {
-    name: "Get Member Multiple Infos",
+    name: "Get Member Infos",
   },
   category: "Members",
   UI: [
