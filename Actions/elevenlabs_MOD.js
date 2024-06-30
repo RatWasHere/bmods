@@ -9,7 +9,7 @@ const fs = require("fs").promises;
 module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "qschnitzel, splatchoot"
+    creator: "qschnitzel, splatchoot",
   },
   category: "AI",
   data: {

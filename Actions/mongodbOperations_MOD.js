@@ -10,7 +10,7 @@ module.exports = {
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "candiedapple"
+    creator: "candiedapple",
   },
   category: "Global Data",
   UI: [
@@ -56,7 +56,7 @@ module.exports = {
     {
       element: "largeInput",
       name: "Document (for Insert, Update, Replace)",
-      placeholder: "Make sure you use double quotes (\")",
+      placeholder: 'Make sure you use double quotes (")',
       storeAs: "document",
     },
     "-",
@@ -73,7 +73,9 @@ module.exports = {
     },
   ],
   subtitle: (data, constants) => {
-    return `Operation: ${data.operation} - Collection: ${data.collectionName} - Store As: ${constants.variable(data.store)}`;
+    return `Operation: ${data.operation} - Collection: ${
+      data.collectionName
+    } - Store As: ${constants.variable(data.store)}`;
   },
   compatibility: ["Any"],
 
@@ -83,8 +85,7 @@ module.exports = {
     const connectionString = bridge.transf(values.mongoConnectionString);
     const databaseName = bridge.transf(values.databaseName);
     const collectionName = bridge.transf(values.collectionName);
-    
-    
+
     const mongo = new MongoClient(connectionString);
 
     try {
@@ -92,7 +93,6 @@ module.exports = {
 
       const database = mongo.db(databaseName);
       const collection = database.collection(collectionName);
-      
 
       let result;
 

@@ -3,23 +3,23 @@
  Based off of qshnitzel's "Random Meme" mod
 */
 module.exports = {
- data: {
+  data: {
     name: "Random Cat Image URL",
- },
- category: "Images",
- info: {
-  source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-  creator: "Regianus (TheKing1543) & qschnitzel"
- },
- UI: [
+  },
+  category: "Images",
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "Regianus (TheKing1543) & qschnitzel",
+  },
+  UI: [
     "-",
     {
       element: "storageInput",
       storeAs: "store",
     },
- ],
+  ],
 
- async run(values, interaction, client, bridge) {
+  async run(values, interaction, client, bridge) {
     await fetch("https://api.thecatapi.com/v1/images/search").then(
       async (response) => {
         let res = await response.json();
@@ -28,5 +28,5 @@ module.exports = {
         bridge.store(values.store, preview);
       }
     );
- },
+  },
 };

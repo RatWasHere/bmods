@@ -11,7 +11,7 @@ module.exports = {
   category: "Memes",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "qschnitzel"
+    creator: "qschnitzel",
   },
   UI: [
     {

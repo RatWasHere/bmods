@@ -10,9 +10,9 @@ module.exports = {
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "candiedapple"
+    creator: "candiedapple",
   },
- category: "Gift Keys",
+  category: "Gift Keys",
   UI: [
     {
       element: "input",
@@ -36,16 +36,15 @@ module.exports = {
   ],
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    const fs = require('fs');
-    const path = require('path');
+    const fs = require("fs");
+    const path = require("path");
 
-    const filePath = path.join(__dirname, '..', 'giftkeys.json');
-    
+    const filePath = path.join(__dirname, "..", "giftkeys.json");
 
     // Read existing keys from the file
     let existingData;
     try {
-      const existingContent = fs.readFileSync(filePath, 'utf-8');
+      const existingContent = fs.readFileSync(filePath, "utf-8");
       existingData = JSON.parse(existingContent);
     } catch (error) {
       // If the file doesn't exist or is not valid JSON, start with an empty object

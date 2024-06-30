@@ -5,7 +5,7 @@ module.exports = {
   category: "Canvafy Cards",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "candiedapple"
+    creator: "candiedapple",
   },
   UI: [
     {
@@ -27,7 +27,7 @@ module.exports = {
       element: "input",
       storeAs: "suspecttimestamp",
       name: "Suspect Timestamp",
-      placeholder: "604800000 // 1 week millisecond"
+      placeholder: "604800000 // 1 week millisecond",
     },
     {
       element: "input",
@@ -51,12 +51,12 @@ module.exports = {
     {
       element: "storageInput",
       storeAs: "store",
-      name: "Store image as (PNG)"
+      name: "Store image as (PNG)",
     },
   ],
 
   async run(values, interaction, client, bridge) {
-    const canvafy = require('canvafy');
+    const canvafy = require("canvafy");
 
     function generateCard() {
       const Card = new canvafy.Security()

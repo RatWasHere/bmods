@@ -13,7 +13,7 @@ module.exports = {
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "qschnitzel"
+    creator: "qschnitzel",
   },
   category: "AI",
   UI: [

@@ -11,7 +11,7 @@ module.exports = {
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "qschnitzel"
+    creator: "qschnitzel",
   },
   category: "AI",
   UI: [
@@ -74,8 +74,8 @@ module.exports = {
     const tokenLimit = bridge.transf(values.tokenLimit);
 
     if (estimateTokenCount(prompt) >= tokenLimit) {
-      await bridge.call(values.exceeded, values.exceededActions)
-      return
+      await bridge.call(values.exceeded, values.exceededActions);
+      return;
     }
 
     const body = {

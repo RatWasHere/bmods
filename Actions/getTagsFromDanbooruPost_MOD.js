@@ -9,6 +9,10 @@ module.exports = {
   data: {
     name: "Get Tags from Danbooru Post",
   },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "qschnitzel",
+  },
   category: "NSFW",
   UI: [
     {

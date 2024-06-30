@@ -5,7 +5,7 @@ module.exports = {
   category: "Canvafy Cards",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "candiedapple"
+    creator: "candiedapple",
   },
   UI: [
     {
@@ -27,13 +27,13 @@ module.exports = {
       element: "input",
       storeAs: "bordercolor",
       name: "Border Color (HEXCODE)",
-      placeholder: "#FFF"
+      placeholder: "#FFF",
     },
     {
       element: "input",
       storeAs: "statuscolor",
       name: "Status Color (HEXCODE)",
-      placeholder: "#FFF"
+      placeholder: "#FFF",
     },
     {
       element: "input",
@@ -59,12 +59,12 @@ module.exports = {
     {
       element: "storageInput",
       storeAs: "store",
-      name: "Store image as (PNG)"
+      name: "Store image as (PNG)",
     },
   ],
 
   async run(values, interaction, client, bridge) {
-    const canvafy = require('canvafy');
+    const canvafy = require("canvafy");
 
     function generateRankCard() {
       const rankCard = new canvafy.Rank()

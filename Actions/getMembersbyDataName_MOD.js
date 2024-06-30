@@ -1,10 +1,14 @@
 module.exports = {
   data: { name: "Get Members by Data Name" },
   category: "Member Data",
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "Nitiqt",
+  },
   UI: [
     {
       element: "guild",
-      storeAs: "guild"
+      storeAs: "guild",
     },
     "-",
     {
@@ -13,23 +17,27 @@ module.exports = {
       storeAs: "get",
       choices: {
         ids: { name: "IDs" },
-        mentions: { name: "Mentions" }
-      }
+        mentions: { name: "Mentions" },
+      },
     },
     "-",
     {
       element: "input",
       name: "Data Name",
-      storeAs: "dataName"
+      storeAs: "dataName",
     },
     "-",
     {
       element: "store",
-      storeAs: "store"
-    }
+      storeAs: "store",
+    },
   ],
   subtitle: (values, constants) => {
-    return `Server: ${constants.guild(values.guild)} - Get: ${values.get.type} - Data Name: ${values.dataName} - Store As: ${constants.variable(values.store)}`
+    return `Server: ${constants.guild(values.guild)} - Get: ${
+      values.get.type
+    } - Data Name: ${values.dataName} - Store As: ${constants.variable(
+      values.store
+    )}`;
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
@@ -44,7 +52,7 @@ module.exports = {
     for (const memberId in storedData.members) {
       if (storedData.members.hasOwnProperty(memberId)) {
         const memberData = storedData.members[memberId];
-        
+
         if (memberData[bridge.transf(values.dataName)]) {
           if (memberId.startsWith(guildId)) {
             let output;
@@ -62,5 +70,5 @@ module.exports = {
     }
 
     bridge.store(values.store, membersWithData);
-  }
+  },
 };

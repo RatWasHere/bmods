@@ -11,7 +11,7 @@ module.exports = {
   category: "Global Data",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "candiedapple"
+    creator: "candiedapple",
   },
   UI: [
     {
@@ -66,7 +66,7 @@ module.exports = {
   run(values, message, client, bridge) {
     return new Promise((resolve, reject) => {
       // Importing required modules
-      const mysql = require('mysql');
+      const mysql = require("mysql");
 
       // MySQL connection configuration
       const connection = mysql.createConnection({
@@ -79,7 +79,7 @@ module.exports = {
       // Establishing connection to the database
       connection.connect((err) => {
         if (err) {
-          console.error('Error connecting to MySQL database:', err);
+          console.error("Error connecting to MySQL database:", err);
           reject(err);
           return;
         }
@@ -106,30 +106,30 @@ module.exports = {
             if (values.toggle) {
               const stringifiedResults = JSON.stringify(results); // Stringify the results
               bridge.store(values.store, stringifiedResults); // Store the stringified results
-              
+
               resolve(stringifiedResults); // Resolve with the stringified results
             } else {
               bridge.store(values.store, results); // Store the non-stringified results
               resolve(results); // Resolve with the non-stringified results
             }
-            if (values.logToConsole) { // Check if logging to console is enabled
+            if (values.logToConsole) {
+              // Check if logging to console is enabled
               console.log(results); // Log the results to console
             }
           })
           .catch((error) => {
-            console.error('Error executing query:', error);
+            console.error("Error executing query:", error);
             reject(error);
           })
           .finally(() => {
             // Closing connection when done
             connection.end((err) => {
               if (err) {
-                console.error('Error closing MySQL connection:', err);
+                console.error("Error closing MySQL connection:", err);
               }
             });
           });
       });
     });
-  }
-
+  },
 };

@@ -33,7 +33,7 @@ module.exports = {
   UI: [],
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "Rat, TheMonDon"
+    creator: "Rat, TheMonDon",
   },
   compatibility: ["Any"],
   subtitle: "This is required in an on bot ready event for mods",

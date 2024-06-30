@@ -4,7 +4,7 @@ module.exports = {
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "Rat"
+    creator: "Rat",
   },
   category: "WebAPIs",
   UI: [

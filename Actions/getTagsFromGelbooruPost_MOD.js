@@ -13,6 +13,10 @@ module.exports = {
     name: "Get Tags from Gelbooru Post",
   },
   category: "NSFW",
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "qschnitzel",
+  },
   UI: [
     {
       element: "input",

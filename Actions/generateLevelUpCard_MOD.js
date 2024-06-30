@@ -5,7 +5,7 @@ module.exports = {
   category: "Canvafy Cards",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "candiedapple"
+    creator: "candiedapple",
   },
   UI: [
     {
@@ -27,13 +27,13 @@ module.exports = {
       element: "input",
       storeAs: "bordercolor",
       name: "Border Color (HEXCODE)",
-      placeholder: "#FFF"
+      placeholder: "#FFF",
     },
     {
       element: "input",
       storeAs: "avatarbordercolor",
       name: "Avatar Border Color (HEXCODE)",
-      placeholder: "#FFF"
+      placeholder: "#FFF",
     },
     {
       element: "input",
@@ -54,12 +54,12 @@ module.exports = {
     {
       element: "storageInput",
       storeAs: "store",
-      name: "Store image as (PNG)"
+      name: "Store image as (PNG)",
     },
   ],
 
   async run(values, interaction, client, bridge) {
-    const canvafy = require('canvafy');
+    const canvafy = require("canvafy");
 
     function generateRankCard() {
       const Card = new canvafy.LevelUp()
@@ -69,7 +69,10 @@ module.exports = {
         .setBorder(bridge.transf(values.bordercolor))
         .setAvatarBorder(bridge.transf(values.avatarbordercolor))
         .setOverlayOpacity(Number(bridge.transf(values.overlayopacity)))
-        .setLevels(Number(bridge.transf(values.oldlevel)),Number(bridge.transf(values.newlevel)))
+        .setLevels(
+          Number(bridge.transf(values.oldlevel)),
+          Number(bridge.transf(values.newlevel))
+        )
         .build();
 
       bridge.store(values.store, Card);
