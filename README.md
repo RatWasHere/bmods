@@ -45,6 +45,7 @@ BMD built-in mod manager coming soon™️
 
 ## Creating Mods
 
+> [!IMPORTANT]
 Refer to the [short documentation](https://github.com/RatWasHere/bmods/blob/master/MODS.md) for guidance on creating your own mods.
 
 Please follow the general structure when creating mods. Therefore, add **\_MOD** after your mod name, don't include any additional dots or spaces, and make sure to include the info object within your modded action.
