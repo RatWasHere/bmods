@@ -8,9 +8,10 @@ module.exports = {
   UI: [
     {
       element: "image",
-      storeAs: "avatar"
+      storeAs: "avatar",
       name: "Avatar URL",
     },
+    "-",
     {
       element: "image",
       storeAs: "banner",
@@ -36,8 +37,6 @@ module.exports = {
 
     return changes.length === 0 ? "Change: Nothing" : `Change: ${changes.join(", ")}`;
   },
-  
-  compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
 
