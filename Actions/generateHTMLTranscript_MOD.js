@@ -20,10 +20,10 @@ module.exports = {
       storeAs: "saveImages",
       choices: [
         {
-          name: "True",
+          name: "False",
         },
         {
-          name: "False",
+          name: "True",
         },
       ],
     },
