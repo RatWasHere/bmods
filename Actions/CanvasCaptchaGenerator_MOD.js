@@ -16,27 +16,29 @@ module.exports = {
     "-",
     {
       element: "storageInput",
-      storeAs: "file",
-      name: "PNG file",
-    },
-    "-",
-    {
-      element: "storageInput",
       storeAs: "canvas",
-      name: "Canvas url",
+      name: "Canvas",
     },
   ],
 
   async run(values, interaction, client, bridge) {
     const Captcha = require("captcha-generator-alphanumeric").default;
+    const Canvas = require("canvas");
 
     try {
 
       let result = new Captcha();
 
-      bridge.store(values.file, result.PNGStream);
-      bridge.store(values.file, result.value);
-      bridge.store(values.canvas, result.dataURL);
+
+      const image = new Canvas.Image();
+      image.src = result.dataURL;
+      const canvas = Canvas.createCanvas(image.width, image.height);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(image, 0, 0, image.width, image.height);
+      const canvas_file = canvas.toBuffer();
+
+      bridge.store(values.value, result.value);
+      bridge.store(values.canvas, canvas_file);
     } catch (error) {
       console.error("Error:", error);
     }
