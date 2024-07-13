@@ -35,7 +35,7 @@ module.exports = {
       let result = new Captcha();
 
       bridge.store(values.file, result.PNGStream);
-      bridge.store(values.file, result.value);
+      bridge.store(values.value, result.value);
       bridge.store(values.canvas, result.dataURL);
     } catch (error) {
       console.error("Error:", error);
