@@ -99,7 +99,7 @@ module.exports = {
 
     let x = parseFloat(bridge.transf(values.x));
     let y = parseFloat(bridge.transf(values.y));
-    const fontSize = bridge.transf(values.fontSize);
+    var fontSize = bridge.transf(values.fontSize);
     if (Number.isNaN(fontSize)) {
       fontSize = 10;
     }

@@ -3,6 +3,7 @@
 This repository houses community-made mods for Bot Maker for Discord (BMD).
 
 ## Navigation
+
 - [Installation](#installation)
   - [Using the CLI Tool](#using-the-cli-tool)
   - [Manual Installation](#manual-installation)
@@ -46,7 +47,7 @@ BMD built-in mod manager coming soon™️
 ## Creating Mods
 
 > [!IMPORTANT]
-Refer to the [short documentation](https://github.com/RatWasHere/bmods/blob/master/MODS.md) for guidance on creating your own mods.
+> Refer to the [short documentation](https://github.com/RatWasHere/bmods/blob/master/MODS.md) for guidance on creating your own mods.
 
 Please follow the general structure when creating mods. Therefore, add **\_MOD** after your mod name, don't include any additional dots or spaces, and make sure to include the info object within your modded action.
 Feel free to add a short description for your action as seen in [**animeSearch_MOD.js**](https://github.com/RatWasHere/bmods/blob/master/Actions/animeSearch_MOD.js).
