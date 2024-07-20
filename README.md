@@ -37,13 +37,6 @@ BMD built-in mod manager coming soon™️
 5. Restart the Bot Maker for Discord application.
 6. You're all set!
 
-### Using `Install-mods.bat` (**Not recommended**)
-
-**Requirements**: [Git](https://git-scm.com) and Windows
-
-1. Right-click on `Install-mods.bat` and select "Run as administrator".
-2. The installation will complete automatically.
-
 ## Creating Mods
 
 > [!IMPORTANT]
