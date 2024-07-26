@@ -33,7 +33,10 @@
   --text: #ffffffd7;
 
   --parameter-editor-pane-height: calc(94.5% + 18px);
-}
+  
+  --window-background: #3b3b3b;
+  --editor-background: #121212;
+  }
 
 .editor_toolbar {
   background-color: unset !important;
