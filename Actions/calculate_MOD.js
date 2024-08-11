@@ -2,6 +2,10 @@ module.exports = {
   data: {
     name: "Calculate PRO",
   },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "lik_rus",
+  },
   category: "Numbers",
   UI: [
     {
