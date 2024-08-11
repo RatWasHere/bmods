@@ -1,6 +1,6 @@
 module.exports = {
   data: {
-    name: "Calculate PRO",
+    name: "Calculate Expression",
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
