@@ -15,24 +15,48 @@ module.exports = {
       storeAs: "time"
     },
     "-",
-	{
-		element: "typedDropdown",
-		storeAs: "tipo",
+    {
+		element: "halfDropdown",
 		name: "Date type",
-		choices: {
-		  q: { name: "Ignore groups equal to 0" },
-		  10: { name: "Ignore groups equal to 0 and years/months" },
-		  11: { name: "Ignore groups equal to 0 and years/months/days" },
-		  5: { name: "[Minimum 2 digits] Ignore groups equal to 0" },
-		  6: { name: "[Minimum 2 digits] Ignore groups equal to 0 and years/months" },
-		  7: { name: "[Minimum 2 digits] Ignore groups equal to 0 and years/months/days" },
-		  1: { name: "Show all groups" },
-		  8: { name: "Show only groups of days/hours/minutes/seconds" },
-		  9: { name: "Show only the hours/minutes/seconds groups" },
-		  2: { name: "[Minimum 2 digits] Show all groups" },
-		  3: { name: "[Minimum 2 digits] Show only groups of days/hours/minutes/seconds" },
-		  4: { name: "[Minimum 2 digits] Show only the hours/minutes/seconds groups" },
-		},
+		storeAs: "tipo",
+		choices: [
+		  {
+			name: "Ignore groups equal to 0",
+		  },
+		  {
+			name: "Ignore groups equal to 0 and years/months"
+		  },
+		  {
+			name: "Ignore groups equal to 0 and years/months/days"
+		  },
+		  {
+			name: "[Minimum 2 digits] Ignore groups equal to 0"
+		  },
+		  {
+			name: "[Minimum 2 digits] Ignore groups equal to 0 and years/months"
+		  },
+		  {
+			name: "[Minimum 2 digits] Ignore groups equal to 0 and years/months/days"
+		  },
+		  {
+			name: "Show all groups"
+		  },
+		  {
+			name: "Show only groups of days/hours/minutes/seconds"
+		  },
+		  {
+			name: "Show only the hours/minutes/seconds groups"
+		  },
+		  {
+			name: "[Minimum 2 digits] Show all groups"
+		  },
+		  {
+			name: "[Minimum 2 digits] Show only groups of days/hours/minutes/seconds"
+		  },
+		  {
+			name: "[Minimum 2 digits] Show only the hours/minutes/seconds groups"
+		  },
+		]
 	  },
 	  "-",
 	  {
@@ -139,43 +163,43 @@ subtitle: (data, constants) => {
 		decimal_m3 = m3 < 10 ? "0" + m3 : m3;
 		decimal_s3 = s3 < 10 ? "0" + s3 : s3;
 
-		console.log((a > 1 ? ''+ a + ano : '') + (a == 1 ? ''+ a + ano2 : '') + (mes > 1 ? ''+ mes + meses : '') + (mes == 1 ? ''+ mes + meses2 : '') + (d > 1 ? d + dia : '') + (d == 1 ? ''+ d + dia2 : '') + (h > 1 ? h + hora : '') + (h == 1 ? ''+ h + hora2 : '') + (m > 1 ? m + min : '') + (m == 1 ? ''+ m + min2 : '') + (s > 1 ? s + seg : '') + (s == 1 ? ''+ s + seg2 : ''))
 
-		switch (values.tipo.type) {
-			case 'q':
+
+		switch (values.tipo) {
+			case "Ignore groups equal to 0":
 				result = (a > 1 ? ''+ a + ano : '') + (a == 1 ? ''+ a + ano2 : '') + (mes > 1 ? ''+ mes + meses : '') + (mes == 1 ? ''+ mes + meses2 : '') + (d > 1 ? d + dia : '') + (d == 1 ? ''+ d + dia2 : '') + (h > 1 ? h + hora : '') + (h == 1 ? ''+ h + hora2 : '') + (m > 1 ? m + min : '') + (m == 1 ? ''+ m + min2 : '') + (s > 1 ? s + seg : '') + (s == 1 ? ''+ s + seg2 : '');
 			  break;
-			case 1:
+			case "Show all groups":
 				result = (a > 1 ? ''+ a + ano : '') + (a == 1 ? ''+ a + ano2 : '') + (a == 0 ? ''+ a + ano : '') + (mes > 1 ? ''+ mes + meses : '') + (mes == 1 ? ''+ mes + meses2 : '') + (mes == 0 ? ''+ mes + meses : '') + (d > 1 ? d + dia : '') + (d == 1 ? ''+ d + dia2 : '') + (d == 0 ? ''+ d + dia : '') + (h > 1 ? h + hora : '') + (h == 1 ? ''+ h + hora2 : '') + (h == 0 ? ''+ h + hora : '') + (m > 1 ? m + min : '') + (m == 1 ? ''+ m + min2 : '') + (m == 0 ? ''+ m + min : '') + (s > 1 ? s + seg : '') + (s == 1 ? ''+ s + seg2 : '') + (s == 0 ? ''+ s + seg : '');
 			  break;
-			  case 2:
+			  case "[Minimum 2 digits] Show all groups":
 				result = (a > 1 ? ''+ decimal_a + ano : '') + (a == 1 ? ''+ decimal_a + ano2 : '') + (a == 0 ? ''+ decimal_a + ano : '') + (mes > 1 ? ''+ decimal_mes + meses : '') + (mes == 1 ? ''+ decimal_mes + meses2 : '') + (mes == 0 ? ''+ decimal_mes + meses : '') + (d > 1 ? decimal_d + dia : '') + (d == 1 ? ''+ decimal_d + dia2 : '') + (d == 0 ? ''+ decimal_d + dia : '') + (h > 1 ? decimal_h + hora : '') + (h == 1 ? ''+ decimal_h + hora2 : '') + (h == 0 ? ''+ decimal_h + hora : '') + (m > 1 ? decimal_m + min : '') + (m == 1 ? ''+ decimal_m + min2 : '') + (m == 0 ? ''+ decimal_m + min : '') + (s > 1 ? decimal_s + seg : '') + (s == 1 ? ''+ decimal_s + seg2 : '') + (s == 0 ? ''+ decimal_s + seg : '');
 			  break;
-			  case 3:
+			  case "[Minimum 2 digits] Show only groups of days/hours/minutes/seconds":
 				result = (d > 1 ? decimal_d2 + dia : '') + (d == 1 ? ''+ decimal_d2 + dia2 : '') + (d == 0 ? ''+ decimal_d2 + dia : '') + (h > 1 ? decimal_h2 + hora : '') + (h == 1 ? ''+ decimal_h2 + hora2 : '') + (h == 0 ? ''+ decimal_h2 + hora : '') + (m > 1 ? decimal_m2 + min : '') + (m == 1 ? ''+ decimal_m2 + min2 : '') + (m == 0 ? ''+ decimal_m2 + min : '') + (s > 1 ? decimal_s2 + seg : '') + (s == 1 ? ''+ decimal_s2 + seg2 : '') + (s == 0 ? ''+ decimal_s2 + seg : '');
 			  break;
-			  case 4:
+			  case "[Minimum 2 digits] Show only the hours/minutes/seconds groups":
 				result = (h > 1 ? decimal_h3 + hora : '') + (h == 1 ? ''+ decimal_h3 + hora2 : '') + (h == 0 ? ''+ decimal_h3 + hora : '') + (m > 1 ? decimal_m3 + min : '') + (m == 1 ? ''+ decimal_m3 + min2 : '') + (m == 0 ? ''+ decimal_m3 + min : '') + (s > 1 ? decimal_s3 + seg : '') + (s == 1 ? ''+ decimal_s3 + seg2 : '') + (s == 0 ? ''+ decimal_s3 + seg : '');
 			  break;
-			  case 5:
+			  case "[Minimum 2 digits] Ignore groups equal to 0":
 				result = (a > 1 ? ''+ decimal_a + ano : '') + (a == 1 ? ''+ decimal_a + ano2 : '') + (mes > 1 ? ''+ decimal_mes + meses : '') + (mes == 1 ? ''+ decimal_mes + meses2 : '') + (d > 1 ? decimal_d + dia : '') + (d == 1 ? ''+ decimal_d + dia2 : '') + (h > 1 ? decimal_h + hora : '') + (h == 1 ? ''+ decimal_h + hora2 : '') + (m > 1 ? decimal_m + min : '') + (m == 1 ? ''+ decimal_m + min2 : '') + (s > 1 ? decimal_s + seg : '') + (s == 1 ? ''+ decimal_s + seg2 : '');
 			  break;
-			  case 6:
+			  case "[Minimum 2 digits] Ignore groups equal to 0 and years/months":
 				result =  (d > 1 ? decimal_d2 + dia : '') + (d == 1 ? ''+ decimal_d2 + dia2 : '') + (h > 1 ? decimal_h2 + hora : '') + (h == 1 ? ''+ decimal_h2 + hora2 : '') + (m > 1 ? decimal_m2 + min : '') + (m == 1 ? ''+ decimal_m2 + min2 : '') + (s > 1 ? decimal_s2 + seg : '') + (s == 1 ? ''+ decimal_s2 + seg2 : '');
 			  break;
-			  case 7:
+			  case "[Minimum 2 digits] Ignore groups equal to 0 and years/months/days":
 				result =  (h > 1 ? decimal_h3 + hora : '') + (h == 1 ? ''+ decimal_h3 + hora2 : '') + (m > 1 ? decimal_m3 + min : '') + (m == 1 ? ''+ decimal_m3 + min2 : '') + (s > 1 ? decimal_s3 + seg : '') + (s == 1 ? ''+ decimal_s3 + seg2 : '');
 			  break;
-			  case 8:
+			  case "Show only groups of days/hours/minutes/seconds":
 				result = (d > 1 ? d2 + dia : '') + (d == 1 ? ''+ d2 + dia2 : '') + (d == 0 ? ''+ d2 + dia : '') + (h > 1 ? h2 + hora : '') + (h == 1 ? ''+ h2 + hora2 : '') + (h == 0 ? ''+ h2 + hora : '') + (m > 1 ? m2 + min : '') + (m == 1 ? ''+ m2 + min2 : '') + (m == 0 ? ''+ m2 + min : '') + (s > 1 ? s2 + seg : '') + (s == 1 ? ''+ s2 + seg2 : '') + (s == 0 ? ''+ s2 + seg : '');
 			  break;
-			  case 9:
+			  case "Show only the hours/minutes/seconds groups":
 				result = (h > 1 ? h3 + hora : '') + (h == 1 ? ''+ h3 + hora2 : '') + (h == 0 ? ''+ h3 + hora : '') + (m > 1 ? m3 + min : '') + (m == 1 ? ''+ m3 + min2 : '') + (m == 0 ? ''+ m3 + min : '') + (s > 1 ? s3 + seg : '') + (s == 1 ? ''+ s3 + seg2 : '') + (s == 0 ? ''+ s3 + seg : '');
 			  break;
-			  case 10:
+			  case "Ignore groups equal to 0 and years/months":
 				result =  (d > 1 ? d2 + dia : '') + (d == 1 ? ''+ d2 + dia2 : '') + (h > 1 ? h2 + hora : '') + (h == 1 ? ''+ h2 + hora2 : '') + (m > 1 ? m2 + min : '') + (m == 1 ? ''+ m2 + min2 : '') + (s > 1 ? s2 + seg : '') + (s == 1 ? ''+ s2 + seg2 : '');
 			  break;
-			  case 11:
+			  case "Ignore groups equal to 0 and years/months/days":
 				result =  (h > 1 ? h3 + hora : '') + (h == 1 ? ''+ h3 + hora2 : '') + (m > 1 ? m3 + min : '') + (m == 1 ? ''+ m3 + min2 : '') + (s > 1 ? s3 + seg : '') + (s == 1 ? ''+ s3 + seg2 : '');
 			  break;
 		}
