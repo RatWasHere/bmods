@@ -11,6 +11,7 @@ module.exports = {
             storeAs: "defaultval",
             name: "Default value"
         },
+        "-",
         {
             element: "menu",
             storeAs: "retrievelist",
