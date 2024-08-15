@@ -2,20 +2,20 @@
 A mod that allows you to find out if there is an active invitation to the discord server in the text and if there is, then take information from it
 */
 module.exports = {
-	data: {
-	  name: "Search invite in text / info",
-	},
-	info: {
-	  source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-	  creator: "lik_rus",
-	},
-	category: "Text",
+  data: {
+    name: "Search invite in text / info",
+  },
+  info: {
+    source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
+    creator: "lik_rus",
+  },
+  category: "Text",
 
-	UI: [
+  UI: [
     {
       element: "largeInput",
       name: "Text",
-      storeAs: "text"
+      storeAs: "text",
     },
     "-",
     {
@@ -23,13 +23,13 @@ module.exports = {
       storeAs: "cases",
       name: "Informations",
       types: {
-        informations: "Informations"
+        informations: "Informations",
       },
       max: 200,
       UItypes: {
         informations: {
           name: "Invite info",
-          preview: '`Selected: ${option.data.info}`',
+          preview: "`Selected: ${option.data.info}`",
           data: { info: "Status (true/false)" },
           UI: [
             {
@@ -44,30 +44,29 @@ module.exports = {
                 { name: "Global User Name" },
                 { name: "User's username" },
                 { name: "Name of the server" },
-                { name: "Server ID" }
+                { name: "Server ID" },
               ],
             },
             "-",
             {
               element: "store",
               storeAs: "store",
-              name: "Store As"
-            }
-          ]
-        }
-      }
-    }
-],
-subtitle: (data, constants) => {
-    return `${data.text} `
+              name: "Store As",
+            },
+          ],
+        },
+      },
+    },
+  ],
+  subtitle: (data, constants) => {
+    return `${data.text} `;
   },
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-
     const text = bridge.transf(values.text);
 
-    const IsInvitation = require('is-discord-invite');
+    const IsInvitation = require("is-discord-invite");
     const Invite = await IsInvitation.online(text);
 
     for (const infoCase of values.cases) {
