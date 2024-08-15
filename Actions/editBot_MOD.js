@@ -3,7 +3,7 @@ module.exports = {
   category: "Bot",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
@@ -25,32 +25,33 @@ module.exports = {
         none: { name: "None" },
         set: { name: "Change", field: true },
       },
-      name: "Username"
+      name: "Username",
     },
   ],
 
   subtitle: (values) => {
     let changes = [];
-    if (values.avatar.type !== 'none') changes.push("Avatar");
-    if (values.banner.type !== 'none') changes.push("Banner");
-    if (values.username.type !== 'none') changes.push("Username");
+    if (values.avatar.type !== "none") changes.push("Avatar");
+    if (values.banner.type !== "none") changes.push("Banner");
+    if (values.username.type !== "none") changes.push("Username");
 
-    return changes.length === 0 ? "Change: Nothing" : `Change: ${changes.join(", ")}`;
+    return changes.length === 0
+      ? "Change: Nothing"
+      : `Change: ${changes.join(", ")}`;
   },
 
   async run(values, message, client, bridge) {
-
     let editOptions = {};
 
-    if (values.avatar.type !== 'none') {
+    if (values.avatar.type !== "none") {
       editOptions.avatar = await bridge.getImage(values.avatar);
     }
 
-    if (values.banner.type !== 'none') {
+    if (values.banner.type !== "none") {
       editOptions.banner = await bridge.getImage(values.banner);
     }
 
-    if (values.username.type !== 'none') {
+    if (values.username.type !== "none") {
       editOptions.username = values.username.value;
     }
 

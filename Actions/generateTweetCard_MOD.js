@@ -28,7 +28,7 @@ module.exports = {
       storeAs: "verified",
       name: "Blue Tick?",
       true: "true",
-      false: "false"
+      false: "false",
     },
     {
       element: "input",
@@ -54,7 +54,10 @@ module.exports = {
     function generateTweetCard() {
       const tweetCard = new canvafy.Tweet()
         .setTheme(bridge.transf(values.theme))
-        .setUser({ displayName: bridge.transf(values.displayName), username: bridge.transf(values.username) })
+        .setUser({
+          displayName: bridge.transf(values.displayName),
+          username: bridge.transf(values.username),
+        })
         .setVerified(Boolean(values.verified))
         .setComment(bridge.transf(values.comment))
         .setAvatar(bridge.transf(values.avatarurl))

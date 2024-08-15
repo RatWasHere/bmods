@@ -5,13 +5,13 @@ module.exports = {
   category: "Scheduled Events",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
       element: "variable",
       storeAs: "event",
-      name: "Event Variable"
+      name: "Event Variable",
     },
     "-",
     {
@@ -31,19 +31,23 @@ module.exports = {
         channel: { name: "Channel" },
         status: { name: "Status" },
         entity_type: { name: "Entity Type" },
-      }
+      },
     },
     "-",
     {
       element: "store",
       name: "Store As",
-      storeAs: "store"
-    }
+      storeAs: "store",
+    },
   ],
 
   subtitle: (values, constants, thisAction) => {
-    const selectedChoice = thisAction.UI.find(e => e.element === 'typedDropdown').choices[values.get.type];
-    return `${selectedChoice ? selectedChoice.name : 'Unknown'} of Event - Store As: ${constants.variable(values.store)}`;
+    const selectedChoice = thisAction.UI.find(
+      (e) => e.element === "typedDropdown"
+    ).choices[values.get.type];
+    return `${
+      selectedChoice ? selectedChoice.name : "Unknown"
+    } of Event - Store As: ${constants.variable(values.store)}`;
   },
 
   async run(values, message, client, bridge) {
@@ -70,31 +74,39 @@ module.exports = {
         output = event.createdAt ? Date.parse(event.createdAt) : null;
         break;
       case "scheduled_start_time":
-        output = event.scheduledStartTime ? Date.parse(event.scheduledStartTime) : null;
+        output = event.scheduledStartTime
+          ? Date.parse(event.scheduledStartTime)
+          : null;
         break;
       case "scheduled_end_time":
-        output = event.scheduledEndTime ? Date.parse(event.scheduledEndTime) : null;
+        output = event.scheduledEndTime
+          ? Date.parse(event.scheduledEndTime)
+          : null;
         break;
       case "image":
-        output = event.image ? `https://cdn.discordapp.com/guild-events/${event.id}/${event.image}.png?size=4096&ignore=true` : null;
+        output = event.image
+          ? `https://cdn.discordapp.com/guild-events/${event.id}/${event.image}.png?size=4096&ignore=true`
+          : null;
         break;
       case "channel":
         output = event.channel;
         break;
       case "status":
-        output = {
-          1: "SCHEDULED",
-          2: "ACTIVE",
-          3: "COMPLETED",
-          4: "CANCELED"
-        }[event.status] || "UNKNOWN";
+        output =
+          {
+            1: "SCHEDULED",
+            2: "ACTIVE",
+            3: "COMPLETED",
+            4: "CANCELED",
+          }[event.status] || "UNKNOWN";
         break;
       case "entity_type":
-        output = {
-          1: "STAGE_INSTANCE",
-          2: "VOICE",
-          3: "EXTERNAL"
-        }[event.entityType] || "UNKNOWN";
+        output =
+          {
+            1: "STAGE_INSTANCE",
+            2: "VOICE",
+            3: "EXTERNAL",
+          }[event.entityType] || "UNKNOWN";
         break;
       default:
         return;

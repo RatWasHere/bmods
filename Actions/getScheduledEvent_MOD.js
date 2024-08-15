@@ -5,30 +5,32 @@ module.exports = {
   category: "Scheduled Events",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
       element: "guild",
       storeAs: "guild",
-      name: "Guild"
+      name: "Guild",
     },
     "-",
     {
       element: "input",
       storeAs: "eventID",
-      name: "Event ID"
+      name: "Event ID",
     },
     "-",
     {
       element: "store",
       name: "Store As",
-      storeAs: "store"
-    }
+      storeAs: "store",
+    },
   ],
 
   subtitle: (values, constants, thisAction) => {
-    return `Scheduled Event ${values.eventID} of ${constants.guild(values.guild)} - Store As: ${constants.variable(values.store)}`;
+    return `Scheduled Event ${values.eventID} of ${constants.guild(
+      values.guild
+    )} - Store As: ${constants.variable(values.store)}`;
   },
 
   async run(values, message, client, bridge) {

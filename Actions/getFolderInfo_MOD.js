@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 module.exports = {
   data: {
@@ -8,13 +8,13 @@ module.exports = {
   category: "Files",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
       element: "input",
       name: "Path",
-      storeAs: "path"
+      storeAs: "path",
     },
     "-",
     {
@@ -32,43 +32,62 @@ module.exports = {
         atime: { name: "Access Time" },
         mtime: { name: "Modified Time" },
         ctime: { name: "Change Time" },
-        birthtime: { name: "Birth Time" }
-      }
+        birthtime: { name: "Birth Time" },
+      },
     },
     "-",
     {
       element: "store",
       name: "Store As",
-      storeAs: "store"
-    }
+      storeAs: "store",
+    },
   ],
 
   subtitle: (values, constants, thisAction) => {
-    return `${thisAction.UI.find(e => e.element == 'typedDropdown').choices[values.infoType.type].name} of Folder: ${values.path} - Store As: ${constants.variable(values.store)}`;
+    return `${
+      thisAction.UI.find((e) => e.element == "typedDropdown").choices[
+        values.infoType.type
+      ].name
+    } of Folder: ${values.path} - Store As: ${constants.variable(
+      values.store
+    )}`;
   },
 
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    const folderPath = path.resolve(bridge.file(values.path) || '');
+    const folderPath = path.resolve(bridge.file(values.path) || "");
     let output;
 
-    const infoType = typeof values.infoType === 'object' && values.infoType !== null ? values.infoType.type : values.infoType;
+    const infoType =
+      typeof values.infoType === "object" && values.infoType !== null
+        ? values.infoType.type
+        : values.infoType;
 
     if (fs.existsSync(folderPath) && fs.statSync(folderPath).isDirectory()) {
       const items = fs.readdirSync(folderPath);
 
       switch (infoType) {
         case "fileList":
-          output = items.filter(item => fs.statSync(path.join(folderPath, item)).isFile()).join(',');
+          output = items
+            .filter((item) => fs.statSync(path.join(folderPath, item)).isFile())
+            .join(",");
           break;
         case "folderList":
-          output = items.filter(item => fs.statSync(path.join(folderPath, item)).isDirectory()).join(',');
+          output = items
+            .filter((item) =>
+              fs.statSync(path.join(folderPath, item)).isDirectory()
+            )
+            .join(",");
           break;
         case "size":
           output = items
-            .filter(item => fs.statSync(path.join(folderPath, item)).isFile())
-            .reduce((totalSize, file) => totalSize + fs.statSync(path.join(folderPath, file)).size, 0);
+            .filter((item) => fs.statSync(path.join(folderPath, item)).isFile())
+            .reduce(
+              (totalSize, file) =>
+                totalSize + fs.statSync(path.join(folderPath, file)).size,
+              0
+            );
           output = `${(output / (1024 * 1024)).toFixed(2)}`;
           break;
         case "realpath":
@@ -96,11 +115,11 @@ module.exports = {
           output = fs.statSync(folderPath).birthtime.getTime();
           break;
         default:
-          output = 'undefined';
+          output = "undefined";
           break;
       }
     } else {
-      output = 'Path is not a valid directory';
+      output = "Path is not a valid directory";
     }
     bridge.store(values.store, output);
   },

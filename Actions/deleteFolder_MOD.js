@@ -5,14 +5,14 @@ module.exports = {
   category: "Files",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
       element: "input",
       name: "Path",
-      storeAs: "path"
-    }
+      storeAs: "path",
+    },
   ],
   subtitle: (data) => {
     return `Path: ${data.path}`;

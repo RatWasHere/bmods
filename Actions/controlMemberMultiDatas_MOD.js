@@ -5,13 +5,13 @@ module.exports = {
   category: "Member Data",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
       element: "userInput",
       storeAs: "user",
-      name: "Member"
+      name: "Member",
     },
     "-",
     {
@@ -19,19 +19,19 @@ module.exports = {
       storeAs: "cases",
       name: "Datas",
       types: {
-        data: "Data"
+        data: "Data",
       },
       max: 200,
       UItypes: {
         data: {
           name: "Member Data",
-          preview: '`Name: ${option.data.dataName}`',
+          preview: "`Name: ${option.data.dataName}`",
           data: { dataName: "" },
           UI: [
             {
               element: "input",
               storeAs: "dataName",
-              name: "Data Name"
+              name: "Data Name",
             },
             "-",
             {
@@ -40,18 +40,22 @@ module.exports = {
               storeAs: "control",
               extraField: "controlValue",
               choices: [
-                { name: "Add To Value", placeholder: "Value To Add", field: true },
+                {
+                  name: "Add To Value",
+                  placeholder: "Value To Add",
+                  field: true,
+                },
                 { name: "Overwrite", placeholder: "New Value", field: true },
-              ]
+              ],
             },
-          ]
-        }
-      }
-    }
+          ],
+        },
+      },
+    },
   ],
 
   subtitle: (values, constants, thisAction) => {
-    let numData = values.cases.filter(c => c.type === "data").length;
+    let numData = values.cases.filter((c) => c.type === "data").length;
     let memberValue = constants.user(values.user);
     return `Controlling ${numData} Data(s) of ${memberValue}`;
   },
@@ -67,15 +71,19 @@ module.exports = {
       let dataName = bridge.transf(dataCase.data.dataName);
       let control = dataCase.data.control;
       let controlValue = bridge.transf(dataCase.data.controlValue);
-      
+
       if (!storedData.members[id]) {
         storedData.members[id] = {};
       }
 
       let userData = storedData.members[id][dataName];
 
-      if (control === 'Add To Value') {
-        if (userData !== undefined && !isNaN(userData) && !isNaN(controlValue)) {
+      if (control === "Add To Value") {
+        if (
+          userData !== undefined &&
+          !isNaN(userData) &&
+          !isNaN(controlValue)
+        ) {
           userData = Number(userData) + Number(controlValue);
         } else {
           userData = controlValue;

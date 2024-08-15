@@ -5,28 +5,28 @@ module.exports = {
   category: "Files",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
       element: "input",
       name: "Path",
-      storeAs: "path"
+      storeAs: "path",
     },
     "-",
     {
       element: "condition",
       storeAs: "true",
       storeActionsAs: "trueActions",
-      name: "If True"
+      name: "If True",
     },
     "-",
     {
       element: "condition",
       storeAs: "false",
       storeActionsAs: "falseActions",
-      name: "If False"
-    }
+      name: "If False",
+    },
   ],
   subtitle: (data) => {
     return `Path: ${data.path}`;
@@ -35,7 +35,10 @@ module.exports = {
   async run(values, message, client, bridge) {
     let fs = bridge.fs;
 
-    if (fs.existsSync(bridge.file(values.path)) && fs.statSync(bridge.file(values.path)).isDirectory()) {
+    if (
+      fs.existsSync(bridge.file(values.path)) &&
+      fs.statSync(bridge.file(values.path)).isDirectory()
+    ) {
       await bridge.call(values.true, values.trueActions);
     } else {
       await bridge.call(values.false, values.falseActions);

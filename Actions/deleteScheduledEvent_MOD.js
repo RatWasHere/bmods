@@ -5,7 +5,7 @@ module.exports = {
   category: "Scheduled Events",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
@@ -15,7 +15,9 @@ module.exports = {
     },
   ],
   subtitle: (values, constants, thisAction) => {
-    return `Delete Scheduled Event - Event: ${constants.variable(values.eventVariable)}`;
+    return `Delete Scheduled Event - Event: ${constants.variable(
+      values.eventVariable
+    )}`;
   },
 
   async run(values, message, client, bridge) {

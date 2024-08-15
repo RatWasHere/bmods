@@ -1,4 +1,9 @@
-const { ChannelTypes, Permissions, Client, OverwriteTypes } = require("oceanic.js");
+const {
+  ChannelTypes,
+  Permissions,
+  Client,
+  OverwriteTypes,
+} = require("oceanic.js");
 
 module.exports = {
   category: "Channels",
@@ -7,7 +12,7 @@ module.exports = {
   },
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
@@ -21,20 +26,20 @@ module.exports = {
       name: "Visibility",
       true: "Private",
       false: "Public",
-      storeAs: "private"
+      storeAs: "private",
     },
     {
       element: "toggle",
       name: "NSFW",
       true: "Yes",
       false: "No",
-      storeAs: "nsfw"
+      storeAs: "nsfw",
     },
     "-",
     {
       element: "category",
       storeAs: "category",
-      optional: true
+      optional: true,
     },
     "-",
     {
@@ -42,47 +47,47 @@ module.exports = {
       storeAs: "position",
       choices: {
         unset: { name: "Default" },
-        set: { name: "Custom", field: true }
+        set: { name: "Custom", field: true },
       },
-      name: "Position"
+      name: "Position",
     },
     "-",
     {
       element: "largeInput",
       storeAs: "topic",
-      name: "Channel Topic"
+      name: "Channel Topic",
     },
     "-",
     {
       element: "typedDropdown",
       storeAs: "rateLimitPerUser",
       choices: {
-        "0": { name: "None" },
-        "1": { name: "5 seconds" },
-        "2": { name: "10 seconds" },
-        "3": { name: "15 seconds" },
-        "4": { name: "30 seconds" },
-        "5": { name: "1 minute" },
-        "6": { name: "5 minutes" },
-        "7": { name: "10 minutes" },
-        "8": { name: "15 minutes" },
-        "9": { name: "30 minutes" },
-        "10": { name: "1 hour" },
-        "11": { name: "2 hours" },
-        "12": { name: "6 hours" },
-        custom: { name: "Custom (seconds)", field: true }
+        0: { name: "None" },
+        1: { name: "5 seconds" },
+        2: { name: "10 seconds" },
+        3: { name: "15 seconds" },
+        4: { name: "30 seconds" },
+        5: { name: "1 minute" },
+        6: { name: "5 minutes" },
+        7: { name: "10 minutes" },
+        8: { name: "15 minutes" },
+        9: { name: "30 minutes" },
+        10: { name: "1 hour" },
+        11: { name: "2 hours" },
+        12: { name: "6 hours" },
+        custom: { name: "Custom (seconds)", field: true },
       },
-      name: "Slowmode"
+      name: "Slowmode",
     },
     "-",
     {
       element: "typedDropdown",
       storeAs: "userLimit",
       choices: {
-        "0": { name: "Infinite" },
-        custom: { name: "Custom", field: true }
+        0: { name: "Infinite" },
+        custom: { name: "Custom", field: true },
       },
-      name: "User Limit"
+      name: "User Limit",
     },
     "-",
     {
@@ -90,13 +95,13 @@ module.exports = {
       storeAs: "bitrate",
       choices: {
         Default: { name: "Default" },
-        "1": { name: "8kbps" },
-        "2": { name: "16kbps" },
-        "3": { name: "32kbps" },
-        "4": { name: "64kbps" },
-        custom: { name: "Custom (kbps)", field: true }
+        1: { name: "8kbps" },
+        2: { name: "16kbps" },
+        3: { name: "32kbps" },
+        4: { name: "64kbps" },
+        custom: { name: "Custom (kbps)", field: true },
       },
-      name: "Bitrate"
+      name: "Bitrate",
     },
     "-",
     {
@@ -104,27 +109,29 @@ module.exports = {
       storeAs: "videoQualityMode",
       choices: {
         auto: { name: "Auto" },
-        full: { name: "Full" }
+        full: { name: "Full" },
       },
-      name: "Video Quality Mode"
+      name: "Video Quality Mode",
     },
     "-",
     {
       element: "input",
       storeAs: "reason",
       name: "Reason",
-      placeholder: "Optional"
+      placeholder: "Optional",
     },
     "-",
     {
       element: "storage",
       name: "Store Channel As",
-      storeAs: "store"
-    }
+      storeAs: "store",
+    },
   ],
 
   subtitle: (values, constants) => {
-    return `Name: ${values.channelName} - Store As: ${constants.variable(values.store)}`;
+    return `Name: ${values.channelName} - Store As: ${constants.variable(
+      values.store
+    )}`;
   },
   compatibility: ["Any"],
 
@@ -141,7 +148,10 @@ module.exports = {
       topic: bridge.transf(values.topic),
       permissionOverwrites: [],
       type: ChannelTypes.GUILD_STAGE_VOICE,
-      position: values.position?.type === 'set' ? parseInt(values.position.value) : null
+      position:
+        values.position?.type === "set"
+          ? parseInt(values.position.value)
+          : null,
     };
 
     if (values.category) {
@@ -152,22 +162,24 @@ module.exports = {
     }
 
     if (values.private) {
-      let roleID = bridge.guild.roles.find(r => r.position == 0).id;
+      let roleID = bridge.guild.roles.find((r) => r.position == 0).id;
 
-      channelOptions.permissionOverwrites = [{
-        deny: Permissions.VIEW_CHANNEL,
-        type: OverwriteTypes.ROLE,
-        id: roleID
-      }];
+      channelOptions.permissionOverwrites = [
+        {
+          deny: Permissions.VIEW_CHANNEL,
+          type: OverwriteTypes.ROLE,
+          id: roleID,
+        },
+      ];
     }
 
     if (values.bitrate) {
-      if (values.bitrate.type === 'custom') {
+      if (values.bitrate.type === "custom") {
         let customBitrate = parseInt(values.bitrate.value);
         if (!isNaN(customBitrate)) {
           channelOptions.bitrate = customBitrate * 1000; // Convertir kbps en bps
         }
-      } else if (values.bitrate.type !== 'Default') {
+      } else if (values.bitrate.type !== "Default") {
         let selectedBitrate = parseInt(values.bitrate.type);
         switch (selectedBitrate) {
           case 1:
@@ -189,7 +201,10 @@ module.exports = {
     }
 
     if (values.rateLimitPerUser) {
-      if (values.rateLimitPerUser.type !== 'custom' && values.rateLimitPerUser.type !== '0') {
+      if (
+        values.rateLimitPerUser.type !== "custom" &&
+        values.rateLimitPerUser.type !== "0"
+      ) {
         let selectedSlowmode = parseInt(values.rateLimitPerUser.type);
         switch (selectedSlowmode) {
           case 1:
@@ -231,7 +246,7 @@ module.exports = {
           default:
             break;
         }
-      } else if (values.rateLimitPerUser.type === 'custom') {
+      } else if (values.rateLimitPerUser.type === "custom") {
         let customSlowmode = parseInt(values.rateLimitPerUser.value);
         if (!isNaN(customSlowmode)) {
           channelOptions.rateLimitPerUser = customSlowmode;
@@ -244,21 +259,21 @@ module.exports = {
     }
 
     if (values.userLimit) {
-      if (values.userLimit.type === 'custom') {
+      if (values.userLimit.type === "custom") {
         let customUserLimit = parseInt(values.userLimit.value);
         if (!isNaN(customUserLimit)) {
           channelOptions.userLimit = customUserLimit;
         }
-      } else if (values.userLimit.type !== '0') {
+      } else if (values.userLimit.type !== "0") {
       }
     }
 
     if (values.videoQualityMode) {
       switch (values.videoQualityMode.type) {
-        case 'auto':
+        case "auto":
           channelOptions.videoQualityMode = 1;
           break;
-        case 'full':
+        case "full":
           channelOptions.videoQualityMode = 2;
           break;
         default:
@@ -266,8 +281,11 @@ module.exports = {
       }
     }
 
-    channel = await bridge.guild.createChannel(ChannelTypes.GUILD_STAGE_VOICE, channelOptions);
-    
+    channel = await bridge.guild.createChannel(
+      ChannelTypes.GUILD_STAGE_VOICE,
+      channelOptions
+    );
+
     bridge.store(values.store, channel);
   },
 };

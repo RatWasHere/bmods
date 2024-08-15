@@ -5,13 +5,13 @@ module.exports = {
   category: "Member Data",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
       element: "userInput",
       storeAs: "user",
-      name: "Member"
+      name: "Member",
     },
     "-",
     {
@@ -19,34 +19,34 @@ module.exports = {
       storeAs: "cases",
       name: "Datas",
       types: {
-        data: "Data"
+        data: "Data",
       },
       max: 200,
       UItypes: {
         data: {
           name: "Member Data",
-          preview: '`Name: ${option.data.dataName}`',
+          preview: "`Name: ${option.data.dataName}`",
           data: { dataName: "" },
           UI: [
             {
               element: "input",
               storeAs: "dataName",
-              name: "Get Member Data"
+              name: "Get Member Data",
             },
             "-",
             {
               element: "store",
               storeAs: "store",
-              name: "Store As"
-            }
-          ]
-        }
-      }
-    }
+              name: "Store As",
+            },
+          ],
+        },
+      },
+    },
   ],
 
   subtitle: (values, constants, thisAction) => {
-    let numData = values.cases.filter(c => c.type === "data").length;
+    let numData = values.cases.filter((c) => c.type === "data").length;
     let memberValue = constants.user(values.user);
     return `Getting ${numData} Data(s) of ${memberValue}`;
   },
@@ -59,7 +59,8 @@ module.exports = {
     for (const dataCase of values.cases) {
       if (dataCase.type !== "data") continue;
 
-      let userData = storedData.members[id][bridge.transf(dataCase.data.dataName)] || '';
+      let userData =
+        storedData.members[id][bridge.transf(dataCase.data.dataName)] || "";
 
       if (dataCase.data.defaultValue) {
         userData = bridge.transf(dataCase.data.defaultValue);

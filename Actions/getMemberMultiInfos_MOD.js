@@ -5,13 +5,13 @@ module.exports = {
   category: "Members",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "nitiqt"
+    creator: "nitiqt",
   },
   UI: [
     {
       element: "member",
       storeAs: "member",
-      name: "Member"
+      name: "Member",
     },
     "-",
     {
@@ -19,13 +19,13 @@ module.exports = {
       storeAs: "cases",
       name: "Informations",
       types: {
-        informations: "Informations"
+        informations: "Informations",
       },
       max: 200,
       UItypes: {
         informations: {
           name: "Member Information",
-          preview: '`Selected: ${option.data.memberinformations}`',
+          preview: "`Selected: ${option.data.memberinformations}`",
           data: { memberinformations: "Name" },
           UI: [
             {
@@ -49,23 +49,23 @@ module.exports = {
                 { name: "Accent Color" },
                 { name: "Voice Channel" },
                 { name: "Status" },
-                { name: "Status Text" }
+                { name: "Status Text" },
               ],
             },
             "-",
             {
               element: "store",
               storeAs: "store",
-              name: "Store As"
-            }
-          ]
-        }
-      }
-    }
+              name: "Store As",
+            },
+          ],
+        },
+      },
+    },
   ],
 
   subtitle: (values, constants, thisAction) => {
-    let numInfos = values.cases.filter(c => c.type === "informations").length;
+    let numInfos = values.cases.filter((c) => c.type === "informations").length;
     let memberValue = constants.user(values.member);
 
     return `Getting ${numInfos} Information(s) of ${memberValue}`;
@@ -104,7 +104,7 @@ module.exports = {
           break;
         case "Highest Role":
           let highestRole;
-          member.roles.forEach(roleID => {
+          member.roles.forEach((roleID) => {
             let role = member.guild.roles.get(roleID);
             if (!highestRole || role.position > highestRole.position) {
               highestRole = role;
@@ -113,7 +113,9 @@ module.exports = {
           output = highestRole || null;
           break;
         case "Role List":
-          output = member.roles.map(roleID => member.guild.roles.get(roleID)).filter(role => role !== undefined);
+          output = member.roles
+            .map((roleID) => member.guild.roles.get(roleID))
+            .filter((role) => role !== undefined);
           break;
         case "Timeout End Timestamp":
           output = member.communicationDisabledUntil?.getTime() || null;
@@ -129,11 +131,16 @@ module.exports = {
           break;
         case "Accent Color":
           let userDetails = await client.rest.users.get(user.id);
-          output = userDetails.accentColor ? userDetails.accentColor.toString(16) : null;
+          output = userDetails.accentColor
+            ? userDetails.accentColor.toString(16)
+            : null;
           break;
         case "Voice Channel":
           if (member.voiceState?.channelID) {
-            output = await bridge.getChannel({ type: 'id', value: member.voiceState.channelID });
+            output = await bridge.getChannel({
+              type: "id",
+              value: member.voiceState.channelID,
+            });
           } else {
             output = null;
           }
@@ -143,7 +150,11 @@ module.exports = {
           break;
         case "Status Text":
           try {
-            output = member.presence.activities.find(activity => activity.type === 4 && activity.name === 'Custom Status')?.state || null;
+            output =
+              member.presence.activities.find(
+                (activity) =>
+                  activity.type === 4 && activity.name === "Custom Status"
+              )?.state || null;
           } catch (err) {
             output = null;
           }
