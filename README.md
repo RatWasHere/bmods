@@ -45,6 +45,8 @@ BMD built-in mod manager coming soon™️
 Please follow the general structure when creating mods. Therefore, add **\_MOD** after your mod name, don't include any additional dots or spaces, and make sure to include the info object within your modded action.
 Feel free to add a short description for your action as seen in [**animeSearch_MOD.js**](https://github.com/RatWasHere/bmods/blob/master/Actions/animeSearch_MOD.js).
 
+You may find a list of the apps actions, events, icons, and kits [here](https://github.com/devvyyxyz/BMD-Actions).
+
 ## Uploading Mods via GitHub Pull Requests
 
 To contribute your mods to this repository, you can use either the GitHub web interface or your local machine.\
