@@ -1,6 +1,10 @@
 module.exports = {
     data: { name: "Get multiple global data" },
     category: "Global Data",
+    info:{
+        source: "https://github.com/slothyace/BCS/tree/main/Mods",
+        creator: "Acedia",
+    },
     UI: [
         {
             element: "input",
