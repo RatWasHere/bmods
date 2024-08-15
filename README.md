@@ -47,6 +47,8 @@ Feel free to add a short description for your action as seen in [**animeSearch_M
 
 You may find a list of the apps actions, events, icons, and kits [here](https://github.com/devvyyxyz/BMD-Actions).
 
+Try to use as few packages as possible, especially for simple functionality. Use packages only when absolutely necessary.
+
 AI-generated code is not allowed. While using AI as a tool for assistance is permitted, all code must be created and reviewed by human contributors.
 
 ## Uploading Mods via GitHub Pull Requests
