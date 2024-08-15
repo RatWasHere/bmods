@@ -1,5 +1,5 @@
 module.exports = {
-  data: { name: "Get multiple global data" },
+  data: { name: "Load Multiple Global Data" },
   category: "Global Data",
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
