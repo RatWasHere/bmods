@@ -68,7 +68,7 @@ Feel free to add a short description for your action as seen in [**animeSearch_M
   ```json
   {
     "element": "text",
-    "storeAs": "string_pointing_to_string"
+    "text": "string"
   }
   ```
 - **Large Inputs**:
