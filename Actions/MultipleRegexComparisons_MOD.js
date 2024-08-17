@@ -19,7 +19,7 @@ module.exports = {
     {
       element: "menu",
       storeAs: "cases",
-      name: "Comparisons",
+      name: "List of Regex(es)",
       types: {
         comparison: "Comparison",
       },
