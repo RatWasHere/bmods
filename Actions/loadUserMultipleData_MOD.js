@@ -30,7 +30,8 @@ module.exports = {
             UItypes: {
                 data: {
                     data: {},
-                    name: "${option.data.dataname}",
+                    name: "Data name:",
+                    preview: "${option.data.dataname}"
                     UI: [
                         {
                             element: "input",
