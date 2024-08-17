@@ -1,5 +1,5 @@
 module.exports = {
-  data: { name: "Load Multiple Global Data" },
+  data: { name: "Load Multiple Global Data(s)" },
   category: "Global Data",
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
@@ -9,13 +9,13 @@ module.exports = {
     {
       element: "input",
       storeAs: "defaultval",
-      name: "Default value",
+      name: "Default Value",
     },
     "-",
     {
       element: "menu",
       storeAs: "retrievelist",
-      name: "Global data",
+      name: "List of Global Data(s)",
       types: {
         data: "datas",
       },
@@ -29,11 +29,12 @@ module.exports = {
             {
               element: "input",
               storeAs: "dataname",
-              name: "Global data name",
+              name: "Data Name",
             },
             {
               element: "store",
               storeAs: "store",
+              name: "Store As"
             },
           ],
         },
@@ -41,7 +42,7 @@ module.exports = {
     },
   ],
   subtitle: (data) => {
-    return `Store ${data.retrievelist.length} global data(s).`;
+    return `Retrieve ${data.retrievelist.length} global data(s).`;
   },
   compatibility: ["Any"],
 

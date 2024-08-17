@@ -1,5 +1,5 @@
 module.exports = {
-    data: { name: "Load user multiple data" },
+    data: { name: "Load User Multiple Data(s)" },
     category: "User Data",
     info: {
         source: "https://github.com/slothyace/BCS/tree/main/Mods",
@@ -16,13 +16,13 @@ module.exports = {
         {
             element: "input",
             storeAs: "defaultval",
-            name: "Default value"
+            name: "Default Value"
         },
         "-",
         {
             element: "menu",
             storeAs: "retrievelist",
-            name: "List of user data",
+            name: "List of User Data(s)",
             types: {
                 data: "datas"
             },
@@ -30,17 +30,18 @@ module.exports = {
             UItypes: {
                 data: {
                     data: {},
-                    name: "Data name:",
+                    name: "Data Name:",
                     preview: "`${option.data.dataname}`",
                     UI: [
                         {
                             element: "input",
                             storeAs: "dataname",
-                            name: "User data name"
+                            name: "Data Name"
                         },
                         {
                             element: "store",
-                            storeAs: "store"
+                            storeAs: "store",
+                            name: "Store As"
                         }
                     ]
                 }
@@ -48,7 +49,7 @@ module.exports = {
         }
     ],
     subtitle: (data) => {
-        return `Retrieve ${data.retrievelist.length} datas of ${values.user}.`;
+        return `Retrieve ${data.retrievelist.length} data(s) of user.`;
     },
     compatibility: ["Any"],
 

@@ -1,5 +1,5 @@
 module.exports = {
-  data: { name: "Get all global data" },
+  data: { name: "Get All Global Data" },
   category: "Global Data",
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
@@ -10,6 +10,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "store",
+      name: "Store As"
     },
   ],
 
