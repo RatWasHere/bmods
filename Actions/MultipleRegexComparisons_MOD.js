@@ -27,6 +27,7 @@ module.exports = {
       UItypes: {
         comparison: {
           data: {},
+          preview: "`Name: ${option.data.value}`",
           name: "Regex",
           UI: [
             {
