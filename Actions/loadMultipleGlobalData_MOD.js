@@ -24,7 +24,7 @@ module.exports = {
         data: {
           data: {},
           name: "Data Name:",
-          preview: "${option.data.dataname}"
+          preview: "${option.data.dataname}",
           UI: [
             {
               element: "input",
