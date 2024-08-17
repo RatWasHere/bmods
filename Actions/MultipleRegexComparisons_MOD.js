@@ -5,7 +5,7 @@ module.exports = {
   category: "Control",
 
   info: {
-    source: "https://github.com/RatWasHere/bmods/blob/master/Actions",
+    source: "https://github.com/slothyace/BCS/tree/main/Mods",
     creator: "Acedia",
   },
 
@@ -27,7 +27,8 @@ module.exports = {
       UItypes: {
         comparison: {
           data: {},
-          name: "Regex",
+          name: "Regex:",
+          preview: "`${option.data.value}`",
           UI: [
             {
               element: "input",
