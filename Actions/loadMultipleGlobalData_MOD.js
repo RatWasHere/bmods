@@ -4,8 +4,15 @@ module.exports = {
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
     creator: "Acedia",
+    donate: "ko-fi.com/slothyacedia"
   },
   UI: [
+    {
+        element: "input",
+        storeAs: "label",
+        name: "Label"
+    },
+    "-",
     {
       element: "input",
       storeAs: "defaultval",
@@ -41,8 +48,8 @@ module.exports = {
       },
     },
   ],
-  subtitle: (data) => {
-    return `Retrieve ${data.retrievelist.length} global data(s).`;
+  subtitle: (data, values) => {
+    return `Label: ${data.label}, Retrieve ${data.retrievelist.length} global data(s).`;
   },
   compatibility: ["Any"],
 

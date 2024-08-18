@@ -7,6 +7,7 @@ module.exports = {
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
     creator: "Acedia",
+    donate: "ko-fi.com/slothyacedia"
   },
 
   UI: [
