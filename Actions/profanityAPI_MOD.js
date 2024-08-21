@@ -13,6 +13,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
+    donate: "https://ko-fi.com/qschnitzel",
   },
   category: "Text",
   UI: [

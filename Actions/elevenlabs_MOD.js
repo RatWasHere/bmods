@@ -10,6 +10,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel, splatchoot",
+    donate: "https://ko-fi.com/qschnitzel",
   },
   category: "AI",
   data: {
