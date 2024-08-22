@@ -11,6 +11,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "candiedapple",
+    donate: "https://buymeacoffee.com/candiedapple",
   },
   category: "Global Data",
   UI: [

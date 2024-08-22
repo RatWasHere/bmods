@@ -354,6 +354,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "candiedapple",
+    donate: "https://buymeacoffee.com/candiedapple",
   },
   data: {
     name: "Get Game Server Info",
