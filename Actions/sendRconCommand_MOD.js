@@ -43,6 +43,10 @@ module.exports = {
     },
   ],
 
+  subtitle: (data) => {
+    return `Command: ${data.command}`;
+  },
+
   run(values, interaction, client, bridge) {
     return new Promise((resolve, reject) => {
       const Rcon = require("mbr-rcon");
