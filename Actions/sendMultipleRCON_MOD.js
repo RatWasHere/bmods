@@ -70,49 +70,52 @@ module.exports = {
 
     async run(values, interaction, client, bridge) {
         const Rcon = require("mbr-rcon");
-
+    
         for (let server of values.serverlist) {
-            const rconConfig = {
-                host: `${bridge.transf(server.data.ipaddress)}`,
-                port: `${bridge.transf(server.data.portnumber)}`,
-                pass: `${bridge.transf(server.data.rconpassword)}`,
-            };
-            const rcon = new Rcon(rconConfig);
-
-            await new Promise((resolve, reject) => {
-                const connection = rcon.connect({
-                    onSuccess: () => {
-                        console.log("Connected to RCON server");
-                        connection.auth({
-                            onSuccess: () => {
-                                console.log("Authenticated successfully");
-                                connection.send(`${bridge.transf(server.data.rconcommand)}`, {
-                                    onSuccess: (response) => {
-                                        console.log("Server response:", response);
-                                        bridge.store(server.data.store, response);
-                                        connection.close();
-                                        resolve(response);
-                                    },
-                                    onError: (error) => {
-                                        console.error("Error executing command:", error);
-                                        connection.close();
-                                        reject(error);
-                                    },
-                                });
-                            },
-                            onError: (error) => {
-                                console.error("Authentication error:", error);
-                                connection.close();
-                                reject(error);
-                            },
-                        });
-                    },
-                    onError: (error) => {
-                        console.error("Connection error:", error);
-                        reject(error);
-                    },
+            try {
+                const rconConfig = {
+                    host: `${bridge.transf(server.data.ipaddress)}`,
+                    port: `${bridge.transf(server.data.portnumber)}`,
+                    pass: `${bridge.transf(server.data.rconpassword)}`,
+                };
+                const rcon = new Rcon(rconConfig);
+    
+                await new Promise((resolve, reject) => {
+                    const connection = rcon.connect({
+                        onSuccess: () => {
+                            connection.auth({
+                                onSuccess: () => {
+                                    connection.send(`${bridge.transf(server.data.rconcommand)}`, {
+                                        onSuccess: (response) => {
+                                            bridge.store(server.data.store, response);
+                                            connection.close();
+                                            resolve(response);
+                                        },
+                                        onError: (error) => {
+                                            bridge.store(server.data.store, "Error: Error executing command.");
+                                            connection.close();
+                                            reject(error);
+                                        },
+                                    });
+                                },
+                                onError: (error) => {
+                                    bridge.store(server.data.store, "Error: Authentication error (Wrong password).");
+                                    connection.close();
+                                    reject(error);
+                                },
+                            });
+                        },
+                        onError: (error) => {
+                            bridge.store(server.data.store, "Error: Connection error (Server is offline or details are incorrect).");
+                            reject(error);
+                        },
+                    });
                 });
-            });
+            }
+            
+            catch (error) {
+                console.error("An error occurred:", error);
+            }
         }
-    },
+    }  
 };
