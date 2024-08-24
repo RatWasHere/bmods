@@ -180,13 +180,8 @@ module.exports = {
         const rangeEnd = Number(
           bridge.transf(values.rangeEnd)
         );
-        if (
-          rangeStart >= 0 &&
-          rangeEnd <= dataList.length &&
-          rangeStart < rangeEnd
-        ) {
-          filteredDataList = dataList.slice(rangeStart, rangeEnd);
-        }
+        filteredDataList = dataList.slice(rangeStart, rangeEnd);
+  
         break;
       case "all results":
         filteredDataList = dataList;
