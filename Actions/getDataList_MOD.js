@@ -174,8 +174,12 @@ module.exports = {
         if (bottomN > 0) filteredDataList = dataList.slice(-bottomN);
         break;
       case "range":
-        const rangeStart = parseInt(values.rangeStart, 10) - 1;
-        const rangeEnd = parseInt(values.rangeEnd, 10);
+        const rangeStart = Number(
+          bridge.transf(values.rangeStart)
+        );
+        const rangeEnd = Number(
+          bridge.transf(values.rangeEnd)
+        );
         if (
           rangeStart >= 0 &&
           rangeEnd <= dataList.length &&
