@@ -50,45 +50,60 @@ module.exports = {
   run(values, interaction, client, bridge) {
     return new Promise((resolve, reject) => {
       const Rcon = require("mbr-rcon");
-      const rconConfig = {
-        host: `${bridge.transf(values.serverip)}`,
-        port: `${bridge.transf(values.serverport)}`,
-        pass: `${bridge.transf(values.rconpassword)}`,
-      };
-      const rcon = new Rcon(rconConfig);
 
-      const connection = rcon.connect({
-        onSuccess: () => {
-          console.log("Connected to RCON server");
-          connection.auth({
-            onSuccess: () => {
-              console.log("Authenticated successfully");
-              connection.send(`${bridge.transf(values.command)}`, {
-                onSuccess: (response) => {
-                  console.log("Server response:", response);
-                  bridge.store(values.store, response);
-                  connection.close();
-                  resolve(response);
-                },
-                onError: (error) => {
-                  console.error("Error executing command:", error);
-                  connection.close();
-                  reject(error);
-                },
-              });
-            },
-            onError: (error) => {
-              console.error("Authentication error:", error);
-              connection.close();
-              reject(error);
-            },
-          });
-        },
-        onError: (error) => {
-          console.error("Connection error:", error);
-          reject(error);
-        },
-      });
+      try {
+        const rconConfig = {
+          host: `${bridge.transf(values.serverip)}`,
+          port: `${bridge.transf(values.serverport)}`,
+          pass: `${bridge.transf(values.rconpassword)}`,
+        };
+        
+        const rcon = new Rcon(rconConfig);
+
+        const connection = rcon.connect({
+          onSuccess: () => {
+            console.log("Connected to RCON server");
+            connection.auth({
+              onSuccess: () => {
+                console.log("Authenticated successfully");
+                connection.send(`${bridge.transf(values.command)}`, {
+                  onSuccess: (response) => {
+                    console.log("Server response:", response);
+                    bridge.store(values.store, response);
+                    connection.close();
+                    resolve(response);
+                  },
+                
+                  onError: (error) => {
+                    console.error("Error executing command:", error);
+                    bridge.store(values.store, "Error: Execution. (Something went wrong)");
+                    connection.close();
+                    reject(error);
+                  },
+                });
+              },
+
+              onError: (error) => {
+                console.error("Authentication error:", error);
+                bridge.store(values.store, "Error: Authentication. (Wrong RCON password)");
+                connection.close();
+                reject(error);
+              },
+            });
+          },
+          
+          onError: (error) => {
+            console.error("Connection error:", error);
+            bridge.store(values.store, "Error: Connection. (The requested RCON server is offline)");
+            reject(error);
+          },
+        });
+      }
+      
+      catch (error) {
+        console.error("An error occurred:", error);
+      }
+
     });
   },
 };

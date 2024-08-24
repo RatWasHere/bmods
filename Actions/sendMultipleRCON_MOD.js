@@ -92,21 +92,21 @@ module.exports = {
                                             resolve(response);
                                         },
                                         onError: (error) => {
-                                            bridge.store(server.data.store, "Error: Error executing command.");
+                                            bridge.store(server.data.store, "Error: Execution. (Something went wrong)");
                                             connection.close();
                                             reject(error);
                                         },
                                     });
                                 },
                                 onError: (error) => {
-                                    bridge.store(server.data.store, "Error: Authentication error (Wrong password).");
+                                    bridge.store(server.data.store, "Error: Authentication. (Wrong RCON password)");
                                     connection.close();
                                     reject(error);
                                 },
                             });
                         },
                         onError: (error) => {
-                            bridge.store(server.data.store, "Error: Connection error (Server is offline or details are incorrect).");
+                            bridge.store(server.data.store, "Error: Connection. (The requested RCON server is offline)");
                             reject(error);
                         },
                     });
