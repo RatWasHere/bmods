@@ -11,10 +11,10 @@
 
   --secondary-main: #363636;
   --secondary-hover: #2e2e2e;
-  --secondary-active: #000000;
+  --secondary-active: #3f3f3f;
   --secondary-selected: #3f3f3f;
 
-  --strong: #403c68;
+  --strong: #756ebbd1;
   --strong-main: #1d1d1d00;
   --strong-hover: #1e1e1e;
   --strong-active: #363636;
@@ -55,7 +55,7 @@
 .dropdown {
   background: var(--secondary-main);
   transition: all 0.05s ease, width 0.3s ease !important;
-  border-bottom: solid 2px #4f489e;
+  border-bottom: solid 2px #756ebbd1;
 }
 .dropdown:hover {
   background: #131313;
@@ -76,6 +76,10 @@ btn {
   box-shadow: inset 0 0 2px #00000000 !important;
   display: block;
   backdrop-filter: blur(12px);
+}
+
+.outlined {
+  outline: #ffffff00;
 }
 
 btn:hover {
@@ -101,11 +105,11 @@ btn:active {
 }
 
 input {
-  background: #131313;
+  background: #363636;
 }
 
 .largeBox > .action {
-  background: #131313;
+  background: #363636;
 }
 
 .action {
@@ -125,4 +129,14 @@ input {
   margin-bottom: auto;
   height: 16px;
   border-radius: 5px
+}
+
+.dimension {
+  box-shadow: #ffffff10;
+}
+
+.listContainer > .action {
+  width: calc(100% - 17px) !important;
+  margin-top: 2.5px;
+  margin-bottom: 6px;
 }
