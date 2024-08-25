@@ -58,9 +58,22 @@ module.exports = {
     },
     "-",
     {
+      element: "input",
+      storeAs: "levelbarlenght",
+      name: "Level Bar Lenght",
+      placeholder: "Default: 10 - Leave blank for default...",
+    },
+    "-",
+    {
       element: "storageInput",
       storeAs: "userLevel",
       name: "Store Calculated Level As",
+    },
+    "-",
+    {
+      element: "storageInput",
+      storeAs: "currentLevelProgress",
+      name: "Store Experience Gained Towards The Next Level As",
     },
     "-",
     {
@@ -99,7 +112,7 @@ module.exports = {
       const currentLevelExperience =
         Math.pow(currentLevel - 1, exponent) * base;
       const nextLevelExperience = Math.pow(currentLevel, exponent) * base;
-      const totalChars = 20;
+      const totalChars = bridge.transf(values.levelbarlenght) || 10;
       const filledChars = Math.floor(
         (experience - currentLevelExperience) /
           ((nextLevelExperience - currentLevelExperience) / totalChars)
@@ -107,7 +120,8 @@ module.exports = {
       const emptyChars = totalChars - filledChars;
       const levelBar =
         levelbarfilled.repeat(filledChars) + levelbarempty.repeat(emptyChars);
-      return { currentLevel, nextLevel, levelBar, nextLevelExperience };
+      const currentLevelProgress = experience - currentLevelExperience;
+      return { currentLevel, nextLevel, levelBar, nextLevelExperience, currentLevelProgress };
     }
 
     // Assuming you have a variable named 'experience'
@@ -117,7 +131,7 @@ module.exports = {
     const userLevel = getUserLevel(experience);
 
     // Get the current level, next level, and emoji level bar, then store them
-    const { currentLevel, nextLevel, levelBar, nextLevelExperience } =
+    const { currentLevel, nextLevel, levelBar, nextLevelExperience, currentLevelProgress } =
       generateLevelBar(experience);
 
     const requiredexperience = nextLevelExperience - experience;
@@ -125,5 +139,6 @@ module.exports = {
     bridge.store(values.userLevel, userLevel);
     bridge.store(values.levelbar, levelBar);
     bridge.store(values.requiredexp, requiredexperience);
+    bridge.store(values.currentLevelProgress, currentLevelProgress);
   },
 };
