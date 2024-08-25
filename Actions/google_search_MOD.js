@@ -46,6 +46,8 @@ subtitle: (data, constants) => {
     const text = bridge.transf(values.text);
 
     const { searchWithPages, OrganicResult } = require('google-sr');
+
+    try {
     const searchResults = await searchWithPages({ 
       query: text, 
       safeMode: values.safeMode,
@@ -69,5 +71,7 @@ subtitle: (data, constants) => {
     };
 
       bridge.store(values.store, Results);
+    } catch (error) {bridge.store(values.store, [])};
+
     }
 };
