@@ -55,7 +55,6 @@ subtitle: (data, constants) => {
       )
   });
 
-  console.log(values.listmode)
    let Results;
    switch (values.listmode) {
     case true:
