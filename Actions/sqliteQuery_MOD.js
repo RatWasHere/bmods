@@ -44,8 +44,9 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const sqlite3 = require("sqlite3").verbose(); // Require sqlite3 module
 
+      const dbPath = bridge.file(values.database);
       // Open the database file
-      const db = new sqlite3.Database(values.database, (err) => {
+      const db = new sqlite3.Database(dbPath, (err) => {
         if (err) {
           console.error("Error opening SQLite database:", err);
           reject(err);
