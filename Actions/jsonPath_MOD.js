@@ -6,7 +6,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "candiedapple",
-    donate: "https://buymeacoffee.com/candiedapple",
+    donate: "https://www.buymeacoffee.com/candiedapple"
   },
   UI: [
     {
@@ -24,6 +24,12 @@ module.exports = {
     },
     "-",
     {
+      element: "toggle",
+      name: "Log to Console",
+      storeAs: "logtoconsole",
+    },
+    "-",
+    {
       element: "storageInput",
       name: "Store Result As",
       storeAs: "store",
@@ -33,6 +39,9 @@ module.exports = {
     const data = bridge.get(values.json);
     const jsonpath = require("jsonpath");
     const result = jsonpath.query(data, bridge.transf(values.path));
+    if (values.logtoconsole) {
+      console.log(result);
+    }
     bridge.store(values.store, result);
   },
 };
