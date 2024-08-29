@@ -25,6 +25,11 @@
   --hover-color: #332f36; /* Purple tone */
   --active-color: #4d4b4e; /* Purple tone */
 
+  --dark-main: #ffffff05;
+  --dark-hover: #ffffff15;
+  --dark-active: #ffffff10;
+  --dark-strong: #ffffff13;
+
   --text: #ffffffe8;
 
   --toolbar-height: 45px;
@@ -32,20 +37,23 @@
   --toolbar-margin-side-larger: 3px;
 
   --parameter-editor-pane-height: calc(94.5% + 18px);
+
+  --window-background: #2b282e;
+  --editor-background: #2b282e;
 }
 
 .editor_toolbar {
   background-color: unset !important;
-  background: linear-gradient(#634d83, #68578e) !important;
+  background: var(--strong-main) !important;
 }
 
 .toolbar {
   background-color: unset !important;
-  background: linear-gradient(#1b1634, #241e43) !important;
+  background: var(--dark-main) !important;
 }
 
 .editor_toolbar > btn {
-  background: linear-gradient(90deg, #615e63, #655d68); /* Purple tone */
+  background: var(--secondary-hover);
   box-shadow: #000000 0 0 5px !important;
 }
 
@@ -55,14 +63,14 @@
 }
 
 .dropdown {
-  background-color: #615e63; /* Purple tone */
+  background-color: var(--secondary-main);
   transition: all 0.05s ease, width 0.3s ease !important;
 }
 .dropdown:hover {
-  background-color: #59565b; /* Purple tone */
+  background-color: var(--secondary-hover);
 }
 .dropdown:active {
-  background-color: #615e63; /* Purple tone */
+  background-color: var(--secondary-active);
 }
 
 btn {
@@ -82,9 +90,17 @@ btn:active {
 }
 
 .folderContainer > .action {
-  background: linear-gradient(#4e535a, #575c62);
+  background: var(--dark-strong);
 }
 
 .largeBox > .action {
-  background: linear-gradient(#4e535a, #575c62);
+  background: var(--dark-strong);
+}
+
+input {
+  background: var(--secondary-main);
+}
+
+.action {
+  background-color: var(--secondary-main);
 }
