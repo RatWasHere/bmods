@@ -1,5 +1,5 @@
 module.exports = {
-    data: { name: "Load User Multiple Data(s)" },
+    data: { name: "Load User Multiple Datas" },
     category: "User Data",
     info: {
         source: "https://github.com/slothyace/BCS/tree/main/Mods",
