@@ -1,3 +1,7 @@
+const jsonData = require('../data.json');
+const commands = jsonData.commands;
+const prefix = jsonData.prefix;
+
 module.exports = {
   data: {
     name: "Get Command Aliases",
@@ -30,20 +34,26 @@ module.exports = {
 
   async run(values, message, client, bridge) {
     const commandName = bridge.transf(values.commandname);
-    const jsonData = require('../data.json');
-    const commands = jsonData.commands;
 
     const foundCommand = commands.find(cmd => cmd.name === commandName && cmd.trigger === 'textCommand');
-    if (foundCommand.trigger === 'textCommand'){
-      if (foundCommand.aliases && foundCommand.aliases.length > 0){
+
+    if (!foundCommand) {
+      const NotTextCommandError = [];
+      NotTextCommandError.push(`\`${values.commandname}\` isn't a text command.`);
+      bridge.store(values.store, NotTextCommandError);
+    }
+
+    else {
+
+      if (foundCommand.aliases && foundCommand.aliases.length > 0) {
         bridge.store(values.store, foundCommand.aliases);
       }
+
       else {
-        bridge.store(values.store, `No aliases are available for "${values.commandname}".`);
+        const NoAliasesError = [];
+        NoAliasesError.push(`No aliases available for \`${prefix}${values.commandname}\`.`);
+        bridge.store(values.store, NoAliasesError);
       }
-    }
-    else {
-      bridge.store(values.store, `"${values.commandname}" is not a text command.`)
     }
   }
 };

@@ -4,7 +4,7 @@ module.exports = {
   },
   category: "Bot",
   info: {
-    source: "https://github.com/slothyace/BCS/tree/main/Mods/CustomLib",
+    source: "https://github.com/slothyace/BCS/tree/main/Mods",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
