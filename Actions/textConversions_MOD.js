@@ -28,9 +28,7 @@ module.exports = {
         B64Encode: {name: "Base64 Encode", field: false},
         B64Decode: {name: "Base64 Decode", field: false},
         BinEncode: {name: "Binary Encode", field: false},
-        BinDecode: {name: "Binary Decode", field: false},
-        utf8Encode: {name: "UTF-8 Encode", field: false},
-        utf8Decode: {name: "UTF-8 Decode", field: false}
+        BinDecode: {name: "Binary Decode", field: false}
       }
     },
     "-",
@@ -91,14 +89,6 @@ module.exports = {
 
       case "BinDecode":
         convertedTxt = toConv.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join('');
-        break;
-
-      case "utf8Encode":
-        convertedTxt = new TextEncoder().encode(toConv).reduce((acc, byte) => acc + String.fromCharCode(byte), '');
-        break;
-
-      case "utf8Decode":
-        convertedTxt = new TextDecoder().decode(new Uint8Array(toConv.split('').map(char => char.charCodeAt(0))));
         break;
     }
 
