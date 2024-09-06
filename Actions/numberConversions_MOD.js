@@ -23,7 +23,7 @@ module.exports = {
         SciNot: {name: "Scientific Notation | Result: n×10^e, 3 d.p.", field: false},
         Standardise: {name: "Standard Expression (adds commas)", field: false},
         Generalise: {name: "Generalised Expression | Result 2 d.p. + K/M/B/T", field: false},
-        Log2r: {name: "Log2 | Result: 2×n+r)", field: false},
+        Log2r: {name: "Log2 | Result: 2^n+r)", field: false},
         PrimeFactors: {name: "Prime Factors", field: false}
       }
     },
