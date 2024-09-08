@@ -1,18 +1,25 @@
 module.exports = {
-  data: { name: "Get Multiple Global Datas" },
-  category: "Global Data",
+  data: {
+    name: "Get Multiple Server Datas",
+  },
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
     creator: "Acedia",
-    donate: "https://ko-fi.com/slothyacedia"
+    donate: "https://ko-fi.com/slothyacedia",
   },
+  category: "Server Data",
   UI: [
     {
-        element: "input",
-        storeAs: "label",
-        name: "Label (optional)"
+      element: "input",
+      storeAs: "label",
+      name: "Label (optional)",
     },
     "-",
+    {
+      element: "guild",
+      storeAs: "guild",
+      name: "Server",
+    },
     {
       element: "input",
       storeAs: "defaultval",
@@ -22,12 +29,12 @@ module.exports = {
     {
       element: "menu",
       storeAs: "retrievelist",
-      name: "List of Global Datas",
+      name: "List of Server Datas",
       types: {
         data: "datas",
       },
       max: 1000,
-      UItypes: {
+      UItypes:{
         data: {
           data: {},
           name: "Data Name:",
@@ -41,24 +48,27 @@ module.exports = {
             {
               element: "store",
               storeAs: "store",
-              name: "Store As"
+              name: "Store As",
             },
           ],
         },
       },
     },
   ],
-  subtitle: (values) => {
-    return `Label: ${values.label}, Retrieve ${values.retrievelist.length} global datas.`;
+
+  subtitle: (values, constants) => {
+    return `Label: ${values.label}, Retrieve ${values.retrievelist.length} datas of ${constants.guild(values.guild)}.`
   },
+
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge) {
+  async run (values, message, client, bridge) {
     let storedData = bridge.data.IO.get();
-    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : "";
+    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : '';
+    let guild = await bridge.getGuild(values.guild);
 
     for (let item of values.retrievelist) {
-      let listData = defaultVal;
+      let guildData = defaultVal;
 
       const dataName = item.data.dataname;
       const storeLocation = item.data.store;
@@ -66,15 +76,17 @@ module.exports = {
       try {
         const transformedDataName = bridge.transf(dataName);
 
-        if (storedData.lists && storedData.lists[transformedDataName]) {
-          listData = storedData.lists[transformedDataName];
+        if (storedData.guilds && storedData.guilds[guild.id] && storedData.guilds[guild.id][transformedDataName]) {
+          guildData = storedData.guilds[guild.id][transformedDataName];
         }
-      } catch (error) {
-        storedData.lists = {};
+      }
+      
+      catch (error) {
+        storedData.guilds[guild.id] = {};
         bridge.data.IO.write(storedData);
       }
 
-      bridge.store(storeLocation, listData);
+      bridge.store(storeLocation, guildData);
     }
-  },
-};
+  }
+}
