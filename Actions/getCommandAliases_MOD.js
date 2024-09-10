@@ -6,7 +6,7 @@ module.exports = {
   data: {
     name: "Get Command Aliases",
   },
-  category: "",
+  category: "Bot",
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
     creator: "Acedia",
@@ -24,6 +24,12 @@ module.exports = {
       storeAs: "store",
       name: "Store Alias List As",
     },
+    {
+      element: "text",
+      text: `<div style="font-size: 20px; color: red; text-align: center;">
+      This action is deprecated, use "Get Command Info" for a more robust & feature rich option.
+      </div>`
+    }
   ],
 
   subtitle: (data) => {
