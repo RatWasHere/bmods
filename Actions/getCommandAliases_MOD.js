@@ -6,7 +6,7 @@ module.exports = {
   data: {
     name: "Get Command Aliases",
   },
-  category: "Bot",
+  category: "",
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
     creator: "Acedia",
