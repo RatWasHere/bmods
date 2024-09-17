@@ -20,7 +20,7 @@ module.exports = {
       choices: (() => {
         let result = {};
 
-        result['custom'] = { name: `(unknown) Custom`, field: true };
+        result['IdSearch'] = { name: `(unknown) Custom Id Input`, field: true };
 
         commands.forEach(command => {
 
@@ -115,7 +115,7 @@ module.exports = {
     for (let cmd in commands) {
       let command = commands[cmd];
 
-      if (actionData.commandId.type === 'custom' && actionData.commandId.value.length > 0 && command.customId == actionData.commandId.value) {
+      if (actionData.commandId.type === 'IdSearch' && actionData.commandId.value.length > 0 && command.customId == actionData.commandId.value) {
         foundCommand = command;
         break;
       }
@@ -137,7 +137,7 @@ module.exports = {
 
   async run (values, message, client, bridge) {
     commandId = bridge.transf(values.commandId.type)
-    if (commandId === 'custom' && bridge.transf(values.commandId.value).length > 0) {
+    if (commandId === 'IdSearch' && bridge.transf(values.commandId.value).length > 0) {
       commandcId = bridge.transf(values.commandId.value)
     } else { commandcId = bridge.transf(values.commandId.type) }
 

@@ -1,5 +1,5 @@
 const crypto = require('node:crypto');
-acpthashes = crypto.getHashes().toString();
+acpthashes = crypto.getHashes().toString(`, `);
 
 module.exports = {
   data: {
