@@ -4,6 +4,7 @@ With this mod, you can take information about the Profile on Kick
 npm i streamer.info
 */
 module.exports = {
+  modules: ["streamer.info"],
   data: {
     name: "Get Kick Profile Info",
   },

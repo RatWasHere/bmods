@@ -4,6 +4,7 @@ A mod for Google search
 npm i google-sr
 */
 module.exports = {
+	modules: ["google-sr"],
 	data: {
 	  name: "Google Search",
 	},
