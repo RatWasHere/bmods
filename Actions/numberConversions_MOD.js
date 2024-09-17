@@ -8,6 +8,7 @@ module.exports = {
     donate: "https://ko-fi.com/slothyacedia"
   },
   category: "Numbers",
+  modules: ["mathjs"],
   UI: [
     {
       element: "largeInput",

@@ -19,6 +19,9 @@ module.exports = {
       name: "Command",
       choices: (() => {
         let result = {};
+
+        result['custom'] = { name: `(unknown) Custom`, field: true };
+
         commands.forEach(command => {
 
           let cmdtrigger;
@@ -43,7 +46,7 @@ module.exports = {
               break;
           }
           
-          result[command.customId] = { name: `(${cmdtrigger}) ${command.name} - ${command.customId}` || `<i>[No Name]</i>` , field: false}
+          result[command.customId] = { name: `(${cmdtrigger}) ${command.name} - ${command.customId}` || `<i>[No Name]</i>` , field: false }
         
         });
         return result;
@@ -111,8 +114,15 @@ module.exports = {
     let foundCommand;
     for (let cmd in commands) {
       let command = commands[cmd];
-      if (command.customId == actionData.commandId.type) {
+
+      if (actionData.commandId.type === 'custom' && actionData.commandId.value.length > 0 && command.customId == actionData.commandId.value) {
         foundCommand = command;
+        break;
+      }
+
+      else if (command.customId == actionData.commandId.type) {
+        foundCommand = command;
+        break;
       }
     }
 
@@ -126,10 +136,15 @@ module.exports = {
   compatibility: ["Any"],
 
   async run (values, message, client, bridge) {
-    let command = commands.find(cmd => cmd.customId == bridge.transf(values.commandId.type));
+    commandId = bridge.transf(values.commandId.type)
+    if (commandId === 'custom' && bridge.transf(values.commandId.value).length > 0) {
+      commandcId = bridge.transf(values.commandId.value)
+    } else { commandcId = bridge.transf(values.commandId.type) }
+
+    let command = commands.find(cmd => cmd.customId == commandcId);
     if (!command) {
       const reply = [];
-      reply.push(`Command with CustomID ${values.commandId.type} not found!`);
+      reply.push(`Command with matching customId not found!`);
       bridge.store(values.cmdname, reply);
       bridge.store(values.cmdtype, reply);
       bridge.store(values.cmdtrig, reply);

@@ -11,6 +11,7 @@ module.exports = {
     donate: "https://ko-fi.com/slothyacedia"
   },
   category: "Encrypt",
+  modules: ["node:crypto"],
   UI: [
     {
       element: "largeInput",

@@ -8,6 +8,7 @@ module.exports = {
         creator: "Acedia",
         donate: "https://ko-fi.com/slothyacedia",
     },
+    modules: ["mbr-rcon"],
     UI: [
         {
             element: "input",
