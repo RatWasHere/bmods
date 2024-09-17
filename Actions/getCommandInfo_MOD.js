@@ -20,7 +20,7 @@ module.exports = {
       choices: (() => {
         let result = {};
 
-        result['IdSearch'] = { name: `(unknown) Custom Id Input`, field: true };
+        result['IdSearch'] = { name: `(unknown) Custom Id`, field: true };
 
         commands.forEach(command => {
 
