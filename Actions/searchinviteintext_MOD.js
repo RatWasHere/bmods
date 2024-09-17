@@ -2,6 +2,7 @@
 A mod that allows you to find out if there is an active invitation to the discord server in the text and if there is, then take information from it
 */
 module.exports = {
+  modules: ["is-discord-invite"],
   data: {
     name: "Search invite in text / info",
   },
