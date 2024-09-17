@@ -4,6 +4,7 @@ With this mod, you can take information about the stream on Kick
 npm i streamer.info
 */
 module.exports = {
+  modules: ["streamer.info"],
   data: {
     name: "Get Kick Stream Info",
   },
