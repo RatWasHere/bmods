@@ -4,6 +4,7 @@ With this mod, you can take information about the stream on twitch
 npm i streamer.info
 */
 module.exports = {
+  modules: ["streamer.info"],
   data: {
     name: "Get Twitch Stream Info",
   },
