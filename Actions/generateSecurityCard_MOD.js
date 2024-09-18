@@ -1,4 +1,5 @@
 module.exports = {
+  modules: ["canvafy"],
   data: {
     name: "Generate Security Card",
   },

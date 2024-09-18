@@ -1,4 +1,5 @@
 module.exports = {
+  modules: ["axios", "jsonpath"],
   data: {
     name: "Get Axios Result From WebAPI",
   },

@@ -1,4 +1,5 @@
 module.exports = {
+  modules: ["sqlite3"],
   data: {
     name: "SQLite Query",
   },

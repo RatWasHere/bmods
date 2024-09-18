@@ -1,4 +1,5 @@
 module.exports = {
+  modules: ["feed-watcher"],
   data: {
     name: "Start RSS Feed",
   },

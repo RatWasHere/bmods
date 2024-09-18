@@ -1,4 +1,5 @@
 module.exports = {
+  modules: ["jsonpath"],
   data: {
     name: "Json Path",
   },

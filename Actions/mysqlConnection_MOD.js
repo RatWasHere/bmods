@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+  modules: ["mysql2"],
   data: {
     name: "MySQL Connection",
   },

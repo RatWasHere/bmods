@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+  modules: ["petpet-gen"],
   data: {
     name: "Generate PetPet Gif",
   },

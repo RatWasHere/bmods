@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+  modules: ["tesseract"],
   data: {
     name: "Recognize Text From Image",
   },
@@ -30,7 +31,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const { createWorker } = await client.getMods("tesseract");
+    const { createWorker } = require("tesseract");
 
     await (async () => {
       const worker = await createWorker();

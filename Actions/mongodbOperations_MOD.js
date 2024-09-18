@@ -5,6 +5,7 @@
   Lets you use mongo operations on Bot Maker For Discord.
 */
 module.exports = {
+  modules: ["mongodb"],
   data: {
     name: "MongoDB Operations",
   },

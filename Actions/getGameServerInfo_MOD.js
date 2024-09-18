@@ -351,6 +351,7 @@ function swap(json) {
 }
 
 module.exports = {
+  modules: ["gamedig"],
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "candiedapple",

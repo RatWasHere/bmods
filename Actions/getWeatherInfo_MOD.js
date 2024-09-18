@@ -4,6 +4,7 @@
 */
 
 module.exports = {
+  modules: ["weather-js"],
   data: {
     name: "Get Weather Info",
   },
