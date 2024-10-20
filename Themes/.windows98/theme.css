@@ -1,0 +1,279 @@
+/**
+  I left comments on some things that aren't named that well. Have fun!
+**/
+
+:root {
+  --bar-margin: 3.5px;
+  --bar-margin-alternative: auto;
+  --round-intense: 6px;
+  --round-inside-intense: 8px;
+  --round-strong: 8px;
+  --round-mild: 4px;
+  --round-slight: 3px;
+  --round-normal: 5px;
+  --round-inside-strong: 8px;
+  --round-off: 0px;
+  --toolbar-roundness: 8px;
+  --toggle-bar-width: 60px;
+  --toggle-bar-height: 30px;
+  --toggle-button-width: 25px;
+  --toggle-button-top: 2.5px;
+  --toggle-button-marginLeft: 32px;
+  --toggle-button-marginRight: 2.5px;
+  --wide-toolbar: calc(100vw - 16px);
+  --actionContainerWidth: calc(100vw - 12px);
+  --alias-shown-input-width: calc(100% - 55px);
+  --alias-button-margin-left: 5px;
+
+  --menu-initial-scale: 1.2;
+  --menu-initial-opacity: 0;
+
+  --secondary-main: #d9d9d9; /* Light gray for backgrounds */
+  --secondary-hover: #b3b3b3; /* Slightly darker for hover */
+  --secondary-active: #a0a0a0; /* Active state color */
+
+  --strong: #c0c0c0; /* Silver */
+  --strong-main: #a0a0a0; /* Darker silver */
+  --strong-hover: #c0c0c0; /* Hover color */
+  --strong-active: #a0a0a0; /* Active color */
+
+  --main-color: #f0f0f0; /* Light background */
+  --hover-color: #ffffff; /* White for hover states */
+  --active-color: #e0e0e0; /* Slightly darker than main color */
+
+  --transparent-main: #ffffff10;
+
+  --dark-main: #000000; /* Black */
+  --dark-hover: #4d4d4d; /* Dark gray for hover */
+  --dark-active: #333333; /* Darker active state */
+  --dark-strong: #000000;
+
+  --text: #000000; /* Black text color */
+
+  --dropdown-paddingLeft: 4px;
+  --dropdown-left: 12px;
+
+  --actionContainerHeight: calc(55vh - 68px);
+  --commandContainerHeight: calc(45vh - 55.8px);
+  --expandedActionContainerHeight: calc(100vh - 250px);
+  --collapsedCommandContainerHeight: calc(200px - 70.8px);
+
+  --option-padding-sides: 4px;
+
+  --toolbar-height: 45px;
+  --toolbar-margin-side: 2px;
+  --toolbar-margin-side-larger: 3px;
+
+  --parameter-editor-pane-height: calc(94.5% + 18px);
+
+  --average-tile-padding: 6px;
+  --padding-super: 12px;
+
+  --width-in-editor: 860px;
+  --width-in-half-dropdown: 256px;
+  --width-in-otherhalf-dropdown: 240px;
+  --half-dropdown-separation: 5px;
+
+  --finder-indent-radius: 25px;
+
+  --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-strong: cubic-bezier(.17, .67, 0, .95);
+  --ease-very-strong: cubic-bezier(1, .02, .06, 1);
+
+  --command-bar-width: calc(100vw - 600px);
+
+  /* PRIMARY colors */
+  --primary: #c0c0c0; /* Light gray background */
+  --primary-state-one: #d9d9d9; /* Lighter gray */
+  --primary-state-two: #b3b3b3; /* Even darker gray */
+  --primary-dark: #999999; /* Dark gray */
+  --primary-dark-state-one: #7d7d7d; /* Darker gray */
+  --primary-dark-state-two: #999999; /* Same as primary dark */
+
+  /* ACCENT colors */
+  --accent: #000080; /* Navy blue for accents */
+  --accent-dark: #000033; /* Dark navy for accent states */
+
+  --bar-height: unset;
+
+  --window-background: #f0f0f0; /* Light gray for window background */
+}
+
+/* Button Styles */
+btn {
+  cursor: pointer;
+  background: var(--strong-main);
+  border: 2px outset #ffffff; /* Outset border for 3D effect */
+  transition: all var(--ease-strong) var(--reallyFast), width var(--ease-strong) var(--fastAnimation);
+  position: initial;
+  width: auto;
+  padding: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: var(--round-intense);
+  display: block;
+  box-shadow: inset 0 0 2px #c0c0c0; /* Inset shadow for depth */
+  background-color: var(--secondary-main); /* Light gray background */
+}
+
+btn:hover {
+  background: var(--strong-hover);
+}
+
+btn:active {
+  background: var(--accent);
+}
+
+/* Additional Styles */
+.slightMarginLeft {
+  margin-left: 5px !important;
+}
+
+.slightMarginRight {
+  margin-right: 5px !important;
+}
+
+.small>.slightMarginLeft {
+  margin-left: 3px !important;
+}
+
+.small>.slightMarginRight {
+  margin-right: 3px !important;
+}
+
+.toolbar_button {
+  height: 31.5px !important;
+  width: 50px !important;
+  padding: 0px !important;
+}
+
+.rounded_left {
+  border-top-right-radius: var(--round-intense) !important;
+  border-bottom-right-radius: var(--round-intense) !important;
+  border-bottom-left-radius: var(--round-off) !important;
+  border-top-left-radius: var(--round-off) !important;
+}
+
+.rounded_off {
+  border-radius: var(--round-off) !important;
+}
+
+.rounded_right {
+  border-top-left-radius: var(--round-intense) !important;
+  border-bottom-left-radius: var(--round-intense) !important;
+  border-bottom-right-radius: var(--round-off) !important;
+  border-top-right-radius: var(--round-off) !important;
+}
+
+.rounded_less_left {
+  border-top-right-radius: var(--round-mild) !important;
+  border-bottom-right-radius: var(--round-mild) !important;
+  border-bottom-left-radius: var(--round-off) !important;
+  border-top-left-radius: var(--round-off) !important;
+}
+
+.rounded_less_right {
+  border-top-left-radius: var(--round-mild) !important;
+  border-bottom-left-radius: var(--round-mild) !important;
+  border-bottom-right-radius: var(--round-off) !important;
+  border-top-right-radius: var(--round-off) !important;
+}
+
+.rounded_top {
+  border-top-right-radius: var(--round-mild) !important;
+  border-bottom-right-radius: var(--round-off) !important;
+  border-bottom-left-radius: var(--round-off) !important;
+  border-top-left-radius: var(--round-mild) !important;
+}
+
+.rounded_bottom {
+  border-top-right-radius: var(--round-off) !important;
+  border-bottom-right-radius: var(--round-mild);
+  border-bottom-left-radius: var(--round-mild);
+  border-top-left-radius: var(--round-off) !important;
+}
+
+.toolbar {
+  width: calc(100vw - 600px - 4px);
+  height: calc(40.8px - 4px) !important;
+  padding: 2px;
+  border-radius: var(--toolbar-roundness);
+  border: 2px outset #ffffff; /* Outset border */
+  background: #d9d9d9; /* Light gray */
+  transition: all 0.2s ease;
+  margin-bottom: 5px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.dropdown {
+  width: calc(var(--width-in-editor) - var(--dropdown-left));
+  text-align: left;
+  border-radius: var(--round-normal);
+  border: 2px solid #ffffff; /* Light border */
+  background: var(--secondary-main);
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-right: 0px;
+  padding-left: var(--dropdown-left);
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  color: var(--text);
+  cursor: pointer !important;
+  box-shadow: inset 0 0 5px #a0a0a0; /* Inset shadow for depth */
+}
+
+/* Menu styles */
+.menu {
+  background: var(--main-color);
+  border: 2px solid var(--strong-main);
+  border-radius: var(--round-inside-intense);
+  box-shadow: 2px 2px 5px #999999;
+  color: var(--text);
+}
+
+/* Window styles */
+.window {
+  background-color: var(--window-background);
+  border: 2px solid #c0c0c0;
+  border-radius: 4px;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+  padding: 8px;
+}
+
+/* Input styles */
+input {
+  border: 2px inset #ffffff; /* Inset border for input */
+  border-radius: var(--round-slight);
+  padding: 5px;
+  background-color: #f0f0f0; /* Light background */
+  color: var(--text);
+}
+
+/* General text styles */
+body {
+  background-color: var(--main-color);
+  color: var(--text);
+  font-family: "Tahoma", "Verdana", sans-serif;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Link styles */
+a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
