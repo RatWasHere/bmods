@@ -74,33 +74,45 @@ module.exports = {
     const rconPw = bridge.transf(values.rconPassword)
 
     const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
-    rconServer.connect()
 
     rconServer.on("auth", function(){
-      console.log(`Connection made with ${ipAddr}:${ipPort}, authentication success.\n`)
+      console.log(`Connection made with ${ipAddr}:${ipPort}, authentication success.`)
     })
     
     rconServer.on("error", function(err){
-      console.log(`Error: ${str}\n`)
+      console.log(`Error: ${err}`)
+      bridge.store(values.serverMessage, `Error: ${err}`)
+      if (bridge.transf(values.maintain) == true){
+        console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)
+        rconServer.connect()
+      } else if (bridge.transf(values.maintain) == false){
+        console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)
+        rconServer.disconnect()
+      }
     })
     
     rconServer.on("end", function(){
       if (bridge.transf(values.maintain) == true){
-        console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.\n`)
+        console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)
         rconServer.connect()
+      } else if (bridge.transf(values.maintain) == false){
+        console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)
+        rconServer.disconnect()
       }
     })
     
     rconServer.on("response", function (str) {
-      console.log(str+"\n")
-      bridge.store(values.serverMessage, str);
-      bridge.runner(values.toRunAct);
+      console.log(str)
+      bridge.store(values.serverMessage, str)
+      bridge.runner(values.toRunAct)
     })
     
     rconServer.on("server", function (str) {
-      console.log(str+"\n")
-      bridge.store(values.serverMessage, str);
-      bridge.runner(values.toRunAct);
+      console.log(str)
+      bridge.store(values.serverMessage, str)
+      bridge.runner(values.toRunAct)
     })
+
+    rconServer.connect()
   }
 }
