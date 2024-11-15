@@ -2,6 +2,7 @@ module.exports = {
   data: {
     name: "Tweet Card",
   },
+  modules: ["canvafy"],
   category: "Canvafy Cards",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
