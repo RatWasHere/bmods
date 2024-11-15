@@ -1,10 +1,10 @@
 module.exports = {
   data: {
-    name: "RCON Commander"
+    name: "Extended RCON Commander"
   },
   category: "RCON",
   info: {
-    source: "https://github.com/slothyace/BCS/tree/main/Mods",
+    source: "https://github.com/slothyace/bcx/tree/main/Mods/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -74,7 +74,7 @@ module.exports = {
     const rconPw = bridge.transf(values.rconPassword)
     const rconCm = bridge.transf(values.rconCommand)
 
-    rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
+    const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
     rconServer.setTimeout(() => {
       console.log(`Connection to ${ipAddr}:${ipPort} timed out.`)
       bridge.store(values.rconResponse, `Connection timed out.`)

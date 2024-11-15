@@ -8,7 +8,7 @@ module.exports = {
   },
   category: "Bot",
   info: {
-    source: "https://github.com/slothyace/BCS/tree/main/Mods",
+    source: "https://github.com/slothyace/bcx/tree/main/Mods/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
