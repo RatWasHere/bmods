@@ -60,6 +60,13 @@ module.exports = {
               storeAs: "actions",
               name: "On Response, Run"
             },
+            {
+              element: "toggle",
+              storeAs: "logging",
+              name: "Log To Console For Debugging?",
+              true: "Yes",
+              false: "No"
+            },
           ]
         }
       }
@@ -81,6 +88,7 @@ module.exports = {
         const ipPort = bridge.transf(server.data.ipPort)
         const rconPw = bridge.transf(server.data.rconPassword)
         const rconCm = bridge.transf(server.data.rconCommand)
+        const logging = bridge.transf(server.data.logging)
 
         const config = {
           host: ipAddr,
@@ -92,33 +100,35 @@ module.exports = {
 
         const rconServer = rcon.connect({
           onSuccess: () => {
-            console.log(`Connection to ${ipAddr}:${ipPort} established.`)
+            if (logging == true){console.log(`Connection to ${ipAddr}:${ipPort} established.`)}
           },
           onError: (error) => {
-            console.log(`Connection error: ${error}`)
+            if (logging == true){console.log(`Connection error: ${error}`)}
             bridge.store(server.data.rconResponse, `Connection Error: Server Offline.`)
             reject(error)
           }
         }).auth({
           onSuccess: () => {
-            console.log(`Authenticated.`)
-            console.log(`Sending command: ${rconCm}`)
+            if (logging == true){
+              console.log(`Authenticated.`)
+              console.log(`Sending command: ${rconCm}`)
+            }
           },
           onError: (error) => {
-            console.log(`Authentication error: ${error}`)
+            if (logging == true){console.log(`Authentication error: ${error}`)}
             bridge.store(server.data.rconResponse, `Authentication Error: Wrong Password.`)
             reject(error)
           }
         }).send(rconCm, {
           onSuccess: (response) => {
-            console.log(`Server response: ${response}`)
+            if (logging == true){console.log(`Server response: ${response}`)}
             rconServer.close()
             bridge.store(server.data.rconResponse, response)
             bridge.runner(server.data.actions)
             resolve(response)
           },
           onError: (error) => {
-            console.log(`Command error: ${error}`)
+            if (logging == true){console.log(`Command error: ${error}`)}
             bridge.store(server.data.rconResponse, `Command Error: Execution Error`)
             reject(error)
           }

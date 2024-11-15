@@ -52,7 +52,14 @@ module.exports = {
       element: "actions",
       storeAs: "actions",
       name: "On Response, Run"
-    }
+    },
+    {
+      element: "toggle",
+      storeAs: "logging",
+      name: "Log To Console For Debugging?",
+      true: "Yes",
+      false: "No"
+    },
   ],
 
   subtitle: (values) => {
@@ -73,34 +80,36 @@ module.exports = {
     const ipPort = bridge.transf(values.ipPort)
     const rconPw = bridge.transf(values.rconPassword)
     const rconCm = bridge.transf(values.rconCommand)
+    const logging = bridge.transf(values.logging)
 
     const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
     rconServer.setTimeout(() => {
-      console.log(`Connection to ${ipAddr}:${ipPort} timed out.`)
+      if (logging == true){console.log(`Connection to ${ipAddr}:${ipPort} timed out.`)}
       bridge.store(values.rconResponse, `Connection timed out.`)
       rconServer.disconnect()
     }, 1500)
 
     rconServer.on("auth", function(){
-      console.log(`Connection to ${ipAddr}:${ipPort} established.`)
-      console.log(`Sending command: ${rconCm}`)
+      if (logging == true){
+        console.log(`Connection to ${ipAddr}:${ipPort} established.`)
+        console.log(`Sending command: ${rconCm}`)}
       rconServer.send(rconCm)
     })
     
     rconServer.on("response", function(str){
-      console.log("Response received: "+ str)
+      if (logging == true){console.log("Response received: "+ str)}
       bridge.store(values.rconResponse, str)
       rconServer.disconnect()
       bridge.runner(values.actions)
     })
     
     rconServer.on("end", function(){
-      console.log(`Connection to ${ipAddr}:${ipPort} dropped.`)
+      if (logging == true){console.log(`Connection to ${ipAddr}:${ipPort} dropped.`)}
       rconServer.disconnect()
     })
     
     rconServer.on("error", function(str){
-      console.log(`Error: ${str}`)
+      if (logging == true){console.log(`Error: ${str}`)}
       bridge.store(values.rconResponse, `Error: ${str}`)
       rconServer.disconnect()
     })

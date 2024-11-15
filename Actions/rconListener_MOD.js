@@ -52,7 +52,14 @@ module.exports = {
       element: "actions",
       storeAs: "toRunAct",
       name: "Run actions",
-    }
+    },
+    {
+      element: "toggle",
+      storeAs: "logging",
+      name: "Log To Console For Debugging?",
+      true: "Yes",
+      false: "No"
+    },
   ],
 
   subtitle: (values) => {
@@ -72,43 +79,44 @@ module.exports = {
     const ipAddr = bridge.transf(values.ipAddress)
     const ipPort = bridge.transf(values.ipPort)
     const rconPw = bridge.transf(values.rconPassword)
+    const logging = bridge.transf(values.logging)
 
     const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
 
     rconServer.on("auth", function(){
-      console.log(`Connection made with ${ipAddr}:${ipPort}, authentication success.`)
+      if (logging == true){console.log(`Connection made with ${ipAddr}:${ipPort}, authentication success.`)}
     })
     
     rconServer.on("error", function(err){
-      console.log(`Error: ${err}`)
+      if (logging == true){console.log(`Error: ${err}`)}
       bridge.store(values.serverMessage, `Error: ${err}`)
       if (bridge.transf(values.maintain) == true){
-        console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)
+        if (logging == true){console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)}
         rconServer.connect()
       } else if (bridge.transf(values.maintain) == false){
-        console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)
+        if (logging == true){console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)}
         rconServer.disconnect()
       }
     })
     
     rconServer.on("end", function(){
       if (bridge.transf(values.maintain) == true){
-        console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)
+        if (logging == true){console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)}
         rconServer.connect()
       } else if (bridge.transf(values.maintain) == false){
-        console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)
+        if (logging == true){console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)}
         rconServer.disconnect()
       }
     })
     
     rconServer.on("response", function (str) {
-      console.log(str)
+      if (logging == true){console.log(str)}
       bridge.store(values.serverMessage, str)
       bridge.runner(values.toRunAct)
     })
     
     rconServer.on("server", function (str) {
-      console.log(str)
+      if (logging == true){console.log(str)}
       bridge.store(values.serverMessage, str)
       bridge.runner(values.toRunAct)
     })
