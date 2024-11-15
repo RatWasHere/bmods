@@ -5,7 +5,7 @@
   Lets you send rcon commands to servers.
 */
 module.exports = {
-  modules: ["mb-rcon"],
+  modules: ["mbr-rcon"],
   data: {
     name: "Send Rcon Command",
   },

@@ -1,10 +1,10 @@
 module.exports = {
   data: {
-    name: "RCON MultiCommander"
+    name: "Extended RCON MultiCommander"
   },
   category: "RCON",
   info: {
-    source: "https://github.com/slothyace/BCS/tree/main/Mods",
+    source: "https://github.com/slothyace/bcx/tree/main/Mods/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
