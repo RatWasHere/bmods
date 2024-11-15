@@ -33,26 +33,31 @@ module.exports = {
     }
   ],
 
+  subtitle: (values) =>{
+    return `Limit text to ${values.maxLength}, append with ${values.append} if limit exceeded`
+  },
+
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){
     const sourceText = bridge.transf(values.srcTxt)
-    const maxLength = Number(bridge.transf(values.maxLength))
+    const maxLength = bridge.transf(values.maxLength)
     const appendWith = bridge.transf(values.append)
 
     let result
 
-    if (Number.isInteger(maxLength)){
-      if (sourceText.length > maxLength){
-        result = sourceText.slice(0, maxLength) + appendWith
+    if (Number.isInteger(Number(maxLength))){
+      maxLengthNum = Number(maxLength)
+      if (sourceText.length > maxLengthNum){
+        result = sourceText.slice(0, maxLengthNum) + appendWith
       }
-      else if (sourceText.length < maxLength){
+      else if (sourceText.length < maxLengthNum){
         result = sourceText
       }
     }
     else {
-      result = `Error: ${maxLength} is not a number`
-      console.error(`${maxLength} is not a number`)
+      result = `Error: ${maxLength} is not a integer`
+      console.error(`${maxLength} is not a integer`)
     }
 
     bridge.store(values.result, result)
