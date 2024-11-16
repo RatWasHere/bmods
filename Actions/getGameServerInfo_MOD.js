@@ -436,7 +436,7 @@ module.exports = {
         host: bridge.transf(values.host),
         port: bridge.transf(values.port),
         givenPortOnly: true, // the library will attempt multiple ports in order to ensure success, to avoid this pass this option
-        ...(JSON.parse(bridge.transf(values.additionalOptions)))
+        ...(JSON.parse(bridge.transf(values.additionalOptions) || {}))
       })
         .then((state) => {
           bridge.store(values.servername, state.name);
