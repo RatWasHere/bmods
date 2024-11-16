@@ -2,6 +2,7 @@ module.exports = {
   data: {
     name: "Canvas Create Image",
   },
+  modules: ["canvas"],
   category: "Canvas Images",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
