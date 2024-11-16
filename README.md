@@ -16,6 +16,8 @@ This repository houses community-made mods for Bot Maker for Discord (BMD).
 - [License](#license)
 
 ## Installation
+### Getting mods from the Workshop
+[Click me to launch BMD's Install Interface](bmd://workshop/query:mods)
 
 ### Using the CLI Tool
 
