@@ -64,7 +64,7 @@ module.exports = {
       const ipPort = bridge.transf(values.ipPort)
       const rconPw = bridge.transf(values.rconPassword)
       const rconCm = bridge.transf(values.rconCommand)
-      const logging =bridge.transf(values.logging)
+      const logging = Boolean(bridge.transf(values.logging))
 
       const config = {
         host: ipAddr,

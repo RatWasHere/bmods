@@ -72,6 +72,13 @@ module.exports = {
               storeAs: "actions",
               name: "On Response, Run"
             },
+            {
+              element: "toggle",
+              storeAs: "logging",
+              name: "Log To Console For Debugging?",
+              true: "Yes",
+              false: "No"
+            },
           ]
         }
       }
@@ -99,7 +106,7 @@ module.exports = {
         const ipPort = bridge.transf(rconDetails.data.ipPort)
         const rconPw = bridge.transf(rconDetails.data.rconPassword)
         const rconCm = bridge.transf(rconDetails.data.rconCommand)
-        const logging = bridge.transf(rconDetails.data.logging)
+        const logging = Boolean(bridge.transf(rconDetails.data.logging))
 
         const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
         rconServer.setTimeout(() => {
