@@ -3,7 +3,7 @@ hashingAlgorithms = crypto.getHashes();
 
 module.exports = {
   data: {
-    name: "HashDrop",
+    name: "Hash Text",
     algorithm: "sha256"
   },
   info: {
