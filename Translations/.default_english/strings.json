@@ -1,0 +1,283 @@
+{
+  "name": "Bot Maker for Discord",
+  "dates": {
+    "months": {
+      "0": "January",
+      "1": "February",
+      "2": "March",
+      "3": "April",
+      "4": "May",
+      "5": "June",
+      "6": "July",
+      "7": "August",
+      "8": "September",
+      "9": "October",
+      "10": "November",
+      "11": "December"
+    },
+    "weekdays": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    },
+    "greetings": {
+      "morning": "It's early.",
+      "afternoon": "Good Afternoon!",
+      "evening": "Good Evening!",
+      "night": "It's late.",
+      "midnight": "Look behind you."
+    }
+  },
+  "backups": {
+    "title": "Backups",
+    "load": "Load This Backup",
+    "preview": "Preview",
+    "delete": "Delete This Backup",
+    "confirmation": "Hey! Your backup (+1) has been imported. <br> Would you like to see it?",
+    "filter": "Filter",
+    "rename": "Rename"
+  },
+  "project_manager": {
+    "load": "Open",
+    "create": "Create",
+    "create_subtitle": "New Project",
+    "reorder": "Reorder",
+    "reorder_subtitle_unavailable": "Unavailable",
+    "reorder_subtitle": "Your Projects",
+    "import": "Import",
+    "import_subtitle": "Existing Project",
+    "delete_confirm": "Are you sure you want to delete +1?",
+    "unavailable_project": "Unavailable",
+    "currently_exported_project": "Latest",
+    "local_project": "Last Project Opened",
+    "no_projects": "No Projects",
+    "reminder": "Quit Lollygagging!",
+    "collab": "Collaborate",
+    "collab_subtitle": "Work on a bot with friends, strangers, or lovers!",
+    "creation_experience": {
+      "project_directory": "Project Folder",
+      "collaboration_project_directory": "Collab Folder",
+      "collaboration_project_directory_tip": "Where your collaboration will be stored - Using an empty folder is generally considered a good idea",
+      "project_directory_tip": "Where your project will be stored - Using an empty folder is generally considered a good idea",
+      "project_directory_selection_missing": "Not Selected",
+      "project_name": "Project Name",
+      "project_name_tip": "How this project will show up in the project manager - Don't overthink it, this can be changed later"
+    },
+    "importing_experience": {
+      "project_directory_tip": "Your project should have an AppData folder, a bot.js file and a package.json file."
+    }
+  },
+  "misc": {
+    "more_info": "More Info",
+    "less_info": "Less Info",
+    "groups": "Commands",
+    "open": "Open",
+    "copy": "Copy",
+    "exit": "Exit",
+    "done": "Done",
+    "create": "Create",
+    "save": "Save",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "save_exit": "Save & Exit",
+    "id": "ID",
+    "help": "Help",
+    "compliments": ["The moon's beautiful, isn't it?", "💖", "Go water your plants!",
+    "A good review a day keeps rat's landlord away.",
+    "Welcome.", "I'm waiting.", "[insert british slang]", "404 Funny joke not found", "Touch grass.",
+    "Look behind you..", "Hi there, autumn!", "This shouldn't be used for therapeutical purposes.",
+    "Not to get political but 1+1 = 69", "Stop wasting time - open a project.", "🍕", "🔍"],
+    "none": "None",
+    "name": "Name",
+    "description": "Description"
+  },
+  "editor_search": {},
+  "button_action_labels": {
+    "done": "Done",
+    "close": "Close"
+  },
+  "dismissible_content": {
+    "rawdata_editor_new": "Notice anything new?",
+    "rawdata_editor_new_subtitle": "The rawdata editor just got an overhaul"
+  },
+  "context_menus": {
+    "folder": {
+      "states": ["Open", "Close"]
+    },
+    "general": {
+      "delete": "Delete",
+      "copy_id": "Copy ID"
+    }
+  },
+  "collab": {
+    "collaborating": "+1/+2 In Collaboration Lobby",
+    "collaboration": "Collab",
+    "collaboration_moved": "You can find Collab under \"Projects\". Click to hide.",
+    "collaborate": "Collaborate With Somebody",
+    "collaboration_manager": "Collaboration Manager",
+    "create": "Start Collaboration",
+    "join": "Join Collaboration",
+    "leave": "Leave Collaboration",
+    "co_author_peer_id": "Collaborator Peer ID",
+    "co_author_peer_id_subtitle": "You have to ask the collaborator for it. Denote your current project will be overwritten by theirs.",
+    "please_wait": "Please wait...",
+    "just_a_moment": "Attempting communication..",
+    "connected": "Connected to +1 - you can safely close this window.",
+    "resource_busy": "Resource Busy - It's currently being used up by +1",
+    "connected_to": "Connection Established",
+    "what_is_your_name": "How should we call you?",
+    "leave_blank_if_private": "Leave blank if you don't care..",
+    "this_is_your_peer_id": "This is your Peer ID: +1. Give it to your collaborator - they have to use it in order to connect to you.",
+    "you_can_also_copy_it": "In case you haven't noticed, there's a big-a$$ \"Copy\" button down below. It doesn't bite.",
+    "names": [
+      "Grand Cockroach", "Air Conditioning Unit No. 169420", "John Doe",
+      "Smasnug Washing Machine", "OwO", "UwU", "Rat's Landlord", "Melon Dusk",
+      "Foldable Phone", "Car Tire", "Alive dead person", "Your mom", "im funny",
+      "flex tape", "British Person", ":)", ":(", ":^)", "wallet x romanian",
+      "[funny joke goes here]", "funny name", "Binbows 11", "BOA"
+    ]
+  },
+  "editor": {
+    "save_states": ["Not Saved", "Saved"],
+    "release_to_add_to_folder": "Release to add to +1",
+    "rawdata_editor": {
+      "serialized_upload": "Serialized Upload",
+      "deserialized_upload": "Upload",
+      "folder_id": "Folder ID: +1",
+      "id": "ID: +1",
+      "description": "Description: +1",
+      "permissions": "Permissions: +1",
+      "nsfw": "NSFW: +1",
+      "installable": "Installable: +1"
+    },
+    "exit_unsaved_confirmation": "Hold it! You have unsaved changes. Would you like to proceed either way?",
+    "folder_deletion_confirmation": "Are you sure you want to delete the +1 folder?",
+    "command_deletion_confirmation": "Are you sure you want to delete the +1 command?",
+    "event_deletion_confirmation": "Are you sure you want to delete the +1 event?",
+    "command_deletion_confirmation_tip": "It took you a while to make!",
+    "action_deletion_confirmation": "Are you sure you want to delete the +1 action?",
+    "events": "Events",
+    "commands": "Commands",
+    "actions": "Actions",
+    "action": "Action",
+    "command": "Command",
+    "settings": "Settings",
+    "file": "File",
+    "bot": "Bot",
+    "bot_states": ["Turn Bot Off", "Turn Bot On"],
+    "bot_states_short": ["Offline", "Online"],
+    "actions_of": "Actions of +1",
+    "undo": "Undo",
+    "redo": "Redo",
+    "steam_cloud_backups": "Steam Cloud Backups",
+    "project_manager": "Project Manager",
+    "upload_workshop": "Upload To Steam Workshop",
+    "export": "Export",
+    "save": "Save",
+    "turn_bot_on": "Turn Bot On",
+    "turn_bot_off": "Turn Bot Off",
+    "bot_log": "Bot Log",
+    "parameters": "Parameters",
+    "permissions": "Permissions",
+    "event": "Event (+1)",
+    "command_trigger": "Command Trigger",
+    "folder_no_actions": "Folders? No actions here!",
+    "reset_command_color": "Reset Color",
+    "command_name_labels": {
+      "textCommand": "Command Name",
+      "messageContent": "Message Must Include",
+      "slashCommand": "Slash Command",
+      "user": "Command Name",
+      "message": "Command Name",
+      "event": "Event Label",
+      "folder": "Folder Name"
+    }
+  },
+  "parameter_editor": {
+    "no_parameters": "No parameters yet!",
+    "header": "Parameters of +1",
+    "parameter_name": "Parameter Name",
+    "parameter_description": "Parameter Description",
+    "parameter_type": "Parameter Type",
+    "required": "Required",
+    "parameter_storage": "Store Parameter As",
+    "options": "Options",
+    "option": "Option",
+    "option_name": "Display Name",
+    "option_value": "Value",
+    "new_option": "New Option",
+    "min_length": "Min Length",
+    "max_length": "Max Length",
+    "min_value": "Min Value",
+    "max_value": "Max Value",
+    "optional_leave_blank_for_none": "Optional (Leave Blank For None)",
+    "parameter_types": {
+      "text": "Text",
+      "number": "Number",
+      "integer": "Integer",
+      "boolean": "Boolean (true/false)",
+      "role": "Role",
+      "channel": "Channel",
+      "user": "User",
+      "mentionable": "Mentionable",
+      "attachment": "Attachment"
+    }
+  },
+  "alias_editor": {
+    "header": "Aliases of +1"
+  },
+  "settings": {
+    "categories": {
+      "bot": "Bot & Project",
+      "accessibility": "Accessibility",
+      "visuals": "Visuals",
+      "behavior": "Behavior",
+      "app": "About App"
+    },
+    "title": "Settings",
+    "command_variables": "Command Variables",
+    "update_default_components": "Update Default Actions & Events",
+    "update_bot": "Update bot.js",
+    "update_others": "Update Others",
+    "check_updates": "Check For Outdated Components",
+    "external_components": "External Components",
+    "bot_prefix": "Bot Prefix",
+    "bot_name": "Project Name",
+    "update_project": "Update Project To +1",
+    "project_update_warning": "Your project will no longer work if you update it, make sure you're ready to take everything from the ground up. <br><span style='font-size: 12px; opacity: 0.5;'>By proceeding, you agree that you're responsible for the issues pending to arise.</span>",
+    "preview_theme_in_editor": "Preview In Editor",
+    "bot_token": "Bot Token",
+    "made_by": "made by +1",
+    "theme_settings": "Theme Settings",
+    "language_change_warning": "Warning! Changing your language will cause the editor fully restart. Make sure you saved your project beforehand!",
+    "use_custom_colors": "Use Custom Colors",
+    "theme_maker": {
+      "roundness": ["Default", "Off", "Low", "Medium", "High"],
+      "preview": "Previewing",
+      "reset_theme": "Reset Theme",
+      "colors": "Colors",
+      "gradients": "Gradients",
+      "vertical": "Vertical",
+      "diagonal": "Diagonal",
+      "horizontal": "Diagonal"
+    },
+    "project_runs_on": "Your project is running on +1",
+    "project_states": ["This project supports +1", "This project does not support the latest features, consider creating a new one. <br>Your project will no longer work if you update it."]
+  },
+  "action_editor": {
+    "change_action": "Change Action"
+  },
+  "event_editor": {
+    "change_event": "Change Event"
+  },
+  "export_experience": {
+    "select_folder": "Select A Folder",
+    "no_folder": "None Selected",
+    "export": "Export"
+  }
+}
