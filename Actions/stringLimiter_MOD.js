@@ -3,7 +3,7 @@ module.exports = {
     name: "String Limiter",
   },
   info: {
-    source: "https://github.com/slothyace/bcx/tree/main/Mods/Actions",
+    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -34,7 +34,7 @@ module.exports = {
   ],
 
   subtitle: (values) =>{
-    return `Limit text to ${values.maxLength}, append with ${values.append} if limit exceeded`
+    return `Limit text to ${values.maxLength||""}, append with "${values.append||""}" if limit exceeded`
   },
 
   compatibility: ["Any"],

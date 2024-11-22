@@ -3,7 +3,7 @@ module.exports = {
     name: "RCON Commander"
   },
   info: {
-    source: "https://github.com/slothyace/bcx/tree/main/Mods/Actions",
+    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -64,7 +64,7 @@ module.exports = {
       const ipPort = bridge.transf(values.ipPort)
       const rconPw = bridge.transf(values.rconPassword)
       const rconCm = bridge.transf(values.rconCommand)
-      const logging = Boolean(bridge.transf(values.logging))
+      const logging = values.logging
 
       const config = {
         host: ipAddr,

@@ -4,7 +4,7 @@ module.exports = {
   },
   category: "RCON",
   info: {
-    source: "https://github.com/slothyace/bcx/tree/main/Mods/Actions",
+    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -106,7 +106,7 @@ module.exports = {
         const ipPort = bridge.transf(rconDetails.data.ipPort)
         const rconPw = bridge.transf(rconDetails.data.rconPassword)
         const rconCm = bridge.transf(rconDetails.data.rconCommand)
-        const logging = Boolean(bridge.transf(rconDetails.data.logging))
+        const logging = rconDetails.data.logging
 
         const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
         rconServer.setTimeout(() => {
