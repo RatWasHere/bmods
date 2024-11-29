@@ -83,57 +83,63 @@ module.exports = {
     const Rcon = require("mbr-rcon")
 
     for (let server of values.serverList){
-      await new Promise((resolve, reject) => {
-        const ipAddr = bridge.transf(server.data.ipAddress)
-        const ipPort = bridge.transf(server.data.ipPort)
-        const rconPw = bridge.transf(server.data.rconPassword)
-        const rconCm = bridge.transf(server.data.rconCommand)
-        const logging = server.data.logging
+      try{
+        await new Promise((resolve, reject) => {
+          const ipAddr = bridge.transf(server.data.ipAddress)
+          const ipPort = bridge.transf(server.data.ipPort)
+          const rconPw = bridge.transf(server.data.rconPassword)
+          const rconCm = bridge.transf(server.data.rconCommand)
+          const logging = server.data.logging
 
-        const config = {
-          host: ipAddr,
-          port: ipPort,
-          pass: rconPw,
-        }
-        
-        const rcon = new Rcon(config)
-
-        const rconServer = rcon.connect({
-          onSuccess: () => {
-            if (logging == true){console.log(`Connection to ${ipAddr}:${ipPort} established.`)}
-          },
-          onError: (error) => {
-            if (logging == true){console.log(`Connection error: ${error}`)}
-            bridge.store(server.data.rconResponse, `Connection Error: Server Offline.`)
-            reject(error)
+          const config = {
+            host: ipAddr,
+            port: ipPort,
+            pass: rconPw,
           }
-        }).auth({
-          onSuccess: () => {
-            if (logging == true){
-              console.log(`Authenticated.`)
-              console.log(`Sending command: ${rconCm}`)
+          
+          const rcon = new Rcon(config)
+
+          const rconServer = rcon.connect({
+            onSuccess: () => {
+              if (logging == true){console.log(`Connection to ${ipAddr}:${ipPort} established.`)}
+            },
+            onError: (error) => {
+              if (logging == true){console.log(`Connection error: ${error}`)}
+              bridge.store(server.data.rconResponse, `Connection Error: Server Offline.`)
+              reject(error)
             }
-          },
-          onError: (error) => {
-            if (logging == true){console.log(`Authentication error: ${error}`)}
-            bridge.store(server.data.rconResponse, `Authentication Error: Wrong Password.`)
-            reject(error)
-          }
-        }).send(rconCm, {
-          onSuccess: (response) => {
-            if (logging == true){console.log(`Server response: ${response}`)}
-            rconServer.close()
-            bridge.store(server.data.rconResponse, response)
-            bridge.runner(server.data.actions)
-            resolve(response)
-          },
-          onError: (error) => {
-            if (logging == true){console.log(`Command error: ${error}`)}
-            bridge.store(server.data.rconResponse, `Command Error: Execution Error`)
-            reject(error)
-          }
+          }).auth({
+            onSuccess: () => {
+              if (logging == true){
+                console.log(`Authenticated.`)
+                console.log(`Sending command: ${rconCm}`)
+              }
+            },
+            onError: (error) => {
+              if (logging == true){console.log(`Authentication error: ${error}`)}
+              bridge.store(server.data.rconResponse, `Authentication Error: Wrong Password.`)
+              reject(error)
+            }
+          }).send(rconCm, {
+            onSuccess: (response) => {
+              if (logging == true){console.log(`Server response: ${response}`)}
+              rconServer.close()
+              bridge.store(server.data.rconResponse, response)
+              bridge.runner(server.data.actions)
+              resolve(response)
+            },
+            onError: (error) => {
+              if (logging == true){console.log(`Command error: ${error}`)}
+              bridge.store(server.data.rconResponse, `Command Error: Execution Error.`)
+              reject(error)
+            }
+          })
         })
-      })
+      }
+      catch(error){
+        if (logging == true){console.log(`Command error: ${error}`)}
+        bridge.store(server.data.rconResponse, `RCON Error: Error Logged In Console.`)
+      }
     }
   }
 }
