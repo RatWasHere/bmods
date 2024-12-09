@@ -2,6 +2,7 @@ module.exports = {
   data: {
     name: "Generate HTML Transcript",
   },
+  modules: ["oceanic-transcripts"],
   category: "WebAPIs",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",

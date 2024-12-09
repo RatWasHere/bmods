@@ -418,6 +418,13 @@ module.exports = {
       storeAs: "raw",
       name: "Store all information received from the server in a disorganized format as (object)",
     },
+    "-",
+    {
+      element: "largeInput",
+      storeAs: "additionalOptions",
+      name: "Additional Options For Query Calls",
+      placeholder: "Optional - JSON Only"
+    }
   ],
 
   async run(values, interaction, client, bridge) {
@@ -429,6 +436,7 @@ module.exports = {
         host: bridge.transf(values.host),
         port: bridge.transf(values.port),
         givenPortOnly: true, // the library will attempt multiple ports in order to ensure success, to avoid this pass this option
+        ...(JSON.parse(bridge.transf(values.additionalOptions) || "{}"))
       })
         .then((state) => {
           bridge.store(values.servername, state.name);

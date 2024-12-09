@@ -2,6 +2,7 @@ module.exports = {
   data: {
     name: "Canvas Captcha Generator",
   },
+  modules: ["canvas", "captcha-generator-alphanumeric"],
   category: "Canvas Images",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",

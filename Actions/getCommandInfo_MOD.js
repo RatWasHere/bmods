@@ -7,7 +7,7 @@ module.exports = {
     name: "Get Command Info",
   },
   info: {
-    source: "https://github.com/slothyace/BCS/tree/main/Mods",
+    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
