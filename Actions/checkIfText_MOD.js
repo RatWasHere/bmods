@@ -23,6 +23,7 @@ module.exports = {
         startsWith: {name: "Starts With", field: false},
         endsWith: {name: "Ends With", field: false},
         includes: {name: "Includes", field: false},
+        equals: {name: "Equals", field: false},
         matchesRegex: {name: "Matches Regex", field: false}
       }
     },
@@ -49,20 +50,12 @@ module.exports = {
     function refreshElements(skipAnimation){
       type = values.data.criteria.type
       switch(type){
-        case "startsWith":
-          values.UI[2].name = "Text"
-          break
-
-        case "endsWith":
-          values.UI[2].name = "Text"
-          break
-
-        case "includes":
-          values.UI[2].name = "Text"
-          break
-        
         case "matchesRegex":
           values.UI[2].name = "Regex Term"
+          break
+
+        default:
+          values.UI[2].name = "Text"
           break
       }
 
@@ -93,6 +86,10 @@ module.exports = {
         looktype = `Includes`
         break
 
+      case "equals":
+        looktype = `Equals`
+        break
+
       case "matchesRegex":
         looktype = `Matches Regex`
         break
@@ -113,25 +110,31 @@ module.exports = {
       case "startsWith":
         if (srcTxt.startsWith(lookFor)){
           result = true
-        } else {result = false}
+        }
         break
 
       case "endsWith":
         if (srcTxt.endsWith(lookFor)){
           result = true
-        } else {result = false}
+        }
         break
 
       case "includes":
         if (srcTxt.includes(lookFor)){
           result = true
-        } else {result = false}
+        }
+        break
+
+      case "equals":
+        if (srcTxt === lookFor){
+          result = true
+        }
         break
 
       case "matchesRegex":
         if (srcTxt.match(new RegExp("^" + lookFor + "$", "i"))){
           result = true
-        } else {result = false}
+        }
         break
     }
 

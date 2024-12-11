@@ -28,7 +28,9 @@ module.exports = {
         B64Encode: {name: "Base64 Encode", field: false},
         B64Decode: {name: "Base64 Decode", field: false},
         BinEncode: {name: "Binary Encode", field: false},
-        BinDecode: {name: "Binary Decode", field: false}
+        BinDecode: {name: "Binary Decode", field: false},
+        AllLower: {name: "All Lower Case", field: false},
+        AllUpper: {name: "All Upper Case", field: false}
       }
     },
     "-",
@@ -39,8 +41,8 @@ module.exports = {
     }
   ],
 
-  subtitle: (values, constants, thisAction) => {
-    return `${thisAction.UI.find((e) => e.element == "typedDropdown").choices[values.convType.type].name} | Stored as: ${constants.variable(values.store)}`
+  subtitle: (values, constants) => {
+    return `${values.convType.type} | Stored as: ${constants.variable(values.store)}`
   },
 
   compatibility: ["Any"],
@@ -52,44 +54,52 @@ module.exports = {
 
     switch (conversionType) {
       case "JSONstringify":
-        convertedTxt = JSON.stringify(toConv);
-        break;
+        convertedTxt = JSON.stringify(toConv)
+        break
 
       case "JSONparse":
-        convertedTxt = JSON.parse(toConv);
-        break;
+        convertedTxt = JSON.parse(toConv)
+        break
 
       case "URIencode":
-        convertedTxt = encodeURI(toConv);
-        break;
+        convertedTxt = encodeURI(toConv)
+        break
 
       case "URIdecode":
-        convertedTxt = decodeURI(toConv);
-        break;
+        convertedTxt = decodeURI(toConv)
+        break
 
       case "URIencodeComp":
-        convertedTxt = encodeURIComponent(toConv);
-        break;
+        convertedTxt = encodeURIComponent(toConv)
+        break
   
       case "URIdecodeComp":
-        convertedTxt = decodeURIComponent(toConv);
-        break;
+        convertedTxt = decodeURIComponent(toConv)
+        break
 
       case "B64Encode":
-        convertedTxt = btoa(toConv);
-        break;
+        convertedTxt = btoa(toConv)
+        break
 
       case "B64Decode":
-        convertedTxt = atob(toConv);
-        break;
+        convertedTxt = atob(toConv)
+        break
 
       case "BinEncode":
-        convertedTxt = toConv.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
-        break;
+        convertedTxt = toConv.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join(' ')
+        break
 
       case "BinDecode":
-        convertedTxt = toConv.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join('');
-        break;
+        convertedTxt = toConv.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join('')
+        break
+
+      case "AllLower":
+        convertedTxt = toConv.toLowerCase()
+        break
+
+      case "AllUpper":
+        convertedTxt = toConv.toUpperCase()
+        break
     }
 
     bridge.store(values.store, convertedTxt);

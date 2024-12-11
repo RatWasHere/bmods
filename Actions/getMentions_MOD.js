@@ -1,6 +1,6 @@
 module.exports = {
   data: {
-    name: "Get Mentions",
+    name: "Get User Mentions In List",
   },
   info: {
   source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
