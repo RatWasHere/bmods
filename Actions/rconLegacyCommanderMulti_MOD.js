@@ -46,6 +46,12 @@ module.exports = {
               name: "RCON Server Password",
             },
             {
+              element: "input",
+              storeAs: "timeout",
+              name: "Timeout After",
+              placeholder: "In Seconds, Defaults To 5s"
+            },
+            {
               element: "largeInput",
               storeAs: "rconCommand",
               name: "RCON Command",
@@ -67,12 +73,6 @@ module.exports = {
               name: "Log To Console For Debugging?",
               true: "Yes",
               false: "No"
-            },
-            {
-              element: "input",
-              storeAs: "timeout",
-              name: "Timeout After In Seconds",
-              placeholder: "In Seconds"
             },
           ]
         }
@@ -135,8 +135,9 @@ module.exports = {
                 if (logging == true){console.log(`Server response: ${response}`)}
                 rconServer.close()
                 bridge.store(server.data.rconResponse, response)
-                bridge.runner(server.data.actions)
                 resolve(response)
+                bridge.runner(server.data.actions)
+                
               },
               onError: (error) => {
                 if (logging == true){console.log(`Command error: ${error}`)}
@@ -145,7 +146,7 @@ module.exports = {
               }
             })
           }),
-          new Promise((_, reject) => setTimeout(()=> reject(new Error(`Total Timeout`)), timeout))
+          new Promise((_, reject) => setTimeout(()=> reject(new Error(`Server Took Too Long!`)), timeout))
         ])
       }
       catch(error){
