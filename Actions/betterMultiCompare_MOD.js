@@ -92,31 +92,31 @@ module.exports = {
       let conditionMatch = false
 
       switch (conditionType){
-        case "moreThan":
+        case "More Than":
           if(oriValue > compValue){
             conditionMatch = true
           }
           break
 
-        case "lessThan":
+        case "Less Than":
           if(oriValue < compValue){
             conditionMatch = true
           }
           break
 
-        case "equalsTo":
+        case "Equals To":
           if(oriValue == compValue){
             conditionMatch = true
           }
           break
 
-        case "notEqualsTo":
+        case "Not Equals To":
           if(oriValue != compValue){
             conditionMatch = true
           }
           break
 
-        case "matchesRegex":
+        case "Matches Regex":
           if (conditionMatch = oriValue.match(new RegExp("^" + compValue + "$", "i"))){
             conditionMatch = true
           }
