@@ -420,6 +420,12 @@ module.exports = {
     },
     "-",
     {
+      element: "input",
+      storeAs: "timeoutDur",
+      name: "Timeout After x Seconds",
+      placeholder: "2",
+    },
+    {
       element: "largeInput",
       storeAs: "additionalOptions",
       name: "Additional Options For Query Calls",
@@ -427,35 +433,51 @@ module.exports = {
     }
   ],
 
-  async run(values, interaction, client, bridge) {
-    return new Promise((resolve, reject) => {
-      const { GameDig } = require("gamedig");
+  async run(values, interaction, client, bridge){
+    const timeout = bridge.transf(values.timeoutDur) ? Number(bridge.transf(values.timeoutDur))*1000 : 10000
 
-      GameDig.query({
-        type: swap(games)[values.gametype],
-        host: bridge.transf(values.host),
-        port: bridge.transf(values.port),
-        givenPortOnly: true, // the library will attempt multiple ports in order to ensure success, to avoid this pass this option
-        ...(JSON.parse(bridge.transf(values.additionalOptions) || "{}"))
-      })
-        .then((state) => {
-          bridge.store(values.servername, state.name);
-          bridge.store(values.servermap, state.map);
-          bridge.store(values.password, state.password);
-          bridge.store(values.numplayers, state.numplayers);
-          bridge.store(values.maxplayers, state.maxplayers);
-          bridge.store(values.raw, state.raw);
-          resolve(); // Resolve the promise once all operations are completed
-        })
-        .catch((error) => {
-          bridge.store(values.servername, error);
-          bridge.store(values.servermap, error);
-          bridge.store(values.password, error);
-          bridge.store(values.numplayers, error);
-          bridge.store(values.maxplayers, error);
-          bridge.store(values.raw, error);
-          reject(error); // Reject the promise if there is an error
-        });
-    });
-  },
+    try{
+      await Promise.race([
+        new Promise((resolve, reject) => {
+
+          const { GameDig } = require("gamedig");
+
+          GameDig.query({
+            type: swap(games)[values.gametype],
+            host: bridge.transf(values.host),
+            port: bridge.transf(values.port),
+            givenPortOnly: true, // the library will attempt multiple ports in order to ensure success, to avoid this pass this option
+            ...(JSON.parse(bridge.transf(values.additionalOptions) || "{}"))
+          })
+            .then((state) => {
+              bridge.store(values.servername, state.name);
+              bridge.store(values.servermap, state.map);
+              bridge.store(values.password, state.password);
+              bridge.store(values.numplayers, state.numplayers);
+              bridge.store(values.maxplayers, state.maxplayers);
+              bridge.store(values.raw, state.raw);
+              resolve(); // Resolve the promise once all operations are completed
+            })
+            .catch((error) => {
+              bridge.store(values.servername, error);
+              bridge.store(values.servermap, error);
+              bridge.store(values.password, error);
+              bridge.store(values.numplayers, error);
+              bridge.store(values.maxplayers, error);
+              bridge.store(values.raw, error);
+              reject(error); // Reject the promise if there is an error
+            });
+        }),
+
+        new Promise((_, reject) => setTimeout(()=> reject(new Error(`Request Took Too Long!`)), timeout))
+      ])
+    } catch(error){
+      bridge.store(values.servername, error);
+      bridge.store(values.servermap, error);
+      bridge.store(values.password, error);
+      bridge.store(values.numplayers, error);
+      bridge.store(values.maxplayers, error);
+      bridge.store(values.raw, error);
+    }
+  }
 };
