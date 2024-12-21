@@ -32,11 +32,16 @@ module.exports = {
         custom: {name: "Custom", field: true}
       }
     },
+    "-",
+    {
+      element: "text",
+      string: ""
+    },
     {
       element: "text",
       text: "",
-      name: "Example Output"
     },
+    "-",
     {
       element: "store",
       storeAs: "store",
@@ -48,70 +53,79 @@ module.exports = {
     function refElm(skipAnimation){
       let type = values.data.format.type
       let fmtEx
+      let header
 
       switch(type){
         default:
-          fmtEx = `<div style="text-align:center">
+          header = `<div style="font-size:20px">Example Output</div>`
+          fmtEx = `<div style="text-align:left">
             November 28, 2018 9:01 AM | 28 November 2018 09:01
             </div>`
           break
 
         case "shortTime":
-          fmtEx = `<div style="text-align:center">
+          header = `<div style="font-size:20px">Example Output</div>`
+          fmtEx = `<div style="text-align:left">
             9:01 AM | 09:01
             </div>`
           break
 
         case "longTime":
-          fmtEx = `<div style="text-align:center">
+          header = `<div style="font-size:20px">Example Output</div>`
+          fmtEx = `<div style="text-align:left">
             9:01:00 AM | 09:01:00
             </div>`
           break
 
         case "shortDate":
-          fmtEx = `<div style="text-align:center">
+          header = `<div style="font-size:20px">Example Output</div>`
+          fmtEx = `<div style="text-align:left">
             11/28/2018 (MM/DD/YYYY)| 28/11/2018 (DD/MM/YYYY)
             </div>`
           break
 
         case "longDate":
-          fmtEx = `<div style="text-align:center">
+          header = `<div style="font-size:20px">Example Output</div>`
+          fmtEx = `<div style="text-align:left">
             November 28, 2018 | 28 November 2018
             </div>`
           break
 
         case "shortDateTime":
-          fmtEx = `<div style="text-align:center">
+          header = `<div style="font-size:20px">Example Output</div>`
+          fmtEx = `<div style="text-align:left">
             November 28, 2018 9:01 AM | 28 November 2018 09:01
             </div>`
           break
 
         case "longDateTime":
-          fmtEx = `<div style="text-align:center">
+          header = `<div style="font-size:20px">Example Output</div>`
+          fmtEx = `<div style="text-align:left">
             Wednesday, November 28, 2018 9:01 AM | Wednesday, 28 November 2018 09:01
             </div>`
           break
 
         case "relative":
-          fmtEx = `<div style="text-align:center">
+          header = `<div style="font-size:20px">Example Output</div>`
+          fmtEx = `<div style="text-align:left">
             3 years ago | 3 years ago
             </div>`
           break
 
         case "custom":
-          fmtEx = `<div style="text-align:center">
-            <strong>Syntax:</strong><br>
+          header = `<div style="font-size:20px">Syntax</div>`
+          fmtEx = `<div style="text-align:left">
             <span>Year - <code>YYYY</code> | <code>YY</code></span><br>
             <span>Month - <code>Month</code> | <code>MMM</code> | <code>MM</code></span><br>
             <span>Date - <code>DD</code></span><br>
-            <span>Day - <code>Day</code> | <code>dd</code></span><br>
+            <span>Day - <code>Day</code> | <code>ddd</code></span><br>
             <span>Hour - <code>hh</code></span><br>
             <span>Minute - <code>mm</code></span><br>
             <span>Second - <code>ss</code></span>
             </div>`
       }
-
-      values.UI[2].text = fmtEx
+      values.UI[3].text = header
+      values.UI[4].text = fmtEx
 
       setTimeout(()=>{
         values.updateUI()
@@ -218,12 +232,12 @@ module.exports = {
           MM: String(date.getMonth() + 1).padStart(2, "0"), // Month (01-12)
           DD: String(date.getDate()).padStart(2, "0"), // Day of the month (01-31)
           Day: date.toLocaleString("en-US", { weekday: "long" }), // Full day name
-          dd: date.toLocaleString("en-US", { weekday: "short" }), // Abbreviated day name
+          ddd: date.toLocaleString("en-US", { weekday: "short" }), // Abbreviated day name
           hh: String(date.getHours()).padStart(2, "0"), // Hours (00-23)
           mm: String(date.getMinutes()).padStart(2, "0"), // Minutes (00-59)
           ss: String(date.getSeconds()).padStart(2, "0"), // Seconds (00-59)
         }
-        output = cstmFormat.replace(/YYYY|YY|Month|MMM|MM|DD|Day|dd|hh|mm|ss/g,(match) => components[match] || match)
+        output = cstmFormat.replace(/YYYY|YY|Month|MMM|MM|DD|Day|ddd|hh|mm|ss/g,(match) => components[match] || match)
     }
 
     bridge.store(values.store, output)
