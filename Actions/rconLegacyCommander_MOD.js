@@ -2,6 +2,7 @@ module.exports = {
   data:{
     name: "RCON Commander",
   },
+  aliases:["Send RCON Command"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",

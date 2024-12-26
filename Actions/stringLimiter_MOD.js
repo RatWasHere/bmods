@@ -2,6 +2,7 @@ module.exports = {
   data: {
     name: "String Limiter",
   },
+  aliases: ["Truncate String"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",

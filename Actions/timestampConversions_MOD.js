@@ -1,8 +1,8 @@
 module.exports = {
   data: {
     name: "Timestamp Conversions",
-    nameAlias: ["Format Timestamp"]
   },
+  aliases: ["Format Timestamp"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",

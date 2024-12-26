@@ -6,6 +6,7 @@ module.exports = {
     name: "Hash Text",
     algorithm: "sha256"
   },
+  aliases: ["Encrypt Text"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",

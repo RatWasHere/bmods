@@ -2,6 +2,7 @@ module.exports = {
   data: {
     name: "Better Multiple Comparisons"
   },
+  aliases: ["Switch Case", "Multiple Comparisons", "Multiple Check If"],
   info: {
   source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
   creator: "Acedia QOLs",

@@ -3,6 +3,7 @@ module.exports = {
     name: "RCON MultiCommander",
     timeout: "1.5"
   },
+  aliases:["Send Multiple RCON Commands"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",

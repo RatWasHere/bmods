@@ -2,6 +2,7 @@ module.exports = {
     data: {
         name: "Kill Bot Process",
     },
+    aliases: ["Stop Bot"],
     category: "Control",
     info:{
         source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",

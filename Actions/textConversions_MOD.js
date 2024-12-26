@@ -2,6 +2,7 @@ module.exports = {
   data: {
     name: "Text Conversions",
   },
+  aliases: ["Convert Text", "Base64 Decode", "Base64 Encode", "Binary Encode", "Binary Decode", "JSON Stringify", "JSON Parse", "URL Encode", "URL Decode", "Uppercase", "Lowercase"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
