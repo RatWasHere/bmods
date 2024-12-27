@@ -22,13 +22,14 @@ module.exports ={
       name: "Audio Source Link",
     },
     {
-      element: "dropdown",
+      element: "typedDropdown",
       storeAs: "format",
       name: "Audio Format",
-      choices: [
-        {name: "mp3"},
-        {name: "flac"}
-      ]
+      choices: {
+        mp3: {name: "mp3"},
+        flac: {name: "flac"},
+        others: {name: "Other", field: true}
+      }
     },
     {
       element: "input",
@@ -55,6 +56,11 @@ module.exports ={
       storeAs: "finalFile",
       name: "Store Final File As"
     },
+    {
+      element: "toggle",
+      storeAs: "delete",
+      name: "Delete File After (May Be Buggy)",
+    },
     "-",
     {
       element: "text",
@@ -68,24 +74,33 @@ module.exports ={
     {
       element: "toggle",
       storeAs: "logging",
-      name: "Log Debug Statements"
+      name: "Print Debug Statements"
     }
   ],
 
   subtitle: (values) => {
-    return `Download ${values.sourceLink} In ${values.format}, Saved To ${values.outputFolder}.`
+    if (values.format.type == "others"){
+      return `Download ${values.sourceLink} In ${values.format.value}, Saved To ${values.outputFolder}`
+    }
+    else{
+      return `Download ${values.sourceLink} In ${values.format.type}, Saved To ${values.outputFolder}`
+    }
   },
 
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){
-    // yt-dlp -x --audio-format <format> --windows-filenames -o %(NAME)s -p <outputPath> <url>
-    let format = bridge.transf(values.format)
+    // yt-dlp -x --audio-format <format> --windows-filenames -o %(title)s -P <outputPath> --restrict-filenames <url>
+    let format = bridge.transf(values.format.type)
     let folderPath = bridge.transf(values.outputFolder)
     let url = bridge.transf(values.sourceLink)
 
+    if (format == "others"){
+      format = bridge.transf(values.format.value)
+    }
+
     await new Promise((res, rej)=>{
-      let command = `yt-dlp -x --audio-format <format> --windows-filenames -o %(title)s -P <outputPath> <url>`
+      let command = `yt-dlp -x --audio-format <format> --windows-filenames -o %(title)s -P <outputPath> --restrict-filenames <url>`
       command = command.replace("<format>", format)
       command = command.replace("<outputPath>", folderPath)
       fcommand = command.replace("<url>", url)
@@ -108,7 +123,20 @@ module.exports ={
             }
             bridge.store(values.finalSource, fileSource)
             bridge.store(values.finalFile, file)
-            bridge.store(values.finalName, fileName)
+            bridge.store(values.finalName, fileName.replaceAll("_"," "))
+            if (values.delete == true){
+              const platform = process.platform
+              let deleteCommand
+              if (platform === "win32") deleteCommand=`del /f /q "${fileSource}"`;
+              else if (platform === "linux") deleteCommand=`rm -rf "${fileSource}"`;
+              require("child_process").exec(deleteCommand, (error, stdout, stderr)=>{
+                if (values.logging==true){
+                  console.log(error)
+                  console.log(stdout)
+                  console.log(stderr)
+                }
+              })
+            }
             return res()
           }
         }
@@ -116,6 +144,7 @@ module.exports ={
           bridge.store(values.finalSource, "File Already Exists")
           bridge.store(values.file, "File Already Exists")
           bridge.store(values.finalName, "File Already Exists")
+          return res()
         }
         else if (error){
           bridge.store(values.finalSource, error.message)
