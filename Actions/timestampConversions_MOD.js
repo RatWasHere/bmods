@@ -35,7 +35,7 @@ module.exports = {
     "-",
     {
       element: "text",
-      string: ""
+      text: ""
     },
     {
       element: "text",
