@@ -110,7 +110,7 @@ module.exports ={
           console.log(stdout)
           console.log(error)
         }
-        if (stdout.includes("[ExtractAudio]")){
+        if (stdout.includes("[ExtractAudio] Destination:") && stdout.includes("[download] 100%")){
           let match = stdout.match(/Destination:\s+(.+)/)
           if (match){
             let filePath = match[1].trim()
@@ -140,7 +140,7 @@ module.exports ={
             return res()
           }
         }
-        else if(stdout.includes("has already been downloaded")){
+        else if(stdout.includes("has already been downloaded") && stdout.includes("[ExtractAudio] Not converting audio")){
           bridge.store(values.finalSource, "File Already Exists")
           bridge.store(values.file, "File Already Exists")
           bridge.store(values.finalName, "File Already Exists")
@@ -150,6 +150,12 @@ module.exports ={
           bridge.store(values.finalSource, error.message)
           bridge.store(values.finalFile, error.message)
           bridge.store(values.finalName, error.message)
+          return res()
+        }
+        else{
+          bridge.store(values.finalSource, "Something went wrong...")
+          bridge.store(values.file, "Something went wrong...")
+          bridge.store(values.finalName, "Something went wrong...")
           return res()
         }
       })
