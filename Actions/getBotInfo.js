@@ -35,6 +35,7 @@ module.exports = {
         { name: "Uptime in Minutes" },
         { name: "Uptime in Seconds" },
         { name: "Uptime Timestamp" },
+        { name: "Normalized Uptime Timestamp" },
         { name: "Operating System" },
         { name: "Memory Usage in MB" },
       ],
@@ -121,8 +122,11 @@ module.exports = {
       case "Uptime in Seconds":
         output = Math.round(process.uptime() % 60);
         break;
-      case "Uptime Timestamp":
+      case "Normalized Uptime Timestamp":
         output = Math.floor(Date.now() / 1000) - Math.floor(process.uptime());
+        break;
+      case "Uptime Timestamp":
+        output = Math.floor(Date.now()) - Math.floor(process.uptime()*1000);
         break;
       case "Operating System": {
         if (process.platform) {
