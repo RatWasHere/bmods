@@ -1,24 +1,22 @@
+// should free the file after its done reading so that other actions can be performed on the file if needed
+
 module.exports = {
   data: {
-    name: "Play Binary Variable",
+    name: "Play File",
   },
-  modules: ["fs", "ffmpeg", "stream"],
   category: "Music",
   info: {
-    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
-    creator: "Acedia",
+    source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
+    creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },
+  modules: ["fs", "ffmpeg", "stream"],
   UI: [
     {
-      element: "variable",
-      storeAs: "bufferVar",
-      name: "Buffer Variable (Gotten From The File Output Of Download Music File)"
-    },
-    {
       element: "input",
-      storeAs: "songName",
-      name: "Song Name",
+      name: "File Path",
+      placeholder: "In Project Directory",
+      storeAs: "path",
     },
     "-",
     {
@@ -43,40 +41,42 @@ module.exports = {
       name: "Log Debug Statements"
     }
   ],
-  subtitle: (values, constants) => {
-    return `File: ${constants.variable(values.bufferVar)} - ${values.queuing}`;
+  subtitle: (data, constants) => {
+    return `File: ${data.path} - ${data.queuing}`;
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    const fs = require("fs")
-    const ffmpeg = require("ffmpeg")
+    const fs = require("fs");
+    const ffmpeg = require("ffmpeg");
+    const { createAudioResource } = require("@discordjs/voice");
     const {Readable} = require("stream")
-    const { createAudioResource } = require("@discordjs/voice")
-
-    let audioBuffer = bridge.get(values.bufferVar)
-    let songName = bridge.transf(values.songName)
-
-    if (values.logging == true){
-      console.log("Instance Of Buffer:",audioBuffer instanceof Buffer)
-      console.log("Type Of:",typeof audioBuffer)
+    let path;
+    if (fs.existsSync(`${require("../data.json").prjSrc}`)) {
+      path = `${require("../data.json").prjSrc}/${bridge.transf(values.path)}`;
+    } else {
+      path = `./${bridge.transf(values.path)}`;
     }
 
+    let audioBuffer = bridge.fs.readFileSync(path)
+    if(values.logging == true){console.log(audioBuffer instanceof Buffer)}
+    
     if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object"){
       let audioStream = Readable.from(audioBuffer)
       let audio = createAudioResource(audioStream)
-    
 
       let utilities = bridge.getGlobal({
         class: "voice",
         name: bridge.guild.id,
       });
 
+      let fileName = path.match(/[\\/][^\\/]+$/)?.[0]?.substring(1) || "Unknown File"
+
       switch (values.queuing) {
         case `Don't Queue, Just Play`:
           utilities.player.play(audio);
           utilities.nowPlaying = {
-            file: "Binary Stream",
-            name: songName,
+            file: bridge.transf(values.path),
+            name: fileName,
             author: "",
             url: "",
             src: "Local",
@@ -87,8 +87,8 @@ module.exports = {
 
         case `At End Of Queue`:
           utilities.addToQueue(utilities.queue.length, {
-            file: "Binary Stream",
-            name: songName,
+            file: bridge.transf(values.path),
+            name: fileName,
             author: "",
             url: "",
             src: "Local",
@@ -98,8 +98,8 @@ module.exports = {
 
         case `At Start Of Queue`:
           utilities.addToQueue(0, {
-            file: "Binary Stream",
-            name: songName,
+            file: bridge.transf(values.path),
+            name: fileName,
             author: "",
             url: "",
             src: "Local",
@@ -109,8 +109,8 @@ module.exports = {
 
         case `At Custom Position`:
           utilities.addToQueue(Number(bridge.transf(values.queuePosition)), {
-            file: "Binary Stream",
-            name: songName,
+            file: bridge.transf(values.path),
+            name: fileName,
             author: "",
             url: "",
             src: "Local",
@@ -119,9 +119,8 @@ module.exports = {
           break;
       }
     }
-
     else{
-      console.log(`Variable Is Not A Instance Of Buffer And Can't Be Played.`)
+      console.log(`An Error Occured After Reading The File And Can't Be Played.`)
     }
   },
 };

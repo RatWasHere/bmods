@@ -14,7 +14,7 @@ module.exports = {
     {
       element: "input",
       storeAs: "timestamp",
-      name: "Timestamp",
+      name: "Unix Timestamp",
     },
     {
       element: "typedDropdown",
@@ -187,6 +187,10 @@ module.exports = {
     let tstmp = bridge.transf(values.timestamp)
     let format = bridge.transf(values.format.type)
     let output
+
+    if (tstmp.length == 13){
+      tstmp = Math.floor(tstmp/1000)
+    }
 
     switch (format){
       case "default":
