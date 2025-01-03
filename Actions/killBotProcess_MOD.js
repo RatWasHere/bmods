@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
     data: {
         name: "Kill Bot Process",
@@ -14,6 +15,10 @@ module.exports = {
         {
             element: "text",
             text: "Kills the bot's process, effectively turning the bot off",
+        },
+        {
+          element: "text",
+          text: modVersion,
         }
     ],
 

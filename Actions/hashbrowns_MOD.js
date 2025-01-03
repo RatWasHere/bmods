@@ -1,5 +1,6 @@
 const crypto = require('node:crypto');
 hashingAlgorithms = crypto.getHashes();
+modVersion = "s.v1.0"
 
 module.exports = {
   data: {
@@ -38,6 +39,10 @@ module.exports = {
       storeAs: "store",
       name: "Store Hashed String As"
     },
+    {
+      element: "text",
+      text: modVersion,
+    }
   ],
   
   subtitle: (values) => {

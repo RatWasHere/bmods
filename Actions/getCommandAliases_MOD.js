@@ -1,6 +1,7 @@
 const jsonData = require('../data.json');
 const commands = jsonData.commands;
 const prefix = jsonData.prefix;
+modVersion = "s.v1.0"
 
 module.exports = {
   data: {
@@ -29,6 +30,10 @@ module.exports = {
       text: `<div style="font-size: 20px; color: red; text-align: center;">
       This action is deprecated, use "Get Command Info" for a more robust & feature rich option.
       </div>`
+    },
+    {
+      element: "text",
+      text: modVersion,
     }
   ],
 

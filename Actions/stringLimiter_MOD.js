@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
   data: {
     name: "String Limiter",
@@ -36,6 +37,10 @@ module.exports = {
       element: "store",
       storeAs: "result",
       name: "Store Result As"
+    },
+    {
+      element: "text",
+      text: modVersion,
     }
   ],
 

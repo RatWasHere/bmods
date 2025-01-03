@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
   data: {
     name: "Toggle"
@@ -27,6 +28,10 @@ module.exports = {
       element: "largeInput",
       storeAs: "comment",
       name: "Comments",
+    },
+    {
+      element: "text",
+      text: modVersion,
     }
   ],
 
