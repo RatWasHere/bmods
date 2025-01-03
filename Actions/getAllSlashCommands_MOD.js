@@ -1,4 +1,4 @@
-modVersion = "v.u1.0"
+modVersion = "u.v1.0"
 module.exports = {
   data: {
     name: "Get All Slash Command Names",

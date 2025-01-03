@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "u.v1.3"
 module.exports={
   data: {
     name: "YouTube Video Search v2"
@@ -36,7 +36,7 @@ module.exports={
         info: {
           data: {},
           name: "Info",
-          preview: "`Store ${values.data.get} To Variable: ${values.data.store}`",
+          preview: "`Store ${option.data.get} To Variable: ${option.data.store.type}('${option.data.store.value}')`",
           UI:[
             {
               element: "dropdown",
@@ -72,6 +72,7 @@ module.exports={
       element: "condition",
       storeAs: "ifNone",
       storeActionsAs: "ifNoneActions",
+      name: "If No Results"
     },
     {
       element: "text",
