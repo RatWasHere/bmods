@@ -1,3 +1,4 @@
+modVersion = "s.v1.0 | acefix"
 module.exports = {
   data: {
     name: "Execute",
@@ -19,6 +20,10 @@ module.exports = {
       element: "storage",
       storeAs: "result",
       name: "Store Result As"
+    },
+    {
+      element: "text",
+      text: modVersion,
     }
   ],
   category: "Control",

@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
   data: {
     name: "Timestamp Conversions",
@@ -47,6 +48,10 @@ module.exports = {
       storeAs: "store",
       name: "Store Output As"
     },
+    {
+      element: "text",
+      text: modVersion,
+    }
   ],
 
   script: (values)=>{

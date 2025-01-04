@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
   data:{
     name: "RCON Commander",
@@ -55,6 +56,10 @@ module.exports = {
       true: "Yes",
       false: "No"
     },
+    {
+      element: "text",
+      text: modVersion,
+    }
   ],
 
   subtitle: (values) => {

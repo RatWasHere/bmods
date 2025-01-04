@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
   data: {
     name: "Better Multiple Comparisons"
@@ -75,6 +76,10 @@ module.exports = {
       storeAs: "falseBack",
       storeActionsAs: "falseBackActions",
       name: "If Condition Doesn't Match, Run"
+    },
+    {
+      element: "text",
+      text: modVersion,
     }
   ],
 

@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
   data: {
     name: "Check If Text",
@@ -44,6 +45,10 @@ module.exports = {
       storeActionsAs: "falseActions",
       name: "If False"
     },
+    {
+      element: "text",
+      text: modVersion,
+    }
   ],
 
   script: (values) => {

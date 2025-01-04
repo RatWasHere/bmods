@@ -1,6 +1,7 @@
 const jsonData = require('../data.json');
 const commands = jsonData.commands;
 const txtCmdPrefix = jsonData.prefix;
+modVersion = "s.v1.0"
 
 module.exports = {
   data: {
@@ -107,6 +108,10 @@ module.exports = {
       element: "store",
       storeAs: "cmdfldr",
       name: "Command BMD Folder ID",
+    },
+    {
+      element: "text",
+      text: modVersion,
     }
   ],
 

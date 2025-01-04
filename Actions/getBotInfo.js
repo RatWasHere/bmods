@@ -1,3 +1,4 @@
+modVersion = "s.v1.0 | acefix"
 module.exports = {
   data: {
     name: "Get Bot Info",
@@ -45,6 +46,10 @@ module.exports = {
       element: "store",
       storeAs: "store",
     },
+    {
+      element: "text",
+      text: modVersion,
+    }
   ],
 
   compatibility: ["Any"],

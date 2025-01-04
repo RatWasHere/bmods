@@ -1,7 +1,7 @@
-modVersion = "s.v1.0"
+modVersion = "u.v1.0"
 module.exports = {
   data: {
-    name: "Get All Text Command Names",
+    name: "Get All Slash Command Names",
   },
   category: "Bot",
   info: {
@@ -40,13 +40,13 @@ module.exports = {
     const idList = []
 
     commands.forEach(command => {
-      if (command.trigger === 'textCommand') {
-        commandList.push(command.name)
+      if (command.trigger === 'slashCommand') {
+        commandList.push(command.name);
         idList.push(command.customId)
       }
     });
 
-    bridge.store(values.store, commandList)
+    bridge.store(values.store, commandList);
     bridge.store(values.idStore, idList)
   }
 };
