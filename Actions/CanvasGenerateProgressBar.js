@@ -76,7 +76,7 @@ module.exports = {
       ctx.beginPath();
       ctx.strokeStyle = "#333333";
       ctx.lineWidth = lineWidth;
-      ctx.lineCap = isRound ? "round" : "square";
+      ctx.lineCap = isRound ? "round" : "butt";
 
       if (isRound) {
         const offset = lineWidth / 2;
@@ -90,7 +90,7 @@ module.exports = {
 
       // Draw progress
       ctx.beginPath();
-      ctx.strokeStyle = values.color || "#ffffff";
+      ctx.strokeStyle = bridge.transf(values.color) || "#ffffff";
 
       if (isRound) {
         const offset = lineWidth / 2;
