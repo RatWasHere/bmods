@@ -3,7 +3,7 @@ const Mods = {
     return new Promise((resolve) => {
       try {
         require("child_process").execSync(
-          `npm i ${version ? `${moduleName}@${version}` : moduleName}`
+          `pnpm i ${version ? `${moduleName}@${version}` : moduleName}`
         );
         return resolve(require(moduleName));
       } catch (error) {
