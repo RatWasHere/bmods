@@ -40,7 +40,7 @@ module.exports = {
   async run(values, message, client, bridge) {
     const url = bridge.transf(values.rssurl);
     const checkinterval = bridge.transf(values.checkinterval);
-    var Watcher = require("feed-watcher"),
+    var Watcher = client.getMods().require("feed-watcher"),
       feed = url,
       interval = checkinterval;
     // if not interval is passed, 60s would be set as default interval.

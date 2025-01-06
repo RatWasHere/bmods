@@ -43,7 +43,7 @@ module.exports = {
   compatibility: ["Any"],
   run(values, message, client, bridge) {
     return new Promise((resolve, reject) => {
-      const sqlite3 = require("sqlite3").verbose(); // Require sqlite3 module
+      const sqlite3 = client.getMods().require("sqlite3").verbose(); // Require sqlite3 module
 
       const dbPath = bridge.file(values.database);
       // Open the database file

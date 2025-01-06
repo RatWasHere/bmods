@@ -1,17 +1,17 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: { name: "Get Multiple Global Datas" },
   category: "Global Data",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
-    donate: "https://ko-fi.com/slothyacedia"
+    donate: "https://ko-fi.com/slothyacedia",
   },
   UI: [
     {
-        element: "input",
-        storeAs: "label",
-        name: "Label (optional)"
+      element: "input",
+      storeAs: "label",
+      name: "Label (optional)",
     },
     "-",
     {
@@ -42,7 +42,7 @@ module.exports = {
             {
               element: "store",
               storeAs: "store",
-              name: "Store As"
+              name: "Store As",
             },
           ],
         },
@@ -51,7 +51,7 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
   subtitle: (values) => {
     return `Label: ${values.label}, Retrieve ${values.retrievelist.length} global datas.`;

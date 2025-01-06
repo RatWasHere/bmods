@@ -1,7 +1,7 @@
-const jsonData = require('../data.json');
+const jsonData = require("../data.json");
 const commands = jsonData.commands;
 const txtCmdPrefix = jsonData.prefix;
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 
 module.exports = {
   data: {
@@ -21,10 +21,9 @@ module.exports = {
       choices: (() => {
         let result = {};
 
-        result['IdSearch'] = { name: `(unknown) Custom Id`, field: true };
+        result["IdSearch"] = { name: `(unknown) Custom Id`, field: true };
 
-        commands.forEach(command => {
-
+        commands.forEach((command) => {
           let cmdtrigger;
           switch (command.trigger) {
             case "textCommand":
@@ -46,12 +45,16 @@ module.exports = {
               cmdtrigger = "Event";
               break;
           }
-          
-          result[command.customId] = { name: `(${cmdtrigger}) ${command.name} - ${command.customId}` || `<i>[No Name]</i>` , field: false }
-        
+
+          result[command.customId] = {
+            name:
+              `(${cmdtrigger}) ${command.name} - ${command.customId}` ||
+              `<i>[No Name]</i>`,
+            field: false,
+          };
         });
         return result;
-      })()
+      })(),
     },
     "-",
     {
@@ -72,7 +75,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "cmdalis",
-      name: "Command Aliases List"
+      name: "Command Aliases List",
     },
     {
       element: "store",
@@ -97,7 +100,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "cmdpram",
-      name: "Command Parameters List"
+      name: "Command Parameters List",
     },
     {
       element: "store",
@@ -112,7 +115,7 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (actionData) => {
@@ -120,33 +123,40 @@ module.exports = {
     for (let cmd in commands) {
       let command = commands[cmd];
 
-      if (actionData.commandId.type === 'IdSearch' && actionData.commandId.value.length > 0 && command.customId == actionData.commandId.value) {
+      if (
+        actionData.commandId.type === "IdSearch" &&
+        actionData.commandId.value.length > 0 &&
+        command.customId == actionData.commandId.value
+      ) {
         foundCommand = command;
         break;
-      }
-
-      else if (command.customId == actionData.commandId.type) {
+      } else if (command.customId == actionData.commandId.type) {
         foundCommand = command;
         break;
       }
     }
 
     if (!foundCommand) {
-      return `Command With CustomID ${actionData.commandId.type} Not Found!`
+      return `Command With CustomID ${actionData.commandId.type} Not Found!`;
     } else {
-      return `Command Name: ${foundCommand.name} - ${foundCommand.customId}`
+      return `Command Name: ${foundCommand.name} - ${foundCommand.customId}`;
     }
   },
 
   compatibility: ["Any"],
 
-  async run (values, message, client, bridge) {
-    commandId = bridge.transf(values.commandId.type)
-    if (commandId === 'IdSearch' && bridge.transf(values.commandId.value).length > 0) {
-      commandcId = bridge.transf(values.commandId.value)
-    } else { commandcId = bridge.transf(values.commandId.type) }
+  async run(values, message, client, bridge) {
+    commandId = bridge.transf(values.commandId.type);
+    if (
+      commandId === "IdSearch" &&
+      bridge.transf(values.commandId.value).length > 0
+    ) {
+      commandcId = bridge.transf(values.commandId.value);
+    } else {
+      commandcId = bridge.transf(values.commandId.type);
+    }
 
-    let command = commands.find(cmd => cmd.customId == commandcId);
+    let command = commands.find((cmd) => cmd.customId == commandcId);
     if (!command) {
       const reply = [];
       reply.push(`Command with matching customId not found!`);
@@ -161,9 +171,7 @@ module.exports = {
       bridge.store(values.cmdpram, reply);
       bridge.store(values.cmddesc, reply);
       bridge.store(values.cmdfldr, reply);
-    }
-
-    else {
+    } else {
       const commandname = [];
       const commandtype = [];
       const commandtrigger = [];
@@ -178,55 +186,81 @@ module.exports = {
 
       if (command.name) {
         commandname.push(command.name);
-      } else {commandname.push(`No Name`);}
+      } else {
+        commandname.push(`No Name`);
+      }
 
       if (command.type) {
         commandtype.push(command.type);
-      } else {commandtype.push(`No Type`);}
+      } else {
+        commandtype.push(`No Type`);
+      }
 
       if (command.trigger) {
         commandtrigger.push(command.trigger);
-      } else {commandtrigger.push(`No Trigger`);}
+      } else {
+        commandtrigger.push(`No Trigger`);
+      }
 
       if (command.aliases && command.aliases.length > 0) {
-        command.aliases.forEach(alias => {
+        command.aliases.forEach((alias) => {
           commandaliases.push(alias);
-        })
-      } else {commandaliases.push(`No Aliases`);}
+        });
+      } else {
+        commandaliases.push(`No Aliases`);
+      }
 
       if (command.actions && command.actions.length > 0) {
-        command.actions.forEach(action => {
+        command.actions.forEach((action) => {
           commandactions.push(action.name);
-        })
-      } else {commandactions.push(`No Actions`);}
+        });
+      } else {
+        commandactions.push(`No Actions`);
+      }
 
       if (command.customId) {
         commandcustomid.push(command.customId);
-      } else {commandcustomid.push(`No CustomId`);}
+      } else {
+        commandcustomid.push(`No CustomId`);
+      }
 
-      if (command.boundary && command.boundary.worksIn){
+      if (command.boundary && command.boundary.worksIn) {
         commandboundary.push(command.boundary.worksIn);
-      } else {commandboundary.push(`No Boundary Stated`);}
+      } else {
+        commandboundary.push(`No Boundary Stated`);
+      }
 
-      if (command.boundary && command.boundary.limits && command.boundary.limits.length > 0){
-        command.boundary.limits.forEach(limit => {
-          commandpermissions.push(limit)
-        })
-      } else {commandpermissions.push(`No Permissions Required`);}
+      if (
+        command.boundary &&
+        command.boundary.limits &&
+        command.boundary.limits.length > 0
+      ) {
+        command.boundary.limits.forEach((limit) => {
+          commandpermissions.push(limit);
+        });
+      } else {
+        commandpermissions.push(`No Permissions Required`);
+      }
 
-      if (command.parameters && command.parameters.length > 0){
-        command.parameters.forEach(parameter => {
+      if (command.parameters && command.parameters.length > 0) {
+        command.parameters.forEach((parameter) => {
           commandparameters.push(parameter.name);
-        })
-      } else{commandparameters.push(`No Parameters`);}
+        });
+      } else {
+        commandparameters.push(`No Parameters`);
+      }
 
       if (command.description) {
         commanddescription.push(command.description);
-      } else {commanddescription.push(`No Description`);}
+      } else {
+        commanddescription.push(`No Description`);
+      }
 
       if (command.folder) {
         commandfolder.push(command.folder);
-      } else {commandfolder.push(`No Folder`);}
+      } else {
+        commandfolder.push(`No Folder`);
+      }
 
       bridge.store(values.cmdname, commandname);
       bridge.store(values.cmdtype, commandtype);
@@ -240,5 +274,5 @@ module.exports = {
       bridge.store(values.cmddesc, commanddescription);
       bridge.store(values.cmdfldr, commandfolder);
     }
-  }
-}
+  },
+};

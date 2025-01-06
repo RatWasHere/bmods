@@ -115,13 +115,19 @@ module.exports = {
       const totalChars = bridge.transf(values.levelbarlenght) || 10;
       const filledChars = Math.floor(
         (experience - currentLevelExperience) /
-          ((nextLevelExperience - currentLevelExperience) / totalChars)
+          ((nextLevelExperience - currentLevelExperience) / totalChars),
       );
       const emptyChars = totalChars - filledChars;
       const levelBar =
         levelbarfilled.repeat(filledChars) + levelbarempty.repeat(emptyChars);
       const currentLevelProgress = experience - currentLevelExperience;
-      return { currentLevel, nextLevel, levelBar, nextLevelExperience, currentLevelProgress };
+      return {
+        currentLevel,
+        nextLevel,
+        levelBar,
+        nextLevelExperience,
+        currentLevelProgress,
+      };
     }
 
     // Assuming you have a variable named 'experience'
@@ -131,8 +137,13 @@ module.exports = {
     const userLevel = getUserLevel(experience);
 
     // Get the current level, next level, and emoji level bar, then store them
-    const { currentLevel, nextLevel, levelBar, nextLevelExperience, currentLevelProgress } =
-      generateLevelBar(experience);
+    const {
+      currentLevel,
+      nextLevel,
+      levelBar,
+      nextLevelExperience,
+      currentLevelProgress,
+    } = generateLevelBar(experience);
 
     const requiredexperience = nextLevelExperience - experience;
 

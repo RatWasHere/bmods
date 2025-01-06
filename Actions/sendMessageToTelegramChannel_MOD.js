@@ -30,12 +30,12 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const axios = require("axios");
+    const axios = client.getMods().require("axios");
     const token = bridge.transf(values.token);
     const chat_id = bridge.transf(values.chat_id);
     const msg = bridge.transf(values.text);
     const api = bridge.transf(
-      `https://api.telegram.org/bot${token}/sendMessage`
+      `https://api.telegram.org/bot${token}/sendMessage`,
     );
 
     const options = {

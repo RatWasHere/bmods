@@ -68,7 +68,7 @@ module.exports = {
           imagedata.height / 2,
           Math.min(imagedata.width, imagedata.height) / 2,
           0,
-          Math.PI * 2
+          Math.PI * 2,
         );
         ctx.closePath();
         ctx.clip();
@@ -85,7 +85,7 @@ module.exports = {
           imagedata.width,
           imagedata.height,
           imagedata.width - r,
-          imagedata.height
+          imagedata.height,
         );
         ctx.lineTo(r, imagedata.height);
         ctx.quadraticCurveTo(0, imagedata.height, 0, imagedata.height - r);

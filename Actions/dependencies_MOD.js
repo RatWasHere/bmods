@@ -3,14 +3,14 @@ const Mods = {
     return new Promise((resolve) => {
       try {
         require("child_process").execSync(
-          `pnpm i ${version ? `${moduleName}@${version}` : moduleName}`
+          `pnpm i ${version ? `${moduleName}@${version}` : moduleName}`,
         );
         return resolve(require(moduleName));
       } catch (error) {
         return console.log(
           `The required module "${
             version ? `${moduleName}@${version}` : moduleName
-          }" has been installed. Please restart your bot.`
+          }" has been installed. Please restart your bot.`,
         );
       }
     });

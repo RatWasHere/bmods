@@ -6,7 +6,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "candiedapple",
-    donate: "https://www.buymeacoffee.com/candiedapple"
+    donate: "https://www.buymeacoffee.com/candiedapple",
   },
   category: "WebAPIs",
   UI: [
@@ -57,19 +57,20 @@ module.exports = {
   async run(values, message, client, bridge) {
     const url = bridge.transf(values.url);
     const headers = JSON.parse(bridge.transf(values.headers));
-    const jsonpath = require('jsonpath');
-    const axios = require('axios');
+    const jsonpath = client.getMods().require("jsonpath");
+    const axios = client.getMods().require("axios");
 
     return new Promise((resolve, reject) => {
-      axios.get(url, { headers })
-        .then(response => {
+      axios
+        .get(url, { headers })
+        .then((response) => {
           if (response.status === 200) {
             const data = response.data;
             const path = bridge.transf(values.pathtores);
 
             if (path) {
               // Ensure the path is correctly formatted for jsonpath
-              const formattedPath = path.replace(/\.\[/g, '[');
+              const formattedPath = path.replace(/\.\[/g, "[");
               const result = jsonpath.query(data, formattedPath);
 
               if (result.length > 0) {
@@ -82,14 +83,16 @@ module.exports = {
                 reject(new Error(`Path "${path}" not found in response data`));
               }
             } else {
-              reject(new Error('Path to result is not defined'));
+              reject(new Error("Path to result is not defined"));
             }
           } else {
             reject(new Error(`Error: ${response.status}`));
           }
         })
-        .catch(error => {
-          console.error(`Error: ${error.response ? error.response.status : error.message}`);
+        .catch((error) => {
+          console.error(
+            `Error: ${error.response ? error.response.status : error.message}`,
+          );
           reject(error);
         });
     });

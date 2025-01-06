@@ -32,7 +32,7 @@ module.exports = {
 
   run(values, interaction, client, bridge) {
     return new Promise((resolve, reject) => {
-      const generateGif = require("petpet-gen");
+      const generateGif = client.getMods().require("petpet-gen");
 
       // Define the URL of the avatar image you want to use
       const avatarURL = bridge.transf(values.url);

@@ -67,7 +67,7 @@ module.exports = {
   async run(values, message, client, bridge) {
     const text = bridge.transf(values.text);
 
-    const IsInvitation = require("is-discord-invite");
+    const IsInvitation = client.getMods().require("is-discord-invite");
     const Invite = await IsInvitation.online(text);
 
     for (const infoCase of values.cases) {

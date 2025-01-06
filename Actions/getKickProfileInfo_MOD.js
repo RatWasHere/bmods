@@ -11,19 +11,19 @@ module.exports = {
   category: "Media",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "lik_rus"
+    creator: "lik_rus",
   },
   UI: [
     {
       element: "input",
       name: "Username",
-      storeAs: "username"
+      storeAs: "username",
     },
     "-",
     {
       element: "store",
       storeAs: "erorrstore",
-      name: "Store As error"
+      name: "Store As error",
     },
     "-",
     {
@@ -31,13 +31,13 @@ module.exports = {
       storeAs: "cases",
       name: "Informations",
       types: {
-        informations: "Informations"
+        informations: "Informations",
       },
       max: 200,
       UItypes: {
         informations: {
           name: "Stream Information",
-          preview: '`Selected: ${option.data.kickstreaminformations}`',
+          preview: "`Selected: ${option.data.kickstreaminformations}`",
           data: { kickstreaminformations: "Search status" },
           UI: [
             {
@@ -59,29 +59,29 @@ module.exports = {
                 { name: "TikTok (Name)" },
                 { name: "TikTok (Link)" },
                 { name: "Facebook (Name)" },
-                { name: "Facebook (Link)" }
+                { name: "Facebook (Link)" },
               ],
             },
             "-",
             {
               element: "store",
               storeAs: "store",
-              name: "Store As"
-            }
-          ]
-        }
-      }
-    }
+              name: "Store As",
+            },
+          ],
+        },
+      },
+    },
   ],
 
   subtitle: (data, constants) => {
-    return `${data.username}`
+    return `${data.username}`;
   },
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
     const username = bridge.transf(values.username);
-    const { Kick } = require("streamer.info");
+    const { Kick } = client.getMods().require("streamer.info");
 
     const kick = new Kick();
     const info = await kick.getStreamerProfile(username);
@@ -138,7 +138,7 @@ module.exports = {
         case "Facebook (Link)":
           output = info?.socials?.facebook?.link;
           break;
-        }
+      }
 
       bridge.store(infoCase.data.store, output);
     }

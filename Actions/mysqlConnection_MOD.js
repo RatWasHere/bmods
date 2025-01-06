@@ -50,10 +50,15 @@ module.exports = {
 
   compatibility: ["Any"],
   run(values, message, client, bridge) {
-    const mysql = require("mysql2");
+    const mysql = client.getMods().require("mysql2");
     return new Promise((resolve, reject) => {
       // Check for missing required fields
-      if (!values.host || !values.user || !values.password || !values.database) {
+      if (
+        !values.host ||
+        !values.user ||
+        !values.password ||
+        !values.database
+      ) {
         return reject(new Error("Missing required fields"));
       }
 
@@ -77,13 +82,17 @@ module.exports = {
           // Store the connection for reuse
           bridge.store(values.connectionStore, connection);
 
-          console.log("MySQL Connection established and stored for", values.host, values.database);
+          console.log(
+            "MySQL Connection established and stored for",
+            values.host,
+            values.database,
+          );
           resolve(connection);
         });
 
         // Handle connection errors and attempt to reconnect
-        connection.on('error', (err) => {
-          if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+        connection.on("error", (err) => {
+          if (err.code === "PROTOCOL_CONNECTION_LOST") {
             console.error("MySQL connection lost. Attempting to reconnect...");
             createConnection();
           } else {

@@ -174,14 +174,10 @@ module.exports = {
         if (bottomN > 0) filteredDataList = dataList.slice(-bottomN);
         break;
       case "range":
-        const rangeStart = Number(
-          bridge.transf(values.rangeStart)
-        );
-        const rangeEnd = Number(
-          bridge.transf(values.rangeEnd)
-        );
+        const rangeStart = Number(bridge.transf(values.rangeStart));
+        const rangeEnd = Number(bridge.transf(values.rangeEnd));
         filteredDataList = dataList.slice(rangeStart, rangeEnd);
-  
+
         break;
       case "all results":
         filteredDataList = dataList;
