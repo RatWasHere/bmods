@@ -44,8 +44,8 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Canvas = require("canvas");
-    const Filter = require("imagedata-filters");
+    const Canvas = client.getMods().require("canvas");
+    const Filter = client.getMods().require("imagedata-filters");
     const imageData = await bridge.getImage(values.image);
 
     if (!imageData) {

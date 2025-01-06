@@ -32,7 +32,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Canvas = require("canvas");
+    const Canvas = client.getMods().require("canvas");
     const width = parseInt(bridge.transf(values.width), 10);
     const height = parseInt(bridge.transf(values.height), 10);
     let color = bridge.transf(values.color);

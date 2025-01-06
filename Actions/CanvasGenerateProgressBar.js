@@ -51,7 +51,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Canvas = require("canvas");
+    const Canvas = client.getMods().require("canvas");
 
     try {
       const width = Math.max(1, parseInt(bridge.transf(values.width), 10));

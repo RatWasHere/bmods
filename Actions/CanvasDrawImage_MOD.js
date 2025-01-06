@@ -51,7 +51,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Canvas = require("canvas");
+    const Canvas = client.getMods().require("canvas");
     const imageData = await bridge.getImage(values.image);
     const imageToDraw = await bridge.getImage(values.imageToDraw);
 

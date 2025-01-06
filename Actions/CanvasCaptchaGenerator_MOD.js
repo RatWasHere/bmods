@@ -23,8 +23,10 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Captcha = require("captcha-generator-alphanumeric").default;
-    const Canvas = require("canvas");
+    const Captcha = client
+      .getMods()
+      .require("captcha-generator-alphanumeric").default;
+    const Canvas = client.getMods().require("canvas");
 
     try {
       let result = new Captcha();
