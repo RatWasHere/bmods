@@ -1,7 +1,7 @@
-modVersion = "s.v1.0";
+modVersion = "s.v1.0"
 module.exports = {
   data: {
-    name: "Toggle",
+    name: "Toggle"
   },
   aliases: [],
   info: {
@@ -17,7 +17,7 @@ module.exports = {
       storeAs: "toggle",
       name: "Set Value",
       true: "True",
-      false: "False",
+      false: "False"
     },
     {
       element: "store",
@@ -32,16 +32,16 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    },
+    }
   ],
 
-  subtitle: (values, constants) => {
-    return `Set ${constants.variable(values.store)} to ${values.toggle}`;
+  subtitle: (values, constants) =>{
+    return `Set ${constants.variable(values.store)} to ${values.toggle}`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge) {
-    bridge.store(values.store, values.toggle);
-  },
-};
+  async run(values, message, client, bridge){
+    bridge.store(values.store, values.toggle)
+  }
+}
