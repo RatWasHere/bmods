@@ -1,4 +1,4 @@
-const crypto = client.getMods().require('node:crypto');
+const crypto = require('node:crypto');
 hashingAlgorithms = crypto.getHashes();
 modVersion = "s.v1.1"
 
