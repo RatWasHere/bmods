@@ -3,7 +3,7 @@ module.exports = {
   data: {
     name: "Play Binary Variable",
   },
-  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice"],
+  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice", "libsodium", "libsodium-wrappers"],
   category: "Music",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",

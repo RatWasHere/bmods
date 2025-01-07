@@ -1,6 +1,5 @@
 // requires the yt-dlp binary for whichever platform is it that you use.
-modVersion = "s.v1.1"
-const { readFileSync } = require("fs")
+modVersion = "s.v1.2"
 
 module.exports ={
   data: {
@@ -189,7 +188,7 @@ module.exports ={
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){
-    const {existsSync} = client.getMods().require("fs")
+    const fs = client.getMods().require("fs")
     const path = client.getMods().require("path")
     const platform = process.platform
 
@@ -198,7 +197,7 @@ module.exports ={
       let dependencies = ["yt-dlp.exe", "ffmpeg.exe", "ffprobe.exe", "ffplay.exe", "ffmpeg.dll"]
       let projectPath = "./"
 
-      const missingFiles = dependencies.filter((file) => existsSync(path.join(projectPath, file)) == false)
+      const missingFiles = dependencies.filter((file) => fs.existsSync(path.join(projectPath, file)) == false)
       
       if (missingFiles.length > 0){
         console.log("The following required files are missing: ", missingFiles.join(", "))
@@ -265,16 +264,7 @@ module.exports ={
             bridge.store(values.finalFile, file)
             bridge.store(values.finalName, fileName.replaceAll("_"," "))
             if (values.delete == true){
-              let deleteCommand
-              if (platform === "win32") deleteCommand=`del /f /q "${fileSource}"`;
-              else if (platform === "linux") deleteCommand=`rm -rf "${fileSource}"`;
-              require("child_process").exec(deleteCommand, (error, stdout, stderr)=>{
-                if (values.logging==true){
-                  console.log(error)
-                  console.log(stdout)
-                  console.log(stderr)
-                }
-              })
+              fs.unlinkSync(fileSource)
             }
             return res()
           }

@@ -1,4 +1,4 @@
-modVersion = "u.v1.4"
+modVersion = "s.v1.5"
 module.exports={
   data: {
     name: "YouTube Video Search v2"
@@ -90,7 +90,7 @@ module.exports={
     let search = client.getMods().require("yt-search")
     let result = await search(bridge.transf(values.searchFor))
     let position = 0
-    let infoList = bridge.transf(values.infoList)
+    let infoList = values.infoList
 
     if (values.resultNum.type === "custom"){
       position = parseInt(bridge.transf(values.resultNum.value))
