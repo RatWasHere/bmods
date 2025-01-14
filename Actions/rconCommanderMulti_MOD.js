@@ -1,4 +1,4 @@
-modVersion = "s.v1.1"
+modVersion = "s.v1.2"
 module.exports = {
   data: {
     name: "Extended RCON MultiCommander"
@@ -98,7 +98,7 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, interaction, client, bridge){
-    const Rcon = client.getMods().require("rcon")
+    const Rcon = await client.getMods().require("rcon")
 
     for (let rconDetails of values.rconList){
       await new Promise((resolve, reject) => {

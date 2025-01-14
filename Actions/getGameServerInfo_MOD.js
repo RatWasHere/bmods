@@ -440,7 +440,7 @@ module.exports = {
       await Promise.race([
         new Promise((resolve, reject) => {
 
-          const { GameDig } = require("gamedig");
+          const { GameDig } = await client.getMods().require("gamedig");
 
           GameDig.query({
             type: swap(games)[values.gametype],

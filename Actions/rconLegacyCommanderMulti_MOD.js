@@ -1,4 +1,4 @@
-modVersion = "s.v1.1"
+modVersion = "s.v1.2"
 module.exports = {
   data:{
     name: "RCON MultiCommander",
@@ -93,7 +93,7 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, interaction, client, bridge){
-    const Rcon = client.getMods().require("mbr-rcon")
+    const Rcon = await client.getMods().require("mbr-rcon")
 
     for (let server of values.serverList){
       const timeout = bridge.transf(server.data.timeout) ? Number(bridge.transf(server.data.timeout))*1000 : 5000

@@ -1,4 +1,4 @@
-modVersion = "s.v1.1"
+modVersion = "s.v1.2"
 module.exports = {
   data: {
     name: "Play Binary Variable",
@@ -53,10 +53,10 @@ module.exports = {
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    const fs = client.getMods().require("fs")
-    const ffmpeg = client.getMods().require("ffmpeg")
-    const {Readable} = client.getMods().require("stream")
-    const { createAudioResource } = client.getMods().require("@discordjs/voice")
+    const fs = await client.getMods().require("fs")
+    const ffmpeg = await client.getMods().require("ffmpeg")
+    const {Readable} = await client.getMods().require("stream")
+    const { createAudioResource } = await client.getMods().require("@discordjs/voice")
 
     let audioBuffer = bridge.get(values.bufferVar)
     let songName = bridge.transf(values.songName)

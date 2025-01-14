@@ -1,6 +1,6 @@
-const crypto = require('node:crypto');
-hashingAlgorithms = crypto.getHashes();
-modVersion = "s.v1.1"
+let cryptoCache = require('node:crypto');
+hashingAlgorithms = cryptoCache.getHashes();
+modVersion = "s.v1.2"
 
 module.exports = {
   data: {
@@ -52,6 +52,7 @@ module.exports = {
   compatibility: ["Any"],
 
   async run (values, message, client, bridge) {
+    const crypto = await client.getMods().require("node:crypto")
     let oriText = bridge.transf(values.toHash)
     let hashAlgorithm = bridge.transf(values.algorithm)
     
