@@ -188,8 +188,10 @@ module.exports ={
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){
-    const fs = await client.getMods().require("fs")
-    const path = await client.getMods().require("path")
+    await client.getMods().require("fs")
+    await client.getMods().require("path")
+    const fs = require("fs")
+    const path = require("path")
     const platform = process.platform
 
 

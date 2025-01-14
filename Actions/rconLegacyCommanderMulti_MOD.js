@@ -93,7 +93,8 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, interaction, client, bridge){
-    const Rcon = await client.getMods().require("mbr-rcon")
+    await client.getMods().require("mbr-rcon")
+    const Rcon = require("mbr-rcon")
 
     for (let server of values.serverList){
       const timeout = bridge.transf(server.data.timeout) ? Number(bridge.transf(server.data.timeout))*1000 : 5000

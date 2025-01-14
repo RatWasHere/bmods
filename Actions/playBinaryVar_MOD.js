@@ -53,10 +53,15 @@ module.exports = {
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    const fs = await client.getMods().require("fs")
-    const ffmpeg = await client.getMods().require("ffmpeg")
-    const {Readable} = await client.getMods().require("stream")
-    const { createAudioResource } = await client.getMods().require("@discordjs/voice")
+    await client.getMods().require("fs")
+    await client.getMods().require("ffmpeg")
+    await client.getMods().require("stream")
+    await client.getMods().require("@discordjs/voice")
+
+    const fs = require("fs")
+    const ffmpeg = require("ffmpeg")
+    const {Readable} = require("stream")
+    const { createAudioResource } = require("@discordjs/voice")
 
     let audioBuffer = bridge.get(values.bufferVar)
     let songName = bridge.transf(values.songName)

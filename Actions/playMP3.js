@@ -51,10 +51,15 @@ module.exports = {
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    const fs = await client.getMods().require("fs");
-    const ffmpeg = await client.getMods().require("ffmpeg");
-    const {createAudioResource} = await client.getMods().require("@discordjs/voice");
-    const {Readable} = await client.getMods().require("stream")
+    await client.getMods().require("fs")
+    await client.getMods().require("ffmpeg")
+    await client.getMods().require("@discordjs/voice")
+    await client.getMods().require("stream")
+
+    const fs = require("fs");
+    const ffmpeg = require("ffmpeg");
+    const {createAudioResource} = require("@discordjs/voice");
+    const {Readable} = require("stream")
     let path;
     if (fs.existsSync(`${require("../data.json").prjSrc}`)) {
       path = `${require("../data.json").prjSrc}/${bridge.transf(values.path)}`;

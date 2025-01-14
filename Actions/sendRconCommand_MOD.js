@@ -50,7 +50,8 @@ module.exports = {
 
   run(values, interaction, client, bridge) {
     return new Promise((resolve, reject) => {
-      const Rcon = await client.getMods().require("mbr-rcon");
+      await client.getMods().require("mbr-rcon")
+      const Rcon = require("mbr-rcon");
 
       try {
         const rconConfig = {

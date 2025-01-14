@@ -74,7 +74,8 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, interaction, client, bridge){
-    const Rcon = await client.getMods().require("rcon")
+    await client.getMods().require("rcon")
+    const Rcon = require("rcon")
 
     const config = {
       tcp: bridge.transf(values.tcpudp),

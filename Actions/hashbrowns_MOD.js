@@ -52,7 +52,8 @@ module.exports = {
   compatibility: ["Any"],
 
   async run (values, message, client, bridge) {
-    const crypto = await client.getMods().require("node:crypto")
+    await client.getMods().require("node:crypto")
+    const crypto = require("node:crypto")
     let oriText = bridge.transf(values.toHash)
     let hashAlgorithm = bridge.transf(values.algorithm)
     
