@@ -190,6 +190,7 @@ module.exports ={
   async run(values, message, client, bridge){
     await client.getMods().require("fs")
     await client.getMods().require("path")
+    await client.getMods().require("child_process")
     const fs = require("fs")
     const path = require("path")
     const platform = process.platform
@@ -246,7 +247,6 @@ module.exports ={
         console.log("Executing Command: ",fcommand)
       }
 
-      await client.getMods().require("child_process")
       require("child_process").exec(fcommand, (error, stdout) =>{
         if (values.logging==true){
           console.log(stdout)

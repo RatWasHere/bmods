@@ -434,13 +434,12 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge){
+    await client.getMods().require("gamedig")
     const timeout = bridge.transf(values.timeoutDur) ? Number(bridge.transf(values.timeoutDur))*1000 : 10000
 
     try{
       await Promise.race([
         new Promise((resolve, reject) => {
-
-          await client.getMods().require("gamedig")
           const { GameDig } = require("gamedig");
 
           GameDig.query({
