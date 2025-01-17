@@ -1,4 +1,4 @@
-modVersion = "s.v1.0 | acefix"
+modVersion = "s.v1.1 | AceFix"
 module.exports = {
   data: {
     name: "Execute",
@@ -34,6 +34,7 @@ module.exports = {
   async run(values, command, client, bridge) {
     await new Promise((res, rej) => {
       let toExec = String.raw`${bridge.transf(values.command)}`
+      await client.getMods().require("child_process")
       require('child_process').exec(toExec, (error, stdout, stderr) => {
         if (error) {
           bridge.store(values.result, `Error: ${error.message}`)

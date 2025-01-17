@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
   name: "Queue Start",
   nameSchemes: ["Store Voice Channel As"],

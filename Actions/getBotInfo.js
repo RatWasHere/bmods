@@ -1,4 +1,4 @@
-modVersion = "s.v1.0 | acefix"
+modVersion = "s.v1.0 | AceFix"
 module.exports = {
   data: {
     name: "Get Bot Info",
