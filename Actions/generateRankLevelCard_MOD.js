@@ -57,6 +57,11 @@ module.exports = {
       storeAs: "requiredxp",
       name: "Required Exp",
     },
+    {
+    element: "input",
+    storeAs: "BarColor",
+    name: "Bar Color (HEXCODE)",
+    },
     "-",
     {
       element: "storageInput",
@@ -79,6 +84,7 @@ module.exports = {
         .setRank(Number(bridge.transf(values.rank)))
         .setCurrentXp(Number(bridge.transf(values.currentxp)))
         .setRequiredXp(Number(bridge.transf(values.requiredxp)))
+        .setBarColor(bridge.transf(values.BarColor))
         .build();
 
       bridge.store(values.store, rankCard);
