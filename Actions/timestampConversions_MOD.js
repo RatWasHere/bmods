@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.1"
 module.exports = {
   data: {
     name: "Timestamp Conversions",
@@ -33,6 +33,20 @@ module.exports = {
         custom: {name: "Custom", field: true}
       }
     },
+    {
+      element: "",
+      storeAs: "timezone",
+      name: "Timezone",
+      choices: (()=>{
+        let timezones = {}
+        timezones["custom"] = {name: "Custom", field: true}
+        let supportedTimezones = Intl.supportedValuesOf("timeZone")
+        supportedTimezones.forEach(timezone => {
+          timezones[timezone] = {name: `${timezone}`, field: false}
+        })
+        return timezones
+      })()
+    },
     "-",
     {
       element: "text",
@@ -59,6 +73,7 @@ module.exports = {
       let type = values.data.format.type
       let fmtEx
       let header
+      let timezoneSelector
 
       switch(type){
         default:
@@ -128,9 +143,14 @@ module.exports = {
             <span>Minute - <code>mm</code></span><br>
             <span>Second - <code>ss</code></span>
             </div>`
+          break
       }
-      values.UI[3].text = header
-      values.UI[4].text = fmtEx
+
+      if (type == "custom"){values.UI[2].element="typedDropdown"}
+      else {values.UI[2].element=""}
+      
+      values.UI[4].text = header
+      values.UI[5].text = fmtEx
 
       setTimeout(()=>{
         values.updateUI()
@@ -233,18 +253,23 @@ module.exports = {
       case "custom":
         cstmFormat = bridge.transf(values.format.value)
         let date = new Date(tstmp*1000)
+        let timeZone = bridge.transf(values.timezone.type)
+        if (timeZone == "custom"){
+          timeZone = bridge.transf(values.timezone.value) || undefined
+        }
+        locale = "en-US"
         const components = {
-          YYYY: date.getFullYear(), // Full year
-          YY: date.getFullYear().toString().slice(-2), // Last two digits of year
-          MMM: date.toLocaleString("en-US", { month: "short" }), // Abbreviated month name
-          Month: date.toLocaleString("en-US", { month: "long" }), // Full month name
-          MM: String(date.getMonth() + 1).padStart(2, "0"), // Month (01-12)
-          DD: String(date.getDate()).padStart(2, "0"), // Day of the month (01-31)
-          Day: date.toLocaleString("en-US", { weekday: "long" }), // Full day name
-          ddd: date.toLocaleString("en-US", { weekday: "short" }), // Abbreviated day name
-          hh: String(date.getHours()).padStart(2, "0"), // Hours (00-23)
-          mm: String(date.getMinutes()).padStart(2, "0"), // Minutes (00-59)
-          ss: String(date.getSeconds()).padStart(2, "0"), // Seconds (00-59)
+          YYYY: new Intl.DateTimeFormat(locale, { year: "numeric", timeZone }).format(date), // Full year (e.g., 2025)
+          YY: new Intl.DateTimeFormat(locale, { year: "2-digit", timeZone }).format(date), // Last two digits of year (e.g., 25)
+          MMM: new Intl.DateTimeFormat(locale, { month: "short", timeZone }).format(date), // Abbreviated month name (e.g., Jan)
+          Month: new Intl.DateTimeFormat(locale, { month: "long", timeZone }).format(date), // Full month name (e.g., January)
+          MM: new Intl.DateTimeFormat(locale, { month: "2-digit", timeZone }).format(date).padStart(2, "0"), // Month (01-12) - zero-padded
+          DD: new Intl.DateTimeFormat(locale, { day: "2-digit", timeZone }).format(date).padStart(2, "0"), // Day of the month (01-31) - zero-padded
+          Day: new Intl.DateTimeFormat(locale, { weekday: "long", timeZone }).format(date), // Full day name (e.g., Monday)
+          ddd: new Intl.DateTimeFormat(locale, { weekday: "short", timeZone }).format(date), // Abbreviated day name (e.g., Mon)
+          hh: new Intl.DateTimeFormat(locale, { hour: "2-digit", hour12: false, timeZone }).format(date).slice(0, 2).padStart(2, "0"), // Hours (00-23)
+          mm: new Intl.DateTimeFormat(locale, { minute: "2-digit", timeZone }).format(date).slice(0, 2).padStart(2, "0"), // Minutes (00-59)
+          ss: new Intl.DateTimeFormat(locale, { second: "2-digit", timeZone }).format(date).slice(0, 2).padStart(2, "0"), // Seconds (00-59)
         }
         output = cstmFormat.replace(/YYYY|YY|Month|MMM|MM|DD|Day|ddd|hh|mm|ss/g,(match) => components[match] || match)
     }
