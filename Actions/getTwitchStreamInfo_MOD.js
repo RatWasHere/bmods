@@ -11,19 +11,19 @@ module.exports = {
   category: "Media",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "lik_rus"
+    creator: "lik_rus",
   },
   UI: [
     {
       element: "input",
       name: "Username",
-      storeAs: "username"
+      storeAs: "username",
     },
     "-",
     {
       element: "store",
       storeAs: "erorrstore",
-      name: "Store As error"
+      name: "Store As error",
     },
     "-",
     {
@@ -31,13 +31,13 @@ module.exports = {
       storeAs: "cases",
       name: "Informations",
       types: {
-        informations: "Informations"
+        informations: "Informations",
       },
       max: 200,
       UItypes: {
         informations: {
           name: "Stream Information",
-          preview: '`Selected: ${option.data.twitchstreaminformations}`',
+          preview: "`Selected: ${option.data.twitchstreaminformations}`",
           data: { twitchstreaminformations: "Status live" },
           UI: [
             {
@@ -52,29 +52,29 @@ module.exports = {
                 { name: "Url Thumbnail" },
                 { name: "Url Stream" },
                 { name: "Url Stream (Full Screen)" },
-                { name: "The start time of the stream (timestamp)" }
+                { name: "The start time of the stream (timestamp)" },
               ],
             },
             "-",
             {
               element: "store",
               storeAs: "store",
-              name: "Store As"
-            }
-          ]
-        }
-      }
-    }
+              name: "Store As",
+            },
+          ],
+        },
+      },
+    },
   ],
 
   subtitle: (data, constants) => {
-    return `${data.username}`
+    return `${data.username}`;
   },
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
     const username = bridge.transf(values.username);
-    const { Twitch } = require("streamer.info");
+    const { Twitch } = client.getMods().require("streamer.info");
 
     const twitch = new Twitch();
     const info = await twitch.getStream(username);
@@ -110,7 +110,7 @@ module.exports = {
         case "The start time of the stream (timestamp)":
           output = info?.start?.timestamp?.row;
           break;
-        }
+      }
 
       bridge.store(infoCase.data.store, output);
     }

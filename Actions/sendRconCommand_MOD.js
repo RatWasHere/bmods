@@ -48,7 +48,8 @@ module.exports = {
     return `Command: ${data.command}`;
   },
 
-  run(values, interaction, client, bridge) {
+  async run(values, interaction, client, bridge) {
+    await client.getMods().require("mbr-rcon")
     return new Promise((resolve, reject) => {
       const Rcon = require("mbr-rcon");
 

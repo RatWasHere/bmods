@@ -1,6 +1,7 @@
+modVersion = "s.v1.0"
 module.exports = {
   data: {
-    name: "Get Mentions",
+    name: "Get User Mentions In List",
   },
   info: {
   source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
@@ -30,6 +31,10 @@ module.exports = {
       storeAs: "result",
       name: "Store Result As:",
     },
+    {
+      element: "text",
+      text: modVersion,
+    }
   ],
 
   subtitle: (values, constants) => {

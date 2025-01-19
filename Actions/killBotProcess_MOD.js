@@ -1,7 +1,9 @@
+modVersion = "s.v1.0"
 module.exports = {
     data: {
         name: "Kill Bot Process",
     },
+    aliases: ["Stop Bot"],
     category: "Control",
     info:{
         source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
@@ -13,6 +15,10 @@ module.exports = {
         {
             element: "text",
             text: "Kills the bot's process, effectively turning the bot off",
+        },
+        {
+          element: "text",
+          text: modVersion,
         }
     ],
 

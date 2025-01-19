@@ -7,7 +7,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "candiedapple",
-    donate: "https://www.buymeacoffee.com/candiedapple"
+    donate: "https://www.buymeacoffee.com/candiedapple",
   },
   UI: [
     {
@@ -38,7 +38,7 @@ module.exports = {
   ],
   async run(values, message, client, bridge) {
     const data = bridge.get(values.json);
-    const jsonpath = require("jsonpath");
+    const jsonpath = client.getMods().require("jsonpath");
     const result = jsonpath.query(data, bridge.transf(values.path));
     if (values.logtoconsole) {
       console.log(result);

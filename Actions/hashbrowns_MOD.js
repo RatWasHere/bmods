@@ -1,11 +1,13 @@
-const crypto = require('node:crypto');
-hashingAlgorithms = crypto.getHashes();
+let cryptoCache = require('node:crypto');
+hashingAlgorithms = cryptoCache.getHashes();
+modVersion = "s.v1.2"
 
 module.exports = {
   data: {
     name: "Hash Text",
     algorithm: "sha256"
   },
+  aliases: ["Encrypt Text"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
@@ -37,6 +39,10 @@ module.exports = {
       storeAs: "store",
       name: "Store Hashed String As"
     },
+    {
+      element: "text",
+      text: modVersion,
+    }
   ],
   
   subtitle: (values) => {
@@ -46,6 +52,8 @@ module.exports = {
   compatibility: ["Any"],
 
   async run (values, message, client, bridge) {
+    await client.getMods().require("node:crypto")
+    const crypto = require("node:crypto")
     let oriText = bridge.transf(values.toHash)
     let hashAlgorithm = bridge.transf(values.algorithm)
     

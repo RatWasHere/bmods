@@ -1,3 +1,4 @@
+modVersion = "s.v1.0"
 module.exports = {
   data: {
     name: "Multiple Replacements"
@@ -47,6 +48,10 @@ module.exports = {
       element: "store",
       storeAs: "output",
       name: "Store Output As"
+    },
+    {
+      element: "text",
+      text: modVersion,
     }
   ],
 

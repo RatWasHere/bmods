@@ -29,13 +29,13 @@ module.exports = {
   ],
   subtitle: (data, constants) => {
     return `${data.operation} - Store Result As ${constants.variable(
-      data.store
+      data.store,
     )}`;
   },
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    const { evaluate } = require("mathjs");
+    const { evaluate } = client.getMods().require("mathjs");
 
     try {
       let result = 0;

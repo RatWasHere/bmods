@@ -1,7 +1,9 @@
+modVersion = "s.v1.0"
 module.exports = {
   data: {
     name: "String Limiter",
   },
+  aliases: ["Truncate String"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
@@ -27,9 +29,18 @@ module.exports = {
       placeholder: "Will only be appended if length exceeds limit"
     },
     {
+      element: "toggle",
+      storeAs: "countAppend",
+      name: "Length of string includes appended text?",
+    },
+    {
       element: "store",
       storeAs: "result",
       name: "Store Result As"
+    },
+    {
+      element: "text",
+      text: modVersion,
     }
   ],
 
@@ -46,18 +57,20 @@ module.exports = {
 
     let result
 
-    if (Number.isInteger(Number(maxLength))){
-      maxLengthNum = Number(maxLength)
-      if (sourceText.length > maxLengthNum){
+    const maxLengthNum = parseInt(maxLength, 10)
+    if (isNaN(maxLengthNum) || maxLengthNum <= 0){
+      result = `${maxLength} is not a integer!`
+    }
+    else if (sourceText.length > maxLengthNum){
+      if (values.countAppend === true){
+        result = sourceText.slice(0, maxLengthNum-appendWith.length) + appendWith
+      }
+      else{
         result = sourceText.slice(0, maxLengthNum) + appendWith
       }
-      else if (sourceText.length < maxLengthNum){
-        result = sourceText
-      }
     }
-    else {
-      result = `Error: ${maxLength} is not a integer`
-      console.error(`${maxLength} is not a integer`)
+    else if (sourceText.length < maxLengthNum){
+      result = sourceText
     }
 
     bridge.store(values.result, result)

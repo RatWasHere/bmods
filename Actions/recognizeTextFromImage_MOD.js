@@ -31,7 +31,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const { createWorker } = require("tesseract");
+    const { createWorker } = client.getMods().require("tesseract");
 
     await (async () => {
       const worker = await createWorker();

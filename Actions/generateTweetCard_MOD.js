@@ -50,7 +50,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const canvafy = require("canvafy");
+    const canvafy = client.getMods().require("canvafy");
 
     function generateTweetCard() {
       const tweetCard = new canvafy.Tweet()

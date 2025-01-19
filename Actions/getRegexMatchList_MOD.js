@@ -43,7 +43,7 @@ module.exports = {
   async run(values, message, client, bridge) {
     const text = bridge.transf(values.text);
     const flags = bridge.transf(values.flags);
-    const allowDuplicates = bridge.transf(values.duplication) === 'true'; // Ensure it's a boolean
+    const allowDuplicates = bridge.transf(values.duplication) === "true"; // Ensure it's a boolean
 
     // Ensure the pattern has the global flag
     const pattern = new RegExp(bridge.transf(values.regexpattern), flags);
