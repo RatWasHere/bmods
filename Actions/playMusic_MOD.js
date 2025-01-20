@@ -1,4 +1,4 @@
-modVersion = "v1.0";
+modVersion = "v1.0.1";
 
 module.exports = {
   data: {
@@ -99,6 +99,8 @@ module.exports = {
   },
 
   startup: async (bridge, client) => {
+    // discord.js is required for discord-player, but it is not used as the client at all.
+    await client.getMods().require("discord.js", "14.17.3");
     const { Player, createOceanicCompat } = await client
       .getMods()
       .require("discord-player", "7.2.0-dev.0");
