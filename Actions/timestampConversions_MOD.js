@@ -201,7 +201,11 @@ module.exports = {
         break
 
       case "custom":
-        return `Convert ${timestamp} To ${values.format.value} Format`
+        let tz = values.timezone.type
+        if (tz == "custom"){
+          tz = values.timezone.value
+        }
+        return `Convert ${timestamp} To ${values.format.value} Format, Timezone Of ${tz}`
         break
     }
   },
