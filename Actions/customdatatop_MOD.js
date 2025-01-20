@@ -76,9 +76,10 @@ module.exports = {
     let data = fs.readFileSync(filePath, 'utf8');
     let jsonObject = JSON.parse(data);
     let dataList = [];
+    const dataName = bridge.transf(values.dataName);
 
     for (let Id in jsonObject) {
-    let Value = jsonObject[Id][values.dataName];
+    let Value = jsonObject[Id][bridge.transf(values.dataName)];
     if (Value !== undefined) {
     dataList.push({Id: Id, Value: Value});
 }
