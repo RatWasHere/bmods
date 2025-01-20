@@ -29,6 +29,43 @@ module.exports = {
     },
     "-",
     {
+      element: "typedDropdown",
+      storeAs: "leaveOnEnd",
+      name: "Leave On End?",
+      choices: {
+        true: { name: "True" },
+        false: { name: "False" },
+      },
+    },
+    {
+      element: "typedDropdown",
+      storeAs: "leaveOnEmpty",
+      name: "Leave On Empty?",
+      choices: {
+        true: { name: "True" },
+        false: { name: "False" },
+      },
+    },
+    {
+      element: "typedDropdown",
+      storeAs: "leaveOnStop",
+      name: "Leave On Stop?",
+      choices: {
+        true: { name: "True" },
+        false: { name: "False" },
+      },
+    },
+    {
+      element: "typedDropdown",
+      storeAs: "selfDeaf",
+      name: "Self Deaf?",
+      choices: {
+        true: { name: "True" },
+        false: { name: "False" },
+      },
+    },
+    "-",
+    {
       element: "storageInput",
       name: "Store Result As",
       storeAs: "store",
@@ -51,6 +88,10 @@ module.exports = {
       requestedBy: message.author.id,
       nodeOptions: {
         metadata: { channel: message.channel.id },
+        leaveOnEnd: !!bridge.transf(values.leaveOnEnd.value),
+        leaveOnEmpty: !!bridge.transf(values.leaveOnEmpty.value),
+        leaveOnStop: !!bridge.transf(values.leaveOnStop.value),
+        selfDeaf: !!bridge.transf(values.selfDeaf.value),
       },
     });
 
