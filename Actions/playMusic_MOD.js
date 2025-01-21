@@ -113,7 +113,7 @@ module.exports = {
       .require("@discord-player/extractor");
     const { YoutubeiExtractor } = await client
       .getMods()
-      .require("discord-player-youtubei");
+      .require("discord-player-youtubei", "1.4.1");
 
     client.player = new Player(createOceanicCompat(client));
 
