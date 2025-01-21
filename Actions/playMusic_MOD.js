@@ -84,18 +84,22 @@ module.exports = {
     const channel = await bridge.getChannel(values.channel);
     const query = await bridge.transf(values.query);
 
-    const { track } = await client.player.play(channel.id, query, {
-      requestedBy: message.author.id,
-      nodeOptions: {
-        metadata: { channel: message.channel.id },
-        leaveOnEnd: !!bridge.transf(values.leaveOnEnd.value),
-        leaveOnEmpty: !!bridge.transf(values.leaveOnEmpty.value),
-        leaveOnStop: !!bridge.transf(values.leaveOnStop.value),
-        selfDeaf: !!bridge.transf(values.selfDeaf.value),
-      },
-    });
+    try {
+      const { track } = await client.player.play(channel.id, query, {
+        requestedBy: message.author.id,
+        nodeOptions: {
+          metadata: { channel: message.channel.id },
+          leaveOnEnd: !!bridge.transf(values.leaveOnEnd.value),
+          leaveOnEmpty: !!bridge.transf(values.leaveOnEmpty.value),
+          leaveOnStop: !!bridge.transf(values.leaveOnStop.value),
+          selfDeaf: !!bridge.transf(values.selfDeaf.value),
+        },
+      });
 
-    return bridge.store(values.store, track);
+      return bridge.store(values.store, track);
+    } catch (error) {
+      // noop
+    }
   },
 
   startup: async (bridge, client) => {
