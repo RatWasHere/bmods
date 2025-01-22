@@ -1,4 +1,4 @@
-modVersion = "v1.0.1";
+modVersion = "v1.0.2";
 
 module.exports = {
   data: {
@@ -29,46 +29,37 @@ module.exports = {
     },
     "-",
     {
-      element: "typedDropdown",
+      element: "toggle",
       storeAs: "leaveOnEnd",
       name: "Leave On End?",
-      choices: {
-        true: { name: "True" },
-        false: { name: "False" },
-      },
     },
     {
-      element: "typedDropdown",
+      element: "toggle",
       storeAs: "leaveOnEmpty",
       name: "Leave On Empty?",
-      choices: {
-        true: { name: "True" },
-        false: { name: "False" },
-      },
     },
     {
-      element: "typedDropdown",
+      element: "toggle",
       storeAs: "leaveOnStop",
       name: "Leave On Stop?",
-      choices: {
-        true: { name: "True" },
-        false: { name: "False" },
-      },
     },
     {
-      element: "typedDropdown",
+      element: "toggle",
       storeAs: "selfDeaf",
       name: "Self Deaf?",
-      choices: {
-        true: { name: "True" },
-        false: { name: "False" },
-      },
     },
     "-",
     {
       element: "storageInput",
-      name: "Store Result As",
+      name: "Store Track As",
       storeAs: "store",
+    },
+    "-",
+    {
+      element: "condition",
+      storeAs: "ifError",
+      storeActionsAs: "ifErrorActions",
+      name: "If Error",
     },
     "-",
     {
@@ -86,7 +77,7 @@ module.exports = {
 
     try {
       const { track } = await client.player.play(channel.id, query, {
-        requestedBy: message.author.id,
+        requestedBy: message.author?.id || message.user?.id,
         nodeOptions: {
           metadata: { channel: message.channel.id },
           leaveOnEnd: !!bridge.transf(values.leaveOnEnd.value),
@@ -98,7 +89,7 @@ module.exports = {
 
       return bridge.store(values.store, track);
     } catch (error) {
-      // noop
+      bridge.runner(values.ifError, values.ifErrorActions);
     }
   },
 
@@ -107,7 +98,7 @@ module.exports = {
     await client.getMods().require("discord.js", "14.17.3");
     const { Player, createOceanicCompat } = await client
       .getMods()
-      .require("discord-player", "7.2.0-dev.0");
+      .require("discord-player", "7.2.0-dev.2");
     const { DefaultExtractors } = await client
       .getMods()
       .require("@discord-player/extractor");
@@ -120,5 +111,13 @@ module.exports = {
     await client.player.extractors.loadMulti(DefaultExtractors);
 
     await client.player.extractors.register(YoutubeiExtractor, {});
+
+    // Enable Debugging
+    /* client.player
+      .on("debug", console.log)
+      .events.on("debug", (queue, msg) =>
+        console.log(`[${queue.guild.name}] ${msg}`)
+      );
+    */
   },
 };

@@ -1,4 +1,4 @@
-modVersion = "v1.0";
+modVersion = "v1.0.2";
 
 module.exports = {
   data: {
@@ -49,7 +49,7 @@ module.exports = {
   async run(values, message, client, bridge) {
     const { useQueue, useHistory } = await client
       .getMods()
-      .require("discord-player", "7.2.0-dev.0");
+      .require("discord-player", "7.2.0-dev.2");
     const queue = useQueue(message.guild.id);
     const history = useHistory(message.guild.id);
 
