@@ -22,7 +22,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Canvas = client.getMods().require("canvas");
+    const Canvas = await client.getMods().require("canvas");
     try {
       const image = await Canvas.loadImage(bridge.transf(values.url));
       const canvas = Canvas.createCanvas(image.width, image.height);

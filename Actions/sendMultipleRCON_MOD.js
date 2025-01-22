@@ -70,7 +70,7 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, interaction, client, bridge) {
-    const Rcon = client.getMods().require("mbr-rcon");
+    const Rcon = await client.getMods().require("mbr-rcon");
 
     for (let server of values.serverlist) {
       try {
@@ -95,7 +95,7 @@ module.exports = {
                     onError: (error) => {
                       bridge.store(
                         server.data.store,
-                        "Error: Execution. (Something went wrong)",
+                        "Error: Execution. (Something went wrong)"
                       );
                       connection.close();
                       reject(error);
@@ -105,7 +105,7 @@ module.exports = {
                 onError: (error) => {
                   bridge.store(
                     server.data.store,
-                    "Error: Authentication. (Wrong RCON password)",
+                    "Error: Authentication. (Wrong RCON password)"
                   );
                   connection.close();
                   reject(error);
@@ -115,7 +115,7 @@ module.exports = {
             onError: (error) => {
               bridge.store(
                 server.data.store,
-                "Error: Connection. (The requested RCON server is offline)",
+                "Error: Connection. (The requested RCON server is offline)"
               );
               reject(error);
             },

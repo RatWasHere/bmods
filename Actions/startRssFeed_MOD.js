@@ -38,13 +38,12 @@ module.exports = {
     },
   ],
   async run(values, message, client, bridge) {
-    const url = bridge.transf(values.rssurl);
-    const checkinterval = bridge.transf(values.checkinterval);
-    var Watcher = client.getMods().require("feed-watcher"),
-      feed = url,
-      interval = checkinterval;
+    const feed = bridge.transf(values.rssurl);
+    const interval = bridge.transf(values.checkinterval);
+    const Watcher = await client.getMods().require("feed-watcher");
+
     // if not interval is passed, 60s would be set as default interval.
-    var watcher = new Watcher(feed, interval);
+    const watcher = new Watcher(feed, interval);
 
     // Check for new entries every n seconds.
     watcher.on("new entries", function (entries) {

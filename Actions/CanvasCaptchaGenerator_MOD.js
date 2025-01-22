@@ -26,7 +26,7 @@ module.exports = {
     const Captcha = client
       .getMods()
       .require("captcha-generator-alphanumeric").default;
-    const Canvas = client.getMods().require("canvas");
+    const Canvas = await client.getMods().require("canvas");
 
     try {
       let result = new Captcha();
