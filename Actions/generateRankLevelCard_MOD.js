@@ -58,9 +58,9 @@ module.exports = {
       name: "Required Exp",
     },
     {
-    element: "input",
-    storeAs: "BarColor",
-    name: "Bar Color (HEXCODE)",
+      element: "input",
+      storeAs: "BarColor",
+      name: "Bar Color (HEXCODE)",
     },
     "-",
     {
@@ -71,7 +71,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const canvafy = client.getMods().require("canvafy");
+    const canvafy = await client.getMods().require("canvafy");
 
     function generateRankCard() {
       const rankCard = new canvafy.Rank()

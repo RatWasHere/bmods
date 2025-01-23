@@ -38,7 +38,7 @@ module.exports = {
   ],
   async run(values, message, client, bridge) {
     const data = bridge.get(values.json);
-    const jsonpath = client.getMods().require("jsonpath");
+    const jsonpath = await client.getMods().require("jsonpath");
     const result = jsonpath.query(data, bridge.transf(values.path));
     if (values.logtoconsole) {
       console.log(result);

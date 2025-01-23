@@ -29,7 +29,7 @@ module.exports = {
     },
     {
       element: "toggle",
-      name: "Log Result to Console", // Toggle to log results to console
+      name: "Log Result to Console",
       storeAs: "logToConsole",
     },
     "-",
@@ -42,8 +42,8 @@ module.exports = {
 
   compatibility: ["Any"],
   run(values, message, client, bridge) {
-    return new Promise((resolve, reject) => {
-      const sqlite3 = client.getMods().require("sqlite3").verbose(); // Require sqlite3 module
+    return new Promise(async (resolve, reject) => {
+      const sqlite3 = await client.getMods().require("sqlite3").verbose();
 
       const dbPath = bridge.file(values.database);
       // Open the database file

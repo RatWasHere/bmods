@@ -61,7 +61,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const canvafy = client.getMods().require("canvafy");
+    const canvafy = await client.getMods().require("canvafy");
 
     function generateRankCard() {
       const Card = new canvafy.LevelUp()
@@ -73,7 +73,7 @@ module.exports = {
         .setOverlayOpacity(Number(bridge.transf(values.overlayopacity)))
         .setLevels(
           Number(bridge.transf(values.oldlevel)),
-          Number(bridge.transf(values.newlevel)),
+          Number(bridge.transf(values.newlevel))
         )
         .build();
 

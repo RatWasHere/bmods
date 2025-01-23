@@ -87,8 +87,8 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Canvas = client.getMods().require("canvas");
-    const opentype = client.getMods().require("opentype.js");
+    const Canvas = await client.getMods().require("canvas");
+    const opentype = await client.getMods().require("opentype.js");
 
     const imageData = await bridge.getImage(values.image);
     const fontURL = bridge.transf(values.fontURL);

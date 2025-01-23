@@ -57,8 +57,8 @@ module.exports = {
   async run(values, message, client, bridge) {
     const url = bridge.transf(values.url);
     const headers = JSON.parse(bridge.transf(values.headers));
-    const jsonpath = client.getMods().require("jsonpath");
-    const axios = client.getMods().require("axios");
+    const jsonpath = await client.getMods().require("jsonpath");
+    const axios = await client.getMods().require("axios");
 
     return new Promise((resolve, reject) => {
       axios
@@ -91,7 +91,7 @@ module.exports = {
         })
         .catch((error) => {
           console.error(
-            `Error: ${error.response ? error.response.status : error.message}`,
+            `Error: ${error.response ? error.response.status : error.message}`
           );
           reject(error);
         });

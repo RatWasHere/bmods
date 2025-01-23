@@ -31,13 +31,11 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const { createWorker } = client.getMods().require("tesseract");
+    const { createWorker } = await client.getMods().require("tesseract");
 
-    await (async () => {
-      const worker = await createWorker();
-      const ret = await worker.recognize(await bridge.getImage(values.image));
-      bridge.store(values.store, ret.data.text);
-      await worker.terminate();
-    })();
+    const worker = await createWorker();
+    const ret = await worker.recognize(await bridge.getImage(values.image));
+    bridge.store(values.store, ret.data.text);
+    await worker.terminate();
   },
 };
