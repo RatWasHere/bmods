@@ -1,4 +1,4 @@
-modVersion = "v1.0.4";
+modVersion = "v1.0.5";
 
 module.exports = {
   data: {
@@ -89,6 +89,7 @@ module.exports = {
 
       return bridge.store(values.store, track);
     } catch (error) {
+      console.log("Play Music Error", error);
       bridge.runner(values.ifError, values.ifErrorActions);
     }
   },
