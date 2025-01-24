@@ -1,4 +1,4 @@
-modVersion = "v1.0.3";
+modVersion = "v1.0.4";
 
 module.exports = {
   data: {
@@ -112,12 +112,12 @@ module.exports = {
 
     await client.player.extractors.register(YoutubeiExtractor, {});
 
-    client.player
+    client.player.events
       .on("playerError", (queue, error) => {
-        console.log("[Discord-PLayer] Player Error:", error);
+        console.log("[Discord-Player] Player Error:", error);
       })
       .on("error", (queue, error) => {
-        console.log("[Discord-PLayer] Error:", error);
+        console.log("[Discord-Player] Error:", error);
       });
 
     // Enable Debugging
