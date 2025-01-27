@@ -1,4 +1,4 @@
-modVersion = "v1.0.3";
+modVersion = "v1.0.5";
 
 module.exports = {
   data: {
@@ -24,6 +24,7 @@ module.exports = {
         currentTrack: { name: "Current Track" },
         isPlaying: { name: "Is Playing?" },
         queueObject: { name: "Queue Object" },
+        queueSize: { name: "Queue Size" },
       },
     },
     "-",
@@ -87,6 +88,11 @@ module.exports = {
 
       case "queueObject": {
         result = queue;
+        break;
+      }
+
+      case "queueSize": {
+        result = queue.tracks.size;
         break;
       }
     }

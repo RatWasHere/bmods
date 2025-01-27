@@ -41,9 +41,10 @@ module.exports = {
   ],
 
   compatibility: ["Any"],
-  run(values, message, client, bridge) {
-    return new Promise(async (resolve, reject) => {
-      const sqlite3 = await client.getMods().require("sqlite3").verbose();
+  async run(values, message, client, bridge) {
+    await client.getMods().require("sqlite3");
+    return new Promise((resolve, reject) => {
+      const sqlite3 = require("sqlite3").verbose();
 
       const dbPath = bridge.file(values.database);
       // Open the database file
