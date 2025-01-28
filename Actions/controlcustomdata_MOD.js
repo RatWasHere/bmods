@@ -1,3 +1,5 @@
+modVersion = "v1.0.9";
+
 module.exports = {
   modules: ["edit-json-file"],
   data: {
@@ -158,6 +160,11 @@ module.exports = {
         },
       },
     },
+    "-",
+    {
+      element: "text",
+      text: modVersion,
+    },
   ],
 
   compatibility: ["Any"],
@@ -176,24 +183,31 @@ module.exports = {
     if (values.deleteJson) {
       file.empty();
     }
+
+    if (Array.isArray(values.cases)) {
     for (const dataCase of values.cases) {
       if (dataCase.type !== "data") continue;
       file.set(
         bridge.transf(dataCase.data.path),
         bridge.transf(dataCase.data.value)
       );
+    };
     }
+    if (Array.isArray(values.cases3)) {
     for (const dataCase of values.cases3) {
       if (dataCase.type !== "data") continue;
       file.append(
         bridge.transf(dataCase.data.path),
         bridge.transf(dataCase.data.value)
       );
+    };
     }
+    if (Array.isArray(values.cases1)) {
     for (const dataCase of values.cases1) {
       if (dataCase.type !== "data") continue;
       file.unset(bridge.transf(dataCase.data.path));
     }
+  };
     if (values.logToConsole) {
       console.log(file.get());
     }
