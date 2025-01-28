@@ -429,15 +429,17 @@ module.exports = {
       element: "largeInput",
       storeAs: "additionalOptions",
       name: "Additional Options For Query Calls",
-      placeholder: "Optional - JSON Only"
-    }
+      placeholder: "Optional - JSON Only",
+    },
   ],
 
-  async run(values, interaction, client, bridge){
-    await client.getMods().require("gamedig")
-    const timeout = bridge.transf(values.timeoutDur) ? Number(bridge.transf(values.timeoutDur))*1000 : 10000
+  async run(values, interaction, client, bridge) {
+    await client.getMods().require("gamedig");
+    const timeout = bridge.transf(values.timeoutDur)
+      ? Number(bridge.transf(values.timeoutDur)) * 1000
+      : 10000;
 
-    try{
+    try {
       await Promise.race([
         new Promise((resolve, reject) => {
           const { GameDig } = require("gamedig");
@@ -446,8 +448,7 @@ module.exports = {
             type: swap(games)[values.gametype],
             host: bridge.transf(values.host),
             port: bridge.transf(values.port),
-            givenPortOnly: true, // the library will attempt multiple ports in order to ensure success, to avoid this pass this option
-            ...(JSON.parse(bridge.transf(values.additionalOptions) || "{}"))
+            ...JSON.parse(bridge.transf(values.additionalOptions) || "{}"),
           })
             .then((state) => {
               bridge.store(values.servername, state.name);
@@ -469,9 +470,11 @@ module.exports = {
             });
         }),
 
-        new Promise((_, reject) => setTimeout(()=> reject(new Error(`Request Took Too Long!`)), timeout))
-      ])
-    } catch(error){
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error(`Request Took Too Long!`)), timeout)
+        ),
+      ]);
+    } catch (error) {
       bridge.store(values.servername, error);
       bridge.store(values.servermap, error);
       bridge.store(values.password, error);
@@ -479,5 +482,5 @@ module.exports = {
       bridge.store(values.maxplayers, error);
       bridge.store(values.raw, error);
     }
-  }
+  },
 };
