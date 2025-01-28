@@ -1,3 +1,5 @@
+modVersion = "v1.1.1";
+
 module.exports = {
   modules: ["edit-json-file"],
   data: {
@@ -114,6 +116,11 @@ module.exports = {
         },
       },
     },
+    "-",
+    {
+      element: "text",
+      text: modVersion,
+    },
   ],
 
   compatibility: ["Any"],
@@ -130,12 +137,15 @@ module.exports = {
       autosave: true,
     });
 
+    if (Array.isArray(values.cases)) {
     for (const dataCase of values.cases) {
       if (dataCase.type !== "data") continue;
       let output;
       output = file.get(bridge.transf(dataCase.data.Path));
       bridge.store(dataCase.data.store, output);
     };
+  };
+  if (Array.isArray(values.cases1)) {
     for (const dataCase of values.cases1) {
       if (dataCase.type !== "data") continue;
       let output;
@@ -161,5 +171,6 @@ module.exports = {
       
       bridge.store(dataCase.data.store, names);
     };
+  };
   }
 };

@@ -1,3 +1,5 @@
+modVersion = "v1.0.1";
+
 module.exports = {
   modules: ["edit-json-file"],
   data: {
@@ -88,6 +90,11 @@ module.exports = {
       storeAs: "false",
       storeActionsAs: "falseActions",
       name: "If False",
+    },
+    "-",
+    {
+      element: "text",
+      text: modVersion,
     },
   ],
 

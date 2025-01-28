@@ -1,3 +1,5 @@
+modVersion = "v1.0.1";
+
 module.exports = {
   data: {
     name: "Custom Data Top",
@@ -62,6 +64,11 @@ module.exports = {
       element: "storage",
       storeAs: "store",
       name: "Store List As",
+    },
+    "-",
+    {
+      element: "text",
+      text: modVersion,
     },
   ],
   subtitle: (values, constants) => {
