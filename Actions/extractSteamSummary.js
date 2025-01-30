@@ -120,7 +120,7 @@ module.exports = {
     },
     {
       element: "text",
-      text: "modVersion",
+      text: modVersion,
     },
   ],
 
