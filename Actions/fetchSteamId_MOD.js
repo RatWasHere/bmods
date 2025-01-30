@@ -34,6 +34,10 @@ module.exports = {
       storeAs: "profileSummary",
       name: "Store Steam Profile Summary As",
     },
+    {
+      element: "text",
+      text: "modVersion",
+    },
   ],
 
   subtitle: (values) =>{

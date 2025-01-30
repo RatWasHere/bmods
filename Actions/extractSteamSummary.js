@@ -116,8 +116,12 @@ module.exports = {
     {
       element: "store",
       storeAs: "currentGameServerIp",
-      name: "Store Current Playing Game Server IP As"
-    }
+      name: "Store Current Playing Game Server IP As",
+    },
+    {
+      element: "text",
+      text: "modVersion",
+    },
   ],
 
   subtitle: (values) =>{
