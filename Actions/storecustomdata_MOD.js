@@ -1,4 +1,4 @@
-modVersion = "v1.1.1";
+modVersion = "v1.1.2";
 
 module.exports = {
   modules: ["edit-json-file"],
@@ -125,7 +125,12 @@ module.exports = {
 
   compatibility: ["Any"],
   subtitle: (values, constants, thisAction) => {
-    let numData = values.cases.filter((c) => c.type === "data").length;
+    const checkAndCount = (arr) => Array.isArray(arr) ? arr.length : 0;
+    let numData1 = checkAndCount(values.cases);
+    let numData2 = checkAndCount(values.cases1);
+
+    let numData = numData1 + numData2;
+
     return `Getting ${numData} Information(s)`;
   },
   async run(values, message, client, bridge) {
