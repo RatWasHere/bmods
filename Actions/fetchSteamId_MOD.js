@@ -66,10 +66,10 @@ module.exports = {
         if (vanityResponse.response.success == 1) {
             steamId = vanityResponse.response.steamid; // Resolved Steam ID
         } else {
-            console.error("Failed To Resolve Vanity To Steam ID");
-            steamId = "Failed To Resolve Vanity To Steam ID"
+            console.error("Failed To Resolve Vanity To Steam ID")
+            steamId = undefined
         }
-    } else {steamId = "Failed To Resolve Vanity To Steam ID"}
+    } else {steamId = undefined}
     bridge.store(values.steamId, steamId)
 
     let profileObject
@@ -80,9 +80,9 @@ module.exports = {
         profileObject = profileObjectResponse.response.players[0]
       } else {
         console.error("Failed To Fetch Profile Information")
-        profileObject = "Failed To Fetch Profile Information"
+        profileObject = undefined
       }
-    } else {profileObject = "No Fetching Of Profile Information"}
+    } else {profileObject = undefined}
     bridge.store(values.profileSummary, profileObject)
   }
 }
