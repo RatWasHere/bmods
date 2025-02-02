@@ -1,4 +1,4 @@
-modVersion = "u.v1.0"
+modVersion = "s.v1.1"
 module.exports = {
   data: {
     name: "Check If Number Is In Range"
@@ -57,14 +57,14 @@ module.exports = {
     let minimum = parseFloat(bridge.transf(values.lowerRange))
     let maximum = parseFloat(bridge.transf(values.upperRange))
 
-    if (!isNaN(checkNumber) && !isNaN(minimum) && !isNaN(ma)){
+    if (!isNaN(checkNumber) && !isNaN(minimum) && !isNaN(maximum)){
       if (checkNumber >= minimum && maximum >= checkNumber){
         bridge.call(values.true, values.trueActions)
       } else {
         bridge.call(values.false, values.falseActions)
       }
     } else {
-      console.log(`One of the follow values is not a number; ${values.inputNum}, ${values.lowerRange}, ${values.upperRange}`)
+      console.log(`One of the following values is not a number; ${values.inputNum}, ${values.lowerRange}, ${values.upperRange}`)
     }
   }
 }
