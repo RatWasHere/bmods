@@ -1,0 +1,12 @@
+# Ignore everything by default
+*
+
+# Allow mod folders
+!actions/
+!automations/
+!themes/
+!events/
+!translations/
+
+# Allow .gitignore
+!.gitignore
