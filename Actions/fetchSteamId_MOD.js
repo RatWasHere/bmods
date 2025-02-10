@@ -66,7 +66,7 @@ module.exports = {
         if (vanityResponse.response.success == 1) {
             steamId = vanityResponse.response.steamid; // Resolved Steam ID
         } else {
-            console.error("Failed To Resolve Vanity To Steam ID")
+            console.error("Failed To Resolve Vanity To Steam ID");
             steamId = undefined
         }
     } else {steamId = undefined}
