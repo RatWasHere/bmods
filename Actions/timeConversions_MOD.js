@@ -1,7 +1,11 @@
-modVersion = "s.v2.0"
+modVersion = "s.v2.2"
 module.exports = {
   data: {
-    name: "Time Conversions"
+    name: "Time Conversions",
+    "inputUnit":{
+      type: "custom",
+      value: "",
+    },
   },
   aliases: ["Parse Time"],
   modules: [],
@@ -172,19 +176,19 @@ module.exports = {
 
       case "custom":
         const extractions = {
-          year: {regex: /(\d+) ?(year|years|yrs|yr|y|yy)/gi, toMilli: 365.25 * 24 * 60 * 60 * 1000},
-          month: {regex: /(\d+) ?(mo|month|months|mth|mths)/gi, toMilli: 30.44 * 24 * 60 * 60 * 1000},
-          week: {regex: /(\d+) ?(week|weeks|wk|wks|w)/gi, toMilli: 7 * 24 * 60 * 60 * 1000},
-          day: {regex: /(\d+) ?(day|days|d|dd)/gi, toMilli: 24 * 60 * 60 * 1000},
-          hour: {regex: /(\d+) ?(hour|hours|hr|hrs|h|hh)/gi, toMilli: 60 * 60 * 1000},
-          minute: {regex: /(\d+) ?(minute|minutes|min|mins|m|mm)/gi, toMilli: 60 * 1000},
-          second: {regex: /(\d+) ?(second|seconds|sec|secs|s|ss)/gi, toMilli: 1000},
-          millisecond: {regex: /(\d+) ?(millisecond|milliseconds|ms)/gi, toMilli: 1},
+          year: {regex: /(\d+(?:\.\d+)?) ?(years?\b|yrs?\b|yy?\b)/gi, toMilli: 365.25 * 24 * 60 * 60 * 1000},
+          month: {regex: /(\d+(?:\.\d+)?) ?(mo(nths?)?\b|mths?\b)/gi, toMilli: 30.44 * 24 * 60 * 60 * 1000},
+          week: {regex: /(\d+(?:\.\d+)?) ?(weeks?\b|wks?\b|w\b)/gi, toMilli: 7 * 24 * 60 * 60 * 1000},
+          day: {regex: /(\d+(?:\.\d+)?) ?(days?\b|dd?\b)/gi, toMilli: 24 * 60 * 60 * 1000},
+          hour: {regex: /(\d+(?:\.\d+)?) ?(hours?\b|hrs?\b|hh?\b)/gi, toMilli: 60 * 60 * 1000},
+          minute: {regex: /(\d+(?:\.\d+)?) ?(minutes?\b|mins?\b|mm?\b)/gi, toMilli: 60 * 1000},
+          second: {regex: /(\d+(?:\.\d+)?) ?(seconds?\b|secs?\b|ss?\b)/gi, toMilli: 1000},
+          millisecond: {regex: /(\d+(?:\.\d+)?) ?(milliseconds?\b|ms\b)/gi, toMilli: 1},
         }
 
         let extractedValues = {}
         for (let unit in extractions) {
-          let matches = [...timeInput.matchAll(extractions[unit].regex)];
+          let matches = [...timeInput.matchAll(extractions[unit].regex)]
 
           if (matches.length > 0) {
             extractedValues[unit] = matches.reduce((sum, match) => {
@@ -243,34 +247,26 @@ module.exports = {
 
         let years = Math.floor(msTimeBase/(1000*60*60*24*365.25))
         msTimeBase %= (1000*60*60*365.25)
-        console.log(years, typeof years)
 
         let months = Math.floor(msTimeBase/(1000*60*60*24*30.44))
         msTimeBase %= (1000*60*60*24*30.44)
-        console.log(months, typeof months)
 
         let weeks = Math.floor(msTimeBase/(1000*60*60*24*7))
         msTimeBase %= (1000*60*60*24*7)
-        console.log(weeks, typeof weeks)
 
         let days = Math.floor(msTimeBase/(1000*60*60*24))
         msTimeBase %= (1000*60*60*24)
-        console.log(days, typeof days)
 
         let hours = Math.floor(msTimeBase/(1000*60*60))
         msTimeBase %= (1000*60*60)
-        console.log(hours, typeof hours)
 
         let minutes = Math.floor(msTimeBase/(1000*60))
         msTimeBase %= (1000*60)
-        console.log(minutes, typeof minutes)
 
         let seconds = Math.floor(msTimeBase/1000)
         msTimeBase %= (1000)
-        console.log(seconds, typeof seconds)
 
         let milliseconds = msTimeBase%1000
-        console.log(milliseconds, typeof milliseconds)
 
         if (!format.includes("YY")){
           months += years*(365.25/30.44)

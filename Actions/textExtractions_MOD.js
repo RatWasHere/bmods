@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.1"
 module.exports = {
   data: {
     name: "Extract From Text"
@@ -44,7 +44,7 @@ module.exports = {
     if (type == "string"){
       regexExp = values.extraction.value || ""
     } else if (type == "number"){
-      regexExp = `(\d+)`
+      regexExp = `(\d+(?:\.\d+)?)`
     }
     return `Extract ${thisAction.UI.find((e) => e.element == "typedDropdown").choices[values.extraction.type].name}(${regexExp})`
   },
@@ -63,7 +63,7 @@ module.exports = {
         break
       
       case "number":
-        extracts = [...source.matchAll(/(\d+)/g)].map((match) => match[0])
+        extracts = [...source.matchAll(/(\d+(?:\.\d+)?)/g)].map((match) => match[0])
         break
     }
     let results = (extracts && extracts.length > 0) ? extracts : []
