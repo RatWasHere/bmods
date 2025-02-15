@@ -42,9 +42,9 @@ module.exports = {
     let type = values.extraction.type
     let regexExp
     if (type == "string"){
-      regexExp = values.extraction.value || ""
+      regexExp = values.extraction.value.replace("\\", "\\\\") || ""
     } else if (type == "number"){
-      regexExp = `(\d+(?:\.\d+)?)`
+      regexExp = `(\\d+(?:\\.\\d+)?)`
     }
     return `Extract ${thisAction.UI.find((e) => e.element == "typedDropdown").choices[values.extraction.type].name}(${regexExp})`
   },
