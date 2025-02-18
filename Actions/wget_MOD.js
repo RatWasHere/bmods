@@ -1,4 +1,4 @@
-modVersion = "u.v1.0"
+modVersion = "s.v1.0"
 module.exports = {
   data: {
     name: "wget Download"
@@ -46,6 +46,10 @@ module.exports = {
       storeActionsAs: "onErrorActions",
       name: "On Error"
     },
+    {
+      element: "text",
+      text: modVersion
+    }
   ],
 
   subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
