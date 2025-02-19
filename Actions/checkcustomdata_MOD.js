@@ -203,8 +203,6 @@ module.exports = {
           }
         }
     
-        console.log(variable);
-    
         let secondValue = bridge.transf(values.compareValue);
     
         switch (values.comparator) {
