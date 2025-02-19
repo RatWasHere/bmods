@@ -1,7 +1,6 @@
-modVersion = "v1.1.2";
+modVersion = "v2.0.0";
 
 module.exports = {
-  modules: ["edit-json-file"],
   data: {
     name: "Store Custom Data",
   },
@@ -135,47 +134,144 @@ module.exports = {
   },
   async run(values, message, client, bridge) {
     let dbPath = bridge.file(values.database);
+    let fs = bridge.fs;
 
-    const editJsonFile = await client.getMods().require("edit-json-file");
+    let data = {};
+    if (fs.existsSync(dbPath)) {
+      const rawData = fs.readFileSync(dbPath, 'utf8');
+      data = JSON.parse(rawData);
+}
 
-    let file = editJsonFile(dbPath, {
-      autosave: true,
-    });
+if (Array.isArray(values.cases)) {
+  for (const dataCase of values.cases) {
+    if (dataCase.type !== "data") continue;
 
-    if (Array.isArray(values.cases)) {
-    for (const dataCase of values.cases) {
-      if (dataCase.type !== "data") continue;
-      let output;
-      output = file.get(bridge.transf(dataCase.data.Path));
-      bridge.store(dataCase.data.store, output);
-    };
-  };
-  if (Array.isArray(values.cases1)) {
-    for (const dataCase of values.cases1) {
-      if (dataCase.type !== "data") continue;
-      let output;
-      output = file.get(bridge.transf(dataCase.data.Path));
+    const path = bridge.transf(dataCase.data.Path);
+    const pathParts = path.split('.');
+    let current = data;
 
-      let names = [];
+    for (const part of pathParts) {
+      if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
+        const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+        if (!arrayKeyMatch) {
+          current = undefined;
+          break;
+        }
+
+        const arrayKey = arrayKeyMatch[1];
+        const indexOrSymbol = arrayKeyMatch[2];
+
+        if (!Array.isArray(current[arrayKey])) {
+          current = undefined;
+          break;
+        }
+
+        const array = current[arrayKey];
+
+        if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
+          current = array[array.length - 1];
+        } else {
+          const index = parseInt(indexOrSymbol, 10);
+          if (isNaN(index) || index < 0 || index >= array.length) {
+            current = undefined;
+            break;
+          }
+
+          current = array[index];
+        }
+      } else {
+        if (!current || typeof current !== 'object') {
+          current = undefined;
+          break;
+        }
+
+        current = current[part];
+      }
+
+      if (current === undefined) {
+        break;
+      }
+    }
+
+    bridge.store(dataCase.data.store, current);
+  }
+}
+
+if (Array.isArray(values.cases1)) {
+  for (const dataCase of values.cases1) {
+    if (dataCase.type !== "data") continue;
+
+    const path = bridge.transf(dataCase.data.Path);
+    const pathParts = path.split('.');
+    let current = data;
+
+    for (const part of pathParts) {
+      if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
+        const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+        if (!arrayKeyMatch) {
+          current = undefined;
+          break;
+        }
+
+        const arrayKey = arrayKeyMatch[1];
+        const indexOrSymbol = arrayKeyMatch[2];
+
+        if (!Array.isArray(current[arrayKey])) {
+          current = undefined;
+          break;
+        }
+
+        const array = current[arrayKey];
+
+        if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
+          current = array[array.length - 1];
+        } else {
+          const index = parseInt(indexOrSymbol, 10);
+          if (isNaN(index) || index < 0 || index >= array.length) {
+            current = undefined;
+            break;
+          }
+
+          current = array[index];
+        }
+      } else {
+        if (!current || typeof current !== 'object') {
+          current = undefined;
+          break;
+        }
+
+        current = current[part];
+      }
+
+      if (current === undefined) {
+        break;
+      }
+    }
+
+    let names = [];
+
+    if (current && typeof current === 'object') {
       if (dataCase.data.objects) {
-        for (let key in output) {
-          if (!(typeof output[key] === 'object')) {
+        for (let key in current) {
+          if (!(typeof current[key] === 'object')) {
             names.push(key);
           }
         }
       } else if (dataCase.data.lines) {
-        for (let key in output) {
-          if (typeof output[key] !== 'string') {
+        for (let key in current) {
+          if (typeof current[key] !== 'string') {
             names.push(key);
           }
-        }}else {
-          for (let key in output) {
-            names.push(key);
-          };
-      };
-      
-      bridge.store(dataCase.data.store, names);
-    };
-  };
+        }
+      } else {
+        for (let key in current) {
+          names.push(key);
+        }
+      }
+    }
+
+    bridge.store(dataCase.data.store, names);
+  }
+}
   }
 };

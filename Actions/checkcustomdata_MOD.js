@@ -1,7 +1,6 @@
-modVersion = "v1.0.1";
+modVersion = "v2.0.0";
 
 module.exports = {
-  modules: ["edit-json-file"],
   data: {
     name: "Check Custom Data",
   },
@@ -150,90 +149,133 @@ module.exports = {
 
   async run(values, message, client, bridge) {
     let dbPath = bridge.file(values.database);
-
-    const editJsonFile = await client.getMods().require("edit-json-file");
-
-    let file = editJsonFile(dbPath, {
-      autosave: true,
-    });
+    let fs = bridge.fs;
+    let data = {};
     let matchesCriteria = false;
-
-    let variable = file.get(bridge.transf(values.Path));
-    let secondValue = bridge.transf(values.compareValue);
-
-    switch (values.comparator) {
-      case "Equals":
-        if (`${variable}` == `${secondValue}`) {
-          matchesCriteria = true;
+    
+    if (fs.existsSync(dbPath)) {
+      try {
+        const rawData = fs.readFileSync(dbPath, 'utf8');
+        data = JSON.parse(rawData);
+    
+        const path = bridge.transf(values.Path);
+        const pathParts = path.split('.');
+        let variable = data;
+    
+        for (const part of pathParts) {
+          if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
+            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+            if (!arrayKeyMatch) {
+              variable = undefined;
+              break;
+            }
+    
+            const arrayKey = arrayKeyMatch[1];
+            const indexOrSymbol = arrayKeyMatch[2];
+    
+            if (!Array.isArray(variable[arrayKey])) {
+              variable = undefined;
+              break;
+            }
+    
+            const array = variable[arrayKey];
+    
+            if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
+              variable = array[array.length - 1];
+            } else {
+              const index = parseInt(indexOrSymbol, 10);
+              if (isNaN(index) || index < 0 || index >= array.length) {
+                variable = undefined;
+                break;
+              }
+              variable = array[index];
+            }
+          } else {
+            if (!variable || typeof variable !== 'object') {
+              variable = undefined;
+              break;
+            }
+            variable = variable[part];
+          }
+    
+          if (variable === undefined) {
+            break;
+          }
         }
-        break;
-
-      case "Doesn't Equal":
-        if (variable != secondValue) {
-          matchesCriteria = true;
+    
+        let secondValue = bridge.transf(values.compareValue);
+    
+        switch (values.comparator) {
+          case "Equals":
+            if (`${variable}` == `${secondValue}`) {
+              matchesCriteria = true;
+            }
+            break;
+          case "Doesn't Equal":
+            if (variable != secondValue) {
+              matchesCriteria = true;
+            }
+            break;
+          case "Exists":
+            matchesCriteria = variable != null && variable !== undefined;
+            break;
+          case "Equals Exactly":
+            if (variable === secondValue) {
+              matchesCriteria = true;
+            }
+            break;
+          case "Greater Than":
+            if (Number(variable) > Number(secondValue)) {
+              matchesCriteria = true;
+            }
+            break;
+          case "Less Than":
+            if (Number(variable) < Number(secondValue)) {
+              matchesCriteria = true;
+            }
+            break;
+          case "Equal Or Greater Than":
+            if (Number(variable) >= Number(secondValue)) {
+              matchesCriteria = true;
+            }
+            break;
+          case "Equal Or Less Than":
+            if (Number(variable) <= Number(secondValue)) {
+              matchesCriteria = true;
+            }
+            break;
+          case "Is Number":
+            if (
+              typeof parseInt(variable) === "number" &&
+              !isNaN(parseInt(variable))
+            ) {
+              matchesCriteria = true;
+            }
+            break;
+          case "Matches Regex":
+            try {
+              matchesCriteria = Boolean(
+                variable?.toString().match(new RegExp(`^${secondValue}$`, "i"))
+              );
+            } catch (error) {
+              matchesCriteria = false;
+            }
+            break;
+          case "Exactly includes":
+            if (typeof variable?.toString().includes === "function") {
+              matchesCriteria = variable.toString().includes(secondValue);
+            }
+            break;
         }
-        break;
-
-      case "Exists":
-        matchesCriteria = variable != null || variable != undefined;
-        break;
-
-      case "Equals Exactly":
-        if (variable === secondValue) {
-          matchesCriteria = true;
-        }
-        break;
-
-      case "Greater Than":
-        if (Number(variable) > Number(secondValue)) {
-          matchesCriteria = true;
-        }
-        break;
-
-      case "Less Than":
-        if (Number(variable) < Number(secondValue)) {
-          matchesCriteria = true;
-        }
-        break;
-
-      case "Equal Or Greater Than":
-        if (Number(variable) >= Number(secondValue)) {
-          matchesCriteria = true;
-        }
-        break;
-
-      case "Equal Or Less Than":
-        if (Number(variable) <= Number(secondValue)) {
-          matchesCriteria = true;
-        }
-        break;
-
-      case "Is Number":
-        if (
-          typeof parseInt(variable) == "number" &&
-          `${parseInt(variable)}` != `NaN`
-        ) {
-          matchesCriteria = true;
-        }
-        break;
-
-      case "Matches Regex":
-        matchesCriteria = Boolean(
-          variable.match(new RegExp("^" + secondValue + "$", "i"))
-        );
-        break;
-
-      case "Exactly includes":
-        if (typeof variable?.toString().includes === "function") {
-          matchesCriteria = variable.toString().includes(secondValue);
-        }
-        break;
+      } catch (error) {
+        console.error("Ошибка при чтении или обработке данных:", error);
+      }
     }
-
-    if (matchesCriteria == true) {
-      await bridge.call(values.true, values.trueActions);
+    
+    if (matchesCriteria) {
+      bridge.call(values.true, values.trueActions);
     } else {
-      await bridge.call(values.false, values.falseActions);
+      bridge.call(values.false, values.falseActions);
     }
   },
 };
