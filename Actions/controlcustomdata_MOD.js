@@ -1,7 +1,6 @@
-modVersion = "v1.1.0";
+modVersion = "v2.0.0";
 
 module.exports = {
-  modules: ["edit-json-file"],
   data: {
     name: "Control Custom Data",
   },
@@ -88,7 +87,7 @@ module.exports = {
                   name: "Create Data",
                   preview:
                     "`Query: ${option.data.path} - ${option.data.value}`",
-                  data: { query: "", value: "" },
+                  data: { path: "", value: "" },
                   UI: [
                     {
                       element: "input",
@@ -386,83 +385,320 @@ module.exports = {
   },
   async run(values, message, client, bridge) {
     let dbPath = bridge.file(values.database);
+    let fs = bridge.fs;
 
-    const editJsonFile = await client.getMods().require("edit-json-file");
-
-    let file = editJsonFile(dbPath, {
-      autosave: true,
-    });
     if (values.deleteJson) {
-      file.empty();
+      fs.writeFileSync(dbPath, '{}', 'utf8');
     }
 
+    let data = {};
+    if (fs.existsSync(dbPath)) {
+      const rawData = fs.readFileSync(dbPath, 'utf8');
+      data = JSON.parse(rawData);
+    }
+    
     if (Array.isArray(values.cases)) {
-    for (const dataCase of values.cases) {
-      if (dataCase.type !== "data") continue;
-      file.set(
-        bridge.transf(dataCase.data.path),
-        bridge.transf(dataCase.data.value)
-      );
-    };
-    };
+      for (const dataCase of values.cases) {
+        if (dataCase.type !== "data") continue;
+    
+        const rawPath = bridge.transf(dataCase.data.path);
+        const value = bridge.transf(dataCase.data.value);
+    
+        const pathParts = rawPath.split('.');
+    
+        let current = data;
+        for (let i = 0; i < pathParts.length - 1; i++) {
+          const part = pathParts[i];
+    
+          if (!current[part] || typeof current[part] !== 'object') {
+            current[part] = {};
+          }
+    
+          current = current[part];
+        }
+    
+        const lastPart = pathParts[pathParts.length - 1];
+    
+        if (typeof current[lastPart] === 'object' && typeof value === 'object') {
+          current[lastPart] = { ...current[lastPart], ...value };
+        } else {
+          current[lastPart] = value;
+        }
+      }
+    }
+
     if (Array.isArray(values.cases3)) {
-    for (const dataCase of values.cases3) {
-      if (dataCase.type !== "data") continue;
-      file.append(
-        bridge.transf(dataCase.data.path),
-        bridge.transf(dataCase.data.value)
-      );
-    };
-    };
+      for (const dataCase of values.cases3) {
+        if (dataCase.type !== "data") continue;
+    
+        const rawPath = bridge.transf(dataCase.data.path);
+        const value = bridge.transf(dataCase.data.value);
+    
+        const pathParts = rawPath.split('.');
+    
+        let current = data;
+        for (let i = 0; i < pathParts.length - 1; i++) {
+          const part = pathParts[i];
+    
+          if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
+            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+            if (!arrayKeyMatch) continue;
+    
+            const arrayKey = arrayKeyMatch[1];
+            const indexOrSymbol = arrayKeyMatch[2];
+    
+            if (!Array.isArray(current[arrayKey])) {
+              current[arrayKey] = [];
+            }
+    
+            current = current[arrayKey];
+    
+            if (indexOrSymbol === 'N') {
+              const nextPart = pathParts[i + 1];
+              if (nextPart) {
+                current.push({});
+                current = current[current.length - 1];
+              } else {
+                current.push(value);
+              }
+              continue;
+            }
+    
+            if (indexOrSymbol === '^') {
+              if (current.length > 0) {
+                const lastElement = current[current.length - 1];
+                if (typeof lastElement !== 'object' || lastElement === null) {
+                  current[current.length - 1] = {};
+                }
+                current = current[current.length - 1];
+              } else {
+                current.push({});
+                current = current[current.length - 1];
+              }
+              continue;
+            }
+    
+            const index = parseInt(indexOrSymbol, 10);
+            if (isNaN(index)) continue;
+    
+            while (current.length <= index) {
+              current.push(null);
+            }
+    
+            if (typeof current[index] !== 'object' || current[index] === null) {
+              current[index] = {};
+            }
+    
+            current = current[index];
+          } else {
+            if (!current[part] || typeof current[part] !== 'object') {
+              current[part] = {};
+            }
+    
+            current = current[part];
+          }
+        }
+    
+        const lastPart = pathParts[pathParts.length - 1];
+    
+        const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+        if (lastPartMatch) {
+          const arrayKey = lastPartMatch[1];
+          const indexOrSymbol = lastPartMatch[2];
+    
+          if (!Array.isArray(current[arrayKey])) {
+            current[arrayKey] = [];
+          }
+    
+          const array = current[arrayKey];
+    
+          if (indexOrSymbol === 'N') {
+            array.push(value);
+          } else if (indexOrSymbol === '^') {
+            if (array.length > 0) {
+              const lastElement = array[array.length - 1];
+              if (typeof lastElement !== 'object' || lastElement === null) {
+                array[array.length - 1] = {};
+              }
+              Object.assign(array[array.length - 1], value);
+            } else {
+              array.push(value);
+            }
+          } else {
+            const index = parseInt(indexOrSymbol, 10);
+            if (isNaN(index)) continue;
+    
+            while (array.length <= index) {
+              array.push(null);
+            }
+    
+            if (typeof value === 'string') {
+              array[index] = value;
+            } else if (typeof value === 'object') {
+              if (typeof array[index] !== 'object' || array[index] === null) {
+                array[index] = {};
+              }
+              Object.assign(array[index], value);
+            } else {
+              array[index] = value;
+            }
+          }
+        } else {
+          current[lastPart] = value;
+        }
+      }
+    }
+
     if (Array.isArray(values.cases4)) {
       for (const dataCase of values.cases4) {
         switch (dataCase.type) {
           case 'value':
-            let cases5 = dataCase.data.cases5;
-
-            let res = cases5.reduce((acc, item) => {
-              if (item.type === "data" && item.data && item.data.name && item.data.value) {
-                acc[bridge.transf(item.data.name)] = bridge.transf(item.data.value);
+            if (Array.isArray(dataCase.data?.cases5)) {
+              const res = dataCase.data.cases5.reduce((acc, item) => {
+                if (
+                  item.type === "data" &&
+                  item.data &&
+                  typeof item.data.name === 'string' &&
+                  typeof item.data.value !== 'undefined'
+                ) {
+                  acc[bridge.transf(item.data.name)] = bridge.transf(item.data.value);
+                }
+                return acc;
+              }, {});
+    
+              const resu = dataCase.data.name
+                ? { [bridge.transf(dataCase.data.name)]: res }
+                : res;
+    
+              const pathParts = bridge.transf(dataCase.data.path).split('.');
+              let current = data;
+    
+              for (let i = 0; i < pathParts.length - 1; i++) {
+                const part = pathParts[i];
+                if (!current[part]) {
+                  current[part] = {};
+                }
+                current = current[part];
               }
-              return acc;
-            }, {});
-
-            let resu;
-            if (dataCase.data.name) {
-              resu = {
-                [bridge.transf(dataCase.data.name)]: res
-              };
-            } else {
-              resu = res;
+    
+              const lastPart = pathParts[pathParts.length - 1];
+              current[lastPart] = resu;
             }
-
-            file.set(
-              bridge.transf(dataCase.data.path),
-              resu
-            );
             break;
+    
           case 'array':
-            let cases6 = dataCase.data.cases6;
-
-            let result = cases6.reduce((acc, item) => {
-              if (item.type === "data" && item.data && item.data.name && item.data.value) {
-                acc[bridge.transf(item.data.name)] = bridge.transf(item.data.value);
+            if (Array.isArray(dataCase.data?.cases6)) {
+              const result = dataCase.data.cases6.reduce((acc, item) => {
+                if (
+                  item.type === "data" &&
+                  item.data &&
+                  typeof item.data.name === 'string' &&
+                  typeof item.data.value !== 'undefined'
+                ) {
+                  acc[bridge.transf(item.data.name)] = bridge.transf(item.data.value);
+                }
+                return acc;
+              }, {});
+    
+              const pathParts = bridge.transf(dataCase.data.path).split('.');
+              let current = data;
+    
+              for (let i = 0; i < pathParts.length - 1; i++) {
+                const part = pathParts[i];
+                if (!current[part]) {
+                  current[part] = {};
+                }
+                current = current[part];
               }
-              return acc;
-            }, {});
-            file.append(bridge.transf(dataCase.data.path), result);
-           break;
+    
+              const lastPart = pathParts[pathParts.length - 1];
+              if (!Array.isArray(current[lastPart])) {
+                current[lastPart] = [];
+              }
+              current[lastPart].push(result);
+            }
+            break;
         }
       }
-    };
-    if (Array.isArray(values.cases1)) {
-    for (const dataCase of values.cases1) {
-      if (dataCase.type !== "data") continue;
-      file.unset(bridge.transf(dataCase.data.path));
-    };
-  }
-  if (values.logToConsole) {
-      console.log(file.get());
     }
+
+    if (Array.isArray(values.cases1)) {
+      for (const dataCase of values.cases1) {
+        if (dataCase.type !== "data") continue;
+    
+        const path = bridge.transf(dataCase.data.path);
+        const pathParts = path.split('.');
+        let current = data;
+    
+        for (let i = 0; i < pathParts.length - 1; i++) {
+          const part = pathParts[i];
+    
+          if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
+            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+            if (!arrayKeyMatch) continue;
+    
+            const arrayKey = arrayKeyMatch[1];
+            const indexOrSymbol = arrayKeyMatch[2];
+    
+            if (!Array.isArray(current[arrayKey])) {
+              break;
+            }
+    
+            const array = current[arrayKey];
+    
+            if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
+              if (array.length > 0) {
+                array.pop();
+              }
+            } else {
+              const index = parseInt(indexOrSymbol, 10);
+              if (isNaN(index) || index >= array.length) break;
+    
+              array.splice(index, 1);
+            }
+    
+            current = array;
+          } else {
+            if (!current[part]) {
+              break;
+            }
+    
+            current = current[part];
+          }
+        }
+    
+        const lastPart = pathParts[pathParts.length - 1];
+    
+        const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+        if (lastPartMatch) {
+          const arrayKey = lastPartMatch[1];
+          const indexOrSymbol = lastPartMatch[2];
+    
+          if (!Array.isArray(current[arrayKey])) {
+            continue;
+          }
+    
+          const array = current[arrayKey];
+    
+          if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
+            if (array.length > 0) {
+              array.pop();
+            }
+          } else {
+            const index = parseInt(indexOrSymbol, 10);
+            if (isNaN(index) || index >= array.length) continue;
+    
+            array.splice(index, 1);
+          }
+        } else {
+          delete current[lastPart];
+        }
+      }
+    }
+
+  if (values.logToConsole) {
+      console.log(data);
+    }
+ fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
   },
 };
