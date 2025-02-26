@@ -48,7 +48,7 @@ module.exports = {
 
   async run(values, message, client, bridge){
     this.modules.forEach(moduleName =>{
-      client.getMods().require(moduleName)
+      await client.getMods().require(moduleName)
     })
     let steamApiKey = bridge.transf(values.steamApiKey)
     let steamProfileLink = bridge.transf(values.steamProfileLink)

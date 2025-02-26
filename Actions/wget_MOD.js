@@ -60,7 +60,7 @@ module.exports = {
 
   async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
     this.modules.forEach(moduleName => {
-      client.getMods().require(moduleName)
+      await client.getMods().require(moduleName)
     })
 
     const wget = require("wget-improved")
