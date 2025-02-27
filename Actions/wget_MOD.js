@@ -53,15 +53,15 @@ module.exports = {
   ],
 
   subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
-    return `Download ${values.dlLink} To ${values.filePath || "The Void"}`
+    return `Download ${values.dlLink || "Nothing"} To ${values.filePath || "The Void"}`
   },
 
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    this.modules.forEach(moduleName => {
-      client.getMods().require(moduleName)
-    })
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
 
     const wget = require("wget-improved")
     const fs = require("fs")
@@ -82,7 +82,6 @@ module.exports = {
       })
 
       download.on("start", function(fileSize){
-        console.log(`File Download From ${dlLink} Started, File Size: ${fileSize}bytes`)
       })
 
       download.on("end", function(output){

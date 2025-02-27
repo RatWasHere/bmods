@@ -47,11 +47,14 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){
-    this.modules.forEach(moduleName =>{
-      client.getMods().require(moduleName)
-    })
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
     let steamApiKey = bridge.transf(values.steamApiKey)
     let steamProfileLink = bridge.transf(values.steamProfileLink)
+    if (steamApiKey == ""){
+      return console.error(`A Steam API Key Is Required!`)
+    }
 
     const extractionRegex = /(?:https?:\/\/)?(?:steamcommunity\.com\/)?(id|profiles)\/([^/]+)/
     let match = steamProfileLink.match(extractionRegex)
@@ -62,6 +65,7 @@ module.exports = {
       steamId = identifier
     } else if (/^\d+$/.test(identifier) == false && identifier != undefined){
       const vanityQuery = await fetch(`https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${identifier}`)
+      console.log(await vanityQuery)
       const vanityResponse = await vanityQuery.json()
         if (vanityResponse.response.success == 1) {
             steamId = vanityResponse.response.steamid; // Resolved Steam ID
