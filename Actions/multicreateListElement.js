@@ -28,7 +28,7 @@ module.exports = {
         data: {
           name: "Create List Element",
           preview:
-            "``",
+            "`${option.data.format}`",
           data: { status: "false" },
           UI: [
             {
