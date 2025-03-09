@@ -1,4 +1,4 @@
-modVersion = "v1.0.0";
+modVersion = "v1.0.1";
 
 module.exports = {
   category: "Lists",
@@ -27,8 +27,8 @@ module.exports = {
       UItypes: {
         data: {
           name: "Create List Element",
-          preview:
-            "`${option.data.format}`",
+          preview: 
+          "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Create ${option.data.format}: ${option.data.value.type !== 'string' ? `${option.data.value.type}(${option.data.value.value})` : `${option.data.value.value}`}`",
           data: { status: "false" },
           UI: [
             {
