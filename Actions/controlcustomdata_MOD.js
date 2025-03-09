@@ -1,4 +1,4 @@
-modVersion = "v2.0.0";
+modVersion = "v2.0.1";
 
 module.exports = {
   data: {
@@ -629,66 +629,73 @@ module.exports = {
         const path = bridge.transf(dataCase.data.path);
         const pathParts = path.split('.');
         let current = data;
-    
+        
         for (let i = 0; i < pathParts.length - 1; i++) {
           const part = pathParts[i];
-    
+        
           if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
             const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-            if (!arrayKeyMatch) continue;
-    
+            if (!arrayKeyMatch) break;
+        
             const arrayKey = arrayKeyMatch[1];
             const indexOrSymbol = arrayKeyMatch[2];
-    
+        
             if (!Array.isArray(current[arrayKey])) {
+              current = undefined;
               break;
             }
-    
+        
             const array = current[arrayKey];
-    
-            if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
-              if (array.length > 0) {
-                array.pop();
-              }
+            let index;
+        
+            if (indexOrSymbol === 'N') {
+              index = array.length - 1;
+            } else if (indexOrSymbol === '^') {
+              index = 0;
             } else {
-              const index = parseInt(indexOrSymbol, 10);
-              if (isNaN(index) || index >= array.length) break;
-    
-              array.splice(index, 1);
+              index = parseInt(indexOrSymbol, 10);
+              if (isNaN(index) || index >= array.length) {
+                current = undefined;
+                break;
+              }
             }
-    
-            current = array;
+        
+            current = array[index];
           } else {
             if (!current[part]) {
+              current = undefined;
               break;
             }
-    
             current = current[part];
           }
         }
-    
+        
+        if (!current) {
+          continue;
+        }
+        
         const lastPart = pathParts[pathParts.length - 1];
-    
         const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+        
         if (lastPartMatch) {
           const arrayKey = lastPartMatch[1];
           const indexOrSymbol = lastPartMatch[2];
-    
+        
           if (!Array.isArray(current[arrayKey])) {
             continue;
           }
-    
+        
           const array = current[arrayKey];
-    
+        
           if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
             if (array.length > 0) {
               array.pop();
             }
           } else {
             const index = parseInt(indexOrSymbol, 10);
-            if (isNaN(index) || index >= array.length) continue;
-    
-            array.splice(index, 1);
+            if (!isNaN(index) && index < array.length) {
+              array.splice(index, 1);
+            }
           }
         } else {
           delete current[lastPart];
