@@ -414,15 +414,12 @@ module.exports = {
           if (arrayMatch) {
             const [_, arrayKey, indexOrSymbol] = arrayMatch;
             
-            // Создаем массив, если его нет
             if (!Array.isArray(current[arrayKey])) {
               current[arrayKey] = [];
             }
             let array = current[arrayKey];
         
-            // Обрабатываем индексы
             if (indexOrSymbol === 'N') {
-              // Добавляем новый элемент в конец
               const nextPart = pathParts[i + 1];
               if (nextPart) {
                 array.push({});
@@ -432,30 +429,25 @@ module.exports = {
               }
               continue;
             } else if (indexOrSymbol === '^') {
-              // Работаем с последним элементом
               if (array.length === 0) {
                 array.push({});
               }
               current = array[array.length - 1];
               continue;
             } else {
-              // Числовой индекс
               const index = parseInt(indexOrSymbol, 10);
               if (isNaN(index)) continue;
               
-              // Расширяем массив до нужного размера
               while (array.length <= index) {
                 array.push(null);
               }
               
-              // Создаем объект, если текущий элемент не объект
               if (typeof array[index] !== 'object' || array[index] === null) {
                 array[index] = {};
               }
               current = array[index];
             }
           } else {
-            // Обычный объектный ключ
             if (typeof current[part] !== 'object' || current[part] === null) {
               current[part] = {};
             }
@@ -463,24 +455,20 @@ module.exports = {
           }
         }
         
-        // Обработка последней части пути
         const lastPart = pathParts[pathParts.length - 1];
         const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
         
         if (lastPartMatch) {
           const [_, arrayKey, indexOrSymbol] = lastPartMatch;
           
-          // Создаем массив, если его нет
           if (!Array.isArray(current[arrayKey])) {
             current[arrayKey] = [];
           }
           const array = current[arrayKey];
         
           if (indexOrSymbol === 'N') {
-            // Добавляем значение в конец массива
             array.push(value);
           } else if (indexOrSymbol === '^') {
-            // Обновляем последний элемент
             if (array.length === 0) {
               array.push(typeof value === 'object' ? { ...value } : value);
             } else {
@@ -493,16 +481,13 @@ module.exports = {
               };
             }
           } else {
-            // Числовой индекс
             const index = parseInt(indexOrSymbol, 10);
             if (isNaN(index)) return;
         
-            // Расширяем массив при необходимости
             while (array.length <= index) {
               array.push(null);
             }
         
-            // Обновляем значение с учетом типа
             if (typeof value === 'object' && value !== null) {
               if (typeof array[index] !== 'object' || array[index] === null) {
                 array[index] = {};
@@ -513,7 +498,6 @@ module.exports = {
             }
           }
         } else {
-          // Обычный объектный ключ
           if (typeof value === 'object' && value !== null) {
             current[lastPart] = { 
               ...current[lastPart], 
