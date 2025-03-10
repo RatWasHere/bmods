@@ -1,4 +1,4 @@
-modVersion = "v2.0.1";
+modVersion = "v2.1.0";
 
 module.exports = {
   data: {
@@ -403,26 +403,125 @@ module.exports = {
     
         const rawPath = bridge.transf(dataCase.data.path);
         const value = bridge.transf(dataCase.data.value);
-    
+        
         const pathParts = rawPath.split('.');
-    
         let current = data;
+        
         for (let i = 0; i < pathParts.length - 1; i++) {
-          const part = pathParts[i];
-    
-          if (!current[part] || typeof current[part] !== 'object') {
-            current[part] = {};
+          let part = pathParts[i];
+          const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+        
+          if (arrayMatch) {
+            const [_, arrayKey, indexOrSymbol] = arrayMatch;
+            
+            // Создаем массив, если его нет
+            if (!Array.isArray(current[arrayKey])) {
+              current[arrayKey] = [];
+            }
+            let array = current[arrayKey];
+        
+            // Обрабатываем индексы
+            if (indexOrSymbol === 'N') {
+              // Добавляем новый элемент в конец
+              const nextPart = pathParts[i + 1];
+              if (nextPart) {
+                array.push({});
+                current = array[array.length - 1];
+              } else {
+                array.push(value);
+              }
+              continue;
+            } else if (indexOrSymbol === '^') {
+              // Работаем с последним элементом
+              if (array.length === 0) {
+                array.push({});
+              }
+              current = array[array.length - 1];
+              continue;
+            } else {
+              // Числовой индекс
+              const index = parseInt(indexOrSymbol, 10);
+              if (isNaN(index)) continue;
+              
+              // Расширяем массив до нужного размера
+              while (array.length <= index) {
+                array.push(null);
+              }
+              
+              // Создаем объект, если текущий элемент не объект
+              if (typeof array[index] !== 'object' || array[index] === null) {
+                array[index] = {};
+              }
+              current = array[index];
+            }
+          } else {
+            // Обычный объектный ключ
+            if (typeof current[part] !== 'object' || current[part] === null) {
+              current[part] = {};
+            }
+            current = current[part];
           }
-    
-          current = current[part];
         }
-    
+        
+        // Обработка последней части пути
         const lastPart = pathParts[pathParts.length - 1];
-    
-        if (typeof current[lastPart] === 'object' && typeof value === 'object') {
-          current[lastPart] = { ...current[lastPart], ...value };
+        const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+        
+        if (lastPartMatch) {
+          const [_, arrayKey, indexOrSymbol] = lastPartMatch;
+          
+          // Создаем массив, если его нет
+          if (!Array.isArray(current[arrayKey])) {
+            current[arrayKey] = [];
+          }
+          const array = current[arrayKey];
+        
+          if (indexOrSymbol === 'N') {
+            // Добавляем значение в конец массива
+            array.push(value);
+          } else if (indexOrSymbol === '^') {
+            // Обновляем последний элемент
+            if (array.length === 0) {
+              array.push(typeof value === 'object' ? { ...value } : value);
+            } else {
+              if (typeof array[array.length - 1] !== 'object') {
+                array[array.length - 1] = {};
+              }
+              array[array.length - 1] = { 
+                ...array[array.length - 1], 
+                ...value 
+              };
+            }
+          } else {
+            // Числовой индекс
+            const index = parseInt(indexOrSymbol, 10);
+            if (isNaN(index)) return;
+        
+            // Расширяем массив при необходимости
+            while (array.length <= index) {
+              array.push(null);
+            }
+        
+            // Обновляем значение с учетом типа
+            if (typeof value === 'object' && value !== null) {
+              if (typeof array[index] !== 'object' || array[index] === null) {
+                array[index] = {};
+              }
+              array[index] = { ...array[index], ...value };
+            } else {
+              array[index] = value;
+            }
+          }
         } else {
-          current[lastPart] = value;
+          // Обычный объектный ключ
+          if (typeof value === 'object' && value !== null) {
+            current[lastPart] = { 
+              ...current[lastPart], 
+              ...value 
+            };
+          } else {
+            current[lastPart] = value;
+          }
         }
       }
     }
