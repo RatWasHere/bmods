@@ -1,4 +1,4 @@
-modVersion = "v2.0.0";
+modVersion = "v2.0.1";
 
 module.exports = {
   data: {
@@ -259,7 +259,7 @@ module.exports = {
     
       if (current && Array.isArray(current)) {
         current.forEach((item, index) => {
-          const entry = { id: item[nameidobject] || index };
+          const entry = { [nameidobject]: item[nameidobject] || index };
     
           const mainValue = item[bridge.transf(values.dataName)];
           if (mainValue !== undefined) {
@@ -282,7 +282,7 @@ module.exports = {
       } else if (current && typeof current === 'object') {
         for (let key in current) {
           const item = current[key];
-          const entry = { id: item[nameidobject] || key };
+          const entry = { [nameidobject]: item[nameidobject] || key };
     
           const mainValue = item[bridge.transf(values.dataName)];
           if (mainValue !== undefined) {
@@ -306,7 +306,7 @@ module.exports = {
     } else {
       for (let key in jsonObject) {
         const item = jsonObject[key];
-        const entry = { id: item[nameidobject] || key };
+        const entry = { [nameidobject]: item[nameidobject] || key };
     
         const mainValue = item[bridge.transf(values.dataName)];
         if (mainValue !== undefined) {
