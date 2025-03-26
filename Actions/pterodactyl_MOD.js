@@ -3,7 +3,6 @@
   Licensed under MIT License
 
   Manage your individual Pterodactyl servers.
-  Made for Pandora Network.
 */
 module.exports = {
   data: {
@@ -64,21 +63,23 @@ module.exports = {
 
     const url = `${baseURL}/servers/${serverId}/${action}`;
 
-    console.log(url);
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: data,
+      });
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: data,
-    });
-
-    if (!(response.status == 204 || 200)) {
-      await bridge.call(values.false, values.falseActions);
-      console.log(response.status, response.statusText);
+      if (!(response.status == 204 || 200)) {
+        await bridge.call(values.false, values.falseActions);
+        console.log(response.status, response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
     }
   },
 };
