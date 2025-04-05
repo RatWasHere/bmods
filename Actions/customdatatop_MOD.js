@@ -1,4 +1,4 @@
-modVersion = "v2.0.1";
+modVersion = "v2.1.0";
 
 module.exports = {
   data: {
@@ -137,9 +137,10 @@ module.exports = {
     },
   ],
   subtitle: (values, constants) => {
-    return `Database: ${values.database} - Data Name: ${
-      values.dataName
-    } - Store As: ${constants.variable(values.store)}`
+    const checkAndCount = (arr) => Array.isArray(arr) ? arr.length : 0;
+    let numData = checkAndCount(values.cases);
+
+    return `Database: ${values.database} - Data Name: ${numData} - Store As: ${constants.variable(values.store)}`
   },
   compatibility: ["Any"],
 
@@ -365,16 +366,32 @@ module.exports = {
           break;
     
         case "custom text as a list":
-          const formattedResult = filteredDataList
-            .map((item) => {
-              let resultString = values.resultFormat;
-    
-              for (const key in item) {
-                resultString = resultString.replace(new RegExp(`\\$\{${key}\}`, 'g'), item[key]);
+          const formattedResult = filteredDataList.map((item) => {
+            let resultString = values.resultFormat;
+          
+            resultString = resultString.replace(/\$\{([^}]+)\}/g, (_, content) => {
+              if (/[+\-*/]/.test(content)) {
+                const replacedExpr = content.replace(
+                  /([а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z0-9\s]*)/g,
+                  (match) => {
+                    const key = match.trim();
+                    return Number(item[key] || 0);
+                  }
+                );
+                
+                try {
+                  return new Function(`return (${replacedExpr})`)();
+                } catch {
+                  return 0;
+                }
               }
-    
-              return resultString;
-            })
+              else {
+                return item[content.trim()] || "";
+              }
+            });
+          
+            return resultString;
+          })
             .join(",");
           bridge.store(values.store, bridge.transf(formattedResult).split(","));
           break;
