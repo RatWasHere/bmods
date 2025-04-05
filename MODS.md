@@ -81,70 +81,84 @@ Feel free to add a short description for your action as seen in [**animeSearch_M
 
 ## Bridge Controls
 
-- **get**:
-  ```javascript
-  (blob) :: Blob: variableInput generated object :: Value of variable
-  ```
-- **store**:
-  ```javascript
-  (blob) :: Blob: storageInput generated Object :: Void
-  ```
-- **getUser**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: userInput generated Object :: [User](https://docs.oceanic.ws/v1.9.0/classes/User.html) with a `member` [OPTIONAL] property
-  ```
-- **getChannel**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: channelInput generated Object :: [Channel](https://docs.oceanic.ws/v1.9.0/classes/Channel.html)
-  ```
-- **getInteraction**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: interactionInput generated Object :: [Interaction](https://docs.oceanic.ws/v1.9.0/classes/Interaction.html)
-  ```
-- **getImage**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: image (input) generated Object :: Image Buffer
-  ```
-- **getRole**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: roleInput generated Object :: [Role](https://docs.oceanic.ws/v1.9.0/classes/Role.html)
-  ```
-- **runner**:
-  ```javascript
-  (actions) :: [ASYNC] Blob: actions generated Array :: Promise
-  ```
-- **call**:
-  ```javascript
-  (blob, actions) :: [ASYNC] Blob: Condition generated Object | Actions: Condition generated array :: Promise
-  ```
-- **callActions**:
-  ```javascript
-  (blob) :: [ASYNC] Blob: Object with any of these properties: {stop, jump, skip, actions} - Stop: Boolean, Jump: Number, Skip: Number, Actions: Array :: Promise
-  ```
-- **transf**:
-  ```javascript
-  (inputText) :: inputText: text to transform variables from ${...} to their values :: String
-  ```
-- **generateCustomID**:
-  ```javascript
-  () :: null :: Number
-  ```
-- **createTemporary**:
-  ```javascript
-  (blob) :: Blob: Object with these properties: {class, name, value} - Class: String (Optional) - Name: String - Value: Any; Creates temporary values in storage for sharing between a group's actions for context, inaccessible to the user. See joinVoiceChannel actions for examples :: Void
-  ```
-- **getTemporary**:
-  ```javascript
-  (blob) :: Blob: Object with these properties: {class, name} - Class: String (Optional) - Name: String :: Any
-  ```
-- **createGlobal**:
-  ```javascript
-  (blob) :: Blob: Object with these properties: {class, name, value} - Class: String (Optional) - Name: String - Value: Any; Creates global values in storage for sharing between a group's actions for context, inaccessible to the user. See createAnchor for examples :: Void
-  ```
-- **getGlobal**:
-  ```javascript
-  (blob) :: Blob: Object with these properties: {class, name} - Class: String (Optional) - Name: String :: Any
-  ```
+- **bridge.get(Object)** => [Any]
+```javascript
+  Object: Storage result of the variable input (how you stored the variable input)
+```
+- **bridge.store(Object, value)** => [Any]
+```javascript
+  Object: Storage result of the storage input (how you stored the storage input)
+  value: Value of the variable desired to be stored
+```
+- **bridge.getUser(Object)** => [Promise (User with a member property if possible)] 
+```javascript
+  Object: Storage result of the user or member input (how you stored the user or member input)
+```
+- **bridge.getChannel(Object)** => [Promise (Channel)] 
+```javascript
+  Object: Storage result of the channel input (how you stored the channel input)
+```
+- **bridge.getInteraction(Object)** => [Promise (Interaction)] 
+```javascript
+  Object: Storage result of the interaction input (how you stored the interaction input)
+```
+- **bridge.getImage(Object)** => [Promise (Image Buffer)] 
+```javascript
+  Object: Storage result of the image input (how you stored the image input)
+```
+- **bridge.getRole(Object)** => [Promise (Role)] 
+```javascript
+  Object: Storage result of the role input (how you stored the role input)
+```
+- **bridge.runner(Array)** => [Promise (Null)] 
+```javascript
+  Array: Array of actions to run
+```
+- **bridge.call(Object, Array)** => [Promise (Null)] 
+```javascript
+  Object: Storage result of the condition input (how you stored the condition input)
+  Array: Action storage result of the condition input (how you stored the actions of the condition input)
+```
+- **bridge.callActions(Object)** => [Promise (Null)] 
+```javascript
+  Object: Object containing any of the following properties: stop, jump, skip, actions
+  stop: boolean; jump: number of the action you want to jump to; skip: number of actions you want to skip; actions: array of actions you want to run
+```
+- **bridge.transf(String)** => [String] 
+```javascript
+  String: Text you want to transfer to the bridge form.
+```
+- **bridge.generateCustomID()** => [Number] 
+```javascript
+  No parameters
+```
+- **bridge.createTemporary(Object)** => [Null] 
+```javascript
+  Object: An object with the following properties: class, name, value
+    class: String (optional, the category of this temporary)
+    name: String (value you'll need to use to access the temporary) 
+    value: Any (value of the temporary)
+```
+- **bridge.getTemporary(Object)** => [Any] 
+```javascript
+  Object: An object with the following properties: class, name
+    class: String (optional, the category of this temporary)
+    name: String (name of the temporary) 
+```
+- **bridge.createGlobal(Object)** => [Null] 
+```javascript
+  Object: An object with the following properties: class, name, value
+    class: String (optional, the category of this global)
+    name: String (value you'll need to use to access the global) 
+    value: Any (value of the global)
+```
+- **bridge.getGlobal(Object)** => [Any] 
+```javascript
+  Object: An object with the following properties: class, name
+    class: String (optional, the category of this global)
+    name: String (name of the global) 
+```
+
 
 ## Data Structure
 
