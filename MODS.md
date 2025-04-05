@@ -261,4 +261,4 @@ bridge.getGlobal({
 
 ## Still Got Questions?
 
-Feel free to ask any questions in our [Discord server](https://discord.gg/whtjS7BW3u).
+Feel free to ask any questions in our [Discord server](https://discord.gg/n9PWrxFQFF).
