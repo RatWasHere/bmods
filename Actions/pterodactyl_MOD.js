@@ -61,7 +61,7 @@ module.exports = {
     const action = bridge.transf(values.action);
     const data = bridge.transf(values.pterodactyldata);
 
-    const url = `${baseURL}/servers/${serverId}/${action}`;
+    const url = `${baseURL}/api/client/servers/${serverId}/${action}`;
 
     try {
       const response = await fetch(url, {
