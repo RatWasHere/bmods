@@ -79,85 +79,169 @@ Feel free to add a short description for your action as seen in [**animeSearch_M
   }
   ```
 
+---
+
 ## Bridge Controls
 
-- **bridge.get(Object)** => [Any]
+### `bridge.get(Object)` ⇒ `Any`
 ```javascript
-  Object: Storage result of the variable input (how you stored the variable input)
+// Retrieves a stored variable value
+bridge.get(Object);
 ```
-- **bridge.store(Object, value)** => [Any]
+- **Object**: The result of how you stored the variable input.
+
+---
+
+### `bridge.store(Object, value)` ⇒ `Any`
 ```javascript
-  Object: Storage result of the storage input (how you stored the storage input)
-  value: Value of the variable desired to be stored
+// Stores a value into a variable
+bridge.store(Object, value);
 ```
-- **bridge.getUser(Object)** => [Promise (User with a member property if possible)] 
+- **Object**: The result of how you stored the variable input.  
+- **value**: The value you want to store.
+
+---
+
+### `bridge.getUser(Object)` ⇒ `Promise<User>`
 ```javascript
-  Object: Storage result of the user or member input (how you stored the user or member input)
+// Retrieves a user or member object
+bridge.getUser(Object);
 ```
-- **bridge.getChannel(Object)** => [Promise (Channel)] 
+- **Object**: The result of how you stored the user/member input.
+
+---
+
+### `bridge.getChannel(Object)` ⇒ `Promise<Channel>`
 ```javascript
-  Object: Storage result of the channel input (how you stored the channel input)
+// Retrieves a channel object
+bridge.getChannel(Object);
 ```
-- **bridge.getInteraction(Object)** => [Promise (Interaction)] 
+- **Object**: The result of how you stored the channel input.
+
+---
+
+### `bridge.getInteraction(Object)` ⇒ `Promise<Interaction>`
 ```javascript
-  Object: Storage result of the interaction input (how you stored the interaction input)
+// Retrieves an interaction object
+bridge.getInteraction(Object);
 ```
-- **bridge.getImage(Object)** => [Promise (Image Buffer)] 
+- **Object**: The result of how you stored the interaction input.
+
+---
+
+### `bridge.getImage(Object)` ⇒ `Promise<Buffer>`
 ```javascript
-  Object: Storage result of the image input (how you stored the image input)
+// Retrieves an image buffer
+bridge.getImage(Object);
 ```
-- **bridge.getRole(Object)** => [Promise (Role)] 
+- **Object**: The result of how you stored the image input.
+
+---
+
+### `bridge.getRole(Object)` ⇒ `Promise<Role>`
 ```javascript
-  Object: Storage result of the role input (how you stored the role input)
+// Retrieves a role object
+bridge.getRole(Object);
 ```
-- **bridge.runner(Array)** => [Promise (Null)] 
+- **Object**: The result of how you stored the role input.
+
+---
+
+### `bridge.runner(Array)` ⇒ `Promise<null>`
 ```javascript
-  Array: Array of actions to run
+// Runs an array of actions
+bridge.runner(Array);
 ```
-- **bridge.call(Object, Array)** => [Promise (Null)] 
+- **Array**: Array of actions to run.
+
+---
+
+### `bridge.call(Object, Array)` ⇒ `Promise<null>`
 ```javascript
-  Object: Storage result of the condition input (how you stored the condition input)
-  Array: Action storage result of the condition input (how you stored the actions of the condition input)
+// Conditionally runs actions
+bridge.call(Object, Array);
 ```
-- **bridge.callActions(Object)** => [Promise (Null)] 
+- **Object**: The stored condition input.  
+- **Array**: The stored actions to run if the condition is met.
+
+---
+
+### `bridge.callActions(Object)` ⇒ `Promise<null>`
 ```javascript
-  Object: Object containing any of the following properties: stop, jump, skip, actions
-  stop: boolean; jump: number of the action you want to jump to; skip: number of actions you want to skip; actions: array of actions you want to run
+// Performs flow control with actions
+bridge.callActions({
+  stop: false,      // Optional: whether to stop further execution
+  jump: 2,          // Optional: jump to a specific action number
+  skip: 1,          // Optional: number of actions to skip
+  actions: []       // Optional: array of actions to run
+});
 ```
-- **bridge.transf(String)** => [String] 
+- **Object**: Contains control logic for actions.
+
+---
+
+### `bridge.transf(String)` ⇒ `String`
 ```javascript
-  String: Text you want to transfer to the bridge form.
+// Transfers text to bridge form
+bridge.transf("some text");
 ```
-- **bridge.generateCustomID()** => [Number] 
+- **String**: Text to transfer.
+
+---
+
+### `bridge.generateCustomID()` ⇒ `Number`
 ```javascript
-  No parameters
+// Generates a custom numeric ID
+bridge.generateCustomID();
 ```
-- **bridge.createTemporary(Object)** => [Null] 
+
+---
+
+### `bridge.createTemporary(Object)` ⇒ `null`
 ```javascript
-  Object: An object with the following properties: class, name, value
-    class: String (optional, the category of this temporary)
-    name: String (value you'll need to use to access the temporary) 
-    value: Any (value of the temporary)
+// Creates a temporary variable
+bridge.createTemporary({
+  class: "myClass",   // Optional
+  name: "tempName",   // Required
+  value: "some value" // Required
+});
 ```
-- **bridge.getTemporary(Object)** => [Any] 
+
+---
+
+### `bridge.getTemporary(Object)` ⇒ `Any`
 ```javascript
-  Object: An object with the following properties: class, name
-    class: String (optional, the category of this temporary)
-    name: String (name of the temporary) 
+// Retrieves a temporary variable
+bridge.getTemporary({
+  class: "myClass",   // Optional
+  name: "tempName"    // Required
+});
 ```
-- **bridge.createGlobal(Object)** => [Null] 
+
+---
+
+### `bridge.createGlobal(Object)` ⇒ `null`
 ```javascript
-  Object: An object with the following properties: class, name, value
-    class: String (optional, the category of this global)
-    name: String (value you'll need to use to access the global) 
-    value: Any (value of the global)
+// Creates a global variable
+bridge.createGlobal({
+  class: "myClass",   // Optional
+  name: "globalName", // Required
+  value: "some value" // Required
+});
 ```
-- **bridge.getGlobal(Object)** => [Any] 
+
+---
+
+### `bridge.getGlobal(Object)` ⇒ `Any`
 ```javascript
-  Object: An object with the following properties: class, name
-    class: String (optional, the category of this global)
-    name: String (name of the global) 
+// Retrieves a global variable
+bridge.getGlobal({
+  class: "myClass",   // Optional
+  name: "globalName"  // Required
+});
 ```
+
+---
 
 
 ## Data Structure
