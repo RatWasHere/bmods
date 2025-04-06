@@ -1,4 +1,4 @@
-modVersion = "v2.1.0";
+modVersion = "v2.1.1";
 
 module.exports = {
   data: {
@@ -185,19 +185,39 @@ module.exports = {
 
   run(values, message, client, bridge) {
     let fs = bridge.fs;
+    
     if (!values.database) {
-      console.error("Error: The path to the database (values.database) is not defined.");
+      console.error("Error: The path to the database (Database) is not defined.");
       return;
     }
     
-    const filePath = bridge.file(values.database);
-    
-    if (!fs.existsSync(filePath)) {
-      console.error(`Error: The file "${filePath}" was not found.`);
-      return;
+    const botData = require("../data.json");
+    let dbPath = bridge.transf(values.database);
+    const currentDir = process.cwd().replace(/\\/g, '/');
+
+    if (currentDir.includes('common/Bot Maker For Discord')) {
+      dbPath = botData.prjSrc+`/`+dbPath;
+      var fullPath = dbPath.replace(/\\/g, '/');
+    } else {
+      var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, '/')
     }
+
+    const dirPath = fullPath.split('/').slice(0, -1).join('/');
+
+    if (!fs.existsSync(dirPath)) {
+       fs.mkdirSync(dirPath, { recursive: true });
+      }
+
+      if (!fs.existsSync(fullPath)) {
+        fs.writeFileSync(fullPath, '{}', 'utf8');
+      }
+
+    if (values.deleteJson) {
+      fs.writeFileSync(fullPath, '{}', 'utf8');
+    }
+
     
-    let data = fs.readFileSync(filePath, 'utf8');
+    let data = fs.readFileSync(fullPath, 'utf8');
     let jsonObject = JSON.parse(data);
     let dataList = [];
     
