@@ -96,37 +96,43 @@ module.exports = {
 
   startup: async (bridge, client) => {
     // discord.js is required for discord-player, but it is not used as the client at all.
-    await client.getMods().require("discord.js", "14.17.3");
-    const { Player, createOceanicCompat } = await client
-      .getMods()
-      .require("discord-player", "7.2.0-dev.2");
-    const { DefaultExtractors } = await client
-      .getMods()
-      .require("@discord-player/extractor");
-    const { YoutubeiExtractor } = await client
-      .getMods()
-      .require("discord-player-youtubei", "1.4.1");
+    try {
+      await client.getMods().require("discord.js", "14.17.3");
+      const { Player, createOceanicCompat } = await client
+        .getMods()
+        .require("discord-player", "7.2.0-dev.2");
+      const { DefaultExtractors } = await client
+        .getMods()
+        .require("@discord-player/extractor");
+      // bgutils-js required for discord-player-youtubei, breaks if not loaded
+      await client.getMods().require("bgutils-js");
+      const { YoutubeiExtractor } = await client
+        .getMods()
+        .require("discord-player-youtubei", "1.4.3");
 
-    client.player = new Player(createOceanicCompat(client));
+      client.player = new Player(createOceanicCompat(client));
 
-    await client.player.extractors.loadMulti(DefaultExtractors);
+      await client.player.extractors.loadMulti(DefaultExtractors);
 
-    await client.player.extractors.register(YoutubeiExtractor, {});
+      await client.player.extractors.register(YoutubeiExtractor, {});
 
-    client.player.events
-      .on("playerError", (queue, error) => {
-        console.log("[Discord-Player] Player Error:", error);
-      })
-      .on("error", (queue, error) => {
-        console.log("[Discord-Player] Error:", error);
-      });
+      client.player.events
+        .on("playerError", (queue, error) => {
+          console.log("[Discord-Player] Player Error:", error);
+        })
+        .on("error", (queue, error) => {
+          console.log("[Discord-Player] Error:", error);
+        });
 
-    // Enable Debugging
-    /* client.player
-      .on("debug", console.log)
-      .events.on("debug", (queue, msg) =>
-        console.log(`[${queue.guild.name}] ${msg}`)
-      );
-    */
+      /*
+      client.player
+        .on("debug", console.log)
+        .events.on("debug", (queue, msg) =>
+          console.log(`[${queue.guild.name}] ${msg}`)
+        );
+        */
+    } catch (error) {
+      console.error(error);
+    }
   },
 };
