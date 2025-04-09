@@ -6,8 +6,8 @@ module.exports = {
   category: "Global Data",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
-    creator: "TheMonDon (adapted by ChatGPT)",
-    donate: "https://buymeacoffee.com/candiedapple",
+    creator: "TheMonDon",
+    donate: "https://cisn.xyz/donate",
   },
   UI: [
     {

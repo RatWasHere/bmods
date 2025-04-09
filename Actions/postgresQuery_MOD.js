@@ -1,6 +1,6 @@
 module.exports = {
   data: {
-    name: "Postgres Query",
+    name: "PostGres Query",
   },
   category: "Global Data",
   info: {
