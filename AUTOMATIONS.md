@@ -1,6 +1,7 @@
 Automations are funky. They are basically extensions but since they were initially created for automating tedious task, they were called automations!
 
 This is how automations are structured in their folder:
+```
 └── Bot Maker for Discord/
     └── Automations/
         └── Your Automation/
@@ -8,7 +9,7 @@ This is how automations are structured in their folder:
             ├── main.json
             ├── startup_info.json (OPTIONAL)
             └── startup.js (OPTIONAL)
-
+```
 ## data.json
 The information from this is used when it's searched via ActionPallete
 ```json
