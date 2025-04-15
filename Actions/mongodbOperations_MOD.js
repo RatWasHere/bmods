@@ -82,7 +82,7 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    const MongoClient = await client.getMods().require("mongodb").MongoClient;
+    const { MongoClient } = await client.getMods().require("mongodb");
 
     const connectionString = bridge.transf(values.mongoConnectionString);
     const databaseName = bridge.transf(values.databaseName);
