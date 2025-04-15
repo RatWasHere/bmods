@@ -30,3 +30,21 @@ module.exports = {
     options.eval('CCC') // run javascript from the location in which the automation is ran
   }
 }
+```
+
+## startup_info.json
+Information that shows up in Settings > Behaviour
+```json
+{
+    "name": "Your Automation (And what it does when it gets toggled on)"
+}
+```
+
+## startup.js
+Runs on every window open if the automation is toggled on in Settings > Behaviour
+```js
+module.exports = {
+    run: async (options) => {
+        options.eval('AAAA') / run javascript code from the window the user is currently on 
+    }
+}```
