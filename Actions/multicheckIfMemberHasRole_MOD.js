@@ -14,7 +14,7 @@ module.exports = {
     {
       element: "memberInput",
       storeAs: "member",
-      name: "Member"
+      name: "Member",
     },
     "-",
     {
@@ -45,7 +45,7 @@ module.exports = {
             {
               element: "variableInsertion",
               name: "List role",
-              storeAs: "list"
+              storeAs: "list",
             },
             "_",
             {
@@ -59,14 +59,13 @@ module.exports = {
               UItypes: {
                 data: {
                   name: "Role",
-                  preview:
-                    "``",
-                  data: { },
+                  preview: "``",
+                  data: {},
                   UI: [
                     {
                       element: "role",
                       name: "Role",
-                      storeAs: "role"
+                      storeAs: "role",
                     },
                   ],
                 },
@@ -81,35 +80,35 @@ module.exports = {
       element: "condition",
       storeAs: "true",
       storeActionsAs: "trueActions",
-      name: "If True"
+      name: "If True",
     },
     "-",
     {
       element: "condition",
       storeAs: "false",
       storeActionsAs: "falseActions",
-      name: "If False"
+      name: "If False",
     },
     "-",
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (data, constants) => {
-    return `Member: ${constants.user(data.member)}`
+    return `Member: ${constants.user(data.member)}`;
   },
 
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    let user   = await bridge.getUser(values.member);
+    let user = await bridge.getUser(values.member);
     let member = await user.member;
 
     const formatType = values.info.toLowerCase();
 
-    let hasAnyRole  = false;
+    let hasAnyRole = false;
     let hasAllRoles = true;
 
     if (Array.isArray(values.cases)) {
@@ -143,37 +142,37 @@ module.exports = {
     }
 
     switch (formatType) {
-      case "has all the roles": 
-      if (hasAllRoles) {
-        await bridge.call(values.true, values.trueActions);
-      } else {
-        await bridge.call(values.false, values.falseActions);
-      }
-      break;
+      case "has all the roles":
+        if (hasAllRoles) {
+          await bridge.call(values.true, values.trueActions);
+        } else {
+          await bridge.call(values.false, values.falseActions);
+        }
+        break;
 
-      case "doesn't have all the roles": 
-      if (!hasAnyRole) {
-        await bridge.call(values.true, values.trueActions);
-      } else {
-        await bridge.call(values.false, values.falseActions);
-      }
-      break;
+      case "doesn't have all the roles":
+        if (!hasAnyRole) {
+          await bridge.call(values.true, values.trueActions);
+        } else {
+          await bridge.call(values.false, values.falseActions);
+        }
+        break;
 
-      case "has one of the roles": 
-      if (hasAnyRole) {
-        await bridge.call(values.true, values.trueActions);
-      } else {
-        await bridge.call(values.false, values.falseActions);
-      }
-      break;
+      case "has one of the roles":
+        if (hasAnyRole) {
+          await bridge.call(values.true, values.trueActions);
+        } else {
+          await bridge.call(values.false, values.falseActions);
+        }
+        break;
 
-      case "does not have any of the roles": 
-      if (!hasAnyRole) {
-        await bridge.call(values.true, values.trueActions);
-      } else {
-        await bridge.call(values.false, values.falseActions);
-      }
-      break;
+      case "does not have any of the roles":
+        if (!hasAnyRole) {
+          await bridge.call(values.true, values.trueActions);
+        } else {
+          await bridge.call(values.false, values.falseActions);
+        }
+        break;
     }
   },
 };

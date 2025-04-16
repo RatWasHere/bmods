@@ -34,7 +34,7 @@ module.exports = {
         let preview = res.preview[res.preview.length - 1];
 
         bridge.store(values.store, preview);
-      },
+      }
     );
   },
 };

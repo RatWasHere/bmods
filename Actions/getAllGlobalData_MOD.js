@@ -1,23 +1,23 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: { name: "Get All Global Data" },
   category: "Global Data",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
-    donate: "https://ko-fi.com/slothyacedia"
+    donate: "https://ko-fi.com/slothyacedia",
   },
 
   UI: [
     {
       element: "store",
       storeAs: "store",
-      name: "Store As"
+      name: "Store As",
     },
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
   subtitle: (values, constants) => {

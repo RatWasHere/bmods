@@ -190,7 +190,7 @@ module.exports = {
 
     const response = await fetch(
       `https://tiktok-tts.weilnet.workers.dev/api/generation`,
-      options,
+      options
     );
 
     const jsonResponse = await response.json();

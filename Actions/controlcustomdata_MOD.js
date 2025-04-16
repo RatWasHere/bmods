@@ -27,24 +27,24 @@ module.exports = {
           {
             element: "text",
             text: "Log Result to Console?",
-            header: true
+            header: true,
           },
           {
             element: "text",
-            text: `Send the final file to the console.`
+            text: `Send the final file to the console.`,
           },
           "-",
           {
             element: "text",
             text: "Clear contents JSON file?",
-            header: true
+            header: true,
           },
           {
             element: "text",
-            text: `Clear the file at the beginning. before further editing.`
-          }
-        ]
-    }
+            text: `Clear the file at the beginning. before further editing.`,
+          },
+        ],
+      },
     },
     "-",
     {
@@ -68,14 +68,14 @@ module.exports = {
                   {
                     element: "text",
                     text: "Create Data Value?",
-                    header: true
+                    header: true,
                   },
                   {
                     element: "text",
-                    text: `You can create both values and values in objects.`
+                    text: `You can create both values and values in objects.`,
                   },
-                ]
-            },
+                ],
+              },
               storeAs: "cases",
               name: "Create Data Value",
               types: {
@@ -95,7 +95,7 @@ module.exports = {
                       storeAs: "comparisonlist",
                       name: "Comparison",
                       types: {
-                        Comparison: "Comparison"
+                        Comparison: "Comparison",
                       },
                       UItypes: {
                         Comparison: {
@@ -104,7 +104,7 @@ module.exports = {
                           UI: [
                             {
                               element: "var",
-                              storeAs: "variable"
+                              storeAs: "variable",
                             },
                             "-",
                             {
@@ -127,42 +127,42 @@ module.exports = {
                                   field: true,
                                 },
                                 {
-                                  name: "Exists"
+                                  name: "Exists",
                                 },
                                 {
                                   name: "Less Than",
-                                  field: true
+                                  field: true,
                                 },
                                 {
                                   name: "Greater Than",
-                                  field: true
+                                  field: true,
                                 },
                                 {
                                   name: "Equal Or Less Than",
-                                  field: true
+                                  field: true,
                                 },
                                 {
                                   name: "Equal Or Greater Than",
-                                  field: true
+                                  field: true,
                                 },
                                 {
-                                  name: "Is Number"
+                                  name: "Is Number",
                                 },
                                 {
                                   name: "Matches Regex",
                                   field: true,
-                                  placeholder: "Regex"
+                                  placeholder: "Regex",
                                 },
                                 {
                                   name: "Exactly includes",
                                   field: true,
-                                  placeholder: "Text"
-                                }
-                              ]
+                                  placeholder: "Text",
+                                },
+                              ],
                             },
-                          ]
-                        }
-                      }
+                          ],
+                        },
+                      },
                     },
                     "-",
                     {
@@ -184,627 +184,48 @@ module.exports = {
         },
       },
     },
-      "-",
-    {
-        element: "menu",
-        max: 1,
-        required: true,
-        storeAs: "Create Data Array",
-        types: {
-          options: "Create Data Array",
-        },
-        UItypes: {
-          options: {
-            name: "Create Data Array",
-            inheritData: true,
-            UI: [
-              {
-                element: "menu",
-                help: {
-                  title: "Create Data Array?",
-                  UI: [
-                    {
-                      element: "text",
-                      text: "Create Data Array?",
-                      header: true
-                    },
-                    {
-                      element: "text",
-                      text: `You can create a value in an array.`
-                    },
-                  ]
-              },
-                storeAs: "cases3",
-                name: "Create Data Array",
-                types: {
-                  data: "Data",
-                },
-                max: 200,
-                UItypes: {
-                  data: {
-                    name: "Create Data Array",
-                    preview:
-                      "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.value}`",
-                    data: { path: "", value: "" },
-                    UI: [
-                      {
-                        element: "menu",
-                        max: 1,
-                        storeAs: "comparisonlist",
-                        name: "Comparison",
-                        types: {
-                          Comparison: "Comparison"
-                        },
-                        UItypes: {
-                          Comparison: {
-                            name: "Comparison",
-                            data: {},
-                            UI: [
-                              {
-                                element: "var",
-                                storeAs: "variable"
-                              },
-                              "-",
-                              {
-                                element: "halfDropdown",
-                                storeAs: "comparator",
-                                extraField: "compareValue",
-                                name: "Comparison Type",
-                                choices: [
-                                  {
-                                    name: "Equals",
-                                    field: true,
-                                    placeholder: "Equals To",
-                                  },
-                                  {
-                                    name: "Equals Exactly",
-                                    field: true,
-                                  },
-                                  {
-                                    name: "Doesn't Equal",
-                                    field: true,
-                                  },
-                                  {
-                                    name: "Exists"
-                                  },
-                                  {
-                                    name: "Less Than",
-                                    field: true
-                                  },
-                                  {
-                                    name: "Greater Than",
-                                    field: true
-                                  },
-                                  {
-                                    name: "Equal Or Less Than",
-                                    field: true
-                                  },
-                                  {
-                                    name: "Equal Or Greater Than",
-                                    field: true
-                                  },
-                                  {
-                                    name: "Is Number"
-                                  },
-                                  {
-                                    name: "Matches Regex",
-                                    field: true,
-                                    placeholder: "Regex"
-                                  },
-                                  {
-                                    name: "Exactly includes",
-                                    field: true,
-                                    placeholder: "Text"
-                                  }
-                                ]
-                              },
-                            ]
-                          }
-                        }
-                      },
-                      "-",
-                      {
-                        element: "input",
-                        storeAs: "path",
-                        name: "Path",
-                      },
-                      "-",
-                      {
-                        element: "input",
-                        storeAs: "value",
-                        name: "Name",
-                      },
-                    ],
-                  },
-                },
-              },
-            ],
-          },
-        },
-      },
-      "-",
-      {
-          element: "menu",
-          max: 1,
-          required: true,
-          storeAs: "Create Data Object",
-          types: {
-            options: "Create Data Object",
-          },
-          UItypes: {
-            options: {
-              name: "Create Data Object",
-              inheritData: true,
-              UI: [
-                {
-                  element: "menu",
-                  help: {
-                    title: "Create Data Object?",
-                    UI: [
-                      {
-                        element: "text",
-                        text: "Create Data Object?",
-                        header: true
-                      },
-                      {
-                        element: "text",
-                        text: `You can use this feature to create an object from scratch. And if it exists, it will be completely overwritten with a new one.`
-                      },
-                    ]
-                },
-                  storeAs: "cases4",
-                  name: "Create Data Object",
-                  types: {
-                    value: "Create Data Object Value",
-                    array: "Create Data Object Array",
-                  },
-                  max: 200,
-                  UItypes: {
-                    value: {
-                      name: "Create Data Object Value",
-                      preview:
-                        "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.name}`",
-                      data: { path: "", name: "" },
-                      UI: [
-                        {
-                          element: "menu",
-                          max: 1,
-                          storeAs: "comparisonlist",
-                          name: "Comparison",
-                          types: {
-                            Comparison: "Comparison"
-                          },
-                          UItypes: {
-                            Comparison: {
-                              name: "Comparison",
-                              data: {},
-                              UI: [
-                                {
-                                  element: "var",
-                                  storeAs: "variable"
-                                },
-                                "-",
-                                {
-                                  element: "halfDropdown",
-                                  storeAs: "comparator",
-                                  extraField: "compareValue",
-                                  name: "Comparison Type",
-                                  choices: [
-                                    {
-                                      name: "Equals",
-                                      field: true,
-                                      placeholder: "Equals To",
-                                    },
-                                    {
-                                      name: "Equals Exactly",
-                                      field: true,
-                                    },
-                                    {
-                                      name: "Doesn't Equal",
-                                      field: true,
-                                    },
-                                    {
-                                      name: "Exists"
-                                    },
-                                    {
-                                      name: "Less Than",
-                                      field: true
-                                    },
-                                    {
-                                      name: "Greater Than",
-                                      field: true
-                                    },
-                                    {
-                                      name: "Equal Or Less Than",
-                                      field: true
-                                    },
-                                    {
-                                      name: "Equal Or Greater Than",
-                                      field: true
-                                    },
-                                    {
-                                      name: "Is Number"
-                                    },
-                                    {
-                                      name: "Matches Regex",
-                                      field: true,
-                                      placeholder: "Regex"
-                                    },
-                                    {
-                                      name: "Exactly includes",
-                                      field: true,
-                                      placeholder: "Text"
-                                    }
-                                  ]
-                                },
-                              ]
-                            }
-                          }
-                        },
-                        "-",
-                        {
-                          element: "input",
-                          storeAs: "path",
-                          name: "Path",
-                        },
-                        "-",
-                        {
-                          element: "input",
-                          storeAs: "name",
-                          name: "Name Object",
-                        },
-                        "-",
-                        {
-                          element: "menu",
-                          storeAs: "cases5",
-                          name: "Object Value",
-                          types: {
-                            data: "Data",
-                          },
-                          max: 200,
-                          UItypes: {
-                            data: {
-                              name: "Add Object Value",
-                              preview:
-                                "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.value}`",
-                              data: { name: "", value: "" },
-                              UI: [
-                                {
-                                  element: "menu",
-                                  max: 1,
-                                  storeAs: "comparisonlist",
-                                  name: "Comparison",
-                                  types: {
-                                    Comparison: "Comparison"
-                                  },
-                                  UItypes: {
-                                    Comparison: {
-                                      name: "Comparison",
-                                      data: {},
-                                      UI: [
-                                        {
-                                          element: "var",
-                                          storeAs: "variable"
-                                        },
-                                        "-",
-                                        {
-                                          element: "halfDropdown",
-                                          storeAs: "comparator",
-                                          extraField: "compareValue",
-                                          name: "Comparison Type",
-                                          choices: [
-                                            {
-                                              name: "Equals",
-                                              field: true,
-                                              placeholder: "Equals To",
-                                            },
-                                            {
-                                              name: "Equals Exactly",
-                                              field: true,
-                                            },
-                                            {
-                                              name: "Doesn't Equal",
-                                              field: true,
-                                            },
-                                            {
-                                              name: "Exists"
-                                            },
-                                            {
-                                              name: "Less Than",
-                                              field: true
-                                            },
-                                            {
-                                              name: "Greater Than",
-                                              field: true
-                                            },
-                                            {
-                                              name: "Equal Or Less Than",
-                                              field: true
-                                            },
-                                            {
-                                              name: "Equal Or Greater Than",
-                                              field: true
-                                            },
-                                            {
-                                              name: "Is Number"
-                                            },
-                                            {
-                                              name: "Matches Regex",
-                                              field: true,
-                                              placeholder: "Regex"
-                                            },
-                                            {
-                                              name: "Exactly includes",
-                                              field: true,
-                                              placeholder: "Text"
-                                            }
-                                          ]
-                                        },
-                                      ]
-                                    }
-                                  }
-                                },
-                                "-",
-                                {
-                                  element: "input",
-                                  storeAs: "name",
-                                  name: "Name",
-                                },
-                                "-",
-                                {
-                                  element: "input",
-                                  storeAs: "value",
-                                  name: "Value",
-                                },
-                              ],
-                            },
-                          },
-                        },
-                      ],
-                    },
-                  array: {
-                      name: "Create Data Object Array",
-                      preview:
-                        "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path}`",
-                      data: {},
-                      UI: [
-                        {
-                          element: "menu",
-                          max: 1,
-                          storeAs: "comparisonlist",
-                          name: "Comparison",
-                          types: {
-                            Comparison: "Comparison"
-                          },
-                          UItypes: {
-                            Comparison: {
-                              name: "Comparison",
-                              data: {},
-                              UI: [
-                                {
-                                  element: "var",
-                                  storeAs: "variable"
-                                },
-                                "-",
-                                {
-                                  element: "halfDropdown",
-                                  storeAs: "comparator",
-                                  extraField: "compareValue",
-                                  name: "Comparison Type",
-                                  choices: [
-                                    {
-                                      name: "Equals",
-                                      field: true,
-                                      placeholder: "Equals To",
-                                    },
-                                    {
-                                      name: "Equals Exactly",
-                                      field: true,
-                                    },
-                                    {
-                                      name: "Doesn't Equal",
-                                      field: true,
-                                    },
-                                    {
-                                      name: "Exists"
-                                    },
-                                    {
-                                      name: "Less Than",
-                                      field: true
-                                    },
-                                    {
-                                      name: "Greater Than",
-                                      field: true
-                                    },
-                                    {
-                                      name: "Equal Or Less Than",
-                                      field: true
-                                    },
-                                    {
-                                      name: "Equal Or Greater Than",
-                                      field: true
-                                    },
-                                    {
-                                      name: "Is Number"
-                                    },
-                                    {
-                                      name: "Matches Regex",
-                                      field: true,
-                                      placeholder: "Regex"
-                                    },
-                                    {
-                                      name: "Exactly includes",
-                                      field: true,
-                                      placeholder: "Text"
-                                    }
-                                  ]
-                                },
-                              ]
-                            }
-                          }
-                        },
-                        "-",
-                        {
-                          element: "input",
-                          storeAs: "path",
-                          name: "Path",
-                        },
-                        "-",
-                        {
-                          element: "menu",
-                          storeAs: "cases6",
-                          name: "Object Array Value",
-                          types: {
-                            data: "Data",
-                          },
-                          max: 200,
-                          UItypes: {
-                            data: {
-                              name: "Add Object Array Value",
-                              preview:
-                                "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.name} - ${option.data.value}`",
-                              data: { name: "", value: "" },
-                              UI: [
-                                {
-                                  element: "menu",
-                                  max: 1,
-                                  storeAs: "comparisonlist",
-                                  name: "Comparison",
-                                  types: {
-                                    Comparison: "Comparison"
-                                  },
-                                  UItypes: {
-                                    Comparison: {
-                                      name: "Comparison",
-                                      data: {},
-                                      UI: [
-                                        {
-                                          element: "var",
-                                          storeAs: "variable"
-                                        },
-                                        "-",
-                                        {
-                                          element: "halfDropdown",
-                                          storeAs: "comparator",
-                                          extraField: "compareValue",
-                                          name: "Comparison Type",
-                                          choices: [
-                                            {
-                                              name: "Equals",
-                                              field: true,
-                                              placeholder: "Equals To",
-                                            },
-                                            {
-                                              name: "Equals Exactly",
-                                              field: true,
-                                            },
-                                            {
-                                              name: "Doesn't Equal",
-                                              field: true,
-                                            },
-                                            {
-                                              name: "Exists"
-                                            },
-                                            {
-                                              name: "Less Than",
-                                              field: true
-                                            },
-                                            {
-                                              name: "Greater Than",
-                                              field: true
-                                            },
-                                            {
-                                              name: "Equal Or Less Than",
-                                              field: true
-                                            },
-                                            {
-                                              name: "Equal Or Greater Than",
-                                              field: true
-                                            },
-                                            {
-                                              name: "Is Number"
-                                            },
-                                            {
-                                              name: "Matches Regex",
-                                              field: true,
-                                              placeholder: "Regex"
-                                            },
-                                            {
-                                              name: "Exactly includes",
-                                              field: true,
-                                              placeholder: "Text"
-                                            }
-                                          ]
-                                        },
-                                      ]
-                                    }
-                                  }
-                                },
-                                "-",
-                                {
-                                  element: "input",
-                                  storeAs: "name",
-                                  name: "Name",
-                                },
-                                "-",
-                                {
-                                  element: "input",
-                                  storeAs: "value",
-                                  name: "Value",
-                                },
-                              ],
-                            },
-                          },
-                        },
-                      ],
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        },
-  "-",
+    "-",
     {
       element: "menu",
       max: 1,
       required: true,
-      storeAs: "Delete Data",
+      storeAs: "Create Data Array",
       types: {
-        options: "Delete Data",
+        options: "Create Data Array",
       },
       UItypes: {
         options: {
-          name: "Delete Data",
+          name: "Create Data Array",
           inheritData: true,
           UI: [
             {
               element: "menu",
               help: {
-                title: "Delete Data?",
+                title: "Create Data Array?",
                 UI: [
                   {
                     element: "text",
-                    text: "Delete Data?",
-                    header: true
+                    text: "Create Data Array?",
+                    header: true,
                   },
                   {
                     element: "text",
-                    text: `You can delete the data in json.`
+                    text: `You can create a value in an array.`,
                   },
-                ]
-            },
-              storeAs: "cases1",
-              name: "Delete Data",
+                ],
+              },
+              storeAs: "cases3",
+              name: "Create Data Array",
               types: {
                 data: "Data",
               },
               max: 200,
               UItypes: {
                 data: {
-                  name: "Delete Data",
-                  preview: "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Path: ${option.data.patch}`",
-                  data: { patch: "" },
+                  name: "Create Data Array",
+                  preview:
+                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.value}`",
+                  data: { path: "", value: "" },
                   UI: [
                     {
                       element: "menu",
@@ -812,7 +233,7 @@ module.exports = {
                       storeAs: "comparisonlist",
                       name: "Comparison",
                       types: {
-                        Comparison: "Comparison"
+                        Comparison: "Comparison",
                       },
                       UItypes: {
                         Comparison: {
@@ -821,7 +242,7 @@ module.exports = {
                           UI: [
                             {
                               element: "var",
-                              storeAs: "variable"
+                              storeAs: "variable",
                             },
                             "-",
                             {
@@ -844,42 +265,622 @@ module.exports = {
                                   field: true,
                                 },
                                 {
-                                  name: "Exists"
+                                  name: "Exists",
                                 },
                                 {
                                   name: "Less Than",
-                                  field: true
+                                  field: true,
                                 },
                                 {
                                   name: "Greater Than",
-                                  field: true
+                                  field: true,
                                 },
                                 {
                                   name: "Equal Or Less Than",
-                                  field: true
+                                  field: true,
                                 },
                                 {
                                   name: "Equal Or Greater Than",
-                                  field: true
+                                  field: true,
                                 },
                                 {
-                                  name: "Is Number"
+                                  name: "Is Number",
                                 },
                                 {
                                   name: "Matches Regex",
                                   field: true,
-                                  placeholder: "Regex"
+                                  placeholder: "Regex",
                                 },
                                 {
                                   name: "Exactly includes",
                                   field: true,
-                                  placeholder: "Text"
-                                }
-                              ]
+                                  placeholder: "Text",
+                                },
+                              ],
                             },
-                          ]
-                        }
-                      }
+                          ],
+                        },
+                      },
+                    },
+                    "-",
+                    {
+                      element: "input",
+                      storeAs: "path",
+                      name: "Path",
+                    },
+                    "-",
+                    {
+                      element: "input",
+                      storeAs: "value",
+                      name: "Name",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+    },
+    "-",
+    {
+      element: "menu",
+      max: 1,
+      required: true,
+      storeAs: "Create Data Object",
+      types: {
+        options: "Create Data Object",
+      },
+      UItypes: {
+        options: {
+          name: "Create Data Object",
+          inheritData: true,
+          UI: [
+            {
+              element: "menu",
+              help: {
+                title: "Create Data Object?",
+                UI: [
+                  {
+                    element: "text",
+                    text: "Create Data Object?",
+                    header: true,
+                  },
+                  {
+                    element: "text",
+                    text: `You can use this feature to create an object from scratch. And if it exists, it will be completely overwritten with a new one.`,
+                  },
+                ],
+              },
+              storeAs: "cases4",
+              name: "Create Data Object",
+              types: {
+                value: "Create Data Object Value",
+                array: "Create Data Object Array",
+              },
+              max: 200,
+              UItypes: {
+                value: {
+                  name: "Create Data Object Value",
+                  preview:
+                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.name}`",
+                  data: { path: "", name: "" },
+                  UI: [
+                    {
+                      element: "menu",
+                      max: 1,
+                      storeAs: "comparisonlist",
+                      name: "Comparison",
+                      types: {
+                        Comparison: "Comparison",
+                      },
+                      UItypes: {
+                        Comparison: {
+                          name: "Comparison",
+                          data: {},
+                          UI: [
+                            {
+                              element: "var",
+                              storeAs: "variable",
+                            },
+                            "-",
+                            {
+                              element: "halfDropdown",
+                              storeAs: "comparator",
+                              extraField: "compareValue",
+                              name: "Comparison Type",
+                              choices: [
+                                {
+                                  name: "Equals",
+                                  field: true,
+                                  placeholder: "Equals To",
+                                },
+                                {
+                                  name: "Equals Exactly",
+                                  field: true,
+                                },
+                                {
+                                  name: "Doesn't Equal",
+                                  field: true,
+                                },
+                                {
+                                  name: "Exists",
+                                },
+                                {
+                                  name: "Less Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Greater Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Equal Or Less Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Equal Or Greater Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Is Number",
+                                },
+                                {
+                                  name: "Matches Regex",
+                                  field: true,
+                                  placeholder: "Regex",
+                                },
+                                {
+                                  name: "Exactly includes",
+                                  field: true,
+                                  placeholder: "Text",
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "-",
+                    {
+                      element: "input",
+                      storeAs: "path",
+                      name: "Path",
+                    },
+                    "-",
+                    {
+                      element: "input",
+                      storeAs: "name",
+                      name: "Name Object",
+                    },
+                    "-",
+                    {
+                      element: "menu",
+                      storeAs: "cases5",
+                      name: "Object Value",
+                      types: {
+                        data: "Data",
+                      },
+                      max: 200,
+                      UItypes: {
+                        data: {
+                          name: "Add Object Value",
+                          preview:
+                            "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.value}`",
+                          data: { name: "", value: "" },
+                          UI: [
+                            {
+                              element: "menu",
+                              max: 1,
+                              storeAs: "comparisonlist",
+                              name: "Comparison",
+                              types: {
+                                Comparison: "Comparison",
+                              },
+                              UItypes: {
+                                Comparison: {
+                                  name: "Comparison",
+                                  data: {},
+                                  UI: [
+                                    {
+                                      element: "var",
+                                      storeAs: "variable",
+                                    },
+                                    "-",
+                                    {
+                                      element: "halfDropdown",
+                                      storeAs: "comparator",
+                                      extraField: "compareValue",
+                                      name: "Comparison Type",
+                                      choices: [
+                                        {
+                                          name: "Equals",
+                                          field: true,
+                                          placeholder: "Equals To",
+                                        },
+                                        {
+                                          name: "Equals Exactly",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Doesn't Equal",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Exists",
+                                        },
+                                        {
+                                          name: "Less Than",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Greater Than",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Equal Or Less Than",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Equal Or Greater Than",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Is Number",
+                                        },
+                                        {
+                                          name: "Matches Regex",
+                                          field: true,
+                                          placeholder: "Regex",
+                                        },
+                                        {
+                                          name: "Exactly includes",
+                                          field: true,
+                                          placeholder: "Text",
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                              },
+                            },
+                            "-",
+                            {
+                              element: "input",
+                              storeAs: "name",
+                              name: "Name",
+                            },
+                            "-",
+                            {
+                              element: "input",
+                              storeAs: "value",
+                              name: "Value",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  ],
+                },
+                array: {
+                  name: "Create Data Object Array",
+                  preview:
+                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path}`",
+                  data: {},
+                  UI: [
+                    {
+                      element: "menu",
+                      max: 1,
+                      storeAs: "comparisonlist",
+                      name: "Comparison",
+                      types: {
+                        Comparison: "Comparison",
+                      },
+                      UItypes: {
+                        Comparison: {
+                          name: "Comparison",
+                          data: {},
+                          UI: [
+                            {
+                              element: "var",
+                              storeAs: "variable",
+                            },
+                            "-",
+                            {
+                              element: "halfDropdown",
+                              storeAs: "comparator",
+                              extraField: "compareValue",
+                              name: "Comparison Type",
+                              choices: [
+                                {
+                                  name: "Equals",
+                                  field: true,
+                                  placeholder: "Equals To",
+                                },
+                                {
+                                  name: "Equals Exactly",
+                                  field: true,
+                                },
+                                {
+                                  name: "Doesn't Equal",
+                                  field: true,
+                                },
+                                {
+                                  name: "Exists",
+                                },
+                                {
+                                  name: "Less Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Greater Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Equal Or Less Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Equal Or Greater Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Is Number",
+                                },
+                                {
+                                  name: "Matches Regex",
+                                  field: true,
+                                  placeholder: "Regex",
+                                },
+                                {
+                                  name: "Exactly includes",
+                                  field: true,
+                                  placeholder: "Text",
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    "-",
+                    {
+                      element: "input",
+                      storeAs: "path",
+                      name: "Path",
+                    },
+                    "-",
+                    {
+                      element: "menu",
+                      storeAs: "cases6",
+                      name: "Object Array Value",
+                      types: {
+                        data: "Data",
+                      },
+                      max: 200,
+                      UItypes: {
+                        data: {
+                          name: "Add Object Array Value",
+                          preview:
+                            "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.name} - ${option.data.value}`",
+                          data: { name: "", value: "" },
+                          UI: [
+                            {
+                              element: "menu",
+                              max: 1,
+                              storeAs: "comparisonlist",
+                              name: "Comparison",
+                              types: {
+                                Comparison: "Comparison",
+                              },
+                              UItypes: {
+                                Comparison: {
+                                  name: "Comparison",
+                                  data: {},
+                                  UI: [
+                                    {
+                                      element: "var",
+                                      storeAs: "variable",
+                                    },
+                                    "-",
+                                    {
+                                      element: "halfDropdown",
+                                      storeAs: "comparator",
+                                      extraField: "compareValue",
+                                      name: "Comparison Type",
+                                      choices: [
+                                        {
+                                          name: "Equals",
+                                          field: true,
+                                          placeholder: "Equals To",
+                                        },
+                                        {
+                                          name: "Equals Exactly",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Doesn't Equal",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Exists",
+                                        },
+                                        {
+                                          name: "Less Than",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Greater Than",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Equal Or Less Than",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Equal Or Greater Than",
+                                          field: true,
+                                        },
+                                        {
+                                          name: "Is Number",
+                                        },
+                                        {
+                                          name: "Matches Regex",
+                                          field: true,
+                                          placeholder: "Regex",
+                                        },
+                                        {
+                                          name: "Exactly includes",
+                                          field: true,
+                                          placeholder: "Text",
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                              },
+                            },
+                            "-",
+                            {
+                              element: "input",
+                              storeAs: "name",
+                              name: "Name",
+                            },
+                            "-",
+                            {
+                              element: "input",
+                              storeAs: "value",
+                              name: "Value",
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+    },
+    "-",
+    {
+      element: "menu",
+      max: 1,
+      required: true,
+      storeAs: "Delete Data",
+      types: {
+        options: "Delete Data",
+      },
+      UItypes: {
+        options: {
+          name: "Delete Data",
+          inheritData: true,
+          UI: [
+            {
+              element: "menu",
+              help: {
+                title: "Delete Data?",
+                UI: [
+                  {
+                    element: "text",
+                    text: "Delete Data?",
+                    header: true,
+                  },
+                  {
+                    element: "text",
+                    text: `You can delete the data in json.`,
+                  },
+                ],
+              },
+              storeAs: "cases1",
+              name: "Delete Data",
+              types: {
+                data: "Data",
+              },
+              max: 200,
+              UItypes: {
+                data: {
+                  name: "Delete Data",
+                  preview:
+                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Path: ${option.data.patch}`",
+                  data: { patch: "" },
+                  UI: [
+                    {
+                      element: "menu",
+                      max: 1,
+                      storeAs: "comparisonlist",
+                      name: "Comparison",
+                      types: {
+                        Comparison: "Comparison",
+                      },
+                      UItypes: {
+                        Comparison: {
+                          name: "Comparison",
+                          data: {},
+                          UI: [
+                            {
+                              element: "var",
+                              storeAs: "variable",
+                            },
+                            "-",
+                            {
+                              element: "halfDropdown",
+                              storeAs: "comparator",
+                              extraField: "compareValue",
+                              name: "Comparison Type",
+                              choices: [
+                                {
+                                  name: "Equals",
+                                  field: true,
+                                  placeholder: "Equals To",
+                                },
+                                {
+                                  name: "Equals Exactly",
+                                  field: true,
+                                },
+                                {
+                                  name: "Doesn't Equal",
+                                  field: true,
+                                },
+                                {
+                                  name: "Exists",
+                                },
+                                {
+                                  name: "Less Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Greater Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Equal Or Less Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Equal Or Greater Than",
+                                  field: true,
+                                },
+                                {
+                                  name: "Is Number",
+                                },
+                                {
+                                  name: "Matches Regex",
+                                  field: true,
+                                  placeholder: "Regex",
+                                },
+                                {
+                                  name: "Exactly includes",
+                                  field: true,
+                                  placeholder: "Text",
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      },
                     },
                     "-",
                     {
@@ -904,7 +905,7 @@ module.exports = {
 
   compatibility: ["Any"],
   subtitle: (values, constants, thisAction) => {
-    const checkAndCount = (arr) => Array.isArray(arr) ? arr.length : 0;
+    const checkAndCount = (arr) => (Array.isArray(arr) ? arr.length : 0);
     let numData1 = checkAndCount(values.cases);
     let numData2 = checkAndCount(values.cases1);
     let numData3 = checkAndCount(values.cases2);
@@ -919,50 +920,56 @@ module.exports = {
     let fs = bridge.fs;
 
     if (!values.database) {
-      console.error("Error: The path to the database (Database) is not defined.");
+      console.error(
+        "Error: The path to the database (Database) is not defined."
+      );
       return;
     }
-    
+
     const botData = require("../data.json");
     let dbPath = bridge.transf(values.database);
-    const currentDir = process.cwd().replace(/\\/g, '/');
+    const currentDir = process.cwd().replace(/\\/g, "/");
 
-    if (currentDir.includes('common/Bot Maker For Discord')) {
-      dbPath = botData.prjSrc+`/`+dbPath;
-      var fullPath = dbPath.replace(/\\/g, '/');
+    if (currentDir.includes("common/Bot Maker For Discord")) {
+      dbPath = botData.prjSrc + `/` + dbPath;
+      var fullPath = dbPath.replace(/\\/g, "/");
     } else {
-      var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, '/')
+      var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, "/");
     }
 
-    const dirPath = fullPath.split('/').slice(0, -1).join('/');
+    const dirPath = fullPath.split("/").slice(0, -1).join("/");
 
     if (!fs.existsSync(dirPath)) {
-       fs.mkdirSync(dirPath, { recursive: true });
-      }
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
 
-      if (!fs.existsSync(fullPath)) {
-        fs.writeFileSync(fullPath, '{}', 'utf8');
-      }
+    if (!fs.existsSync(fullPath)) {
+      fs.writeFileSync(fullPath, "{}", "utf8");
+    }
 
     if (values.deleteJson) {
-      fs.writeFileSync(fullPath, '{}', 'utf8');
+      fs.writeFileSync(fullPath, "{}", "utf8");
     }
 
     let data = {};
     if (fs.existsSync(fullPath)) {
-      const rawData = fs.readFileSync(fullPath, 'utf8');
+      const rawData = fs.readFileSync(fullPath, "utf8");
       data = JSON.parse(rawData);
     }
-    
+
     if (Array.isArray(values.cases)) {
       for (const dataCase of values.cases) {
         if (dataCase.type !== "data") continue;
         let matchesCriteria = true;
 
         if (dataCase.data.comparisonlist && dataCase.data.comparisonlist[0]) {
-          matchesCriteria = false
-          let variable = bridge.get(dataCase.data.comparisonlist[0].data.variable);
-          let secondValue = bridge.transf(dataCase.data.comparisonlist[0].data.compareValue);
+          matchesCriteria = false;
+          let variable = bridge.get(
+            dataCase.data.comparisonlist[0].data.variable
+          );
+          let secondValue = bridge.transf(
+            dataCase.data.comparisonlist[0].data.compareValue
+          );
 
           switch (dataCase.data.comparisonlist[0].data.comparator) {
             case "Equals":
@@ -970,59 +977,62 @@ module.exports = {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Doesn't Equal":
               if (variable != secondValue) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Exists":
               matchesCriteria = variable != null || variable != undefined;
               break;
-      
+
             case "Equals Exactly":
               if (variable === secondValue) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Greater Than":
               if (Number(variable) > Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Less Than":
               if (Number(variable) < Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Equal Or Greater Than":
               if (Number(variable) >= Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Equal Or Less Than":
               if (Number(variable) <= Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Is Number":
-              if (typeof parseInt(variable) == 'number' && `${parseInt(variable)}` != `NaN`) {
-                matchesCriteria = true
+              if (
+                typeof parseInt(variable) == "number" &&
+                `${parseInt(variable)}` != `NaN`
+              ) {
+                matchesCriteria = true;
               }
-              break
-      
+              break;
+
             case "Matches Regex":
               matchesCriteria = Boolean(
                 variable.match(new RegExp("^" + secondValue + "$", "i"))
               );
               break;
-              
+
             case "Exactly includes":
               if (typeof variable?.toString().includes === "function") {
                 matchesCriteria = variable.toString().includes(secondValue);
@@ -1031,113 +1041,113 @@ module.exports = {
           }
         }
         if (matchesCriteria == true) {
-        const rawPath = bridge.transf(dataCase.data.path);
-        const value = bridge.transf(dataCase.data.value);
-        
-        const pathParts = rawPath.split('.');
-        let current = data;
-        
-        for (let i = 0; i < pathParts.length - 1; i++) {
-          let part = pathParts[i];
-          const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-        
-          if (arrayMatch) {
-            const [_, arrayKey, indexOrSymbol] = arrayMatch;
-            
+          const rawPath = bridge.transf(dataCase.data.path);
+          const value = bridge.transf(dataCase.data.value);
+
+          const pathParts = rawPath.split(".");
+          let current = data;
+
+          for (let i = 0; i < pathParts.length - 1; i++) {
+            let part = pathParts[i];
+            const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+
+            if (arrayMatch) {
+              const [_, arrayKey, indexOrSymbol] = arrayMatch;
+
+              if (!Array.isArray(current[arrayKey])) {
+                current[arrayKey] = [];
+              }
+              let array = current[arrayKey];
+
+              if (indexOrSymbol === "N") {
+                const nextPart = pathParts[i + 1];
+                if (nextPart) {
+                  array.push({});
+                  current = array[array.length - 1];
+                } else {
+                  array.push(value);
+                }
+                continue;
+              } else if (indexOrSymbol === "^") {
+                if (array.length === 0) {
+                  array.push({});
+                }
+                current = array[array.length - 1];
+                continue;
+              } else {
+                const index = parseInt(indexOrSymbol, 10);
+                if (isNaN(index)) continue;
+
+                while (array.length <= index) {
+                  array.push(null);
+                }
+
+                if (typeof array[index] !== "object" || array[index] === null) {
+                  array[index] = {};
+                }
+                current = array[index];
+              }
+            } else {
+              if (typeof current[part] !== "object" || current[part] === null) {
+                current[part] = {};
+              }
+              current = current[part];
+            }
+          }
+
+          const lastPart = pathParts[pathParts.length - 1];
+          const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+
+          if (lastPartMatch) {
+            const [_, arrayKey, indexOrSymbol] = lastPartMatch;
+
             if (!Array.isArray(current[arrayKey])) {
               current[arrayKey] = [];
             }
-            let array = current[arrayKey];
-        
-            if (indexOrSymbol === 'N') {
-              const nextPart = pathParts[i + 1];
-              if (nextPart) {
-                array.push({});
-                current = array[array.length - 1];
-              } else {
-                array.push(value);
-              }
-              continue;
-            } else if (indexOrSymbol === '^') {
+            const array = current[arrayKey];
+
+            if (indexOrSymbol === "N") {
+              array.push(value);
+            } else if (indexOrSymbol === "^") {
               if (array.length === 0) {
-                array.push({});
+                array.push(typeof value === "object" ? { ...value } : value);
+              } else {
+                if (typeof array[array.length - 1] !== "object") {
+                  array[array.length - 1] = {};
+                }
+                array[array.length - 1] = {
+                  ...array[array.length - 1],
+                  ...value,
+                };
               }
-              current = array[array.length - 1];
-              continue;
             } else {
               const index = parseInt(indexOrSymbol, 10);
-              if (isNaN(index)) continue;
-              
+              if (isNaN(index)) return;
+
               while (array.length <= index) {
                 array.push(null);
               }
-              
-              if (typeof array[index] !== 'object' || array[index] === null) {
-                array[index] = {};
+
+              if (typeof value === "object" && value !== null) {
+                if (typeof array[index] !== "object" || array[index] === null) {
+                  array[index] = {};
+                }
+                array[index] = { ...array[index], ...value };
+              } else {
+                array[index] = value;
               }
-              current = array[index];
             }
           } else {
-            if (typeof current[part] !== 'object' || current[part] === null) {
-              current[part] = {};
-            }
-            current = current[part];
-          }
-        }
-        
-        const lastPart = pathParts[pathParts.length - 1];
-        const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
-        
-        if (lastPartMatch) {
-          const [_, arrayKey, indexOrSymbol] = lastPartMatch;
-          
-          if (!Array.isArray(current[arrayKey])) {
-            current[arrayKey] = [];
-          }
-          const array = current[arrayKey];
-        
-          if (indexOrSymbol === 'N') {
-            array.push(value);
-          } else if (indexOrSymbol === '^') {
-            if (array.length === 0) {
-              array.push(typeof value === 'object' ? { ...value } : value);
-            } else {
-              if (typeof array[array.length - 1] !== 'object') {
-                array[array.length - 1] = {};
-              }
-              array[array.length - 1] = { 
-                ...array[array.length - 1], 
-                ...value 
+            if (typeof value === "object" && value !== null) {
+              current[lastPart] = {
+                ...current[lastPart],
+                ...value,
               };
-            }
-          } else {
-            const index = parseInt(indexOrSymbol, 10);
-            if (isNaN(index)) return;
-        
-            while (array.length <= index) {
-              array.push(null);
-            }
-        
-            if (typeof value === 'object' && value !== null) {
-              if (typeof array[index] !== 'object' || array[index] === null) {
-                array[index] = {};
-              }
-              array[index] = { ...array[index], ...value };
             } else {
-              array[index] = value;
+              current[lastPart] = value;
             }
-          }
-        } else {
-          if (typeof value === 'object' && value !== null) {
-            current[lastPart] = { 
-              ...current[lastPart], 
-              ...value 
-            };
-          } else {
-            current[lastPart] = value;
           }
         }
-      }
       }
     }
 
@@ -1147,9 +1157,13 @@ module.exports = {
         let matchesCriteria = true;
 
         if (dataCase.data.comparisonlist && dataCase.data.comparisonlist[0]) {
-          matchesCriteria = false
-          let variable = bridge.get(dataCase.data.comparisonlist[0].data.variable);
-          let secondValue = bridge.transf(dataCase.data.comparisonlist[0].data.compareValue);
+          matchesCriteria = false;
+          let variable = bridge.get(
+            dataCase.data.comparisonlist[0].data.variable
+          );
+          let secondValue = bridge.transf(
+            dataCase.data.comparisonlist[0].data.compareValue
+          );
 
           switch (dataCase.data.comparisonlist[0].data.comparator) {
             case "Equals":
@@ -1157,59 +1171,62 @@ module.exports = {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Doesn't Equal":
               if (variable != secondValue) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Exists":
               matchesCriteria = variable != null || variable != undefined;
               break;
-      
+
             case "Equals Exactly":
               if (variable === secondValue) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Greater Than":
               if (Number(variable) > Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Less Than":
               if (Number(variable) < Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Equal Or Greater Than":
               if (Number(variable) >= Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Equal Or Less Than":
               if (Number(variable) <= Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Is Number":
-              if (typeof parseInt(variable) == 'number' && `${parseInt(variable)}` != `NaN`) {
-                matchesCriteria = true
+              if (
+                typeof parseInt(variable) == "number" &&
+                `${parseInt(variable)}` != `NaN`
+              ) {
+                matchesCriteria = true;
               }
-              break
-      
+              break;
+
             case "Matches Regex":
               matchesCriteria = Boolean(
                 variable.match(new RegExp("^" + secondValue + "$", "i"))
               );
               break;
-              
+
             case "Exactly includes":
               if (typeof variable?.toString().includes === "function") {
                 matchesCriteria = variable.toString().includes(secondValue);
@@ -1218,269 +1235,310 @@ module.exports = {
           }
         }
         if (matchesCriteria == true) {
-        const rawPath = bridge.transf(dataCase.data.path);
-        const value = bridge.transf(dataCase.data.value);
-    
-        const pathParts = rawPath.split('.');
-    
-        let current = data;
-        for (let i = 0; i < pathParts.length - 1; i++) {
-          const part = pathParts[i];
-    
-          if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
-            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-            if (!arrayKeyMatch) continue;
-    
-            const arrayKey = arrayKeyMatch[1];
-            const indexOrSymbol = arrayKeyMatch[2];
-    
+          const rawPath = bridge.transf(dataCase.data.path);
+          const value = bridge.transf(dataCase.data.value);
+
+          const pathParts = rawPath.split(".");
+
+          let current = data;
+          for (let i = 0; i < pathParts.length - 1; i++) {
+            const part = pathParts[i];
+
+            if (
+              /\[\d+\]$/.test(part) ||
+              part.endsWith("[N]") ||
+              part.endsWith("[^]")
+            ) {
+              const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+              if (!arrayKeyMatch) continue;
+
+              const arrayKey = arrayKeyMatch[1];
+              const indexOrSymbol = arrayKeyMatch[2];
+
+              if (!Array.isArray(current[arrayKey])) {
+                current[arrayKey] = [];
+              }
+
+              current = current[arrayKey];
+
+              if (indexOrSymbol === "N") {
+                const nextPart = pathParts[i + 1];
+                if (nextPart) {
+                  current.push({});
+                  current = current[current.length - 1];
+                } else {
+                  current.push(value);
+                }
+                continue;
+              }
+
+              if (indexOrSymbol === "^") {
+                if (current.length > 0) {
+                  const lastElement = current[current.length - 1];
+                  if (typeof lastElement !== "object" || lastElement === null) {
+                    current[current.length - 1] = {};
+                  }
+                  current = current[current.length - 1];
+                } else {
+                  current.push({});
+                  current = current[current.length - 1];
+                }
+                continue;
+              }
+
+              const index = parseInt(indexOrSymbol, 10);
+              if (isNaN(index)) continue;
+
+              while (current.length <= index) {
+                current.push(null);
+              }
+
+              if (
+                typeof current[index] !== "object" ||
+                current[index] === null
+              ) {
+                current[index] = {};
+              }
+
+              current = current[index];
+            } else {
+              if (!current[part] || typeof current[part] !== "object") {
+                current[part] = {};
+              }
+
+              current = current[part];
+            }
+          }
+
+          const lastPart = pathParts[pathParts.length - 1];
+
+          const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+          if (lastPartMatch) {
+            const arrayKey = lastPartMatch[1];
+            const indexOrSymbol = lastPartMatch[2];
+
             if (!Array.isArray(current[arrayKey])) {
               current[arrayKey] = [];
             }
-    
-            current = current[arrayKey];
-    
-            if (indexOrSymbol === 'N') {
-              const nextPart = pathParts[i + 1];
-              if (nextPart) {
-                current.push({});
-                current = current[current.length - 1];
-              } else {
-                current.push(value);
-              }
-              continue;
-            }
-    
-            if (indexOrSymbol === '^') {
-              if (current.length > 0) {
-                const lastElement = current[current.length - 1];
-                if (typeof lastElement !== 'object' || lastElement === null) {
-                  current[current.length - 1] = {};
-                }
-                current = current[current.length - 1];
-              } else {
-                current.push({});
-                current = current[current.length - 1];
-              }
-              continue;
-            }
-    
-            const index = parseInt(indexOrSymbol, 10);
-            if (isNaN(index)) continue;
-    
-            while (current.length <= index) {
-              current.push(null);
-            }
-    
-            if (typeof current[index] !== 'object' || current[index] === null) {
-              current[index] = {};
-            }
-    
-            current = current[index];
-          } else {
-            if (!current[part] || typeof current[part] !== 'object') {
-              current[part] = {};
-            }
-    
-            current = current[part];
-          }
-        }
-    
-        const lastPart = pathParts[pathParts.length - 1];
-    
-        const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
-        if (lastPartMatch) {
-          const arrayKey = lastPartMatch[1];
-          const indexOrSymbol = lastPartMatch[2];
-    
-          if (!Array.isArray(current[arrayKey])) {
-            current[arrayKey] = [];
-          }
-    
-          const array = current[arrayKey];
-    
-          if (indexOrSymbol === 'N') {
-            array.push(value);
-          } else if (indexOrSymbol === '^') {
-            if (array.length > 0) {
-              const lastElement = array[array.length - 1];
-              if (typeof lastElement !== 'object' || lastElement === null) {
-                array[array.length - 1] = {};
-              }
-              Object.assign(array[array.length - 1], value);
-            } else {
+
+            const array = current[arrayKey];
+
+            if (indexOrSymbol === "N") {
               array.push(value);
+            } else if (indexOrSymbol === "^") {
+              if (array.length > 0) {
+                const lastElement = array[array.length - 1];
+                if (typeof lastElement !== "object" || lastElement === null) {
+                  array[array.length - 1] = {};
+                }
+                Object.assign(array[array.length - 1], value);
+              } else {
+                array.push(value);
+              }
+            } else {
+              const index = parseInt(indexOrSymbol, 10);
+              if (isNaN(index)) continue;
+
+              while (array.length <= index) {
+                array.push(null);
+              }
+
+              if (typeof value === "string") {
+                array[index] = value;
+              } else if (typeof value === "object") {
+                if (typeof array[index] !== "object" || array[index] === null) {
+                  array[index] = {};
+                }
+                Object.assign(array[index], value);
+              } else {
+                array[index] = value;
+              }
             }
           } else {
-            const index = parseInt(indexOrSymbol, 10);
-            if (isNaN(index)) continue;
-    
-            while (array.length <= index) {
-              array.push(null);
-            }
-    
-            if (typeof value === 'string') {
-              array[index] = value;
-            } else if (typeof value === 'object') {
-              if (typeof array[index] !== 'object' || array[index] === null) {
-                array[index] = {};
-              }
-              Object.assign(array[index], value);
-            } else {
-              array[index] = value;
-            }
+            current[lastPart] = value;
           }
-        } else {
-          current[lastPart] = value;
         }
-      }
       }
     }
 
     if (Array.isArray(values.cases4)) {
       for (const dataCase of values.cases4) {
         switch (dataCase.type) {
-          case 'value':
+          case "value":
             if (Array.isArray(dataCase.data?.cases5)) {
               let matchesCriteria = true;
 
-              if (dataCase.data.comparisonlist && dataCase.data.comparisonlist[0]) {
-                matchesCriteria = false
-                let variable = bridge.get(dataCase.data.comparisonlist[0].data.variable);
-                let secondValue = bridge.transf(dataCase.data.comparisonlist[0].data.compareValue);
-              
+              if (
+                dataCase.data.comparisonlist &&
+                dataCase.data.comparisonlist[0]
+              ) {
+                matchesCriteria = false;
+                let variable = bridge.get(
+                  dataCase.data.comparisonlist[0].data.variable
+                );
+                let secondValue = bridge.transf(
+                  dataCase.data.comparisonlist[0].data.compareValue
+                );
+
                 switch (dataCase.data.comparisonlist[0].data.comparator) {
                   case "Equals":
                     if (`${variable}` == `${secondValue}`) {
                       matchesCriteria = true;
                     }
                     break;
-              
+
                   case "Doesn't Equal":
                     if (variable != secondValue) {
                       matchesCriteria = true;
                     }
                     break;
-              
+
                   case "Exists":
                     matchesCriteria = variable != null || variable != undefined;
                     break;
-              
+
                   case "Equals Exactly":
                     if (variable === secondValue) {
                       matchesCriteria = true;
                     }
                     break;
-              
+
                   case "Greater Than":
                     if (Number(variable) > Number(secondValue)) {
                       matchesCriteria = true;
                     }
                     break;
-              
+
                   case "Less Than":
                     if (Number(variable) < Number(secondValue)) {
                       matchesCriteria = true;
                     }
                     break;
-              
+
                   case "Equal Or Greater Than":
                     if (Number(variable) >= Number(secondValue)) {
                       matchesCriteria = true;
                     }
                     break;
-              
+
                   case "Equal Or Less Than":
                     if (Number(variable) <= Number(secondValue)) {
                       matchesCriteria = true;
                     }
                     break;
-              
+
                   case "Is Number":
-                    if (typeof parseInt(variable) == 'number' && `${parseInt(variable)}` != `NaN`) {
-                      matchesCriteria = true
+                    if (
+                      typeof parseInt(variable) == "number" &&
+                      `${parseInt(variable)}` != `NaN`
+                    ) {
+                      matchesCriteria = true;
                     }
-                    break
-              
+                    break;
+
                   case "Matches Regex":
                     matchesCriteria = Boolean(
                       variable.match(new RegExp("^" + secondValue + "$", "i"))
                     );
                     break;
-                    
+
                   case "Exactly includes":
                     if (typeof variable?.toString().includes === "function") {
-                      matchesCriteria = variable.toString().includes(secondValue);
+                      matchesCriteria = variable
+                        .toString()
+                        .includes(secondValue);
                     }
                     break;
                 }
               }
-              
+
               if (matchesCriteria == true) {
                 const res = dataCase.data.cases5.reduce((acc, item) => {
                   if (
                     item.type === "data" &&
                     item.data &&
-                    typeof item.data.name === 'string' &&
-                    typeof item.data.value !== 'undefined'
+                    typeof item.data.name === "string" &&
+                    typeof item.data.value !== "undefined"
                   ) {
                     let itemMatches = true;
-    
-                    if (item.data.comparisonlist && item.data.comparisonlist[0]) {
+
+                    if (
+                      item.data.comparisonlist &&
+                      item.data.comparisonlist[0]
+                    ) {
                       itemMatches = false;
-                      let variable = bridge.get(item.data.comparisonlist[0].data.variable);
-                      let secondValue = bridge.transf(item.data.comparisonlist[0].data.compareValue);
-      
+                      let variable = bridge.get(
+                        item.data.comparisonlist[0].data.variable
+                      );
+                      let secondValue = bridge.transf(
+                        item.data.comparisonlist[0].data.compareValue
+                      );
+
                       switch (item.data.comparisonlist[0].data.comparator) {
                         case "Equals":
-                        if (`${variable}` == `${secondValue}`) itemMatches = true;
-                        break;
+                          if (`${variable}` == `${secondValue}`)
+                            itemMatches = true;
+                          break;
                         case "Doesn't Equal":
-                        if (variable != secondValue) itemMatches = true;
-                        break;
+                          if (variable != secondValue) itemMatches = true;
+                          break;
                         case "Exists":
-                        itemMatches = variable != null && variable != undefined;
-                        break;
+                          itemMatches =
+                            variable != null && variable != undefined;
+                          break;
                         case "Equals Exactly":
-                        if (variable === secondValue) itemMatches = true;
-                        break;
+                          if (variable === secondValue) itemMatches = true;
+                          break;
                         case "Greater Than":
-                        if (Number(variable) > Number(secondValue)) itemMatches = true;
-                        break;
+                          if (Number(variable) > Number(secondValue))
+                            itemMatches = true;
+                          break;
                         case "Less Than":
-                        if (Number(variable) < Number(secondValue)) itemMatches = true;
-                        break;
+                          if (Number(variable) < Number(secondValue))
+                            itemMatches = true;
+                          break;
                         case "Equal Or Greater Than":
-                        if (Number(variable) >= Number(secondValue)) itemMatches = true;
-                        break;
+                          if (Number(variable) >= Number(secondValue))
+                            itemMatches = true;
+                          break;
                         case "Equal Or Less Than":
-                        if (Number(variable) <= Number(secondValue)) itemMatches = true;
-                        break;
+                          if (Number(variable) <= Number(secondValue))
+                            itemMatches = true;
+                          break;
                         case "Is Number":
-                        itemMatches = typeof parseInt(variable) == 'number' && `${parseInt(variable)}` != `NaN`;
-                        break;
+                          itemMatches =
+                            typeof parseInt(variable) == "number" &&
+                            `${parseInt(variable)}` != `NaN`;
+                          break;
                         case "Matches Regex":
-                        itemMatches = Boolean(variable.match(new RegExp("^" + secondValue + "$", "i")));
-                        break;
+                          itemMatches = Boolean(
+                            variable.match(
+                              new RegExp("^" + secondValue + "$", "i")
+                            )
+                          );
+                          break;
                         case "Exactly includes":
-                        itemMatches = variable?.toString().includes(secondValue) || false;
-                        break;
+                          itemMatches =
+                            variable?.toString().includes(secondValue) || false;
+                          break;
                       }
                     }
                     if (itemMatches) {
-                      acc[bridge.transf(item.data.name)] = bridge.transf(item.data.value);
+                      acc[bridge.transf(item.data.name)] = bridge.transf(
+                        item.data.value
+                      );
                     }
                   }
                   return acc;
                 }, {});
-              
+
                 const resu = dataCase.data.name
                   ? { [bridge.transf(dataCase.data.name)]: res }
                   : res;
-              
-                const pathParts = bridge.transf(dataCase.data.path).split('.');
+
+                const pathParts = bridge.transf(dataCase.data.path).split(".");
                 let current = data;
-              
+
                 for (let i = 0; i < pathParts.length - 1; i++) {
                   const part = pathParts[i];
                   if (!current[part]) {
@@ -1488,60 +1546,72 @@ module.exports = {
                   }
                   current = current[part];
                 }
-              
+
                 const lastPart = pathParts[pathParts.length - 1];
                 current[lastPart] = resu;
               }
             }
             break;
-    
-          case 'array':
+
+          case "array":
             if (Array.isArray(dataCase.data?.cases6)) {
               let matchesCriteria = true;
 
-              if (dataCase.data.comparisonlist && dataCase.data.comparisonlist[0]) {
+              if (
+                dataCase.data.comparisonlist &&
+                dataCase.data.comparisonlist[0]
+              ) {
                 matchesCriteria = false;
-                let variable = bridge.get(dataCase.data.comparisonlist[0].data.variable);
-                let secondValue = bridge.transf(dataCase.data.comparisonlist[0].data.compareValue);
+                let variable = bridge.get(
+                  dataCase.data.comparisonlist[0].data.variable
+                );
+                let secondValue = bridge.transf(
+                  dataCase.data.comparisonlist[0].data.compareValue
+                );
 
                 switch (dataCase.data.comparisonlist[0].data.comparator) {
-                  case "Equals": 
-                  matchesCriteria = `${variable}` == `${secondValue}`;
-                  break;
+                  case "Equals":
+                    matchesCriteria = `${variable}` == `${secondValue}`;
+                    break;
                   case "Doesn't Equal":
-                  matchesCriteria = variable != secondValue;
-                  break;
+                    matchesCriteria = variable != secondValue;
+                    break;
                   case "Exists":
-                  matchesCriteria = variable !== null && variable !== undefined;
-                  break;
+                    matchesCriteria =
+                      variable !== null && variable !== undefined;
+                    break;
                   case "Equals Exactly":
-                  matchesCriteria = variable === secondValue;
-                  break;
+                    matchesCriteria = variable === secondValue;
+                    break;
                   case "Greater Than":
-                  matchesCriteria = Number(variable) > Number(secondValue);
-                  break;
+                    matchesCriteria = Number(variable) > Number(secondValue);
+                    break;
                   case "Less Than":
-                  matchesCriteria = Number(variable) < Number(secondValue);
-                  break;
+                    matchesCriteria = Number(variable) < Number(secondValue);
+                    break;
                   case "Equal Or Greater Than":
-                  matchesCriteria = Number(variable) >= Number(secondValue);
-                  break;
+                    matchesCriteria = Number(variable) >= Number(secondValue);
+                    break;
                   case "Equal Or Less Than":
-                  matchesCriteria = Number(variable) <= Number(secondValue);
-                  break;
+                    matchesCriteria = Number(variable) <= Number(secondValue);
+                    break;
                   case "Is Number":
-                  matchesCriteria = !isNaN(parseInt(variable));
-                  break;
+                    matchesCriteria = !isNaN(parseInt(variable));
+                    break;
                   case "Matches Regex":
-                  try {
-                    matchesCriteria = new RegExp(`^${secondValue}$`, "i").test(variable);
-                  } catch (e) {
-                    matchesCriteria = false;
-                  }
-                  break;
+                    try {
+                      matchesCriteria = new RegExp(
+                        `^${secondValue}$`,
+                        "i"
+                      ).test(variable);
+                    } catch (e) {
+                      matchesCriteria = false;
+                    }
+                    break;
                   case "Exactly includes":
-                  matchesCriteria = variable?.toString().includes(secondValue) || false;
-                  break;
+                    matchesCriteria =
+                      variable?.toString().includes(secondValue) || false;
+                    break;
                 }
               }
 
@@ -1550,65 +1620,79 @@ module.exports = {
                   if (
                     item.type === "data" &&
                     item.data &&
-                    typeof item.data.name === 'string' &&
-                    typeof item.data.value !== 'undefined'
+                    typeof item.data.name === "string" &&
+                    typeof item.data.value !== "undefined"
                   ) {
                     let itemMatches = true;
-      
-                    if (item.data.comparisonlist && item.data.comparisonlist[0]) {
+
+                    if (
+                      item.data.comparisonlist &&
+                      item.data.comparisonlist[0]
+                    ) {
                       itemMatches = false;
-                      let variable = bridge.get(item.data.comparisonlist[0].data.variable);
-                      let secondValue = bridge.transf(item.data.comparisonlist[0].data.compareValue);
+                      let variable = bridge.get(
+                        item.data.comparisonlist[0].data.variable
+                      );
+                      let secondValue = bridge.transf(
+                        item.data.comparisonlist[0].data.compareValue
+                      );
 
                       switch (item.data.comparisonlist[0].data.comparator) {
-                        case "Equals": 
+                        case "Equals":
                           itemMatches = `${variable}` == `${secondValue}`;
-                        break;
+                          break;
                         case "Doesn't Equal":
                           itemMatches = variable != secondValue;
-                        break;
+                          break;
                         case "Exists":
-                          itemMatches = variable !== null && variable !== undefined;
-                        break;
+                          itemMatches =
+                            variable !== null && variable !== undefined;
+                          break;
                         case "Equals Exactly":
                           itemMatches = variable === secondValue;
-                        break;
+                          break;
                         case "Greater Than":
                           itemMatches = Number(variable) > Number(secondValue);
-                        break;
+                          break;
                         case "Less Than":
                           itemMatches = Number(variable) < Number(secondValue);
-                        break;
+                          break;
                         case "Equal Or Greater Than":
                           itemMatches = Number(variable) >= Number(secondValue);
-                        break;
+                          break;
                         case "Equal Or Less Than":
                           itemMatches = Number(variable) <= Number(secondValue);
-                        break;
+                          break;
                         case "Is Number":
                           itemMatches = !isNaN(parseInt(variable));
-                        break;
+                          break;
                         case "Matches Regex":
-                        try {
-                          itemMatches = new RegExp(`^${secondValue}$`, "i").test(variable);
-                        } catch (e) {
-                          itemMatches = false;
-                        }
-                        break;
+                          try {
+                            itemMatches = new RegExp(
+                              `^${secondValue}$`,
+                              "i"
+                            ).test(variable);
+                          } catch (e) {
+                            itemMatches = false;
+                          }
+                          break;
                         case "Exactly includes":
-                          itemMatches = variable?.toString().includes(secondValue) || false;
-                        break;
+                          itemMatches =
+                            variable?.toString().includes(secondValue) || false;
+                          break;
                       }
                     }
 
                     if (itemMatches) {
-                      acc[bridge.transf(item.data.name)] = bridge.transf(item.data.value);
+                      acc[bridge.transf(item.data.name)] = bridge.transf(
+                        item.data.value
+                      );
                     }
                   }
                   return acc;
                 }, {});
 
-                const pathParts = bridge.transf(dataCase.data.path).split('.');
+                const pathParts = bridge.transf(dataCase.data.path).split(".");
                 let current = data;
 
                 for (let i = 0; i < pathParts.length - 1; i++) {
@@ -1622,12 +1706,12 @@ module.exports = {
                   current[lastPart] = [];
                 }
                 current[lastPart].push(result);
-              } 
-            } 
+              }
+            }
             break;
-          }
         }
       }
+    }
 
     if (Array.isArray(values.cases1)) {
       for (const dataCase of values.cases1) {
@@ -1635,9 +1719,13 @@ module.exports = {
         let matchesCriteria = true;
 
         if (dataCase.data.comparisonlist && dataCase.data.comparisonlist[0]) {
-          matchesCriteria = false
-          let variable = bridge.get(dataCase.data.comparisonlist[0].data.variable);
-          let secondValue = bridge.transf(dataCase.data.comparisonlist[0].data.compareValue);
+          matchesCriteria = false;
+          let variable = bridge.get(
+            dataCase.data.comparisonlist[0].data.variable
+          );
+          let secondValue = bridge.transf(
+            dataCase.data.comparisonlist[0].data.compareValue
+          );
 
           switch (dataCase.data.comparisonlist[0].data.comparator) {
             case "Equals":
@@ -1645,59 +1733,62 @@ module.exports = {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Doesn't Equal":
               if (variable != secondValue) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Exists":
               matchesCriteria = variable != null || variable != undefined;
               break;
-      
+
             case "Equals Exactly":
               if (variable === secondValue) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Greater Than":
               if (Number(variable) > Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Less Than":
               if (Number(variable) < Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Equal Or Greater Than":
               if (Number(variable) >= Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Equal Or Less Than":
               if (Number(variable) <= Number(secondValue)) {
                 matchesCriteria = true;
               }
               break;
-      
+
             case "Is Number":
-              if (typeof parseInt(variable) == 'number' && `${parseInt(variable)}` != `NaN`) {
-                matchesCriteria = true
+              if (
+                typeof parseInt(variable) == "number" &&
+                `${parseInt(variable)}` != `NaN`
+              ) {
+                matchesCriteria = true;
               }
-              break
-      
+              break;
+
             case "Matches Regex":
               matchesCriteria = Boolean(
                 variable.match(new RegExp("^" + secondValue + "$", "i"))
               );
               break;
-              
+
             case "Exactly includes":
               if (typeof variable?.toString().includes === "function") {
                 matchesCriteria = variable.toString().includes(secondValue);
@@ -1706,87 +1797,91 @@ module.exports = {
           }
         }
         if (matchesCriteria == true) {
-        const path = bridge.transf(dataCase.data.path);
-        const pathParts = path.split('.');
-        let current = data;
-        
-        for (let i = 0; i < pathParts.length - 1; i++) {
-          const part = pathParts[i];
-        
-          if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
-            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-            if (!arrayKeyMatch) break;
-        
-            const arrayKey = arrayKeyMatch[1];
-            const indexOrSymbol = arrayKeyMatch[2];
-        
-            if (!Array.isArray(current[arrayKey])) {
-              current = undefined;
-              break;
-            }
-        
-            const array = current[arrayKey];
-            let index;
-        
-            if (indexOrSymbol === 'N') {
-              index = array.length - 1;
-            } else if (indexOrSymbol === '^') {
-              index = 0;
-            } else {
-              index = parseInt(indexOrSymbol, 10);
-              if (isNaN(index) || index >= array.length) {
+          const path = bridge.transf(dataCase.data.path);
+          const pathParts = path.split(".");
+          let current = data;
+
+          for (let i = 0; i < pathParts.length - 1; i++) {
+            const part = pathParts[i];
+
+            if (
+              /\[\d+\]$/.test(part) ||
+              part.endsWith("[N]") ||
+              part.endsWith("[^]")
+            ) {
+              const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+              if (!arrayKeyMatch) break;
+
+              const arrayKey = arrayKeyMatch[1];
+              const indexOrSymbol = arrayKeyMatch[2];
+
+              if (!Array.isArray(current[arrayKey])) {
                 current = undefined;
                 break;
               }
+
+              const array = current[arrayKey];
+              let index;
+
+              if (indexOrSymbol === "N") {
+                index = array.length - 1;
+              } else if (indexOrSymbol === "^") {
+                index = 0;
+              } else {
+                index = parseInt(indexOrSymbol, 10);
+                if (isNaN(index) || index >= array.length) {
+                  current = undefined;
+                  break;
+                }
+              }
+
+              current = array[index];
+            } else {
+              if (!current[part]) {
+                current = undefined;
+                break;
+              }
+              current = current[part];
             }
-        
-            current = array[index];
-          } else {
-            if (!current[part]) {
-              current = undefined;
-              break;
-            }
-            current = current[part];
           }
-        }
-        
-        if (!current) {
-          continue;
-        }
-        
-        const lastPart = pathParts[pathParts.length - 1];
-        const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
-        
-        if (lastPartMatch) {
-          const arrayKey = lastPartMatch[1];
-          const indexOrSymbol = lastPartMatch[2];
-        
-          if (!Array.isArray(current[arrayKey])) {
+
+          if (!current) {
             continue;
           }
-        
-          const array = current[arrayKey];
-        
-          if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
-            if (array.length > 0) {
-              array.pop();
+
+          const lastPart = pathParts[pathParts.length - 1];
+          const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+
+          if (lastPartMatch) {
+            const arrayKey = lastPartMatch[1];
+            const indexOrSymbol = lastPartMatch[2];
+
+            if (!Array.isArray(current[arrayKey])) {
+              continue;
+            }
+
+            const array = current[arrayKey];
+
+            if (indexOrSymbol === "N" || indexOrSymbol === "^") {
+              if (array.length > 0) {
+                array.pop();
+              }
+            } else {
+              const index = parseInt(indexOrSymbol, 10);
+              if (!isNaN(index) && index < array.length) {
+                array.splice(index, 1);
+              }
             }
           } else {
-            const index = parseInt(indexOrSymbol, 10);
-            if (!isNaN(index) && index < array.length) {
-              array.splice(index, 1);
-            }
+            delete current[lastPart];
           }
-        } else {
-          delete current[lastPart];
         }
-      }
       }
     }
 
-  if (values.logToConsole) {
+    if (values.logToConsole) {
       console.log(data);
     }
- fs.writeFileSync(fullPath, JSON.stringify(data, null, 2));
+    fs.writeFileSync(fullPath, JSON.stringify(data, null, 2));
   },
 };

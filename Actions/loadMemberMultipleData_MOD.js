@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
     name: "Get Member Multiple Datas",
@@ -35,7 +35,7 @@ module.exports = {
         data: "datas",
       },
       max: 1000,
-      UItypes:{
+      UItypes: {
         data: {
           data: {},
           name: "Data Name:",
@@ -58,19 +58,20 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (values, constants) => {
-    return `Label: ${values.label}, Retrieve ${values.retrievelist.length} datas of ${constants.user(values.member)}.`
+    return `Label: ${values.label}, Retrieve ${
+      values.retrievelist.length
+    } datas of ${constants.user(values.member)}.`;
   },
 
   compatibility: ["Any"],
 
-  async run (values, message, client, bridge) {
-
+  async run(values, message, client, bridge) {
     let storedData = bridge.data.IO.get();
-    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : '';
+    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : "";
     let user = await bridge.getUser(values.member);
     let id = `${user.member.guild.id}${user.id}`;
 
@@ -83,17 +84,19 @@ module.exports = {
       try {
         const transformedDataName = bridge.transf(dataName);
 
-        if (storedData.members && storedData.members[id] && storedData.members[id][transformedDataName]) {
+        if (
+          storedData.members &&
+          storedData.members[id] &&
+          storedData.members[id][transformedDataName]
+        ) {
           memberData = storedData.members[id][transformedDataName];
         }
-      }
-      
-      catch (error) {
+      } catch (error) {
         storedData.members[id] = {};
         bridge.data.IO.write(storedData);
       }
 
       bridge.store(storeLocation, memberData);
     }
-  }
-}
+  },
+};

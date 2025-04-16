@@ -7,7 +7,7 @@ module.exports = {
     {
       element: "input",
       name: "Number To Round",
-      storeAs: "number"
+      storeAs: "number",
     },
     "-",
     {
@@ -18,8 +18,8 @@ module.exports = {
         normal: { name: "Round To Nearest Whole Number" },
         ceil: { name: "Round Up To Whole Number (Ceiling)" },
         floor: { name: "Round Down To Whole Number (Floor)" },
-        decimal: { name: "Round To Specific Decimal Places" }
-      }
+        decimal: { name: "Round To Specific Decimal Places" },
+      },
     },
     "-",
     {
@@ -28,35 +28,37 @@ module.exports = {
       storeAs: "decimalPlaces",
       placeholder: "Enter 0 for whole number",
       type: "number",
-      min: 0
+      min: 0,
     },
     "-",
     {
       element: "storageInput",
       name: "Store Rounded Number As",
-      storeAs: "store"
-    }
+      storeAs: "store",
+    },
   ],
   subtitle: (data, constants) => {
     let operationText = "";
-    switch(data.roundType?.type) {
-      case 'normal':
+    switch (data.roundType?.type) {
+      case "normal":
         operationText = "Round Nearest Whole";
         break;
-      case 'ceil':
+      case "ceil":
         operationText = "Round Up Whole";
         break;
-      case 'floor':
+      case "floor":
         operationText = "Round Down Whole";
         break;
-      case 'decimal':
+      case "decimal":
         operationText = `Round To ${data.decimalPlaces || 0} Decimals`;
         break;
       default:
         operationText = "Round";
         break;
     }
-    return `${data.number || "Input Number"} ${operationText} - Store As ${constants.variable(data.store)}`;
+    return `${
+      data.number || "Input Number"
+    } ${operationText} - Store As ${constants.variable(data.store)}`;
   },
   compatibility: ["Any"],
 
@@ -75,26 +77,28 @@ module.exports = {
     let decimalPlaces = parseInt(bridge.transf(values.decimalPlaces), 10);
 
     if (isNaN(decimalPlaces) || decimalPlaces < 0) {
-        decimalPlaces = 0;
+      decimalPlaces = 0;
     }
 
     switch (roundMethod) {
-      case 'normal':
+      case "normal":
         result = Math.round(number);
         break;
-      case 'ceil':
+      case "ceil":
         result = Math.ceil(number);
         break;
-      case 'floor':
+      case "floor":
         result = Math.floor(number);
         break;
-      case 'decimal':
+      case "decimal":
         result = parseFloat(number.toFixed(decimalPlaces));
         break;
       default:
-         console.warn(`Unknown rounding method: "${roundMethod}". Defaulting to normal round.`);
-         result = Math.round(number);
-         break;
+        console.warn(
+          `Unknown rounding method: "${roundMethod}". Defaulting to normal round.`
+        );
+        result = Math.round(number);
+        break;
     }
 
     bridge.store(values.store, result);

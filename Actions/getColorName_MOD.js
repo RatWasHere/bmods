@@ -12,7 +12,7 @@ module.exports = {
   },
   modules: ["color-name-list", "nearest-color"],
   UI: [
-{
+    {
       element: "input",
       name: "Hex",
       storeAs: "hex",

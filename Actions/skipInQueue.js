@@ -1,20 +1,20 @@
-modVersion = "s.v1.0 | AceFix"
+modVersion = "s.v1.0 | AceFix";
 module.exports = {
   data: {
     name: "Skip In Queue",
-    skip: 1
+    skip: 1,
   },
   UI: [
     {
       element: "input",
       name: "Skip Over # Songs",
       placeholder: "Number (#)",
-      storeAs: "skip"
+      storeAs: "skip",
     },
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
   category: "Music",
   subtitle: (data, constants) => {
@@ -29,7 +29,7 @@ module.exports = {
 
     utilities.queue.splice(0, Number(bridge.transf(values.skip)) - 1);
     utilities.forgiveIdling = true;
-    utilities.player.stop()
+    utilities.player.stop();
     // if (utilities.queue[0]) {
     //   utilities.player.play(utilities.queue[0].audio);
     //   utilities.nowPlaying = utilities.queue[0];

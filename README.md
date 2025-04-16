@@ -16,7 +16,9 @@ This repository houses community-made mods for Bot Maker for Discord (BMD).
 - [License](#license)
 
 ## Installation
+
 ### Getting mods from the Workshop
+
 bmd://workshop/query:ACTIONS
 bmd://workshop/query:EVENTS
 bmd://workshop/query:AUTOMATIONS

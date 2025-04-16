@@ -43,7 +43,7 @@ module.exports = {
 
   subtitle: (values, constants, thisAction) => {
     const selectedChoice = thisAction.UI.find(
-      (e) => e.element === "typedDropdown",
+      (e) => e.element === "typedDropdown"
     ).choices[values.get.type];
     return `${
       selectedChoice ? selectedChoice.name : "Unknown"

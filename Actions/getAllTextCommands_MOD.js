@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
     name: "Get All Text Command Names",
@@ -18,35 +18,35 @@ module.exports = {
     {
       element: "store",
       storeAs: "idStore",
-      name: "Store Command Custom Id List As"
+      name: "Store Command Custom Id List As",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (data, constants) => {
-    return `List stored as: ${constants.variable(data.store)}`
+    return `List stored as: ${constants.variable(data.store)}`;
   },
 
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    const jsonData = require('../data.json');
+    const jsonData = require("../data.json");
     const commands = jsonData.commands;
 
     const commandList = [];
-    const idList = []
+    const idList = [];
 
-    commands.forEach(command => {
-      if (command.trigger === 'textCommand') {
-        commandList.push(command.name)
-        idList.push(command.customId)
+    commands.forEach((command) => {
+      if (command.trigger === "textCommand") {
+        commandList.push(command.name);
+        idList.push(command.customId);
       }
     });
 
-    bridge.store(values.store, commandList)
-    bridge.store(values.idStore, idList)
-  }
+    bridge.store(values.store, commandList);
+    bridge.store(values.idStore, idList);
+  },
 };

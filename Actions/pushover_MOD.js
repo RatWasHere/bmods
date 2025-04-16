@@ -1,4 +1,4 @@
-const https = require('https');
+const https = require("https");
 
 module.exports = {
   category: "API",
@@ -13,19 +13,19 @@ module.exports = {
     {
       element: "input",
       name: "Token",
-      storeAs: "token"
+      storeAs: "token",
     },
     "-",
     {
       element: "input",
       name: "User ID",
-      storeAs: "user"
+      storeAs: "user",
     },
     "-",
     {
       element: "input",
       name: "Title",
-      storeAs: "title"
+      storeAs: "title",
     },
     "-",
     {
@@ -33,22 +33,22 @@ module.exports = {
       name: "Message",
       storeAs: "message",
       also: {
-        string: "Text"
-      }
+        string: "Text",
+      },
     },
     "-",
     {
       element: "toggle",
       name: "Priority",
-      storeAs: "priority"
+      storeAs: "priority",
     },
     "-",
     {
       element: "condition",
       storeAs: "ifError",
       storeActionsAs: "ifErrorActions",
-      name: "If Error"
-    }
+      name: "If Error",
+    },
   ],
 
   subtitle: (data, constants) => {
@@ -64,7 +64,7 @@ module.exports = {
       let messageContent;
 
       if (!token || !user) {
-        throw new Error('Token and User ID are required');
+        throw new Error("Token and User ID are required");
       }
 
       if (values.message) {
@@ -76,15 +76,15 @@ module.exports = {
       } else if (values.dataValue) {
         messageContent = String(await bridge.transf(values.dataValue));
       } else {
-        throw new Error('Message content is required');
+        throw new Error("Message content is required");
       }
 
-      if (typeof messageContent !== 'string' || messageContent.length === 0) {
-        throw new Error('Message content must be a non-empty string');
+      if (typeof messageContent !== "string" || messageContent.length === 0) {
+        throw new Error("Message content must be a non-empty string");
       }
 
       if (!messageContent) {
-        throw new Error('Message content cannot be empty');
+        throw new Error("Message content cannot be empty");
       }
 
       const response = await sendPushoverNotification({
@@ -92,11 +92,11 @@ module.exports = {
         user,
         title,
         message: messageContent,
-        priority: values.priority ? 1 : 0
+        priority: values.priority ? 1 : 0,
       });
 
       if (!response.success) {
-        throw new Error(response.error || 'Failed to send notification');
+        throw new Error(response.error || "Failed to send notification");
       }
     } catch (error) {
       console.error("Pushover API Error:", error);
@@ -116,57 +116,64 @@ async function sendPushoverNotification(data) {
     const payload = params.toString();
 
     const options = {
-      hostname: 'api.pushover.net',
-      path: '/1/messages.json',
-      method: 'POST',
+      hostname: "api.pushover.net",
+      path: "/1/messages.json",
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(payload)
-      }
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": Buffer.byteLength(payload),
+      },
     };
 
     try {
       const req = https.request(options, (response) => {
-        let responseData = '';
+        let responseData = "";
 
-        response.on('data', (chunk) => {
+        response.on("data", (chunk) => {
           responseData += chunk;
         });
 
-        response.on('end', () => {
+        response.on("end", () => {
           try {
             const parsedResponse = responseData ? JSON.parse(responseData) : {};
-            
+
             if (response.statusCode >= 200 && response.statusCode < 300) {
               resolve({ success: true, data: parsedResponse });
             } else {
-              const errorMessage = parsedResponse.errors ? 
-                Object.values(parsedResponse.errors).join(', ') : 
-                `HTTP(S) error: ${response.statusCode}`;
+              const errorMessage = parsedResponse.errors
+                ? Object.values(parsedResponse.errors).join(", ")
+                : `HTTP(S) error: ${response.statusCode}`;
               resolve({ success: false, error: errorMessage });
             }
           } catch (parseError) {
-            console.error('Error:', parseError);
-            resolve({ success: false, error: 'Error from Pushover API' });
+            console.error("Error:", parseError);
+            resolve({ success: false, error: "Error from Pushover API" });
           }
         });
 
-        response.on('error', (error) => {
-          console.error('Error in response:', error);
-          resolve({ success: false, error: 'Network Error' });
+        response.on("error", (error) => {
+          console.error("Error in response:", error);
+          resolve({ success: false, error: "Network Error" });
         });
       });
 
-      req.on('error', (error) => {
-        console.error('Error sending notification:', error);
-        resolve({ success: false, error: 'Failed to send notification to Pushover API' });
+      req.on("error", (error) => {
+        console.error("Error sending notification:", error);
+        resolve({
+          success: false,
+          error: "Failed to send notification to Pushover API",
+        });
       });
 
       req.write(payload);
       req.end();
     } catch (error) {
-      console.error('Error in request:', error);
-      resolve({ success: false, error: 'Failed to initialize Pushover API request, mabye you should check the inputs again and again and again, just sayin' });
+      console.error("Error in request:", error);
+      resolve({
+        success: false,
+        error:
+          "Failed to initialize Pushover API request, mabye you should check the inputs again and again and again, just sayin",
+      });
     }
   });
 }

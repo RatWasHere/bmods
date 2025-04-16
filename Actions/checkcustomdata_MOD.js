@@ -151,66 +151,72 @@ module.exports = {
     let fs = bridge.fs;
 
     if (!values.database) {
-      console.error("Error: The path to the database (Database) is not defined.");
+      console.error(
+        "Error: The path to the database (Database) is not defined."
+      );
       return;
     }
 
     const botData = require("../data.json");
     let dbPath = bridge.transf(values.database);
-    const currentDir = process.cwd().replace(/\\/g, '/');
+    const currentDir = process.cwd().replace(/\\/g, "/");
 
-    if (currentDir.includes('common/Bot Maker For Discord')) {
-      dbPath = botData.prjSrc+`/`+dbPath;
-      var fullPath = dbPath.replace(/\\/g, '/');
+    if (currentDir.includes("common/Bot Maker For Discord")) {
+      dbPath = botData.prjSrc + `/` + dbPath;
+      var fullPath = dbPath.replace(/\\/g, "/");
     } else {
-      var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, '/')
+      var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, "/");
     }
 
-    const dirPath = fullPath.split('/').slice(0, -1).join('/');
+    const dirPath = fullPath.split("/").slice(0, -1).join("/");
 
     if (!fs.existsSync(dirPath)) {
-       fs.mkdirSync(dirPath, { recursive: true });
-      }
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
 
-      if (!fs.existsSync(fullPath)) {
-        fs.writeFileSync(fullPath, '{}', 'utf8');
-      }
+    if (!fs.existsSync(fullPath)) {
+      fs.writeFileSync(fullPath, "{}", "utf8");
+    }
 
     if (values.deleteJson) {
-      fs.writeFileSync(fullPath, '{}', 'utf8');
+      fs.writeFileSync(fullPath, "{}", "utf8");
     }
 
     let data = {};
     let matchesCriteria = false;
-    
+
     if (fs.existsSync(fullPath)) {
       try {
-        const rawData = fs.readFileSync(fullPath, 'utf8');
+        const rawData = fs.readFileSync(fullPath, "utf8");
         data = JSON.parse(rawData);
-    
+
         const path = bridge.transf(values.Path);
-        const pathParts = path.split('.');
+        const pathParts = path.split(".");
         let variable = data;
-    
+
         for (const part of pathParts) {
-          if (/\[\d+\]$/.test(part) || part.endsWith('[N]') || part.endsWith('[^]')) {
+          if (
+            /\[\d+\]$/.test(part) ||
+            part.endsWith("[N]") ||
+            part.endsWith("[^]")
+          ) {
             const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
             if (!arrayKeyMatch) {
               variable = undefined;
               break;
             }
-    
+
             const arrayKey = arrayKeyMatch[1];
             const indexOrSymbol = arrayKeyMatch[2];
-    
+
             if (!Array.isArray(variable[arrayKey])) {
               variable = undefined;
               break;
             }
-    
+
             const array = variable[arrayKey];
-    
-            if (indexOrSymbol === 'N' || indexOrSymbol === '^') {
+
+            if (indexOrSymbol === "N" || indexOrSymbol === "^") {
               variable = array[array.length - 1];
             } else {
               const index = parseInt(indexOrSymbol, 10);
@@ -221,20 +227,20 @@ module.exports = {
               variable = array[index];
             }
           } else {
-            if (!variable || typeof variable !== 'object') {
+            if (!variable || typeof variable !== "object") {
               variable = undefined;
               break;
             }
             variable = variable[part];
           }
-    
+
           if (variable === undefined) {
             break;
           }
         }
-    
+
         let secondValue = bridge.transf(values.compareValue);
-    
+
         switch (values.comparator) {
           case "Equals":
             if (`${variable}` == `${secondValue}`) {
@@ -301,7 +307,7 @@ module.exports = {
         console.error("Ошибка при чтении или обработке данных:", error);
       }
     }
-    
+
     if (matchesCriteria) {
       bridge.call(values.true, values.trueActions);
     } else {

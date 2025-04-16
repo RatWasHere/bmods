@@ -29,7 +29,7 @@ module.exports = {
 
   subtitle: (values, constants, thisAction) => {
     return `Scheduled Event ${values.eventID} of ${constants.guild(
-      values.guild,
+      values.guild
     )} - Store As: ${constants.variable(values.store)}`;
   },
 

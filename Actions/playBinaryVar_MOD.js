@@ -1,9 +1,16 @@
-modVersion = "s.v1.2"
+modVersion = "s.v1.2";
 module.exports = {
   data: {
     name: "Play Binary Variable",
   },
-  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice", "libsodium", "libsodium-wrappers"],
+  modules: [
+    "fs",
+    "ffmpeg",
+    "stream",
+    "@discordjs/voice",
+    "libsodium",
+    "libsodium-wrappers",
+  ],
   category: "Music",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
@@ -14,7 +21,7 @@ module.exports = {
     {
       element: "variable",
       storeAs: "bufferVar",
-      name: "Buffer Variable (Gotten From The File Output Of Download Music File)"
+      name: "Buffer Variable (Gotten From The File Output Of Download Music File)",
     },
     {
       element: "input",
@@ -41,40 +48,42 @@ module.exports = {
     {
       element: "toggle",
       storeAs: "logging",
-      name: "Log Debug Statements"
+      name: "Log Debug Statements",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
   subtitle: (values, constants) => {
     return `File: ${constants.variable(values.bufferVar)} - ${values.queuing}`;
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    await client.getMods().require("fs")
-    await client.getMods().require("ffmpeg")
-    await client.getMods().require("stream")
-    await client.getMods().require("@discordjs/voice")
+    await client.getMods().require("fs");
+    await client.getMods().require("ffmpeg");
+    await client.getMods().require("stream");
+    await client.getMods().require("@discordjs/voice");
 
-    const fs = require("fs")
-    const ffmpeg = require("ffmpeg")
-    const {Readable} = require("stream")
-    const { createAudioResource } = require("@discordjs/voice")
+    const fs = require("fs");
+    const ffmpeg = require("ffmpeg");
+    const { Readable } = require("stream");
+    const { createAudioResource } = require("@discordjs/voice");
 
-    let audioBuffer = bridge.get(values.bufferVar)
-    let songName = bridge.transf(values.songName)
+    let audioBuffer = bridge.get(values.bufferVar);
+    let songName = bridge.transf(values.songName);
 
-    if (values.logging == true){
-      console.log("Instance Of Buffer:",audioBuffer instanceof Buffer)
-      console.log("Type Of:",typeof audioBuffer)
+    if (values.logging == true) {
+      console.log("Instance Of Buffer:", audioBuffer instanceof Buffer);
+      console.log("Type Of:", typeof audioBuffer);
     }
 
-    if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object"){
-      let audioStream = Readable.from(audioBuffer)
-      let audio = createAudioResource(audioStream)
-    
+    if (
+      audioBuffer instanceof Buffer == true &&
+      typeof audioBuffer == "object"
+    ) {
+      let audioStream = Readable.from(audioBuffer);
+      let audio = createAudioResource(audioStream);
 
       let utilities = bridge.getGlobal({
         class: "voice",
@@ -92,7 +101,12 @@ module.exports = {
             src: "Local",
             audio: audio,
           };
-          client.emit('trackStart', bridge.guild, utilities.channel, utilities.nowPlaying);
+          client.emit(
+            "trackStart",
+            bridge.guild,
+            utilities.channel,
+            utilities.nowPlaying
+          );
           break;
 
         case `At End Of Queue`:
@@ -128,10 +142,8 @@ module.exports = {
           });
           break;
       }
-    }
-
-    else{
-      console.log(`Variable Is Not A Instance Of Buffer And Can't Be Played.`)
+    } else {
+      console.log(`Variable Is Not A Instance Of Buffer And Can't Be Played.`);
     }
   },
 };

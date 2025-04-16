@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
     name: "Multiple Regex Comparisons",
@@ -8,7 +8,7 @@ module.exports = {
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
-    donate: "https://ko-fi.com/slothyacedia"
+    donate: "https://ko-fi.com/slothyacedia",
   },
 
   UI: [
@@ -58,7 +58,7 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (data) => {

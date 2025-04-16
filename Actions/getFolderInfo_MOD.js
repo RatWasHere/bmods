@@ -49,7 +49,7 @@ module.exports = {
         values.infoType.type
       ].name
     } of Folder: ${values.path} - Store As: ${constants.variable(
-      values.store,
+      values.store
     )}`;
   },
 
@@ -76,7 +76,7 @@ module.exports = {
         case "folderList":
           output = items
             .filter((item) =>
-              fs.statSync(path.join(folderPath, item)).isDirectory(),
+              fs.statSync(path.join(folderPath, item)).isDirectory()
             )
             .join(",");
           break;
@@ -86,7 +86,7 @@ module.exports = {
             .reduce(
               (totalSize, file) =>
                 totalSize + fs.statSync(path.join(folderPath, file)).size,
-              0,
+              0
             );
           output = `${(output / (1024 * 1024)).toFixed(2)}`;
           break;

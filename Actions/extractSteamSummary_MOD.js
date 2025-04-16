@@ -1,7 +1,7 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
-    name: "Extract Steam Summary"
+    name: "Extract Steam Summary",
   },
   aliases: [],
   modules: [],
@@ -111,7 +111,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "currentGameId",
-      name: "Store Current Playing Game ID As"
+      name: "Store Current Playing Game ID As",
     },
     {
       element: "store",
@@ -124,32 +124,38 @@ module.exports = {
     },
   ],
 
-  subtitle: (values) =>{
-    return `Extract Steam Summary Of ${values.steamSummary.type}(${values.steamSummary.value})`
+  subtitle: (values) => {
+    return `Extract Steam Summary Of ${values.steamSummary.type}(${values.steamSummary.value})`;
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){
-    let steamSummary = bridge.get(values.steamSummary)
+  async run(values, message, client, bridge) {
+    let steamSummary = bridge.get(values.steamSummary);
 
-    if (typeof steamSummary == "object" && steamSummary?.steamid != undefined){
+    if (typeof steamSummary == "object" && steamSummary?.steamid != undefined) {
+      bridge.store(values.steamId, steamSummary.steamid || "Unknown");
 
-      bridge.store(values.steamId, steamSummary.steamid || "Unknown")
-      
       const communityVisibilityStates = {
         1: "Private",
         2: "Friends Only",
         3: "Public",
         4: "Unknown",
-      }
-      bridge.store(values.visibilityState, communityVisibilityStates[steamSummary.communityvisibilitystate] || "Unknown")
+      };
+      bridge.store(
+        values.visibilityState,
+        communityVisibilityStates[steamSummary.communityvisibilitystate] ||
+          "Unknown"
+      );
 
       const profileStates = {
         0: "Profile Not Configured",
-        1: "Profile Configured"
-      }
-      bridge.store(values.profileState, profileStates[steamSummary.profilestate] || "Unknown")
+        1: "Profile Configured",
+      };
+      bridge.store(
+        values.profileState,
+        profileStates[steamSummary.profilestate] || "Unknown"
+      );
 
       const personaStates = {
         0: "Offline",
@@ -159,8 +165,11 @@ module.exports = {
         4: "Snoozing",
         5: "Looking To Trade",
         6: "Looking To Play",
-      }
-      bridge.store(values.personaState, personaStates[steamSummary.personastate] || "Unknown")
+      };
+      bridge.store(
+        values.personaState,
+        personaStates[steamSummary.personastate] || "Unknown"
+      );
 
       // const bitFlag = parseInt(steamSummary.personastateflags).toString(2).padStart(7, 0).split("").reverse().join("")
       // const bitMeanings = {
@@ -181,36 +190,51 @@ module.exports = {
       // if (activeFlags.length = 0){activeFlags.push("No Profile State Flags")}
       // bridge.store(values.personaStateFlags, activeFlags)
 
-      bridge.store(values.displayName, steamSummary.personaname || "Unknown")
-      bridge.store(values.profileUrl, steamSummary.profileurl || "Unknown")
+      bridge.store(values.displayName, steamSummary.personaname || "Unknown");
+      bridge.store(values.profileUrl, steamSummary.profileurl || "Unknown");
 
       const avatarObj = {
         base: steamSummary.avatar || "Unknown",
         medium: steamSummary.avatarmedium || "Unknown",
         full: steamSummary.avatarfull || "Unknown",
-        hash: steamSummary.avatarhash || "Unknown"
-      }
-      bridge.store(values.steamAvatar, avatarObj)
+        hash: steamSummary.avatarhash || "Unknown",
+      };
+      bridge.store(values.steamAvatar, avatarObj);
 
-      bridge.store(values.realName, steamSummary.realname || "Unknown")
-      bridge.store(values.primaryClanId, steamSummary.primaryclanid || "Unknown")
+      bridge.store(values.realName, steamSummary.realname || "Unknown");
+      bridge.store(
+        values.primaryClanId,
+        steamSummary.primaryclanid || "Unknown"
+      );
 
       const commentPermissionStates = {
         0: "Public",
         1: "Friends Only",
         2: "Private",
-        3: "Blocked"
-      }
-      bridge.store(values.commentPermission, commentPermissionStates[steamSummary.commentpermission] || "Unknown")
+        3: "Blocked",
+      };
+      bridge.store(
+        values.commentPermission,
+        commentPermissionStates[steamSummary.commentpermission] || "Unknown"
+      );
 
-      bridge.store(values.profileCreationTs, steamSummary.timecreated || "Unknown")
-      bridge.store(values.lastOnlineTs, steamSummary.lastlogoff || "Unknown")
-      bridge.store(values.countryCode, steamSummary.loccountrycode || "Unknown")
-      bridge.store(values.stateCode, steamSummary.locstatecode || "Unknown")
-      bridge.store(values.cityCode, steamSummary.loccityid || "Unknown")
-      bridge.store(values.currentGame, steamSummary.gameextrainfo || "Unknown")
-      bridge.store(values.currentGameId, steamSummary.gameid || "Unknown")
-      bridge.store(values.currentGameServerIp, steamSummary.gameserverip || "Unknown")
+      bridge.store(
+        values.profileCreationTs,
+        steamSummary.timecreated || "Unknown"
+      );
+      bridge.store(values.lastOnlineTs, steamSummary.lastlogoff || "Unknown");
+      bridge.store(
+        values.countryCode,
+        steamSummary.loccountrycode || "Unknown"
+      );
+      bridge.store(values.stateCode, steamSummary.locstatecode || "Unknown");
+      bridge.store(values.cityCode, steamSummary.loccityid || "Unknown");
+      bridge.store(values.currentGame, steamSummary.gameextrainfo || "Unknown");
+      bridge.store(values.currentGameId, steamSummary.gameid || "Unknown");
+      bridge.store(
+        values.currentGameServerIp,
+        steamSummary.gameserverip || "Unknown"
+      );
     }
-  }
-}
+  },
+};

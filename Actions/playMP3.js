@@ -1,5 +1,5 @@
 // should free the file after its done reading so that other actions can be performed on the file if needed
-modVersion = "s.v1.2"
+modVersion = "s.v1.2";
 
 module.exports = {
   data: {
@@ -11,7 +11,14 @@ module.exports = {
     creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice", "libsodium", "libsodium-wrappers"],
+  modules: [
+    "fs",
+    "ffmpeg",
+    "stream",
+    "@discordjs/voice",
+    "libsodium",
+    "libsodium-wrappers",
+  ],
   UI: [
     {
       element: "input",
@@ -39,27 +46,27 @@ module.exports = {
     {
       element: "toggle",
       storeAs: "logging",
-      name: "Log Debug Statements"
+      name: "Log Debug Statements",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
   subtitle: (data, constants) => {
     return `File: ${data.path} - ${data.queuing}`;
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    await client.getMods().require("fs")
-    await client.getMods().require("ffmpeg")
-    await client.getMods().require("@discordjs/voice")
-    await client.getMods().require("stream")
+    await client.getMods().require("fs");
+    await client.getMods().require("ffmpeg");
+    await client.getMods().require("@discordjs/voice");
+    await client.getMods().require("stream");
 
     const fs = require("fs");
     const ffmpeg = require("ffmpeg");
-    const {createAudioResource} = require("@discordjs/voice");
-    const {Readable} = require("stream")
+    const { createAudioResource } = require("@discordjs/voice");
+    const { Readable } = require("stream");
     let path;
     if (fs.existsSync(`${require("../data.json").prjSrc}`)) {
       path = `${require("../data.json").prjSrc}/${bridge.transf(values.path)}`;
@@ -67,19 +74,25 @@ module.exports = {
       path = `./${bridge.transf(values.path)}`;
     }
 
-    let audioBuffer = bridge.fs.readFileSync(path)
-    if(values.logging == true){console.log(audioBuffer instanceof Buffer)}
-    
-    if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object"){
-      let audioStream = Readable.from(audioBuffer)
-      let audio = createAudioResource(audioStream)
+    let audioBuffer = bridge.fs.readFileSync(path);
+    if (values.logging == true) {
+      console.log(audioBuffer instanceof Buffer);
+    }
+
+    if (
+      audioBuffer instanceof Buffer == true &&
+      typeof audioBuffer == "object"
+    ) {
+      let audioStream = Readable.from(audioBuffer);
+      let audio = createAudioResource(audioStream);
 
       let utilities = bridge.getGlobal({
         class: "voice",
         name: bridge.guild.id,
       });
 
-      let fileName = path.match(/[\\/][^\\/]+$/)?.[0]?.substring(1) || "Unknown File"
+      let fileName =
+        path.match(/[\\/][^\\/]+$/)?.[0]?.substring(1) || "Unknown File";
 
       switch (values.queuing) {
         case `Don't Queue, Just Play`:
@@ -92,7 +105,12 @@ module.exports = {
             src: "Local",
             audio: audio,
           };
-          client.emit('trackStart', bridge.guild, utilities.channel, utilities.nowPlaying);
+          client.emit(
+            "trackStart",
+            bridge.guild,
+            utilities.channel,
+            utilities.nowPlaying
+          );
           break;
 
         case `At End Of Queue`:
@@ -128,9 +146,10 @@ module.exports = {
           });
           break;
       }
-    }
-    else{
-      console.log(`An Error Occured After Reading The File And Can't Be Played.`)
+    } else {
+      console.log(
+        `An Error Occured After Reading The File And Can't Be Played.`
+      );
     }
   },
 };

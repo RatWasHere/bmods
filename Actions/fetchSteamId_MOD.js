@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
     name: "Fetch Steam Profile Info",
@@ -16,7 +16,7 @@ module.exports = {
       element: "input",
       storeAs: "steamApiKey",
       name: "Steam API Key",
-      placeholder: "https://steamcommunity.com/dev/apikey"
+      placeholder: "https://steamcommunity.com/dev/apikey",
     },
     {
       element: "input",
@@ -40,53 +40,62 @@ module.exports = {
     },
   ],
 
-  subtitle: (values) =>{
-    return `Fetch Steam Profile Summary Of ${values.steamProfileLink}`
+  subtitle: (values) => {
+    return `Fetch Steam Profile Summary Of ${values.steamProfileLink}`;
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){
-    for (const moduleName of this.modules){
-      await client.getMods().require(moduleName)
+  async run(values, message, client, bridge) {
+    for (const moduleName of this.modules) {
+      await client.getMods().require(moduleName);
     }
-    let steamApiKey = bridge.transf(values.steamApiKey)
-    let steamProfileLink = bridge.transf(values.steamProfileLink)
-    if (steamApiKey == ""){
-      return console.error(`A Steam API Key Is Required!`)
+    let steamApiKey = bridge.transf(values.steamApiKey);
+    let steamProfileLink = bridge.transf(values.steamProfileLink);
+    if (steamApiKey == "") {
+      return console.error(`A Steam API Key Is Required!`);
     }
 
-    const extractionRegex = /(?:https?:\/\/)?(?:steamcommunity\.com\/)?(id|profiles)\/([^/]+)/
-    let match = steamProfileLink.match(extractionRegex)
-    let identifier = match ? match[2] : steamProfileLink
+    const extractionRegex =
+      /(?:https?:\/\/)?(?:steamcommunity\.com\/)?(id|profiles)\/([^/]+)/;
+    let match = steamProfileLink.match(extractionRegex);
+    let identifier = match ? match[2] : steamProfileLink;
 
-    let steamId
-    if (/^\d+$/.test(identifier) == true && identifier != undefined){
-      steamId = identifier
-    } else if (/^\d+$/.test(identifier) == false && identifier != undefined){
-      const vanityQuery = await fetch(`https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${identifier}`)
-      console.log(await vanityQuery)
-      const vanityResponse = await vanityQuery.json()
-        if (vanityResponse.response.success == 1) {
-            steamId = vanityResponse.response.steamid; // Resolved Steam ID
-        } else {
-            console.error("Failed To Resolve Vanity To Steam ID");
-            steamId = undefined
-        }
-    } else {steamId = undefined}
-    bridge.store(values.steamId, steamId)
-
-    let profileObject
-    if (steamId != undefined && values.profileSummary){
-      const profileObjectQuery = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`)
-      const profileObjectResponse = await profileObjectQuery.json()
-      if (profileObjectResponse.response.players.length > 0) {
-        profileObject = profileObjectResponse.response.players[0]
+    let steamId;
+    if (/^\d+$/.test(identifier) == true && identifier != undefined) {
+      steamId = identifier;
+    } else if (/^\d+$/.test(identifier) == false && identifier != undefined) {
+      const vanityQuery = await fetch(
+        `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${identifier}`
+      );
+      console.log(await vanityQuery);
+      const vanityResponse = await vanityQuery.json();
+      if (vanityResponse.response.success == 1) {
+        steamId = vanityResponse.response.steamid; // Resolved Steam ID
       } else {
-        console.error("Failed To Fetch Profile Information")
-        profileObject = undefined
+        console.error("Failed To Resolve Vanity To Steam ID");
+        steamId = undefined;
       }
-    } else {profileObject = undefined}
-    bridge.store(values.profileSummary, profileObject)
-  }
-}
+    } else {
+      steamId = undefined;
+    }
+    bridge.store(values.steamId, steamId);
+
+    let profileObject;
+    if (steamId != undefined && values.profileSummary) {
+      const profileObjectQuery = await fetch(
+        `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`
+      );
+      const profileObjectResponse = await profileObjectQuery.json();
+      if (profileObjectResponse.response.players.length > 0) {
+        profileObject = profileObjectResponse.response.players[0];
+      } else {
+        console.error("Failed To Fetch Profile Information");
+        profileObject = undefined;
+      }
+    } else {
+      profileObject = undefined;
+    }
+    bridge.store(values.profileSummary, profileObject);
+  },
+};

@@ -1,7 +1,7 @@
-modVersion = "s.v1.1"
+modVersion = "s.v1.1";
 module.exports = {
   data: {
-    name: "Check If Number Is In Range"
+    name: "Check If Number Is In Range",
   },
   aliases: ["If Is In Number Range", "Number Range"],
   modules: [],
@@ -32,39 +32,41 @@ module.exports = {
       element: "condition",
       name: "If True",
       storeAs: "true",
-      storeActionsAs: "trueActions"
+      storeActionsAs: "trueActions",
     },
     {
       element: "condition",
       name: "If False",
       storeAs: "false",
-      storeActionsAs: "falseActions"
+      storeActionsAs: "falseActions",
     },
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
   subtitle: (values) => {
-    return `Check If ${values.inputNum} Is In Range Of ${values.lowerRange}-${values.upperRange}`
+    return `Check If ${values.inputNum} Is In Range Of ${values.lowerRange}-${values.upperRange}`;
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){
-    let checkNumber = parseFloat(bridge.transf(values.inputNum))
-    let minimum = parseFloat(bridge.transf(values.lowerRange))
-    let maximum = parseFloat(bridge.transf(values.upperRange))
+  async run(values, message, client, bridge) {
+    let checkNumber = parseFloat(bridge.transf(values.inputNum));
+    let minimum = parseFloat(bridge.transf(values.lowerRange));
+    let maximum = parseFloat(bridge.transf(values.upperRange));
 
-    if (!isNaN(checkNumber) && !isNaN(minimum) && !isNaN(maximum)){
-      if (checkNumber >= minimum && maximum >= checkNumber){
-        bridge.call(values.true, values.trueActions)
+    if (!isNaN(checkNumber) && !isNaN(minimum) && !isNaN(maximum)) {
+      if (checkNumber >= minimum && maximum >= checkNumber) {
+        bridge.call(values.true, values.trueActions);
       } else {
-        bridge.call(values.false, values.falseActions)
+        bridge.call(values.false, values.falseActions);
       }
     } else {
-      console.log(`One of the following values is not a number; ${values.inputNum}, ${values.lowerRange}, ${values.upperRange}`)
+      console.log(
+        `One of the following values is not a number; ${values.inputNum}, ${values.lowerRange}, ${values.upperRange}`
+      );
     }
-  }
-}
+  },
+};

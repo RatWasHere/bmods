@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
     name: "String Limiter",
@@ -26,7 +26,7 @@ module.exports = {
       element: "input",
       storeAs: "append",
       name: "Append with",
-      placeholder: "Will only be appended if length exceeds limit"
+      placeholder: "Will only be appended if length exceeds limit",
     },
     {
       element: "toggle",
@@ -36,43 +36,43 @@ module.exports = {
     {
       element: "store",
       storeAs: "result",
-      name: "Store Result As"
+      name: "Store Result As",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
-  subtitle: (values) =>{
-    return `Limit text to ${values.maxLength||""}, append with "${values.append||""}" if limit exceeded`
+  subtitle: (values) => {
+    return `Limit text to ${values.maxLength || ""}, append with "${
+      values.append || ""
+    }" if limit exceeded`;
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){
-    const sourceText = bridge.transf(values.srcTxt)
-    const maxLength = bridge.transf(values.maxLength)
-    const appendWith = bridge.transf(values.append)
+  async run(values, message, client, bridge) {
+    const sourceText = bridge.transf(values.srcTxt);
+    const maxLength = bridge.transf(values.maxLength);
+    const appendWith = bridge.transf(values.append);
 
-    let result
+    let result;
 
-    const maxLengthNum = parseInt(maxLength, 10)
-    if (isNaN(maxLengthNum) || maxLengthNum <= 0){
-      result = `${maxLength} is not a integer!`
-    }
-    else if (sourceText.length > maxLengthNum){
-      if (values.countAppend === true){
-        result = sourceText.slice(0, maxLengthNum-appendWith.length) + appendWith
+    const maxLengthNum = parseInt(maxLength, 10);
+    if (isNaN(maxLengthNum) || maxLengthNum <= 0) {
+      result = `${maxLength} is not a integer!`;
+    } else if (sourceText.length > maxLengthNum) {
+      if (values.countAppend === true) {
+        result =
+          sourceText.slice(0, maxLengthNum - appendWith.length) + appendWith;
+      } else {
+        result = sourceText.slice(0, maxLengthNum) + appendWith;
       }
-      else{
-        result = sourceText.slice(0, maxLengthNum) + appendWith
-      }
-    }
-    else if (sourceText.length < maxLengthNum){
-      result = sourceText
+    } else if (sourceText.length < maxLengthNum) {
+      result = sourceText;
     }
 
-    bridge.store(values.result, result)
-  }
-}
+    bridge.store(values.result, result);
+  },
+};

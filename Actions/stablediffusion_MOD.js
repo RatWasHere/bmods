@@ -88,7 +88,7 @@ module.exports = {
       .replaceAll(" ", "-");
     fs.writeFileSync(
       path.join(__dirname, "..", "LICENSES", file_name + ".jpg"),
-      generated,
+      generated
     );
 
     bridge.store(values.store, "AppData/LICENSES/" + file_name + ".jpg");

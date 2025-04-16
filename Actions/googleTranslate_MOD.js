@@ -57,7 +57,7 @@ module.exports = {
     const query = bridge.transf(values.input);
 
     await fetch(
-      `https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=${sourceLanguage}&tl=${translationLanguage}&q=${query}`,
+      `https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=${sourceLanguage}&tl=${translationLanguage}&q=${query}`
     ).then(async (res) => {
       const response = await res.json();
       if (isAuto) {

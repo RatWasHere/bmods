@@ -1,7 +1,7 @@
-modVersion = "s.v2.0"
+modVersion = "s.v2.0";
 module.exports = {
   data: {
-    name: "Toggle Actions"
+    name: "Toggle Actions",
   },
   aliases: [],
   info: {
@@ -17,13 +17,13 @@ module.exports = {
       storeAs: "toggle",
       name: "Run Actions",
       true: "Run",
-      false: "Don't Run"
+      false: "Don't Run",
     },
     {
       element: "actions",
       storeAs: "actions",
       name: "Run Actions",
-      large: false
+      large: false,
     },
     {
       element: "largeInput",
@@ -33,25 +33,25 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
-  subtitle: (values, constants) =>{
-    return `${values.toggle}: ${values.comment}`
+  subtitle: (values, constants) => {
+    return `${values.toggle}: ${values.comment}`;
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){
-    if (values.toggle == true){
-      let promise = new Promise(async res => {
-        await bridge.runner(values.actions)
-        res()
-      })
-      promise.catch(err => console.log(err))
-      await promise
+  async run(values, message, client, bridge) {
+    if (values.toggle == true) {
+      let promise = new Promise(async (res) => {
+        await bridge.runner(values.actions);
+        res();
+      });
+      promise.catch((err) => console.log(err));
+      await promise;
     } else {
       // noop
     }
-  }
-}
+  },
+};

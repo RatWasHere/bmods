@@ -1,17 +1,17 @@
-let cryptoCache = require('node:crypto');
+let cryptoCache = require("node:crypto");
 hashingAlgorithms = cryptoCache.getHashes();
-modVersion = "s.v1.2"
+modVersion = "s.v1.2";
 
 module.exports = {
   data: {
     name: "Hash Text",
-    algorithm: "sha256"
+    algorithm: "sha256",
   },
   aliases: ["Encrypt Text"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
-    donate: "https://ko-fi.com/slothyacedia"
+    donate: "https://ko-fi.com/slothyacedia",
   },
   category: "Encrypt",
   modules: ["node:crypto"],
@@ -26,38 +26,38 @@ module.exports = {
       storeAs: "algorithm",
       name: "Hashing Algorithm",
       choices: (() => {
-        let dropdownOptions = []
-        hashingAlgorithms.forEach(algorithm => {
-          dropdownOptions.push({name: `${algorithm}`, field: false})
+        let dropdownOptions = [];
+        hashingAlgorithms.forEach((algorithm) => {
+          dropdownOptions.push({ name: `${algorithm}`, field: false });
         });
-        return dropdownOptions
-      })()
+        return dropdownOptions;
+      })(),
     },
     "-",
     {
       element: "store",
       storeAs: "store",
-      name: "Store Hashed String As"
+      name: "Store Hashed String As",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
-  
+
   subtitle: (values) => {
-    return `Hash text with ${values.algorithm} algorithm`
+    return `Hash text with ${values.algorithm} algorithm`;
   },
 
   compatibility: ["Any"],
 
-  async run (values, message, client, bridge) {
-    await client.getMods().require("node:crypto")
-    const crypto = require("node:crypto")
-    let oriText = bridge.transf(values.toHash)
-    let hashAlgorithm = bridge.transf(values.algorithm)
-    
-    hashedTxt = crypto.createHash(hashAlgorithm).update(oriText).digest('hex');
+  async run(values, message, client, bridge) {
+    await client.getMods().require("node:crypto");
+    const crypto = require("node:crypto");
+    let oriText = bridge.transf(values.toHash);
+    let hashAlgorithm = bridge.transf(values.algorithm);
+
+    hashedTxt = crypto.createHash(hashAlgorithm).update(oriText).digest("hex");
     bridge.store(values.store, hashedTxt);
-  }
-}
+  },
+};

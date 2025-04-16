@@ -12,7 +12,7 @@ module.exports = {
     {
       element: "var",
       name: "List",
-      storeAs: "list"
+      storeAs: "list",
     },
     "-",
     {
@@ -33,7 +33,7 @@ module.exports = {
         {
           name: "Matches the regular expression",
           field: true,
-          placeholder: "Regex"
+          placeholder: "Regex",
         },
         {
           name: "The length is longer than",
@@ -41,24 +41,23 @@ module.exports = {
         },
         {
           name: "The length is less than",
-          field: true
+          field: true,
         },
         {
           name: "The length is",
-          field: true
+          field: true,
         },
         {
           name: "It starts with",
-          field: true
+          field: true,
         },
         {
           name: "Ends with",
-          field: true
+          field: true,
         },
         {
           name: "Less than [Only the numbers in the list are required]",
-          field: true
-          
+          field: true,
         },
         {
           name: "Less than or equal to [Requires only numbers in the list]",
@@ -71,76 +70,76 @@ module.exports = {
         {
           name: "Greater than or equal to [Requires only numbers in the list]",
           field: true,
-        }
-      ]
+        },
+      ],
     },
     "-",
     {
       element: "condition",
       storeAs: "true",
       storeActionsAs: "trueActions",
-      name: "If True"
+      name: "If True",
     },
     "-",
     {
       element: "condition",
       storeAs: "false",
       storeActionsAs: "falseActions",
-      name: "If False"
-    }
+      name: "If False",
+    },
   ],
 
   subtitle: (data, constants) => {
     let variable = constants.variable(data.list);
 
     switch (data.comparator) {
-      case 'The same as':
+      case "The same as":
         return `Checking by The same as "${data.compareValue}" in ${variable}`;
-        break
+        break;
 
-      case 'Include':
+      case "Include":
         return `Checking by Include "${data.compareValue}" in ${variable}`;
-        break
+        break;
 
-      case 'Matches the regular expression':
+      case "Matches the regular expression":
         return `Checking by regular expression "${data.compareValue}" in ${variable}`;
-        break
+        break;
 
-      case 'Less than [Only the numbers in the list are required]':
-        return `Checking by Less than "${data.compareValue}" in ${variable}`
-        break
+      case "Less than [Only the numbers in the list are required]":
+        return `Checking by Less than "${data.compareValue}" in ${variable}`;
+        break;
 
-      case 'Less than or equal to [Requires only numbers in the list]':
-        return `Checking by Less than "${data.compareValue}" in ${variable}`
-        break
+      case "Less than or equal to [Requires only numbers in the list]":
+        return `Checking by Less than "${data.compareValue}" in ${variable}`;
+        break;
 
-      case 'More than [Only the numbers in the list are required]':
-        return `Checking by More than "${data.compareValue}" in ${variable}`
-        break
+      case "More than [Only the numbers in the list are required]":
+        return `Checking by More than "${data.compareValue}" in ${variable}`;
+        break;
 
-      case 'Greater than or equal to [Requires only numbers in the list]':
-        return `Checking by Greater than or equal to "${data.compareValue}" in ${variable}`
-        break
+      case "Greater than or equal to [Requires only numbers in the list]":
+        return `Checking by Greater than or equal to "${data.compareValue}" in ${variable}`;
+        break;
 
-      case 'The length is longer than':
-        return `Checking by The length is longer than "${data.compareValue}" in ${variable}`
-        break
+      case "The length is longer than":
+        return `Checking by The length is longer than "${data.compareValue}" in ${variable}`;
+        break;
 
-      case 'The length is less than':
-        return `Checking by The length is less than "${data.compareValue}" in ${variable}`
-        break
+      case "The length is less than":
+        return `Checking by The length is less than "${data.compareValue}" in ${variable}`;
+        break;
 
-      case 'The length is':
-        return `Checking by The length is "${data.compareValue}" in ${variable}`
-        break
+      case "The length is":
+        return `Checking by The length is "${data.compareValue}" in ${variable}`;
+        break;
 
-      case 'It starts with':
-        return `Checking by It starts with "${data.compareValue}" in ${variable}`
-        break
+      case "It starts with":
+        return `Checking by It starts with "${data.compareValue}" in ${variable}`;
+        break;
 
-      case 'Ends with':
-        return `Checking by Ends with "${data.compareValue}" in ${variable}`
-        break
+      case "Ends with":
+        return `Checking by Ends with "${data.compareValue}" in ${variable}`;
+        break;
     }
   },
 
@@ -160,7 +159,9 @@ module.exports = {
         break;
 
       case "Matches the regular expression":
-        matchesCriteria = list.findIndex((i) => Boolean(i.match(new RegExp('^' + item + '$', 'i'))));
+        matchesCriteria = list.findIndex((i) =>
+          Boolean(i.match(new RegExp("^" + item + "$", "i")))
+        );
         break;
 
       case "Less than [Only the numbers in the list are required]":
@@ -201,15 +202,15 @@ module.exports = {
     }
 
     if (parseInt(matchesCriteria) >= 0) {
-      matchesCriteria = true
+      matchesCriteria = true;
     } else {
-      matchesCriteria = false
+      matchesCriteria = false;
     }
 
     if (matchesCriteria) {
-      await bridge.call(values.true, values.trueActions)
+      await bridge.call(values.true, values.trueActions);
     } else {
-      await bridge.call(values.false, values.falseActions)
+      await bridge.call(values.false, values.falseActions);
     }
   },
 };

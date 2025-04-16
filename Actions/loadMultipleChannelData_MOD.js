@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
     name: "Get Channel Multiple Datas",
@@ -35,7 +35,7 @@ module.exports = {
         data: "datas",
       },
       max: 1000,
-      UItypes:{
+      UItypes: {
         data: {
           data: {},
           name: "Data Name:",
@@ -58,19 +58,21 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (values, constants) => {
-    return `Label: ${values.label}, Retrieve ${values.retrievelist.length} datas of ${constants.channel(values.channel)}.`
+    return `Label: ${values.label}, Retrieve ${
+      values.retrievelist.length
+    } datas of ${constants.channel(values.channel)}.`;
   },
 
   compatibility: ["Any"],
 
-  async run (values, message, client, bridge) {
+  async run(values, message, client, bridge) {
     let storedData = bridge.data.IO.get();
-    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : '';
-    let channel = await bridge.getChannel(values.channel)
+    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : "";
+    let channel = await bridge.getChannel(values.channel);
 
     for (let item of values.retrievelist) {
       let channelData = defaultVal;
@@ -81,17 +83,19 @@ module.exports = {
       try {
         const transformedDataName = bridge.transf(dataName);
 
-        if (storedData.channels && storedData.channels[channel.id] && storedData.channels[channel.id][transformedDataName]) {
+        if (
+          storedData.channels &&
+          storedData.channels[channel.id] &&
+          storedData.channels[channel.id][transformedDataName]
+        ) {
           channelData = storedData.channels[channel.id][transformedDataName];
         }
-      }
-      
-      catch (error) {
+      } catch (error) {
         storedData.channels[channel.id] = {};
         bridge.data.IO.write(storedData);
       }
 
       bridge.store(storeLocation, channelData);
     }
-  }
-}
+  },
+};

@@ -153,7 +153,7 @@ module.exports = {
             output =
               member.presence.activities.find(
                 (activity) =>
-                  activity.type === 4 && activity.name === "Custom Status",
+                  activity.type === 4 && activity.name === "Custom Status"
               )?.state || null;
           } catch (err) {
             output = null;

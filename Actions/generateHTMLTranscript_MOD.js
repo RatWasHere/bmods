@@ -49,7 +49,9 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const discordTranscripts = await client.getMods().require("oceanic-transcripts");
+    const discordTranscripts = await client
+      .getMods()
+      .require("oceanic-transcripts");
     const saveImages = bridge.transf(values.saveImages).toLowerCase();
     const poweredBy = bridge.transf(values.showFooter).toLowerCase();
     const channel = await bridge.getChannel(values.channel);

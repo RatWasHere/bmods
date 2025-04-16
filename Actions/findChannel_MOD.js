@@ -19,33 +19,33 @@ module.exports = {
       choices: [
         {
           name: "ID",
-          field: true
+          field: true,
         },
         {
           name: "Name",
-          field: true
+          field: true,
         },
         {
           name: "The channel name includes",
-          field: true
+          field: true,
         },
         {
           name: "Position",
-          field: true
+          field: true,
         },
         {
           name: "Topic",
-          field: true
+          field: true,
         },
         {
           name: "The channel's topics include",
-          field: true
+          field: true,
         },
         {
           name: "ID of the channel category",
-          field: true
-        }
-      ]
+          field: true,
+        },
+      ],
     },
     {
       element: "toggleGroup",
@@ -70,7 +70,7 @@ module.exports = {
     "-",
     {
       element: "storageInput",
-      storeAs: "store"
+      storeAs: "store",
     },
     "-",
     {
@@ -93,46 +93,58 @@ module.exports = {
   ],
 
   subtitle: (values, constants) => {
-    return `By ${values.method} (${values.value}) - Store As: ${constants.variable(values.store)}`
+    return `By ${values.method} (${
+      values.value
+    }) - Store As: ${constants.variable(values.store)}`;
   },
 
   async run(values, interaction, client, bridge) {
     const { ChannelTypes } = require("oceanic.js");
 
     let rawChannels = await bridge.guild.getChannels();
-    const channels = new Map(rawChannels.map(channel => [channel.id, channel]));
+    const channels = new Map(
+      rawChannels.map((channel) => [channel.id, channel])
+    );
 
     const filteredChannels = Array.from(channels.values()).filter((c) => {
       const allowedTypes = [];
-    
+
       if (values.text === true) allowedTypes.push(ChannelTypes.GUILD_TEXT);
-      if (values.announcement === true) allowedTypes.push(ChannelTypes.GUILD_NEWS);
+      if (values.announcement === true)
+        allowedTypes.push(ChannelTypes.GUILD_NEWS);
       if (values.forum === true) allowedTypes.push(ChannelTypes.GUILD_FORUM);
       if (values.voice === true) allowedTypes.push(ChannelTypes.GUILD_VOICE);
-      if (values.stage === true) allowedTypes.push(ChannelTypes.GUILD_STAGE_VOICE);
-  
+      if (values.stage === true)
+        allowedTypes.push(ChannelTypes.GUILD_STAGE_VOICE);
+
       const isAllowedType = allowedTypes.includes(c.type);
-  
-      const isThread = values.thread === true
-      ? c.type === ChannelTypes.GUILD_PUBLIC_THREAD &&
-        channels.get(c.parentID)?.type !== ChannelTypes.GUILD_FORUM
-      : false;
-  
-        const isPrivateThread = values.privateThread === true
-        ? c.type === ChannelTypes.GUILD_PRIVATE_THREAD &&
-          channels.get(c.parentID)?.type !== ChannelTypes.GUILD_FORUM
-        : false;
-  
-        const isPost = values.post === true
-        ? [ChannelTypes.GUILD_PUBLIC_THREAD, ChannelTypes.GUILD_PRIVATE_THREAD].includes(c.type) &&
-          channels.get(c.parentID)?.type === ChannelTypes.GUILD_FORUM
-        : false;  
-  
+
+      const isThread =
+        values.thread === true
+          ? c.type === ChannelTypes.GUILD_PUBLIC_THREAD &&
+            channels.get(c.parentID)?.type !== ChannelTypes.GUILD_FORUM
+          : false;
+
+      const isPrivateThread =
+        values.privateThread === true
+          ? c.type === ChannelTypes.GUILD_PRIVATE_THREAD &&
+            channels.get(c.parentID)?.type !== ChannelTypes.GUILD_FORUM
+          : false;
+
+      const isPost =
+        values.post === true
+          ? [
+              ChannelTypes.GUILD_PUBLIC_THREAD,
+              ChannelTypes.GUILD_PRIVATE_THREAD,
+            ].includes(c.type) &&
+            channels.get(c.parentID)?.type === ChannelTypes.GUILD_FORUM
+          : false;
+
       return isAllowedType || isThread || isPrivateThread || isPost;
     });
-  
+
     let toMatch = bridge.transf(values.value);
-  
+
     let result;
     switch (values.method) {
       case "ID":
@@ -158,12 +170,12 @@ module.exports = {
         result = filteredChannels.find((c) => c.topic?.includes(toMatch));
         break;
     }
-  
+
     if (result !== undefined) {
       bridge.store(values.store, result);
       await bridge.call(values.ifexists, values.ifexistsActions);
     } else {
       await bridge.call(values.ifError, values.ifErrorActions);
     }
-  }
+  },
 };

@@ -110,11 +110,11 @@ module.exports = {
         response.status,
         response.statusText,
         "\n",
-        response,
+        response
       );
       return bridge.store(
         values.store,
-        "Error with Chat Completion, please message the bot author!",
+        "Error with Chat Completion, please message the bot author!"
       );
     }
 

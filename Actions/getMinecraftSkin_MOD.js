@@ -63,7 +63,7 @@ module.exports = {
 
     bridge.store(
       values.store,
-      `https://mineskin.eu/${query}/${name}/${size}.png`,
+      `https://mineskin.eu/${query}/${name}/${size}.png`
     );
   },
 };

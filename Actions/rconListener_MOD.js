@@ -1,4 +1,4 @@
-modVersion = "s.v1.2"
+modVersion = "s.v1.2";
 module.exports = {
   data: {
     name: "RCON Listener",
@@ -36,7 +36,7 @@ module.exports = {
     {
       element: "toggle",
       storeAs: "challengePtc",
-      name: "Use Challenge Protocol"
+      name: "Use Challenge Protocol",
     },
     "-",
     {
@@ -59,74 +59,96 @@ module.exports = {
       storeAs: "logging",
       name: "Log To Console For Debugging?",
       true: "Yes",
-      false: "No"
+      false: "No",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (values) => {
-    return `Listen to ${values.ipAddress}:${values.ipPort}, maintained: ${values.maintain}`
+    return `Listen to ${values.ipAddress}:${values.ipPort}, maintained: ${values.maintain}`;
   },
 
   compatibility: ["Any"],
 
-  async run(values, interaction, client, bridge){
-    await client.getMods().require("rcon")
-    const Rcon = require("rcon")
+  async run(values, interaction, client, bridge) {
+    await client.getMods().require("rcon");
+    const Rcon = require("rcon");
 
     const config = {
       tcp: bridge.transf(values.tcpudp),
-      challenge: bridge.transf(values.challengePtc)
-    }
+      challenge: bridge.transf(values.challengePtc),
+    };
 
-    const ipAddr = bridge.transf(values.ipAddress)
-    const ipPort = bridge.transf(values.ipPort)
-    const rconPw = bridge.transf(values.rconPassword)
-    const logging = values.logging
+    const ipAddr = bridge.transf(values.ipAddress);
+    const ipPort = bridge.transf(values.ipPort);
+    const rconPw = bridge.transf(values.rconPassword);
+    const logging = values.logging;
 
-    const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
+    const rconServer = new Rcon(ipAddr, ipPort, rconPw, config);
 
-    rconServer.on("auth", function(){
-      if (logging == true){console.log(`Connection made with ${ipAddr}:${ipPort}, authentication success.`)}
-    })
-    
-    rconServer.on("error", function(err){
-      if (logging == true){console.log(`Error: ${err}`)}
-      bridge.store(values.serverMessage, `Error: ${err}`)
-      if (bridge.transf(values.maintain) == true){
-        if (logging == true){console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)}
-        rconServer.connect()
-      } else if (bridge.transf(values.maintain) == false){
-        if (logging == true){console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)}
-        rconServer.disconnect()
+    rconServer.on("auth", function () {
+      if (logging == true) {
+        console.log(
+          `Connection made with ${ipAddr}:${ipPort}, authentication success.`
+        );
       }
-    })
-    
-    rconServer.on("end", function(){
-      if (bridge.transf(values.maintain) == true){
-        if (logging == true){console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)}
-        rconServer.connect()
-      } else if (bridge.transf(values.maintain) == false){
-        if (logging == true){console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)}
-        rconServer.disconnect()
+    });
+
+    rconServer.on("error", function (err) {
+      if (logging == true) {
+        console.log(`Error: ${err}`);
       }
-    })
-    
+      bridge.store(values.serverMessage, `Error: ${err}`);
+      if (bridge.transf(values.maintain) == true) {
+        if (logging == true) {
+          console.log(
+            `Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`
+          );
+        }
+        rconServer.connect();
+      } else if (bridge.transf(values.maintain) == false) {
+        if (logging == true) {
+          console.log(`Connection with ${ipAddr}:${ipPort} dropped.`);
+        }
+        rconServer.disconnect();
+      }
+    });
+
+    rconServer.on("end", function () {
+      if (bridge.transf(values.maintain) == true) {
+        if (logging == true) {
+          console.log(
+            `Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`
+          );
+        }
+        rconServer.connect();
+      } else if (bridge.transf(values.maintain) == false) {
+        if (logging == true) {
+          console.log(`Connection with ${ipAddr}:${ipPort} dropped.`);
+        }
+        rconServer.disconnect();
+      }
+    });
+
     rconServer.on("response", function (str) {
-      if (logging == true){console.log(str)}
-      bridge.store(values.serverMessage, str)
-      bridge.runner(values.toRunAct)
-    })
-    
-    rconServer.on("server", function (str) {
-      if (logging == true){console.log(str)}
-      bridge.store(values.serverMessage, str)
-      bridge.runner(values.toRunAct)
-    })
+      if (logging == true) {
+        console.log(str);
+      }
+      bridge.store(values.serverMessage, str);
+      bridge.runner(values.toRunAct);
+    });
 
-    rconServer.connect()
-  }
-}
+    rconServer.on("server", function (str) {
+      if (logging == true) {
+        console.log(str);
+      }
+      bridge.store(values.serverMessage, str);
+      bridge.runner(values.toRunAct);
+    });
+
+    rconServer.connect();
+  },
+};

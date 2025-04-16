@@ -1,7 +1,7 @@
-const jsonData = require('../data.json');
+const jsonData = require("../data.json");
 const commands = jsonData.commands;
 const prefix = jsonData.prefix;
-modVersion = "s.v1.1"
+modVersion = "s.v1.1";
 
 module.exports = {
   data: {
@@ -30,12 +30,12 @@ module.exports = {
       element: "text",
       text: `<div style="font-size: 20px; color: red; text-align: center;">
       This action is deprecated, use "Get Command Info" for a more robust & feature rich option.
-      </div>`
+      </div>`,
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (data) => {
@@ -47,25 +47,26 @@ module.exports = {
   async run(values, message, client, bridge) {
     const commandName = bridge.transf(values.commandname);
 
-    const foundCommand = commands.find(cmd => cmd.name === commandName && cmd.trigger === 'textCommand');
+    const foundCommand = commands.find(
+      (cmd) => cmd.name === commandName && cmd.trigger === "textCommand"
+    );
 
     if (!foundCommand) {
       const NotTextCommandError = [];
-      NotTextCommandError.push(`\`${values.commandname}\` isn't a text command.`);
+      NotTextCommandError.push(
+        `\`${values.commandname}\` isn't a text command.`
+      );
       bridge.store(values.store, NotTextCommandError);
-    }
-
-    else {
-
+    } else {
       if (foundCommand.aliases && foundCommand.aliases.length > 0) {
         bridge.store(values.store, foundCommand.aliases);
-      }
-
-      else {
+      } else {
         const NoAliasesError = [];
-        NoAliasesError.push(`No aliases available for \`${prefix}${values.commandname}\`.`);
+        NoAliasesError.push(
+          `No aliases available for \`${prefix}${values.commandname}\`.`
+        );
         bridge.store(values.store, NoAliasesError);
       }
     }
-  }
+  },
 };

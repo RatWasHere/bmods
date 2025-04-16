@@ -1,7 +1,7 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
-    name: "Multiple Replacements"
+    name: "Multiple Replacements",
   },
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
@@ -10,7 +10,7 @@ module.exports = {
   },
   category: "Text",
   modules: [],
-  UI:[
+  UI: [
     {
       element: "largeInput",
       storeAs: "originalText",
@@ -25,7 +25,7 @@ module.exports = {
       },
       max: 100,
       UItypes: {
-        replacements:{
+        replacements: {
           data: {},
           name: "Replace",
           preview: "`${option.data.findText} with ${option.data.replaceText}`",
@@ -47,28 +47,28 @@ module.exports = {
     {
       element: "store",
       storeAs: "output",
-      name: "Store Output As"
+      name: "Store Output As",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (values) => {
-    return `Replace ${values.replaceList.length} matches.`
+    return `Replace ${values.replaceList.length} matches.`;
   },
 
-  async run(values, interaction, client, bridge){
-    let oriTxt = bridge.transf(values.originalText)
+  async run(values, interaction, client, bridge) {
+    let oriTxt = bridge.transf(values.originalText);
 
-    for (let replace of values.replaceList){
-      const finder = bridge.transf(replace.data.findText)
-      const replacer = bridge.transf(replace.data.replaceText)
+    for (let replace of values.replaceList) {
+      const finder = bridge.transf(replace.data.findText);
+      const replacer = bridge.transf(replace.data.replaceText);
 
-      oriTxt = oriTxt.replaceAll(finder, replacer)
+      oriTxt = oriTxt.replaceAll(finder, replacer);
     }
 
-    bridge.store(values.output, oriTxt)
-  }
-}
+    bridge.store(values.output, oriTxt);
+  },
+};

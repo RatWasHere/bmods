@@ -36,7 +36,7 @@ module.exports = {
     return `Server: ${constants.guild(values.guild)} - Get: ${
       values.get.type
     } - Data Name: ${values.dataName} - Store As: ${constants.variable(
-      values.store,
+      values.store
     )}`;
   },
   compatibility: ["Any"],

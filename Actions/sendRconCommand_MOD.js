@@ -49,7 +49,7 @@ module.exports = {
   },
 
   async run(values, interaction, client, bridge) {
-    await client.getMods().require("mbr-rcon")
+    await client.getMods().require("mbr-rcon");
     return new Promise((resolve, reject) => {
       const Rcon = require("mbr-rcon");
 
@@ -59,7 +59,7 @@ module.exports = {
           port: `${bridge.transf(values.serverport)}`,
           pass: `${bridge.transf(values.rconpassword)}`,
         };
-        
+
         const rcon = new Rcon(rconConfig);
 
         const connection = rcon.connect({
@@ -75,10 +75,13 @@ module.exports = {
                     connection.close();
                     resolve(response);
                   },
-                
+
                   onError: (error) => {
                     console.error("Error executing command:", error);
-                    bridge.store(values.store, "Error: Execution. (Something went wrong)");
+                    bridge.store(
+                      values.store,
+                      "Error: Execution. (Something went wrong)"
+                    );
                     connection.close();
                     reject(error);
                   },
@@ -87,25 +90,28 @@ module.exports = {
 
               onError: (error) => {
                 console.error("Authentication error:", error);
-                bridge.store(values.store, "Error: Authentication. (Wrong RCON password)");
+                bridge.store(
+                  values.store,
+                  "Error: Authentication. (Wrong RCON password)"
+                );
                 connection.close();
                 reject(error);
               },
             });
           },
-          
+
           onError: (error) => {
             console.error("Connection error:", error);
-            bridge.store(values.store, "Error: Connection. (The requested RCON server is offline)");
+            bridge.store(
+              values.store,
+              "Error: Connection. (The requested RCON server is offline)"
+            );
             reject(error);
           },
         });
-      }
-      
-      catch (error) {
+      } catch (error) {
         console.error("An error occurred:", error);
       }
-
     });
   },
 };

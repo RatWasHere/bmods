@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "s.v1.0";
 module.exports = {
   data: {
     name: "Get Multiple Server Datas",
@@ -35,7 +35,7 @@ module.exports = {
         data: "datas",
       },
       max: 1000,
-      UItypes:{
+      UItypes: {
         data: {
           data: {},
           name: "Data Name:",
@@ -58,18 +58,20 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (values, constants) => {
-    return `Label: ${values.label}, Retrieve ${values.retrievelist.length} datas of ${constants.guild(values.guild)}.`
+    return `Label: ${values.label}, Retrieve ${
+      values.retrievelist.length
+    } datas of ${constants.guild(values.guild)}.`;
   },
 
   compatibility: ["Any"],
 
-  async run (values, message, client, bridge) {
+  async run(values, message, client, bridge) {
     let storedData = bridge.data.IO.get();
-    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : '';
+    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : "";
     let guild = await bridge.getGuild(values.guild);
 
     for (let item of values.retrievelist) {
@@ -81,17 +83,19 @@ module.exports = {
       try {
         const transformedDataName = bridge.transf(dataName);
 
-        if (storedData.guilds && storedData.guilds[guild.id] && storedData.guilds[guild.id][transformedDataName]) {
+        if (
+          storedData.guilds &&
+          storedData.guilds[guild.id] &&
+          storedData.guilds[guild.id][transformedDataName]
+        ) {
           guildData = storedData.guilds[guild.id][transformedDataName];
         }
-      }
-      
-      catch (error) {
+      } catch (error) {
         storedData.guilds[guild.id] = {};
         bridge.data.IO.write(storedData);
       }
 
       bridge.store(storeLocation, guildData);
     }
-  }
-}
+  },
+};

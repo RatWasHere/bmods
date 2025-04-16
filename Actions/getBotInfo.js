@@ -1,4 +1,4 @@
-modVersion = "s.v1.0 | AceFix"
+modVersion = "s.v1.0 | AceFix";
 module.exports = {
   data: {
     name: "Get Bot Info",
@@ -49,14 +49,14 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   compatibility: ["Any"],
   subtitle: (values, constants) => {
-    return `${values.get} - Store As: ${constants.variable(values.store)}`
+    return `${values.get} - Store As: ${constants.variable(values.store)}`;
   },
-  
+
   /**
    * @param {oceanic.Client} client
    * @returns {*}
@@ -72,12 +72,14 @@ module.exports = {
         break;
       case "Servers":
         output = client.guilds.map((guild, index) => guild);
-        break
+        break;
       case "Client ID":
         output = client.application.id;
         break;
       case "Avatar URL":
-        output = await (await client.rest.users.get(client.application.id)).avatarURL();
+        output = await (
+          await client.rest.users.get(client.application.id)
+        ).avatarURL();
         break;
       case "Prefix":
         output = botData.prefix;
@@ -131,7 +133,7 @@ module.exports = {
         output = Math.floor(Date.now() / 1000) - Math.floor(process.uptime());
         break;
       case "Uptime Timestamp":
-        output = Math.floor(Date.now()) - Math.floor(process.uptime()*1000);
+        output = Math.floor(Date.now()) - Math.floor(process.uptime() * 1000);
         break;
       case "Operating System": {
         if (process.platform) {
