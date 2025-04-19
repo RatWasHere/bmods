@@ -1,4 +1,4 @@
-modVersion = "v2.1.1";
+modVersion = "v2.2.0";
 
 module.exports = {
   data: {
@@ -323,11 +323,15 @@ module.exports = {
     if (Array.isArray(values.cases1)) {
       for (const dataCase of values.cases1) {
         if (dataCase.type !== "data") continue;
-
-        const path = bridge.transf(dataCase.data.Path);
-        const pathParts = path.split(".");
+    
+        let pathParts = [];
+        if (dataCase.data.Path) {
+          const path = bridge.transf(dataCase.data.Path);
+          pathParts = path.split(".");
+        }
+    
         let current = data;
-
+    
         for (const part of pathParts) {
           if (
             /\[\d+\]$/.test(part) ||
@@ -339,17 +343,17 @@ module.exports = {
               current = undefined;
               break;
             }
-
+    
             const arrayKey = arrayKeyMatch[1];
             const indexOrSymbol = arrayKeyMatch[2];
-
+    
             if (!Array.isArray(current[arrayKey])) {
               current = undefined;
               break;
             }
-
+    
             const array = current[arrayKey];
-
+    
             if (indexOrSymbol === "N" || indexOrSymbol === "^") {
               current = array[array.length - 1];
             } else {
@@ -358,7 +362,7 @@ module.exports = {
                 current = undefined;
                 break;
               }
-
+    
               current = array[index];
             }
           } else {
@@ -366,17 +370,17 @@ module.exports = {
               current = undefined;
               break;
             }
-
+    
             current = current[part];
           }
-
+    
           if (current === undefined) {
             break;
           }
         }
-
+    
         let names = [];
-
+    
         if (current && typeof current === "object") {
           if (dataCase.data.objects) {
             for (let key in current) {
@@ -396,7 +400,7 @@ module.exports = {
             }
           }
         }
-
+    
         bridge.store(dataCase.data.store, names);
       }
     }
@@ -405,107 +409,104 @@ module.exports = {
       for (const dataCase of values.cases2) {
         const path = bridge.transf(dataCase.data.Path);
         const name = bridge.transf(dataCase.data.name);
-        const value = bridge.transf(dataCase.data.value);
-        const pathParts = path.split(".");
-
-        let current = data;
-
-        for (let i = 0; i < pathParts.length; i++) {
-          const part = pathParts[i];
-
-          if (
-            /\[\d+\]$/.test(part) ||
-            part.endsWith("[N]") ||
-            part.endsWith("[^]")
-          ) {
-            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-            if (!arrayKeyMatch) {
-              current = undefined;
-              break;
-            }
-            const arrayKey = arrayKeyMatch[1];
-            const indexOrSymbol = arrayKeyMatch[2];
-            if (!Array.isArray(current[arrayKey])) {
-              current = undefined;
-              break;
-            }
-            const array = current[arrayKey];
-            if (indexOrSymbol === "N" || indexOrSymbol === "^") {
-              current = array[array.length - 1];
-            } else {
-              const index = parseInt(indexOrSymbol, 10);
-              if (isNaN(index) || index < 0 || index >= array.length) {
-                current = undefined;
-                break;
-              }
-              current = array[index];
-            }
-          } else {
-            if (!current || typeof current !== "object") {
-              current = undefined;
-              break;
-            }
-            current = current[part];
+        let rawValue = bridge.transf(dataCase.data.value);
+        
+        let operator = '==';
+        let compareValue = rawValue;
+        let forceNumber = false;
+        
+        const operatorMatch = rawValue.match(/^\[(>|<|>=|<=|=)\](.*)$/);
+        if (operatorMatch) {
+          operator = operatorMatch[1] === '=' ? '==' : operatorMatch[1];
+          compareValue = operatorMatch[2].trim();
+          forceNumber = true;
+        }
+    
+        if (forceNumber) {
+          compareValue = Number(compareValue);
+          if (isNaN(compareValue)) {
+            bridge.store(dataCase.data.store, [-1]);
+            continue;
           }
-
-          if (current === undefined) {
-            break;
+        } else {
+          const numValue = Number(compareValue);
+          if (!isNaN(numValue)) {
+            compareValue = numValue;
           }
         }
-
+    
+        const pathParts = path.split(".");
+        let current = data;
+    
+        for (let i = 0; i < pathParts.length; i++) {
+          const part = pathParts[i];
+          if (/\[\d+\]$/.test(part) || part.endsWith("[N]") || part.endsWith("[^]")) {
+            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+            if (!arrayKeyMatch) break;
+            const [arrayKey, indexOrSymbol] = [arrayKeyMatch[1], arrayKeyMatch[2]];
+            if (!Array.isArray(current[arrayKey])) break;
+            const array = current[arrayKey];
+            current = indexOrSymbol === "N" || indexOrSymbol === "^" 
+              ? array[array.length - 1]
+              : array[parseInt(indexOrSymbol, 10)];
+          } else {
+            if (typeof current !== "object") break;
+            current = current[part];
+          }
+          if (!current) break;
+        }
+    
         let result = [];
         if (current && Array.isArray(current)) {
-          const lastPart = pathParts[pathParts.length - 1];
-
           switch (dataCase.type) {
             case "value":
               current.forEach((item, index) => {
-                if (item == value) {
-                  result.push(index);
+                const numItem = forceNumber ? Number(item) : item;
+                if (forceNumber && isNaN(numItem)) return;
+                
+                let match;
+                switch(operator) {
+                  case '>': match = numItem > compareValue; break;
+                  case '<': match = numItem < compareValue; break;
+                  case '>=': match = numItem >= compareValue; break;
+                  case '<=': match = numItem <= compareValue; break;
+                  case '==': 
+                  default: 
+                    match = forceNumber 
+                      ? numItem === compareValue 
+                      : item == compareValue;
                 }
+                if (match) result.push(index);
               });
               break;
-
+    
             case "object":
               current.forEach((item, index) => {
-                if (typeof item === "object" && item[name] == value) {
-                  result.push(index);
+                if (typeof item !== "object" || item[name] === undefined) return;
+                
+                const itemValue = item[name];
+                const numValue = forceNumber ? Number(itemValue) : itemValue;
+                if (forceNumber && isNaN(numValue)) return;
+                
+                let match;
+                switch(operator) {
+                  case '>': match = numValue > compareValue; break;
+                  case '<': match = numValue < compareValue; break;
+                  case '>=': match = numValue >= compareValue; break;
+                  case '<=': match = numValue <= compareValue; break;
+                  case '==': 
+                  default: 
+                    match = forceNumber 
+                      ? numValue === compareValue 
+                      : itemValue == compareValue;
                 }
+                if (match) result.push(index);
               });
               break;
-
-            default:
-              break;
-          }
-        } else if (current && typeof current === "object") {
-          const arrayKey = pathParts[pathParts.length - 1];
-          if (Array.isArray(current[arrayKey])) {
-            current = current[arrayKey];
-
-            switch (dataCase.type) {
-              case "value":
-                current.forEach((item, index) => {
-                  if (item == value) {
-                    result.push(index);
-                  }
-                });
-                break;
-
-              case "object":
-                current.forEach((item, index) => {
-                  if (typeof item === "object" && item[name] == value) {
-                    result.push(index);
-                  }
-                });
-                break;
-            }
           }
         }
-
-        if (result.length === 0) {
-          result.push(-1);
-        }
-
+    
+        if (result.length === 0) result.push(-1);
         bridge.store(dataCase.data.store, result);
       }
     }
