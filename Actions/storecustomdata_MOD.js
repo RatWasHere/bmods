@@ -1,4 +1,4 @@
-modVersion = "v2.1.1";
+modVersion = "v2.1.2";
 
 module.exports = {
   data: {
@@ -323,11 +323,15 @@ module.exports = {
     if (Array.isArray(values.cases1)) {
       for (const dataCase of values.cases1) {
         if (dataCase.type !== "data") continue;
-
-        const path = bridge.transf(dataCase.data.Path);
-        const pathParts = path.split(".");
+    
+        let pathParts = [];
+        if (dataCase.data.Path) {
+          const path = bridge.transf(dataCase.data.Path);
+          pathParts = path.split(".");
+        }
+    
         let current = data;
-
+    
         for (const part of pathParts) {
           if (
             /\[\d+\]$/.test(part) ||
@@ -339,17 +343,17 @@ module.exports = {
               current = undefined;
               break;
             }
-
+    
             const arrayKey = arrayKeyMatch[1];
             const indexOrSymbol = arrayKeyMatch[2];
-
+    
             if (!Array.isArray(current[arrayKey])) {
               current = undefined;
               break;
             }
-
+    
             const array = current[arrayKey];
-
+    
             if (indexOrSymbol === "N" || indexOrSymbol === "^") {
               current = array[array.length - 1];
             } else {
@@ -358,7 +362,7 @@ module.exports = {
                 current = undefined;
                 break;
               }
-
+    
               current = array[index];
             }
           } else {
@@ -366,17 +370,17 @@ module.exports = {
               current = undefined;
               break;
             }
-
+    
             current = current[part];
           }
-
+    
           if (current === undefined) {
             break;
           }
         }
-
+    
         let names = [];
-
+    
         if (current && typeof current === "object") {
           if (dataCase.data.objects) {
             for (let key in current) {
@@ -396,7 +400,7 @@ module.exports = {
             }
           }
         }
-
+    
         bridge.store(dataCase.data.store, names);
       }
     }
