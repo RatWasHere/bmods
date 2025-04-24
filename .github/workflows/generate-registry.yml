@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.SCHNITZEL }}
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -255,4 +257,4 @@ jobs:
         git config --local user.name "GitHub Action"
         git add registry.json
         git diff --quiet && git diff --staged --quiet || git commit -m "Update registry.json"
-        git push
+        git push https://${{ secrets.SCHNITZEL }}@github.com/${{ github.repository }}
