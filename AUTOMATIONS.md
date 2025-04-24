@@ -7,7 +7,7 @@ This is how automations are structured in their folder:
     └── Automations/
         └── Your Automation/
             ├── data.json
-            ├── main.json
+            ├── main.js
             ├── startup_info.json (OPTIONAL)
             └── startup.js (OPTIONAL)
 ```
