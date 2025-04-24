@@ -71,15 +71,17 @@
       "creator": "TheMonDon"
     },
     "animeSearch_MOD.js": {
-      "md5": "4a76e5f5c3f2916b365983df27c21751",
+      "md5": "04d0d982fa2fc7d1f152b2cb40615ddc",
       "name": "Anime Search",
+      "description": "Search for an anime and get the best result with more details.",
       "modules": [],
       "category": "Anime",
       "creator": "qschnitzel"
     },
     "askAI_MOD.js": {
-      "md5": "ba74217c819dec0eb234f2d01fcaa24e",
+      "md5": "128b7f74695c5564c9633241723395b0",
       "name": "Ask AI",
+      "description": "Use an AI to ask a question.",
       "modules": [],
       "category": "AI",
       "creator": "qschnitzel"
@@ -274,8 +276,9 @@
       "creator": "nitiqt"
     },
     "elevenlabs_MOD.js": {
-      "md5": "082254dc0c1d70cd658dc0fd08150077",
+      "md5": "0a59581d2687c09878f0096681fb7177",
       "name": "Elevenlabs",
+      "description": "Create Text-To-Speech audio using Elevenlabs API.",
       "modules": [],
       "category": "AI",
       "creator": "qschnitzel, splatchoot"
@@ -548,8 +551,9 @@
       "creator": "Acedia QOLs"
     },
     "getMinecraftSkin_MOD.js": {
-      "md5": "ac6dd17dd5103c3c79dd57e5091d1000",
+      "md5": "5d0cf0127507ba0b36022b96fb636352",
       "name": "Get Minecraft Skin",
+      "description": "Get any Minecraft skin by its username.",
       "modules": [],
       "category": "Game",
       "creator": "qschnitzel"
@@ -633,8 +637,9 @@
       "creator": "candiedapple"
     },
     "googleTranslate_MOD.js": {
-      "md5": "4199a9c0be01abc9eade2d6d9143b8bf",
+      "md5": "23443d6354e00cbe1aa5a7c5c5c854a9",
       "name": "Google Translate",
+      "description": "Translate text using Google Translate.",
       "modules": [],
       "category": "Text",
       "creator": "qschnitzel"
@@ -877,22 +882,25 @@
       "creator": "TheMonDon"
     },
     "prodia_MOD.js": {
-      "md5": "d1aab1afb58b17db5efd152495762a27",
+      "md5": "b4ab6418d15840752afad6999fbb3584",
       "name": "Prodia",
+      "description": "Generate images using prodia.com. Requires an API key from prodia.com.",
       "modules": [],
       "category": "AI",
       "creator": "qschnitzel"
     },
     "profanityAPI_MOD.js": {
-      "md5": "c40fbfa74cfce3de3be5422c384a5ba4",
+      "md5": "9bf4147f69a27a6c40723c61992608f7",
       "name": "Profanity API",
+      "description": "Check if a string contains toxic content using the Profanity API.",
       "modules": [],
       "category": "Text",
       "creator": "qschnitzel"
     },
     "pterodactyl_MOD.js": {
-      "md5": "39fc6b0e946db5922163938811e85e96",
+      "md5": "a21ba1e9876cc2d734a68a38edef2750",
       "name": "Pterodactyl",
+      "description": "Manage your individual Pterodactyl servers.",
       "modules": [],
       "category": "API",
       "creator": "qschnitzel"
@@ -905,8 +913,9 @@
       "creator": "Made with <3 by @lucxanul"
     },
     "randomMeme_MOD.js": {
-      "md5": "639314083ce435df9e6cc6cae8e34243",
+      "md5": "7ef7281375342e423929105d9216074d",
       "name": "Random Meme",
+      "description": "Fetches a random meme from Reddit.",
       "modules": [],
       "category": "Memes",
       "creator": "qschnitzel"
@@ -1054,8 +1063,9 @@
       "creator": "candiedapple"
     },
     "stablediffusion_MOD.js": {
-      "md5": "e6fb0b111d6a65d294b049d2868cd23b",
+      "md5": "0285f60c12b253eda6c68c92946a5616",
       "name": "Stable Diffusion",
+      "description": "Generate images from text using Stable Diffusion. Requires a local installation of Stable Diffusion.",
       "modules": [],
       "category": "Images",
       "creator": "qschnitzel"
@@ -1132,8 +1142,9 @@
       "creator": "Acedia"
     },
     "tiktokTTS_MOD.js": {
-      "md5": "df9ef48275192969aa7caeef104cc911",
+      "md5": "d55d95671028f3a0c109199a169f5575",
       "name": "Tiktok TTS",
+      "description": "Create Text-To-Speech audio using Tiktok's TTS.",
       "modules": [],
       "category": "AI",
       "creator": "qschnitzel"
