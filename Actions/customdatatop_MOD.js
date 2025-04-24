@@ -9,6 +9,7 @@ module.exports = {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "LikRus",
     donate: "https://boosty.to/cactus/donate",
+    description: "Allows you to create a leaderboard from custom json files!",
   },
   UI: [
     {
