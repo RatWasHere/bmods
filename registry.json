@@ -1,0 +1,1370 @@
+{
+  "Actions": {
+    "1v1_lol_MOD.js": {
+      "md5": "f5654a587e18a1025e57d840cb652ee8",
+      "name": "1v1.lol",
+      "modules": [],
+      "category": "Memes",
+      "creator": "Rat"
+    },
+    "CanvasCaptchaGenerator_MOD.js": {
+      "md5": "b889f22df422766a8180b0fa5de7e6a5",
+      "name": "Canvas Captcha Generator",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "lik_rus"
+    },
+    "CanvasCreateBackground_MOD.js": {
+      "md5": "b06ec68524f0ab7e3874147e66f66eed",
+      "name": "Canvas Create Background",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "TheMonDon , lik_rus"
+    },
+    "CanvasCreateImage_MOD.js": {
+      "md5": "456a851e4bbb9130b495f9b4b5d4aad6",
+      "name": "Canvas Create Image",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "TheMonDon , lik_rus"
+    },
+    "CanvasDrawImage_MOD.js": {
+      "md5": "da5337b8b225ac0000dfa865d56c5806",
+      "name": "Canvas Draw Image on Image",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "TheMonDon"
+    },
+    "CanvasDrawText_MOD.js": {
+      "md5": "ff11c04d9c480a217844322b1a597607",
+      "name": "Canvas Draw Text on Image",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "TheMonDon"
+    },
+    "CanvasEditImageBorder_MOD.js": {
+      "md5": "50d35dd9bd5e37b6a156495d26c519cb",
+      "name": "Canvas Edit Image Border",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "TheMonDon"
+    },
+    "CanvasImageFilter_MOD.js": {
+      "md5": "a3f5caaa7211a526d943bd26eb5383b3",
+      "name": "Canvas Image Filter",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "TheMonDon"
+    },
+    "animeSearch_MOD.js": {
+      "md5": "4a76e5f5c3f2916b365983df27c21751",
+      "name": "Anime Search",
+      "modules": [],
+      "category": "Anime",
+      "creator": "qschnitzel"
+    },
+    "askAI_MOD.js": {
+      "md5": "ba74217c819dec0eb234f2d01fcaa24e",
+      "name": "Ask AI",
+      "modules": [],
+      "category": "AI",
+      "creator": "qschnitzel"
+    },
+    "betterMultiCompare_MOD.js": {
+      "md5": "04b7d9b67fbc64ea1e235937ddb52db4",
+      "name": "Better Multiple Comparisons",
+      "modules": [],
+      "category": "Conditions",
+      "creator": "Acedia QOLs"
+    },
+    "bulkBanMembers_MOD.js": {
+      "md5": "650861f67958ac903b18c26392a3bea7",
+      "name": "Bulk Ban Members",
+      "modules": [],
+      "category": "Members",
+      "creator": "nitiqt"
+    },
+    "calculateLevelFromExperience_MOD.js": {
+      "md5": "0cf5fbe9cb7237dc007dfadd8b86904a",
+      "name": "Calculate Level From Experience",
+      "modules": [],
+      "category": "Numbers",
+      "creator": "candiedapple"
+    },
+    "calculate_expression_MOD.js": {
+      "md5": "8a7c04547e918d07b215f7595055f4e6",
+      "name": "Calculate Expression",
+      "modules": [],
+      "category": "Numbers",
+      "creator": "lik_rus"
+    },
+    "catImage_MOD.js": {
+      "md5": "bf69de740a24dcdab35e7db8551b097c",
+      "name": "Random Cat Image URL",
+      "modules": [],
+      "category": "Images",
+      "creator": "Regianus (TheKing1543) & qschnitzel"
+    },
+    "checkGiftKeyAndUse_MOD.js": {
+      "md5": "cd3a04f38b1650a0c95be7def1e8ea36",
+      "name": "Check Gift Key And Use",
+      "modules": [],
+      "category": "Gift Keys",
+      "creator": "candiedapple"
+    },
+    "checkIfFolderExists_MOD.js": {
+      "md5": "d7f0187e925264418d8ad57040059ae6",
+      "name": "Check If Folder Exists",
+      "modules": [],
+      "category": "Files",
+      "creator": "nitiqt"
+    },
+    "checkIfText_MOD.js": {
+      "md5": "ea7b4696bb55b8a568130f38ac2a256a",
+      "name": "Check If Text",
+      "modules": [],
+      "category": "Text",
+      "creator": "Acedia QOLs"
+    },
+    "checkIfUserIsBotOwner_MOD.js": {
+      "md5": "8eaa22363d5bc13e315dd59353276854",
+      "name": "Check If User Is Bot Owner",
+      "modules": [],
+      "category": "Bot"
+    },
+    "checkItemfromlist_MOD.js": {
+      "md5": "02264da04bdb115af306473535b1f673",
+      "name": "Check Item From List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "LikRus"
+    },
+    "checkcustomdata_MOD.js": {
+      "md5": "c1d33b8995ed2e2f74397372345d79e7",
+      "name": "Check Custom Data",
+      "modules": [],
+      "category": "Custom Data",
+      "creator": "LikRus"
+    },
+    "controlFileLines_MOD.js": {
+      "md5": "5e1e5378d5d00563b089c57258b903c1",
+      "name": "Control File Lines",
+      "modules": [],
+      "category": "Files",
+      "creator": "Rat"
+    },
+    "controlMemberMultiDatas_MOD.js": {
+      "md5": "d191019cb44c10bfd49db0d0df173586",
+      "name": "Control Member Multi Datas",
+      "modules": [],
+      "category": "Member Data",
+      "creator": "nitiqt"
+    },
+    "controlMusic_MOD.js": {
+      "md5": "d949da67e95174c2a0e4c48173a50e2c",
+      "name": "Control Music",
+      "modules": [
+        "discord-player"
+      ],
+      "category": "Discord-Player Music",
+      "creator": "TheMonDon"
+    },
+    "controlcustomdata_MOD.js": {
+      "md5": "b3340a8949d9231e78351cb43964710f",
+      "name": "Control Custom Data",
+      "modules": [],
+      "category": "Custom Data",
+      "creator": "LikRus"
+    },
+    "convertListToText_MOD.js": {
+      "md5": "45698427a654aea74fbc71ef0e031597",
+      "name": "Convert List To Text PLUS",
+      "modules": [],
+      "category": "Lists",
+      "creator": "LikRus"
+    },
+    "createFolder_MOD.js": {
+      "md5": "533d8877630922c8b3a59145c5810796",
+      "name": "Create Folder",
+      "modules": [],
+      "category": "Files",
+      "creator": "nitiqt"
+    },
+    "createSelfContainedAnchor_MOD.js": {
+      "md5": "eb3a294999cf1d05498c0afd7351fe7e",
+      "name": "Create Self-Contained Anchor",
+      "modules": [],
+      "category": "Anchors",
+      "creator": "Rat"
+    },
+    "createStageChannel_MOD.js": {
+      "md5": "5fa12adf94702be8441ee0376f6c5d56",
+      "name": "Create Stage Channel",
+      "modules": [],
+      "category": "Channels",
+      "creator": "nitiqt"
+    },
+    "customdatatop_MOD.js": {
+      "md5": "554c506c55a08a38238146a95073ad41",
+      "name": "Custom Data Top",
+      "modules": [],
+      "category": "Custom Data",
+      "creator": "LikRus"
+    },
+    "dateTimeConversions_MOD.js": {
+      "md5": "34a36cc080fa0c2c4671a4a871c7ae97",
+      "name": "Date Time Conversions",
+      "modules": [
+        "luxon"
+      ],
+      "category": "Time",
+      "creator": "Acedia"
+    },
+    "deleteFolder_MOD.js": {
+      "md5": "7cf5ea8dc075e1a5be26a35be149e9bd",
+      "name": "Delete Folder",
+      "modules": [],
+      "category": "Files",
+      "creator": "nitiqt"
+    },
+    "deleteScheduledEvent_MOD.js": {
+      "md5": "5cb81e108d18995459a4490216678779",
+      "name": "Delete Scheduled Event",
+      "modules": [],
+      "category": "Scheduled Events",
+      "creator": "nitiqt"
+    },
+    "downloadFile_MOD.js": {
+      "md5": "102cebdcac4fb2f4826170c58858ba5f",
+      "name": "Download File",
+      "modules": [],
+      "category": "Files",
+      "creator": "candiedapple"
+    },
+    "downloadMusic_MOD.js": {
+      "md5": "8ddd8e680d918ffbc66cc42656978806",
+      "name": "Download Music File",
+      "modules": [
+        "fs",
+        "path",
+        "node:child_process"
+      ],
+      "category": "Utilities",
+      "creator": "Acedia"
+    },
+    "editBot_MOD.js": {
+      "md5": "3e60d06855a174a8d106690fde6e3f07",
+      "name": "Edit Bot",
+      "modules": [],
+      "category": "Bot",
+      "creator": "nitiqt"
+    },
+    "elevenlabs_MOD.js": {
+      "md5": "082254dc0c1d70cd658dc0fd08150077",
+      "name": "Elevenlabs",
+      "modules": [],
+      "category": "AI",
+      "creator": "qschnitzel, splatchoot"
+    },
+    "expiredTimestampsChecker_MOD.js": {
+      "md5": "5f2879369d5d658d5ed845872944a0fd",
+      "name": "Expired Timestamps Checker",
+      "modules": [],
+      "category": "Dates",
+      "creator": "candiedapple"
+    },
+    "extractSteamSummary_MOD.js": {
+      "md5": "1916d592b155c4acb7088902a54f8929",
+      "name": "Extract Steam Summary",
+      "modules": [],
+      "category": "Steam",
+      "creator": "Acedia"
+    },
+    "fetchSteamId_MOD.js": {
+      "md5": "5d621844dfd2e58b1574d308fc7be8d7",
+      "name": "Fetch Steam Profile Info",
+      "modules": [
+        "node-fetch"
+      ],
+      "category": "WebAPIs",
+      "creator": "Acedia QOLs"
+    },
+    "findChannel_MOD.js": {
+      "md5": "6cb84790b39ad5477fc6e99a71c3465b",
+      "name": "Find Channel PLUS",
+      "modules": [],
+      "category": "Channels",
+      "creator": "LikRus"
+    },
+    "findmatchesInlist_MOD.js": {
+      "md5": "9ec1f2a881ea3f73ffee1ab2a3493b12",
+      "name": "Find Matches In List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "LikRus"
+    },
+    "generateGiftKeys_MOD.js": {
+      "md5": "8f9aef8d36a7f0b4ca3993a304bab5d1",
+      "name": "Generate Gift Keys",
+      "modules": [],
+      "category": "Gift Keys",
+      "creator": "candiedapple"
+    },
+    "generateHTMLTranscript_MOD.js": {
+      "md5": "a8cbb35c180ea8be773e78660a11a6cb",
+      "name": "Generate HTML Transcript",
+      "modules": [
+        "oceanic-transcripts"
+      ],
+      "category": "WebAPIs",
+      "creator": "TheMonDon"
+    },
+    "generateLevelUpCard_MOD.js": {
+      "md5": "d70a449981b8ef5806563e3c958e103a",
+      "name": "Generate Level Up Card",
+      "modules": [
+        "canvafy"
+      ],
+      "category": "Canvafy Cards",
+      "creator": "candiedapple"
+    },
+    "generatePetPetGif_MOD.js": {
+      "md5": "accdbbbb63bd2876ad47828553b9f36a",
+      "name": "Generate PetPet Gif",
+      "modules": [
+        "petpet-gen"
+      ],
+      "category": "Images",
+      "creator": "candiedapple"
+    },
+    "generateRankLevelCard_MOD.js": {
+      "md5": "5eaa78aa4d30101294b4707c774c71e1",
+      "name": "Generate Rank/Level Card",
+      "modules": [
+        "canvafy"
+      ],
+      "category": "Canvafy Cards",
+      "creator": "candiedapple"
+    },
+    "generateSecurityCard_MOD.js": {
+      "md5": "60ff9343247a5f7bb39f5125dbdd02b3",
+      "name": "Generate Security Card",
+      "modules": [
+        "canvafy"
+      ],
+      "category": "Canvafy Cards",
+      "creator": "candiedapple"
+    },
+    "generateTweetCard_MOD.js": {
+      "md5": "786f1740afef74696fa14455d1c345ed",
+      "name": "Tweet Card",
+      "modules": [
+        "canvafy"
+      ],
+      "category": "Canvafy Cards",
+      "creator": "default.io"
+    },
+    "generateWelcomeLeaveCard_MOD.js": {
+      "md5": "f233295335f376a1c589d1220b67e2b7",
+      "name": "Generate Welcome/Leave Card",
+      "modules": [
+        "canvafy"
+      ],
+      "category": "Canvafy Cards",
+      "creator": "candiedapple"
+    },
+    "getAllGlobalData_MOD.js": {
+      "md5": "796d09b522a1125a95d6d065c58f32f3",
+      "name": "Get All Global Data",
+      "modules": [],
+      "category": "Global Data",
+      "creator": "Acedia"
+    },
+    "getAllSlashCommands_MOD.js": {
+      "md5": "7d9ef96bb84e86cd6a6accb8c7be8a07",
+      "name": "Get All Slash Command Names",
+      "modules": [],
+      "category": "Bot",
+      "creator": "Acedia"
+    },
+    "getAllTextCommands_MOD.js": {
+      "md5": "879836f4f8fc4ae452f1fdf97060167d",
+      "name": "Get All Text Command Names",
+      "modules": [],
+      "category": "Bot",
+      "creator": "Acedia"
+    },
+    "getAxiosResultFromWebAPI_MOD.js": {
+      "md5": "60ca03e66231ee1b341d76cc0ae5456e",
+      "name": "Get Axios Result From WebAPI",
+      "modules": [
+        "axios",
+        "jsonpath"
+      ],
+      "category": "WebAPIs",
+      "creator": "candiedapple"
+    },
+    "getChannelMentions_MOD.js": {
+      "md5": "68960f6e8c40f0a0898c28438ff6b772",
+      "name": "Get Channel Mentions In List",
+      "modules": [],
+      "category": "Shortcuts",
+      "creator": "Acedia QOLs"
+    },
+    "getColorName_MOD.js": {
+      "md5": "53004e4ed1eacdccbf24f1773fee1052",
+      "name": "Get Color Name",
+      "modules": [
+        "color-name-list",
+        "nearest-color"
+      ],
+      "category": "Colors",
+      "creator": "TheMonDon"
+    },
+    "getCommandAliases_MOD.js": {
+      "md5": "cdbf99d5b49dd04e6975d83d5279673a",
+      "modules": [],
+      "category": "Bot",
+      "creator": "Acedia"
+    },
+    "getCommandInfo_MOD.js": {
+      "md5": "6fe72e962e19744f04e31efc05ff713b",
+      "name": "Get Command Info",
+      "modules": [],
+      "category": "Bot",
+      "creator": "Acedia"
+    },
+    "getCommandsInfo_MOD.js": {
+      "md5": "8c9b2d4c7988d50c32dcf1196e2ad2ac",
+      "name": "Get Commands Info",
+      "modules": [],
+      "category": "Bot",
+      "creator": "candiedapple"
+    },
+    "getDataList_MOD.js": {
+      "md5": "8bfc529a0c0c27dc866096c44518e419",
+      "name": "Get Data List",
+      "modules": [],
+      "category": "Data",
+      "creator": "nitiqt"
+    },
+    "getFolderInfo_MOD.js": {
+      "md5": "358d968495648b443289a47e2656824f",
+      "name": "Get Folder Info",
+      "modules": [],
+      "category": "Files",
+      "creator": "nitiqt"
+    },
+    "getGameServerInfo_MOD.js": {
+      "md5": "b70b4d22351f82d3f00b2f1f100a592d",
+      "name": "Get Game Server Info",
+      "modules": [
+        "gamedig"
+      ],
+      "category": "Game",
+      "creator": "candiedapple"
+    },
+    "getHTMLFromWebpage_MOD.js": {
+      "md5": "1f3f4604e910e1aaf27e9563c8065cc6",
+      "name": "Get HTML From Webpage",
+      "modules": [],
+      "category": "WebAPIs",
+      "creator": "Rat"
+    },
+    "getKickProfileInfo_MOD.js": {
+      "md5": "33323fc4079ca935f9e96ac3171e8ca1",
+      "name": "Get Kick Profile Info",
+      "modules": [
+        "streamer.info"
+      ],
+      "category": "Media",
+      "creator": "lik_rus"
+    },
+    "getKickStreamInfo_MOD.js": {
+      "md5": "4494cb4635acb5f40bf26ebc717cc38f",
+      "name": "Get Kick Stream Info",
+      "modules": [
+        "streamer.info"
+      ],
+      "category": "Media",
+      "creator": "lik_rus"
+    },
+    "getListElementPosition_MOD.js": {
+      "md5": "c690b7cdb491003cfa7903a66c1591d7",
+      "name": "Get List Element Position",
+      "modules": [],
+      "category": "Lists",
+      "creator": "candiedapple"
+    },
+    "getLyrics_MOD.js": {
+      "md5": "efbe06956cf832e1d5e2f6718022fa59",
+      "name": "Get Lyrics",
+      "modules": [
+        "discord-player"
+      ],
+      "category": "Discord-Player Music",
+      "creator": "TheMonDon"
+    },
+    "getMemberMultiDatas_MOD.js": {
+      "md5": "f39b59ec7660482d48eec8d547f78700",
+      "name": "Get Member Multi Datas",
+      "modules": [],
+      "category": "Member Data",
+      "creator": "nitiqt"
+    },
+    "getMemberMultiInfos_MOD.js": {
+      "md5": "68c7d50e62de9f9e16ace9bcb21406a4",
+      "name": "Get Member Multi Infos",
+      "modules": [],
+      "category": "Members",
+      "creator": "nitiqt"
+    },
+    "getMembersbyDataName_MOD.js": {
+      "md5": "65310502b69b82556fa1c46cc95bf662",
+      "name": "Get Members by Data Name",
+      "modules": [],
+      "category": "Member Data",
+      "creator": "Nitiqt"
+    },
+    "getMentions_MOD.js": {
+      "md5": "ed4a6591e666130dbf05a8600d415a6e",
+      "name": "Get User Mentions In List",
+      "modules": [],
+      "category": "Shortcuts",
+      "creator": "Acedia QOLs"
+    },
+    "getMinecraftSkin_MOD.js": {
+      "md5": "ac6dd17dd5103c3c79dd57e5091d1000",
+      "name": "Get Minecraft Skin",
+      "modules": [],
+      "category": "Game",
+      "creator": "qschnitzel"
+    },
+    "getRankInRobloxGroup_MOD.js": {
+      "md5": "eef78a0ae67b63e0652baee052cd374d",
+      "name": "Get User's Rank ID in Group",
+      "modules": [
+        "noblox.js"
+      ],
+      "category": "Roblox",
+      "creator": "scriptedCoke"
+    },
+    "getRankNameInRobloxGroup_MOD.js": {
+      "md5": "8e2a6d303fc7d5353ce11bd07a6c677a",
+      "name": "Get User's Rank Name in Group",
+      "modules": [
+        "noblox.js"
+      ],
+      "category": "Roblox",
+      "creator": "scriptedCoke"
+    },
+    "getRegexMatchList_MOD.js": {
+      "md5": "9eaf6736dc5b6e85d30f4488a25448f1",
+      "name": "Get Regex Match List",
+      "modules": [],
+      "category": "Variables",
+      "creator": "candiedapple"
+    },
+    "getRoleMentions_MOD.js": {
+      "md5": "fb2ac4f733499ea38caccbc93a52e21d",
+      "name": "Get Role Mentions In List",
+      "modules": [],
+      "category": "Shortcuts",
+      "creator": "Acedia QOLs"
+    },
+    "getScheduledEventInfo_MOD.js": {
+      "md5": "2815a0881207104505efd42d57536c24",
+      "name": "Get Scheduled Event Info",
+      "modules": [],
+      "category": "Scheduled Events",
+      "creator": "nitiqt"
+    },
+    "getScheduledEvent_MOD.js": {
+      "md5": "f2d906401348a84cc7fbd3591fe4fd23",
+      "name": "Get Scheduled Event",
+      "modules": [],
+      "category": "Scheduled Events",
+      "creator": "nitiqt"
+    },
+    "getTagsFromDanbooruPost_MOD.js": {
+      "md5": "39cd8dba8f08b50add67dc94bdbb438c",
+      "name": "Get Tags from Danbooru Post",
+      "modules": [],
+      "category": "NSFW",
+      "creator": "qschnitzel"
+    },
+    "getTagsFromGelbooruPost_MOD.js": {
+      "md5": "da83dbcc7392e4b62062e3fe6e8b4e94",
+      "name": "Get Tags from Gelbooru Post",
+      "modules": [],
+      "category": "NSFW",
+      "creator": "qschnitzel"
+    },
+    "getTwitchStreamInfo_MOD.js": {
+      "md5": "e0e39e1b83e2d1a4ea10bca5ea65439e",
+      "name": "Get Twitch Stream Info",
+      "modules": [
+        "streamer.info"
+      ],
+      "category": "Media",
+      "creator": "lik_rus"
+    },
+    "getWeatherInfo_MOD.js": {
+      "md5": "80746ec1290520d63ebd4b0585486959",
+      "name": "Get Weather Info",
+      "modules": [
+        "weather-js"
+      ],
+      "category": "WebAPIs",
+      "creator": "candiedapple"
+    },
+    "googleTranslate_MOD.js": {
+      "md5": "4199a9c0be01abc9eade2d6d9143b8bf",
+      "name": "Google Translate",
+      "modules": [],
+      "category": "Text",
+      "creator": "qschnitzel"
+    },
+    "google_search_MOD.js": {
+      "md5": "35043ad3ccc169cfd42153871196d488",
+      "name": "Google Search",
+      "modules": [
+        "google-sr"
+      ],
+      "category": "Text",
+      "creator": "lik_rus"
+    },
+    "guildDisableInvite_MOD.js": {
+      "md5": "4195e29a3386556b42c37b0d1f76e839",
+      "name": "Disable Guild Invites",
+      "modules": [],
+      "category": "Servers",
+      "creator": "default.io"
+    },
+    "guildEnableInvite_MOD.js": {
+      "md5": "de1282284eaef98b142fcde571d511f9",
+      "name": "Enable Guild Invites",
+      "modules": [],
+      "category": "Servers",
+      "creator": "default.io"
+    },
+    "hashbrowns_MOD.js": {
+      "md5": "9a806395953cb3c74dd7103c2cd9189f",
+      "name": "Hash Text",
+      "modules": [
+        "node:crypto"
+      ],
+      "category": "Encrypt",
+      "creator": "Acedia"
+    },
+    "insultGenerator_MOD.js": {
+      "md5": "87b944cd675d499495a29daae48e1fb0",
+      "name": "Insult Generator",
+      "modules": [],
+      "category": "Text",
+      "creator": "tao"
+    },
+    "jsonPath_MOD.js": {
+      "md5": "074ea954068a267a7fc04dbaaa7a09dd",
+      "name": "Json Path",
+      "modules": [
+        "jsonpath"
+      ],
+      "category": "Json",
+      "creator": "candiedapple"
+    },
+    "killBotProcess_MOD.js": {
+      "md5": "a9524291f57a2a5fa9711820cbcd4cb7",
+      "name": "Kill Bot Process",
+      "modules": [],
+      "category": "Control",
+      "creator": "Acedia"
+    },
+    "loadMemberMultipleData_MOD.js": {
+      "md5": "c638fb37f3195133e72835c414f57cff",
+      "name": "Get Member Multiple Datas",
+      "modules": [],
+      "category": "Member Data",
+      "creator": "Acedia"
+    },
+    "loadMultipleChannelData_MOD.js": {
+      "md5": "b9256b2169afe9bb125e141fd8c90d18",
+      "name": "Get Channel Multiple Datas",
+      "modules": [],
+      "category": "Channel Data",
+      "creator": "Acedia"
+    },
+    "loadMultipleGlobalData_MOD.js": {
+      "md5": "cab481a97d2929580a671a5f10a66e61",
+      "name": "Get Multiple Global Datas",
+      "modules": [],
+      "category": "Global Data",
+      "creator": "Acedia"
+    },
+    "loadMultipleGuildData_MOD.js": {
+      "md5": "82095e56fd203d0c7a24a518c5d87240",
+      "name": "Get Multiple Server Datas",
+      "modules": [],
+      "category": "Server Data",
+      "creator": "Acedia"
+    },
+    "loadUserMultipleData_MOD.js": {
+      "md5": "6ecb79800a7847f96578d779dae906d2",
+      "name": "Get User Multiple Datas",
+      "modules": [],
+      "category": "User Data",
+      "creator": "Acedia"
+    },
+    "loopMusic_MOD.js": {
+      "md5": "63406b4a89bd25ea96a1210a936353f3",
+      "name": "Loop Music",
+      "modules": [
+        "discord-player"
+      ],
+      "category": "Discord-Player Music",
+      "creator": "TheMonDon"
+    },
+    "loopThruNumbers_MOD.js": {
+      "md5": "9968e1756b372d2f1780d44808b4c995",
+      "name": "Loop Through Numbers",
+      "modules": [],
+      "category": "Loops",
+      "creator": "Acedia QOLs"
+    },
+    "makecom_MOD.js": {
+      "md5": "db7850f2a2f6f3e065024f3619767236",
+      "name": "Make.com",
+      "modules": [],
+      "category": "API",
+      "creator": "Made with <3 by @lucxanul"
+    },
+    "mongodbOperations_MOD.js": {
+      "md5": "ec04b1fcae67b06b42967aa2b2822e58",
+      "name": "MongoDB Operations",
+      "modules": [
+        "mongodb"
+      ],
+      "category": "Global Data",
+      "creator": "candiedapple"
+    },
+    "multicheckIfMemberHasRole_MOD.js": {
+      "md5": "826898159b88446584f0ca9b576d00a8",
+      "name": "Multi Check If Member Has Role",
+      "modules": [],
+      "category": "Members",
+      "creator": "LikRus"
+    },
+    "multipleRegexComparisons_MOD.js": {
+      "md5": "1cb93cafc85a9b474af5be916387af76",
+      "name": "Multiple Regex Comparisons",
+      "modules": [],
+      "category": "Control",
+      "creator": "Acedia"
+    },
+    "multipleReplacements_MOD.js": {
+      "md5": "98647c5b35f89fcc61b89fc2f7a3db84",
+      "name": "Multiple Replacements",
+      "modules": [],
+      "category": "Text",
+      "creator": "Acedia QOLs"
+    },
+    "mysqlConnection_MOD.js": {
+      "md5": "0524f9eb58be71a88f26e905077f0f43",
+      "name": "MySQL Connection",
+      "modules": [
+        "mysql2"
+      ],
+      "category": "Global Data",
+      "creator": "candiedapple"
+    },
+    "mysqlQuery_MOD.js": {
+      "md5": "6bc47497858b1fe05494b6aa599779e4",
+      "name": "MySQL Query",
+      "modules": [],
+      "category": "Global Data",
+      "creator": "candiedapple"
+    },
+    "numberClamp_MOD.js": {
+      "md5": "c910bfda9eeb29a645406f83b98d6864",
+      "name": "Number Clamp",
+      "modules": [],
+      "category": "Numbers",
+      "creator": "Acedia"
+    },
+    "numberConversions_MOD.js": {
+      "md5": "bb6655488cd789a9d6151a076d717abf",
+      "name": "Number Conversions",
+      "modules": [
+        "mathjs"
+      ],
+      "category": "Numbers",
+      "creator": "Acedia"
+    },
+    "numberRange_MOD.js": {
+      "md5": "f6cfabf12eadaa43c50b7c7858b57f5e",
+      "name": "Check If Number Is In Range",
+      "modules": [],
+      "category": "Numbers",
+      "creator": "Acedia QOLs"
+    },
+    "objectConversions_MOD.js": {
+      "md5": "ba45202d6986ea3924e004461f7139f8",
+      "name": "Object Conversions",
+      "modules": [],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
+    "pagecontrol_MOD.js": {
+      "md5": "12e2e1f2640cbcd3dfecf9af2c8e1fc2",
+      "name": "Page Control",
+      "modules": [],
+      "category": "Control",
+      "creator": "LikRus"
+    },
+    "playBinaryVar_MOD.js": {
+      "md5": "61c4b037b3cb3c007a4aecbab16033dd",
+      "name": "Play Binary Variable",
+      "modules": [
+        "fs",
+        "ffmpeg",
+        "stream",
+        "@discordjs/voice",
+        "libsodium",
+        "libsodium-wrappers"
+      ],
+      "category": "Music",
+      "creator": "Acedia"
+    },
+    "playMusic_MOD.js": {
+      "md5": "9f6bb15cf511a9504f8e759da66abf69",
+      "name": "Play Music",
+      "modules": [
+        "discord-player",
+        "@discord-player/extractors",
+        "discord-player-youtubei"
+      ],
+      "category": "Discord-Player Music",
+      "creator": "TheMonDon"
+    },
+    "postgresConnection_MOD.js": {
+      "md5": "c478702125d1fe1abe4bacf50fb42a5d",
+      "name": "PostGres Connection",
+      "modules": [
+        "pg"
+      ],
+      "category": "Global Data",
+      "creator": "TheMonDon"
+    },
+    "postgresQuery_MOD.js": {
+      "md5": "92aeee2d0f6d5343030ea785b43fa944",
+      "name": "PostGres Query",
+      "modules": [],
+      "category": "Global Data",
+      "creator": "TheMonDon"
+    },
+    "prodia_MOD.js": {
+      "md5": "d1aab1afb58b17db5efd152495762a27",
+      "name": "Prodia",
+      "modules": [],
+      "category": "AI",
+      "creator": "qschnitzel"
+    },
+    "profanityAPI_MOD.js": {
+      "md5": "c40fbfa74cfce3de3be5422c384a5ba4",
+      "name": "Profanity API",
+      "modules": [],
+      "category": "Text",
+      "creator": "qschnitzel"
+    },
+    "pterodactyl_MOD.js": {
+      "md5": "39fc6b0e946db5922163938811e85e96",
+      "name": "Pterodactyl",
+      "modules": [],
+      "category": "API",
+      "creator": "qschnitzel"
+    },
+    "pushover_MOD.js": {
+      "md5": "8dca1d765ab156c731e23e707d27c3c6",
+      "name": "Pushover API",
+      "modules": [],
+      "category": "API",
+      "creator": "Made with <3 by @lucxanul"
+    },
+    "randomMeme_MOD.js": {
+      "md5": "639314083ce435df9e6cc6cae8e34243",
+      "name": "Random Meme",
+      "modules": [],
+      "category": "Memes",
+      "creator": "qschnitzel"
+    },
+    "randomizeLetters_MOD.js": {
+      "md5": "42952313584cfdfef9ae0d0ca395e915",
+      "name": "Randomize Letters",
+      "modules": [],
+      "category": "Text",
+      "creator": "nitiqt"
+    },
+    "randomizeText_MOD.js": {
+      "md5": "050089d3fc2929a0b2652da93b6aab67",
+      "name": "Randomize Text",
+      "modules": [],
+      "category": "Text",
+      "creator": "nitiqt"
+    },
+    "rconCommanderMulti_MOD.js": {
+      "md5": "0518e1583eb93993b33dbd4fcd4dc9c3",
+      "name": "Extended RCON MultiCommander",
+      "modules": [
+        "rcon"
+      ],
+      "category": "RCON",
+      "creator": "Acedia"
+    },
+    "rconCommander_MOD.js": {
+      "md5": "05a48aadcf7181e071a5ff9909a4b772",
+      "name": "Extended RCON Commander",
+      "modules": [
+        "rcon"
+      ],
+      "category": "RCON",
+      "creator": "Acedia"
+    },
+    "rconLegacyCommanderMulti_MOD.js": {
+      "md5": "1002f42fb2e73b669c727c95269a4347",
+      "name": "RCON MultiCommander",
+      "modules": [
+        "mbr-rcon"
+      ],
+      "category": "RCON",
+      "creator": "Acedia"
+    },
+    "rconLegacyCommander_MOD.js": {
+      "md5": "286a0f07a008a4e4877b537b7ad24092",
+      "name": "RCON Commander",
+      "modules": [
+        "mbr-rcon"
+      ],
+      "category": "RCON",
+      "creator": "Acedia"
+    },
+    "rconListener_MOD.js": {
+      "md5": "0d6d394668513ea01f2c0c61427590f8",
+      "name": "RCON Listener",
+      "modules": [
+        "rcon"
+      ],
+      "category": "RCON",
+      "creator": "Acedia"
+    },
+    "recognizeTextFromImage_MOD.js": {
+      "md5": "73699b9f4b16d8a319fb57352a09ae3d",
+      "name": "Recognize Text From Image",
+      "modules": [
+        "tesseract"
+      ],
+      "category": "Images",
+      "creator": "candiedapple"
+    },
+    "robloxRanking_MOD.js": {
+      "md5": "16a3ff50fc1880e4b557d7608f8237dc",
+      "name": "Rank User in Group",
+      "modules": [
+        "noblox.js"
+      ],
+      "category": "Roblox",
+      "creator": "scriptedCoke"
+    },
+    "roundNumber_MOD.js": {
+      "md5": "ab7acce20effacd67881dd2a875d46e1",
+      "name": "Round Number",
+      "modules": [],
+      "category": "Numbers"
+    },
+    "searchMusic_MOD.js": {
+      "md5": "0acf9e95b560881904ffc5a21ad8fa9b",
+      "name": "Search Music",
+      "modules": [
+        "discord-player"
+      ],
+      "category": "Discord-Player Music",
+      "creator": "TheMonDon"
+    },
+    "searchinviteintext_MOD.js": {
+      "md5": "a4a11b43d5a8b23477ec0a7d4b270abd",
+      "name": "Search invite in text / info",
+      "modules": [
+        "is-discord-invite"
+      ],
+      "category": "Text",
+      "creator": "lik_rus"
+    },
+    "sendMessageToTelegramChannel_MOD.js": {
+      "md5": "52e6139796d4b73b4fe376476e213585",
+      "name": "Send Message To Telegram Channel MOD",
+      "modules": [],
+      "category": "Messages",
+      "creator": "tao"
+    },
+    "sendMultipleRCON_MOD.js": {
+      "md5": "fd1def98db6c00d710efc6b486be3077",
+      "name": "Send multiple RCON",
+      "modules": [
+        "mbr-rcon"
+      ],
+      "category": "Game",
+      "creator": "Acedia"
+    },
+    "sendRconCommand_MOD.js": {
+      "md5": "90dda134ce3461cce8e28ac129f1bead",
+      "name": "Send Rcon Command",
+      "modules": [
+        "mbr-rcon"
+      ],
+      "category": "Game",
+      "creator": "candiedapple"
+    },
+    "sliceList_MOD.js": {
+      "md5": "f716f9e3455ee79ef05b6eb69e11bbcf",
+      "name": "Slice List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "Acedia"
+    },
+    "sqliteQuery_MOD.js": {
+      "md5": "30da8650fcc148e6a756080892c0b820",
+      "name": "SQLite Query",
+      "modules": [
+        "sqlite3"
+      ],
+      "category": "Global Data",
+      "creator": "candiedapple"
+    },
+    "stablediffusion_MOD.js": {
+      "md5": "e6fb0b111d6a65d294b049d2868cd23b",
+      "name": "Stable Diffusion",
+      "modules": [],
+      "category": "Images",
+      "creator": "qschnitzel"
+    },
+    "startRssFeed_MOD.js": {
+      "md5": "e37342f0e4029fbe01c44a8e0d1927c6",
+      "name": "Start RSS Feed",
+      "modules": [
+        "feed-watcher"
+      ],
+      "category": "RSS",
+      "creator": "candiedapple"
+    },
+    "storePlaylistInfo_MOD.js": {
+      "md5": "f351dd1f0dc4e8c23e31b517b4c388d5",
+      "name": "Store Playlist Info",
+      "modules": [
+        "discord-player"
+      ],
+      "category": "Discord-Player Music",
+      "creator": "TheMonDon"
+    },
+    "storeQueueInfo_MOD.js": {
+      "md5": "00ce80b1e5655a0af880835f21b3c995",
+      "name": "Store Queue Info",
+      "modules": [
+        "discord-player"
+      ],
+      "category": "Discord-Player Music",
+      "creator": "TheMonDon"
+    },
+    "storeTrackInfo_MOD.js": {
+      "md5": "e8eef0ea5497c4238ea9427186efb408",
+      "name": "Store Track Info",
+      "modules": [
+        "discord-player"
+      ],
+      "category": "Discord-Player Music",
+      "creator": "TheMonDon"
+    },
+    "storecustomdata_MOD.js": {
+      "md5": "0c6953ef2cf737b00c8e353935b45bd5",
+      "name": "Store Custom Data",
+      "modules": [],
+      "category": "Custom Data",
+      "creator": "LikRus"
+    },
+    "stringLimiter_MOD.js": {
+      "md5": "ca401c6d1eba1c9f0a28151afd5e3f4a",
+      "name": "String Limiter",
+      "modules": [],
+      "category": "Text",
+      "creator": "Acedia"
+    },
+    "syncToGithub_MOD.js": {
+      "md5": "e275a8291301d55af6d2fe082b0f82f3",
+      "name": "Sync to GitHub",
+      "modules": [],
+      "category": "API",
+      "creator": "Made with <3 by Lucxanul"
+    },
+    "textConversions_MOD.js": {
+      "md5": "d1ca07df06fb6305a7925d791c749446",
+      "name": "Text Conversions",
+      "modules": [],
+      "category": "Text",
+      "creator": "Acedia"
+    },
+    "textExtractions_MOD.js": {
+      "md5": "3394356af026102caf4e0faafe64fc4f",
+      "name": "Extract From Text",
+      "modules": [],
+      "category": "Text",
+      "creator": "Acedia"
+    },
+    "tiktokTTS_MOD.js": {
+      "md5": "df9ef48275192969aa7caeef104cc911",
+      "name": "Tiktok TTS",
+      "modules": [],
+      "category": "AI",
+      "creator": "qschnitzel"
+    },
+    "timeConversions_MOD.js": {
+      "md5": "df0b48fb71cf83181480462a250c0385",
+      "name": "Time Conversions",
+      "modules": [],
+      "category": "Time",
+      "creator": "Acedia"
+    },
+    "timestampConversions_MOD.js": {
+      "md5": "76393d0a90a84f784524dd24e660e30c",
+      "name": "Timestamp Conversions",
+      "modules": [],
+      "category": "Time",
+      "creator": "Acedia"
+    },
+    "toggle_MOD.js": {
+      "md5": "fc20d74629d0b6571c6658510af52c03",
+      "name": "Toggle Actions",
+      "modules": [],
+      "category": "Control",
+      "creator": "Acedia QOLs"
+    },
+    "urlShortener_MOD.js": {
+      "md5": "34f4766c6599fb38b849651eb8ad4b21",
+      "name": "URL Shortener",
+      "modules": [],
+      "category": "Link Shortener",
+      "creator": "Rat"
+    },
+    "variablePattern_MOD.js": {
+      "md5": "d585f960cedccc7c1ac7a0cd15733624",
+      "name": "Variable Pattern",
+      "modules": [],
+      "category": "Variables",
+      "creator": "nitiqt"
+    },
+    "waifu_pics_RandomImage_MOD.js": {
+      "md5": "62376b137487005a00e723b5f23aea3f",
+      "name": "waifu.pics Random Image",
+      "modules": [],
+      "category": "Images",
+      "creator": "candiedapple"
+    },
+    "wget_MOD.js": {
+      "md5": "f9bfcb48c2a7e7cf996c0e642e643437",
+      "name": "wget Download",
+      "modules": [
+        "wget-improved",
+        "fs",
+        "path"
+      ],
+      "creator": "Acedia"
+    },
+    "ytSearchv2_MOD.js": {
+      "md5": "6135d0604163e2d4c8ae518ccac3e483",
+      "name": "YouTube Video Search v2",
+      "modules": [
+        "yt-search",
+        "youtubei.js",
+        "discordjs/voice"
+      ],
+      "category": "Music",
+      "creator": "Acedia QOLs"
+    }
+  },
+  "Automations": {},
+  "Events": {
+    "audit_log_created_MOD.js": {
+      "md5": "6559563f4b2ff640ce597aafa1efee05",
+      "name": "Audit Log Created",
+      "nameSchemes": [
+        "Store AuditLog As"
+      ],
+      "modules": []
+    },
+    "member_avatar_changed_MOD.js": {
+      "md5": "638b3468fc4478bafcd34b9898e11017",
+      "name": "Member Avatar Changed",
+      "nameSchemes": [
+        "Store Member As",
+        "Store Server As",
+        "Store New Avatar As"
+      ],
+      "modules": [],
+      "creator": "nitiqt"
+    },
+    "member_nickname_changed_MOD.js": {
+      "md5": "9646723c7ba9684c9886652d223d7231",
+      "name": "Member Nickname Changed",
+      "nameSchemes": [
+        "Store Member As",
+        "Store Server As",
+        "Store New Nickname As"
+      ],
+      "modules": [],
+      "creator": "nitiqt"
+    },
+    "queue_start_MOD.js": {
+      "md5": "74e1833f9220d783f5409a82171b0a0c",
+      "name": "Queue Start",
+      "nameSchemes": [
+        "Store Voice Channel As"
+      ],
+      "modules": []
+    },
+    "scheduled_event_update_MOD.js": {
+      "md5": "15a3399328a59a449d84359920a68f45",
+      "name": "Scheduled Event Update",
+      "nameSchemes": [
+        "Store Scheduled Before Update As",
+        "Store Scheduled After Update As"
+      ],
+      "modules": [],
+      "creator": "nitiqt"
+    },
+    "scheduled_event_user_add_MOD.js": {
+      "md5": "c42f44250a1c812c1fdcf7b250c6e318",
+      "name": "Scheduled Event User Add",
+      "nameSchemes": [
+        "Store Scheduled Event ID As",
+        "Store User As"
+      ],
+      "modules": [],
+      "creator": "nitiqt"
+    },
+    "scheduled_event_user_remove_MOD.js": {
+      "md5": "838601da5dad85a59de4ecf0d1d1636a",
+      "name": "Scheduled Event User Remove",
+      "nameSchemes": [
+        "Store Scheduled Event ID As",
+        "Store User As"
+      ],
+      "modules": [],
+      "creator": "nitiqt"
+    },
+    "user_avatar_changed_MOD.js": {
+      "md5": "297fc1e56831adbefe57439f6444b713",
+      "name": "User Avatar Changed",
+      "nameSchemes": [
+        "Store User As",
+        "Store New Avatar As"
+      ],
+      "modules": [],
+      "creator": "nitiqt"
+    },
+    "user_name_changed_MOD.js": {
+      "md5": "ce87189d01a956badc5f402de01ba972",
+      "name": "User Name Changed",
+      "nameSchemes": [
+        "Store User As",
+        "Store New Name As"
+      ],
+      "modules": [],
+      "creator": "nitiqt"
+    }
+  },
+  "Themes": {
+    ".windows98": {
+      "name": "win98",
+      "files": {
+        "data.json": "e1a51803c48c05bb193dfc88bc5d4382",
+        "theme.css": "3820b9eef6dfc49966cde403ac0244e7"
+      }
+    },
+    "Dark_Blurple_MOD": {
+      "name": "Blurple",
+      "author": "default.io",
+      "files": {
+        "data.json": "392619eafbdf48a010b0a9724369eeaf",
+        "theme.css": "86db4415e0262dc984e356a96314265d"
+      }
+    },
+    "schnitzel_MOD": {
+      "name": "schnitzel",
+      "author": "qschnitzel",
+      "files": {
+        "data.json": "fb05b7b7df2b8ca38c71f3588c071a1e",
+        "theme.css": "c6c018d193b6d466bcc2cfcb1c653225"
+      }
+    },
+    "studio_MOD": {
+      "name": "Studio",
+      "files": {
+        "data.json": "880bf5bac44ac3c9eb378cc1b0c3e8f6",
+        "theme.css": "43cdcd3f62a51b0f8ae2bc84f7e08fd5"
+      }
+    },
+    "y2kpurple_MOD": {
+      "name": "Y2K Purple",
+      "author": "candiedapple",
+      "files": {
+        "data.json": "281119361a4ec17478e73846c0432ef5",
+        "theme.css": "cca56da90be485de4fd2aab6964eca4e"
+      }
+    }
+  },
+  "Translations": {
+    "brainrot": {
+      "name": "Brainrot (skibbidi)",
+      "author": "devvyyxyz",
+      "files": {
+        "data.json": "748034beb86b6feeea9c286ea910f015",
+        "strings.json": "f7656c5dda1299386258cf31e248f435"
+      }
+    },
+    "lolcat": {
+      "name": "Lolcat",
+      "author": "qschnitzel",
+      "files": {
+        "data.json": "d015b2aaf1536d59de100c3e0bd0c07f",
+        "strings.json": "185870c55b10975b3ac95405f497b25c"
+      }
+    },
+    "morse": {
+      "name": "Morse Code",
+      "author": "qschnitzel",
+      "files": {
+        "data.json": "f60e573f2f5fb7c026ca5cd2dfdcb074",
+        "strings.json": "95063f3cc6322773fe280270215b4a1f"
+      }
+    },
+    "uwu": {
+      "name": "UwU! (brainrot)",
+      "author": "qschnitzel",
+      "files": {
+        "data.json": "b5a6eeb8f1ef80881b527a70a7ed51c3",
+        "strings.json": "2ffc5522a76d82ad8bd89b19fbecaa42"
+      }
+    }
+  }
+}
