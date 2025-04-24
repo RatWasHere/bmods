@@ -240,7 +240,6 @@ async function installAutomation(mod, registry) {
 async function installMod(mod, type, registry) {
   try {
     const normalizedType = capitalizeFirstLetter(type);
-    // Only perform the install, don't calculate md5
     switch (normalizedType) {
       case "Themes":
         await installTheme(mod, registry);
@@ -265,14 +264,13 @@ async function installMod(mod, type, registry) {
       }
     }
 
-    // Update installed registry with registry md5 only
     const installedData = getInstalledData();
     if (!installedData[normalizedType]) {
       installedData[normalizedType] = {};
     }
     const modData = registry[normalizedType]?.[mod] || {};
     installedData[normalizedType][mod] = {
-      md5: modData.md5, // <-- use the registry md5 directly!
+      md5: modData.md5,
       name: modData.name || mod,
       category: modData.category || " ",
       author: modData.creator || modData.author || "Unknown",
@@ -428,6 +426,48 @@ function getErrorIcon() {
 }
 
 /**
+ * Installs all mods from the registry if they are not already installed.
+ * @param {Object} registry - The full registry object.
+ */
+async function installAllMods(registry) {
+  // For each known mod type in the registry
+  const modTypes = [
+    "Actions",
+    "Events",
+    "Automations",
+    "Themes",
+    "Translations",
+  ];
+  for (const type of modTypes) {
+    const typeData = registry[type] || {};
+    for (const mod in typeData) {
+      if (!isInstalled(mod, type.toLowerCase())) {
+        console.log(`Installing '${mod}' in ${type}...`);
+        await installMod(mod, type.toLowerCase(), registry);
+      }
+    }
+  }
+  // Optionally, switch to an existing 'installed' tab if needed
+  displayTab("installed", registry);
+}
+
+/**
+ * Deletes all installed mods by looping through installed.json and calling deleteMod for each entry.
+ */
+async function deleteAllMods() {
+  const installedData = getInstalledData();
+  for (const type in installedData) {
+    for (const mod in installedData[type]) {
+      try {
+        deleteMod(mod, type.toLowerCase());
+      } catch (err) {
+        console.error(`Failed to delete mod '${mod}' in type '${type}':`, err);
+      }
+    }
+  }
+}
+
+/**
  * Displays a specific tab of mods (actions, events, installed, etc.).
  * Fetches the installed or registry data, then creates mod cards.
  * @param {string} tabName - The name of the tab to display.
@@ -435,22 +475,56 @@ function getErrorIcon() {
  */
 function displayTab(tabName, registry) {
   const content = document.getElementById("mod-content");
-
-  // Save scroll position before clearing content
   const scrollPosition = content.scrollTop;
-
-  content.innerHTML = ""; // Clear content efficiently
+  content.innerHTML = "";
 
   let tabData;
 
   if (tabName === "installed") {
+    const installAllButton = document.createElement("button");
+    installAllButton.textContent = "Install All Mods";
+    installAllButton.style = `
+      position: absolute; bottom: 48px; left: 8px;
+      color: #9d9d9d; background: var(--dark-main);
+      display: inline-block; backdrop-filter: blur(30px);
+    `;
+    installAllButton.addEventListener("click", async () => {
+      installAllButton.disabled = true;
+      installAllButton.textContent = "Installing...";
+      await installAllMods(registry);
+      installAllButton.disabled = false;
+      installAllButton.textContent = "Install All Mods";
+    });
+    content.appendChild(installAllButton);
+
+    const deleteAllButton = document.createElement("button");
+    deleteAllButton.textContent = "Delete All Mods";
+    deleteAllButton.style = `
+      position: absolute; bottom: 8px; left: 8px;
+      color: #9d9d9d; background: var(--dark-main);
+      display: inline-block; backdrop-filter: blur(30px);
+    `;
+    deleteAllButton.addEventListener("click", async () => {
+      if (!confirm("Are you sure you want to delete all mods?")) return;
+      deleteAllButton.disabled = true;
+      deleteAllButton.textContent = "Deleting...";
+      await deleteAllMods();
+      deleteAllButton.disabled = false;
+      deleteAllButton.textContent = "Delete All Mods";
+      // Refresh the installed tab
+      displayTab("installed", registry);
+    });
+    content.appendChild(deleteAllButton);
+
+    // Use installed.json data
     tabData = getInstalledData();
   } else {
+    // Use registry data
     const normalizedTabName = capitalizeFirstLetter(tabName);
     tabData = registry[normalizedTabName] || {};
   }
 
-  // Display empty message if no mods found
+  // If empty, show a message
   if (!tabData || Object.keys(tabData).length === 0) {
     const message = document.createElement("h1");
     message.textContent = "Nothing here...";
@@ -474,13 +548,7 @@ function displayTab(tabName, registry) {
       Object.entries(mods).forEach(([modKey, modValue]) => {
         const isOutdatedMod = isOutdated(modKey, type, registry);
         // Pass the correct type to createCard
-        const card = createCard(
-          modKey,
-          modValue,
-          type, // <-- pass the real type, not "installed"
-          true,
-          isOutdatedMod
-        );
+        const card = createCard(modKey, modValue, type, true, isOutdatedMod);
         fragment.appendChild(card);
       });
     });
@@ -501,8 +569,6 @@ function displayTab(tabName, registry) {
   }
 
   content.appendChild(fragment);
-
-  // Restore scroll position
   content.scrollTop = scrollPosition;
 }
 
