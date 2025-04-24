@@ -4,9 +4,12 @@ on:
   push:
     branches:
     - master
+    paths-ignore:
+    - "registry.json"
 
 jobs:
   generate-registry:
+    if: "!contains(github.event.head_commit.message, 'Update registry.json')"
     runs-on: ubuntu-latest
 
     steps:
