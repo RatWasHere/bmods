@@ -10,7 +10,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel, splatchoot",
-    donate: "https://ko-fi.com/qschnitzel",
+    description: "Create Text-To-Speech audio using Elevenlabs API.",
   },
   category: "AI",
   data: {

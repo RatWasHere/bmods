@@ -18,7 +18,8 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description:
+      "Generate images from text using Stable Diffusion. Requires a local installation of Stable Diffusion.",
   },
   category: "Images",
   UI: [

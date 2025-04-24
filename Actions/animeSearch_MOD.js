@@ -11,7 +11,8 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description:
+      "Search for an anime and get the best result with more details.",
   },
   category: "Anime",
   UI: [

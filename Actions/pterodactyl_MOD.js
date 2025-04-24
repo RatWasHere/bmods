@@ -11,7 +11,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description: "Manage your individual Pterodactyl servers.",
   },
   category: "API",
   UI: [
