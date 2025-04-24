@@ -23,10 +23,13 @@ bmd://workshop/query:ACTIONS
 bmd://workshop/query:EVENTS
 bmd://workshop/query:AUTOMATIONS
 
-### Using the CLI Tool
+### Using Mod Manager
 
-[_Work in Progress (W.I.P.)_](https://github.com/qizzle/bmdm)
-BMD built-in mod manager coming soon™️
+Download the "ModManager" automation from the Releases tab and place it in your Bot Maker for Discord Steam folder (e.g., `C:\Program Files (x86)\Steam\steamapps\common\Bot Maker For Discord`).
+
+In Bot Maker for Discord, press **CTRL + K** to open the search bar, then search for **Mod Manager** and run it.  
+From there, you can install, update, and delete mods.  
+After installing a mod, make sure to reload (**CTRL + R**) or restart Bot Maker for Discord.
 
 ### Manual Installation
 
