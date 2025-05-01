@@ -1,8 +1,9 @@
-modVersion = "v2.2.0";
+modVersion = "v2.3.0";
 
 module.exports = {
   data: {
     name: "Store Custom Data",
+    database: "",
   },
   category: "Custom Data",
   info: {
@@ -211,6 +212,244 @@ module.exports = {
   ],
 
   compatibility: ["Any"],
+
+  script: (data) => {
+    const fs = require('fs');
+    const path = require('path');
+    const { clipboard } = require('electron');
+    let directoryHistory = [];
+    let initialInterfaceElements = [];
+    
+    function getProjectDirectory() {
+      const botData = require("../data.json");
+      const currentDir = process.cwd().replace(/\\/g, "/");
+      return currentDir.includes("common/Bot Maker For Discord") 
+        ? botData.prjSrc.replace(/\\/g, "/") 
+        : currentDir;
+    }
+    
+    function readDirectory(directoryPath) {
+      try {
+        const items = fs.readdirSync(directoryPath, { withFileTypes: true });
+        return items
+          .filter(item => item.isDirectory() || path.extname(item.name).toLowerCase() === ".json")
+          .map(item => ({
+            name: item.name,
+            isDirectory: item.isDirectory()
+          }));
+      } catch (error) {
+        alert(`Failed to read directory: ${directoryPath}`);
+        return [];
+      }
+    }
+    
+    function displayDirectoryContents(directoryPath) {
+      const items = readDirectory(directoryPath);
+      const editorContent = data.document.getElementById("editorContent");
+      while (editorContent.firstChild) editorContent.removeChild(editorContent.firstChild);
+    
+      const buttonContainer = document.createElement("div");
+      buttonContainer.style.display = "flex";
+      buttonContainer.style.gap = "10px";
+      buttonContainer.style.marginTop = "15px";
+      buttonContainer.style.marginBottom = "15px";
+      buttonContainer.style.alignItems = "center";
+      buttonContainer.style.justifyContent = "center";
+      buttonContainer.style.width = "100%";
+    
+      function createStyledButton(text, handler) {
+        const btn = document.createElement("div");
+        btn.className = "hoverablez";
+        btn.textContent = text;
+        btn.style.padding = "8px 15px";
+        btn.style.borderRadius = "4px";
+        btn.style.cursor = "pointer";
+        btn.style.fontSize = "13px";
+        btn.style.textAlign = "center";
+        btn.style.backgroundColor = "#333";
+        btn.style.color = "#fff";
+        btn.style.minWidth = "70px";
+        btn.onclick = handler;
+        return btn;
+      }
+    
+      const backButton = createStyledButton("Back", () => {
+        if (directoryHistory.length > 1) {
+          directoryHistory.pop();
+          displayDirectoryContents(directoryHistory[directoryHistory.length - 1]);
+        } else {
+          directoryHistory = [];
+          displayInitialMenu();
+        }
+      });
+    
+      let selectedItem = null;
+    
+      if (directoryHistory.length > 0) {
+        const relativePath = path.relative(getProjectDirectory(), directoryPath).replace(/\\/g, "/");
+        if (relativePath && relativePath.trim() !== "") {
+          selectedItem = {
+            name: path.basename(directoryPath),
+            isDirectory: true,
+            fullPath: directoryPath,
+            relativePath: relativePath
+          };
+        }
+      }
+    
+      const copyPathButton = createStyledButton("Copy Path", () => {
+        if (selectedItem && selectedItem.relativePath && selectedItem.relativePath.trim() !== "") {
+          clipboard.writeText(selectedItem.relativePath);
+          alert(`Copied: ${selectedItem.relativePath}`);
+        } else {
+          alert("Cannot copy empty path.");
+        }
+      });
+    
+      copyPathButton.disabled = !selectedItem || !selectedItem.relativePath || selectedItem.relativePath.trim() === "";
+    
+      buttonContainer.appendChild(backButton);
+      buttonContainer.appendChild(copyPathButton);
+    
+      const title = document.createElement("div");
+      title.textContent = `Contents of: ${directoryPath}`;
+      title.style.fontWeight = "bold";
+      title.style.marginBottom = "10px";
+    
+      const selectionMessage = document.createElement("div");
+      selectionMessage.id = "selectionMessage";
+      selectionMessage.style.marginBottom = "10px";
+      selectionMessage.style.fontStyle = "italic";
+      selectionMessage.style.display = "none";
+    
+      const list = document.createElement("ul");
+      list.style.listStyleType = "none";
+      list.style.padding = "0";
+    
+      items.forEach((item) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = item.isDirectory 
+          ? `[Folder] ${item.name}` 
+          : `[File] ${item.name}`;
+        listItem.style.marginBottom = "5px";
+        listItem.style.cursor = "pointer";
+        listItem.classList.add("hoverablez");
+    
+        const fullPath = path.join(directoryPath, item.name);
+        const relativePath = path.relative(getProjectDirectory(), fullPath).replace(/\\/g, "/");
+        
+        listItem.onclick = () => {
+          if (!item.isDirectory) {
+            if (relativePath && relativePath.trim() !== "") {
+              selectedItem = {
+                name: item.name,
+                isDirectory: false,
+                fullPath,
+                relativePath
+              };
+              copyPathButton.disabled = false;
+              selectionMessage.textContent = `File selected: ${item.name}`;
+              selectionMessage.style.display = "block";
+            } else {
+              selectedItem = null;
+              copyPathButton.disabled = true;
+              selectionMessage.style.display = "none";
+            }
+          } else {
+            if (relativePath && relativePath.trim() !== "") {
+              selectedItem = {
+                name: item.name,
+                isDirectory: true,
+                fullPath,
+                relativePath
+              };
+              copyPathButton.disabled = false;
+              selectionMessage.style.display = "none";
+            } else {
+              selectedItem = null;
+              copyPathButton.disabled = true;
+              selectionMessage.style.display = "none";
+            }
+    
+            directoryHistory.push(fullPath);
+            displayDirectoryContents(fullPath);
+          }
+        };
+        list.appendChild(listItem);
+      });
+    
+      if (directoryHistory.length > 0) {
+        editorContent.appendChild(buttonContainer);
+      }
+      editorContent.appendChild(title);
+      editorContent.appendChild(selectionMessage);
+      editorContent.appendChild(list);
+    }
+    
+    function displayInitialMenu() {
+      const editorContent = data.document.getElementById("editorContent");
+      while (editorContent.firstChild) editorContent.removeChild(editorContent.firstChild);
+      
+      initialInterfaceElements.forEach(element => {
+        const clone = element.cloneNode(false);
+        clone.innerHTML = element.innerHTML;
+        editorContent.appendChild(clone);
+      });
+    
+      if (!document.querySelector('.project-files-button')) {
+        const projectButton = createProjectFilesButton();
+        editorContent.appendChild(projectButton);
+      }
+    }
+    
+    function createProjectFilesButton() {
+      const button = document.createElement("div");
+      button.className = 'project-files-button';
+      button.innerHTML = `
+        <div class="hoverablez" style="
+          position: absolute;
+          top: 70px;
+          right: 10px;
+          padding: 5px 10px;
+          border-radius: 3px;
+          cursor: pointer;
+          font-size: 12px;
+          max-width: 150px;
+          white-space: nowrap;
+          z-index: 1000;
+        ">
+          Show Project Files
+        </div>
+      `;
+      button.onclick = () => {
+        const projectDir = getProjectDirectory();
+        directoryHistory.push(projectDir);
+        displayDirectoryContents(projectDir);
+      };
+      return button;
+    }
+    
+    setTimeout(() => {
+      const editorContent = data.document.getElementById("editorContent");
+      if (!editorContent) return;
+  
+      const initialChildren = Array.from(editorContent.children).map(el => {
+        const clone = document.createElement(el.tagName);
+        for (let attr of el.attributes) {
+          if (attr.name !== 'value') {
+            clone.setAttribute(attr.name, attr.value);
+          }
+        }
+        clone.innerHTML = el.innerHTML;
+        return clone;
+      });
+      initialInterfaceElements = initialChildren;
+  
+      const projectButton = createProjectFilesButton();
+      editorContent.appendChild(projectButton);
+    }, 0);
+  },
+
   subtitle: (values, constants, thisAction) => {
     const checkAndCount = (arr) => (Array.isArray(arr) ? arr.length : 0);
     let numData1 = checkAndCount(values.cases);
