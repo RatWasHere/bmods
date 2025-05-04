@@ -119,6 +119,17 @@ module.exports = {
         ],
       });
     }
+
+    if (!response.ok || !result.candidates || !result.candidates[0]) {
+      console.error(
+        "Gemini API Error:",
+        response.status,
+        response.statusText,
+        result
+      );
+      return bridge.store(values.store, "Error fetching Gemini response.");
+    }
+
     bridge.store(values.store, response.candidates[0].content.parts[0].text);
   },
 };
