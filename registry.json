@@ -86,6 +86,14 @@
       "category": "AI",
       "creator": "qschnitzel"
     },
+    "askGemini_MOD.js": {
+      "md5": "91aad830d3a9405b871596a7caad7c6e",
+      "name": "Ask Gemini",
+      "description": "Use Google Gemini AI to generate a response based on a prompt.",
+      "modules": [],
+      "category": "AI",
+      "creator": "qschnitzel"
+    },
     "betterMultiCompare_MOD.js": {
       "md5": "04b7d9b67fbc64ea1e235937ddb52db4",
       "name": "Better Multiple Comparisons",
