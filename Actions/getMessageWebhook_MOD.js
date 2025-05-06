@@ -21,6 +21,10 @@ module.exports = {
       element: "store",
       name: "Store Webhook ID As",
       storeAs: "webhookId",
+    },
+    {
+      element: "text",
+      text: modVersion
     }
   ],
 
