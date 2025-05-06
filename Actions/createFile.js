@@ -1,4 +1,4 @@
-modVersion = "s.v1.0 | AceFix";
+modVersion = "s.v2.0 | AceFix"
 module.exports = {
   data: {
     name: "Create File",
@@ -7,33 +7,51 @@ module.exports = {
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Fixes",
     creator: "Acedia Fixes",
-    donate: "https://ko-fi.com/slothyacedia",
+    donate: "https://ko-fi.com/slothyacedia"
   },
   UI: [
     {
       element: "input",
       name: "Path",
-      storeAs: "path",
+      storeAs: "path"
     },
     "-",
     {
       element: "largeInput",
       placeholder: "File Text Content",
       storeAs: "content",
-      name: "Content",
+      name: "Content"
     },
     {
       element: "text",
-      text: modVersion,
-    },
+      text: modVersion
+    }
   ],
   subtitle: (data) => {
-    return `Path: ${data.path} - Content: ${data.content}`;
+    return `Path: ${data.path} - Content: ${data.content}`
   },
   compatibility: ["Any"],
   run(values, message, client, bridge) {
-    let fs = bridge.fs;
+    const path = require("node:path")
+    const fs = bridge.fs;
+    const botData = require("../data.json")
+    const workingDir = path.normalize(process.cwd())
+    filePath = bridge.transf(values.path)
+    
+    let fullPath
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
+      fullPath = path.join(botData.prjSrc, filePath)
+    } else {
+      fullPath = path.join(workingDir, filePath)
+    }
 
-    fs.writeFileSync(bridge.transf(values.path), bridge.transf(values.content));
+    fullPath = path.normalize(fullPath)
+    const dirName = path.dirname(fullPath)
+
+    if (!fs.existsSync(dirName)){
+      fs.mkdirSync(dirName, { recursive: true })
+    }
+
+    fs.writeFileSync(fullPath, bridge.transf(values.content))
   },
 };
