@@ -39,7 +39,7 @@ module.exports = {
   async run(values, command, client, bridge) {
     await client.getMods().require("node:child_process")
     const childProcess = require('child_process')
-    let toExec = bridge.transf(values.command).replace(`\\`, `\\\\`)
+    let toExec = bridge.transf(values.command)
 
     if (values.newProc == true){
       await new Promise((res) => {

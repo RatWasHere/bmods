@@ -59,9 +59,9 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    await client.getMods().require("wget-improved")
-    await client.getMods().require("fs")
-    await client.getMods().require("path")
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
 
     const wget = require("wget-improved")
     const fs = require("fs")

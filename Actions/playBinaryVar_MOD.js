@@ -3,7 +3,7 @@ module.exports = {
   data: {
     name: "Play Binary Variable",
   },
-  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice", "libsodium", "libsodium-wrappers"],
+  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice"],
   category: "Music",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
@@ -53,10 +53,9 @@ module.exports = {
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    await client.getMods().require("fs")
-    await client.getMods().require("ffmpeg")
-    await client.getMods().require("stream")
-    await client.getMods().require("@discordjs/voice")
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
 
     const fs = require("fs")
     const ffmpeg = require("ffmpeg")

@@ -84,7 +84,9 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    await client.getMods().require("luxon")
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
 
     const { DateTime } = require("luxon")
     let timeInput = bridge.transf(values.timeInput)

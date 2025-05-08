@@ -74,7 +74,9 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, interaction, client, bridge){
-    await client.getMods().require("rcon")
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
     const Rcon = require("rcon")
 
     const config = {

@@ -4,7 +4,7 @@ module.exports = {
     name: "Fetch Steam Profile Info",
   },
   aliases: ["Resolve Steam Id"],
-  modules: ["node-fetch"],
+  modules: [],
   category: "WebAPIs",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
@@ -47,7 +47,6 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){
-    await client.getMods().require("node-fetch")
     
     let steamApiKey = bridge.transf(values.steamApiKey)
     let steamProfileLink = bridge.transf(values.steamProfileLink)

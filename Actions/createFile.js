@@ -9,6 +9,7 @@ module.exports = {
     creator: "Acedia Fixes",
     donate: "https://ko-fi.com/slothyacedia"
   },
+  modules: ["node:path"],
   UI: [
     {
       element: "input",
@@ -32,6 +33,10 @@ module.exports = {
   },
   compatibility: ["Any"],
   run(values, message, client, bridge) {
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
+    
     const path = require("node:path")
     const fs = bridge.fs;
     const botData = require("../data.json")

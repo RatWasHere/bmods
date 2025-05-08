@@ -69,7 +69,9 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, interaction, client, bridge){
-    await client.getMods().require("mbr-rcon")
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
     const Rcon = require("mbr-rcon")
     const timeout = bridge.transf(values.timeout) ? Number(bridge.transf(values.timeout))*1000 : 5000
     const logging = values.logging
