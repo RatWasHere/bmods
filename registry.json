@@ -241,7 +241,7 @@
       "creator": "LikRus"
     },
     "dateTimeConversions_MOD.js": {
-      "md5": "14e3bc9e405695e74eab079fe07662b0",
+      "md5": "e0977aef2356c088b6ba7c9cb867c973",
       "name": "Date Time Conversions",
       "modules": [
         "luxon"
@@ -271,7 +271,7 @@
       "creator": "candiedapple"
     },
     "downloadMusic_MOD.js": {
-      "md5": "0108ed27d08cebdc56732d4f33501be2",
+      "md5": "56389cc823ea69a3cde70ed421a60fa5",
       "name": "Download Music File",
       "modules": [
         "fs",
@@ -311,11 +311,9 @@
       "creator": "Acedia"
     },
     "fetchSteamId_MOD.js": {
-      "md5": "56e7ae34f1a4ba684d4e271eb0f1e4e0",
+      "md5": "a66b763eef47cbbeb05c9253e63137fd",
       "name": "Fetch Steam Profile Info",
-      "modules": [
-        "node-fetch"
-      ],
+      "modules": [],
       "category": "WebAPIs",
       "creator": "Acedia QOLs"
     },
@@ -564,9 +562,10 @@
       "creator": "Acedia QOLs"
     },
     "getMessageWebhook_MOD.js": {
-      "md5": "ca61000d5786cb73aa617be7bb6d9d40",
+      "md5": "c99a433cbfb799d2b9769d0dfe0ed2dc",
       "name": "Get Message Webhook",
       "modules": [],
+      "category": "Messages",
       "creator": "Acedia"
     },
     "getMinecraftSkin_MOD.js": {
@@ -687,7 +686,7 @@
       "creator": "default.io"
     },
     "hashbrowns_MOD.js": {
-      "md5": "600d90182d599a64222edda35dc6b0b6",
+      "md5": "0a701f27cdbd8d5c7d2df337c6d36c74",
       "name": "Hash Text",
       "modules": [
         "node:crypto"
@@ -860,15 +859,13 @@
       "creator": "LikRus"
     },
     "playBinaryVar_MOD.js": {
-      "md5": "8787d4229ec6e356e9da85946bd7432a",
+      "md5": "8cb710b59ae13492aacc0267ac45634b",
       "name": "Play Binary Variable",
       "modules": [
         "fs",
         "ffmpeg",
         "stream",
-        "@discordjs/voice",
-        "libsodium",
-        "libsodium-wrappers"
+        "@discordjs/voice"
       ],
       "category": "Music",
       "creator": "Acedia"
@@ -931,6 +928,13 @@
       "category": "API",
       "creator": "Made with <3 by @lucxanul"
     },
+    "randomChance_MOD.js": {
+      "md5": "c6ed87b624789ffe6775590c3d3fcb21",
+      "name": "Random Chance",
+      "modules": [],
+      "category": "Numbers",
+      "creator": "Acedia"
+    },
     "randomMeme_MOD.js": {
       "md5": "7ef7281375342e423929105d9216074d",
       "name": "Random Meme",
@@ -954,7 +958,7 @@
       "creator": "nitiqt"
     },
     "rconCommanderMulti_MOD.js": {
-      "md5": "d4c08be2dab04d0492772077710a68db",
+      "md5": "c1d0a9712015142383578ebccfbdaab8",
       "name": "Extended RCON MultiCommander",
       "modules": [
         "rcon"
@@ -963,7 +967,7 @@
       "creator": "Acedia"
     },
     "rconCommander_MOD.js": {
-      "md5": "dd11c3f997fbfbbed90197e0ff2b7cca",
+      "md5": "6e065b07296a59456a95709aec002f39",
       "name": "Extended RCON Commander",
       "modules": [
         "rcon"
@@ -972,7 +976,7 @@
       "creator": "Acedia"
     },
     "rconLegacyCommanderMulti_MOD.js": {
-      "md5": "fa341e46bca89b6e88ce75bda4580ccc",
+      "md5": "919c6861214464ddca11a6bbd73ceb88",
       "name": "RCON MultiCommander",
       "modules": [
         "mbr-rcon"
@@ -981,7 +985,7 @@
       "creator": "Acedia"
     },
     "rconLegacyCommander_MOD.js": {
-      "md5": "3b6b60a6bc884c4bceb819e59999bb05",
+      "md5": "b1a8135260853d846436548f6c944a54",
       "name": "RCON Commander",
       "modules": [
         "mbr-rcon"
@@ -990,7 +994,7 @@
       "creator": "Acedia"
     },
     "rconListener_MOD.js": {
-      "md5": "e9240314264d713a014b8d26daf1a965",
+      "md5": "428da038213395df9188b1f46ac6c3c6",
       "name": "RCON Listener",
       "modules": [
         "rcon"
@@ -1212,7 +1216,7 @@
       "creator": "candiedapple"
     },
     "wget_MOD.js": {
-      "md5": "0f793a4168082ae6582eb3c857cf0431",
+      "md5": "9ce190e9014aa40c8abe4254cd216fd8",
       "name": "wget Download",
       "modules": [
         "wget-improved",
@@ -1222,7 +1226,7 @@
       "creator": "Acedia"
     },
     "ytSearchv2_MOD.js": {
-      "md5": "fbd8cbf72b8225410aac0a059cd3295f",
+      "md5": "66d6d0f58df04d53c4f217ca860c60f8",
       "name": "YouTube Video Search v2",
       "modules": [
         "yt-search",
