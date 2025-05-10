@@ -24,6 +24,7 @@ module.exports = {
       element: "input",
       name: "Font Color (Hex)",
       storeAs: "fontColor",
+      type: "color",
     },
     {
       element: "input",
@@ -91,7 +92,7 @@ module.exports = {
     const opentype = await client.getMods().require("opentype.js");
 
     const imageData = await bridge.getImage(values.image);
-    const fontURL = bridge.transf(values.fontURL);
+    const fontURL = bridge.file(values.fontURL);
     const text = bridge.transf(values.text);
     let fontColor = bridge.transf(values.fontColor);
     if (!fontColor.startsWith("#")) {
