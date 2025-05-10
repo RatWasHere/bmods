@@ -58,7 +58,7 @@ module.exports = {
       const ctx = canvas.getContext("2d");
 
       const radius = parseInt(bridge.transf(values.radius), 10) || 0;
-      const circleinfo = values.circleinfo === "yes"; // Convert dropdown choice to boolean
+      const circleinfo = values.circleinfo?.type === "yes"; // Convert dropdown choice to boolean
 
       // Function to clip as a circle
       function circle() {
