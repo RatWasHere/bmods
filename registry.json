@@ -44,7 +44,7 @@
       "creator": "TheMonDon"
     },
     "CanvasDrawText_MOD.js": {
-      "md5": "ff11c04d9c480a217844322b1a597607",
+      "md5": "797adf6eccaa88dd3030246580b6ccb7",
       "name": "Canvas Draw Text on Image",
       "modules": [
         "canvas"
@@ -53,7 +53,7 @@
       "creator": "TheMonDon"
     },
     "CanvasEditImageBorder_MOD.js": {
-      "md5": "50d35dd9bd5e37b6a156495d26c519cb",
+      "md5": "44a7a78d3791abf699e98030ab2264af",
       "name": "Canvas Edit Image Border",
       "modules": [
         "canvas"
