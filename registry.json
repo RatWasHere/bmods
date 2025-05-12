@@ -103,6 +103,16 @@
       "category": "Conditions",
       "creator": "Acedia QOLs"
     },
+    "bingTranslate_MOD.js": {
+      "md5": "d5ec1b3431cabe4ea7dc204b9612c592",
+      "name": "Bing Translate",
+      "description": "Action to translate text using the Bing Api",
+      "modules": [
+        "bing-translate-api"
+      ],
+      "category": "Text",
+      "creator": "LikRus"
+    },
     "bulkBanMembers_MOD.js": {
       "md5": "650861f67958ac903b18c26392a3bea7",
       "name": "Bulk Ban Members",
