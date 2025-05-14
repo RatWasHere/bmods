@@ -228,6 +228,16 @@
       "category": "Files",
       "creator": "nitiqt"
     },
+    "createJsonFile_MOD.js": {
+      "md5": "e4fb8f7d1cf33830cb2f2e242fdc59be",
+      "name": "Create JSON File",
+      "modules": [
+        "node:path",
+        "node:fs"
+      ],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
     "createSelfContainedAnchor_MOD.js": {
       "md5": "eb3a294999cf1d05498c0afd7351fe7e",
       "name": "Create Self-Contained Anchor",
@@ -321,7 +331,7 @@
       "creator": "Acedia"
     },
     "fetchSteamId_MOD.js": {
-      "md5": "a66b763eef47cbbeb05c9253e63137fd",
+      "md5": "6541e8b4b8c224ea9f6f10ae50a1017f",
       "name": "Fetch Steam Profile Info",
       "modules": [],
       "category": "WebAPIs",
@@ -785,6 +795,16 @@
       "category": "API",
       "creator": "Made with <3 by @lucxanul"
     },
+    "modifyJsonFile_MOD.js": {
+      "md5": "858eb0ab7241efc8f059641660dff784",
+      "name": "Modify JSON File",
+      "modules": [
+        "node:path",
+        "node:fs"
+      ],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
     "mongodbOperations_MOD.js": {
       "md5": "ec04b1fcae67b06b42967aa2b2822e58",
       "name": "MongoDB Operations",
@@ -1010,6 +1030,16 @@
         "rcon"
       ],
       "category": "RCON",
+      "creator": "Acedia"
+    },
+    "readJsonFile_MOD.js": {
+      "md5": "b04c65069dcb0ea8e0856bfc407734be",
+      "name": "Read Json File",
+      "modules": [
+        "node:path",
+        "node:fs"
+      ],
+      "category": "JSON",
       "creator": "Acedia"
     },
     "recognizeTextFromImage_MOD.js": {
