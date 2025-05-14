@@ -63,7 +63,6 @@ module.exports = {
       steamId = identifier
     } else if (/^\d+$/.test(identifier) == false && identifier != undefined){
       const vanityQuery = await fetch(`https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${identifier}`)
-      console.log(await vanityQuery)
       const vanityResponse = await vanityQuery.json()
         if (vanityResponse.response.success == 1) {
             steamId = vanityResponse.response.steamid; // Resolved Steam ID
