@@ -901,7 +901,7 @@
       "creator": "Acedia"
     },
     "playMusic_MOD.js": {
-      "md5": "9f6bb15cf511a9504f8e759da66abf69",
+      "md5": "4e5fc69381c222aa462ff2d617478056",
       "name": "Play Music",
       "modules": [
         "discord-player",
