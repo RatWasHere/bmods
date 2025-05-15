@@ -1,4 +1,4 @@
-modVersion = "v1.0.5";
+modVersion = "v1.0.6";
 
 module.exports = {
   data: {
@@ -108,7 +108,7 @@ module.exports = {
       await client.getMods().require("bgutils-js");
       const { YoutubeiExtractor } = await client
         .getMods()
-        .require("discord-player-youtubei", "1.4.3");
+        .require("discord-player-youtubei", "1.4.6");
 
       client.player = new Player(createOceanicCompat(client));
 
