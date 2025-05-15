@@ -80,10 +80,10 @@ module.exports = {
         requestedBy: message.author?.id || message.user?.id,
         nodeOptions: {
           metadata: { channel: message.channel.id },
-          leaveOnEnd: !!bridge.transf(values.leaveOnEnd.value),
-          leaveOnEmpty: !!bridge.transf(values.leaveOnEmpty.value),
-          leaveOnStop: !!bridge.transf(values.leaveOnStop.value),
-          selfDeaf: !!bridge.transf(values.selfDeaf.value),
+          leaveOnEnd: values.leaveOnEnd,
+          leaveOnEmpty: values.leaveOnEmpty,
+          leaveOnStop: values.leaveOnStop,
+          selfDeaf: values.selfDeaf,
         },
       });
 
