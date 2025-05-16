@@ -1,10 +1,15 @@
-modVersion = "v2.3.0";
+modVersion = "v2.3.1";
 
 module.exports = {
   data: {
     name: "Store Custom Data",
     database: "",
   },
+  aliases: [
+    "Get Custom Data",
+    "Get Json Data",
+    "Store Json Data",
+  ],
   category: "Custom Data",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
@@ -513,9 +518,10 @@ module.exports = {
           if (
             /\[\d+\]$/.test(part) ||
             part.endsWith("[N]") ||
-            part.endsWith("[^]")
+            part.endsWith("[^]") ||
+            part.endsWith("[R]")
           ) {
-            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^|R)\]$/);
             if (!arrayKeyMatch) {
               current = undefined;
               break;
@@ -533,25 +539,30 @@ module.exports = {
 
             if (indexOrSymbol === "N" || indexOrSymbol === "^") {
               current = array[array.length - 1];
+            } else if (indexOrSymbol === "R") {
+              if (array.length === 0) {
+                current = undefined;
+                break;
+              }
+              const randomIndex = Math.floor(Math.random() * array.length);
+              current = array[randomIndex];
             } else {
               const index = parseInt(indexOrSymbol, 10);
               if (isNaN(index) || index < 0 || index >= array.length) {
                 current = undefined;
+                 break;
+                }
+ 
+                current = array[index]
+              }
+            } else {
+              if (!current || typeof current !== "object") {
+                current = undefined;
                 break;
               }
-
-              current = array[index];
+              current = current[part];
             }
-          } else {
-            if (!current || typeof current !== "object") {
-              current = undefined;
-              break;
-            }
-
-            current = current[part];
-          }
-
-          if (current === undefined) {
+            if (current === undefined) {
             break;
           }
         }
@@ -576,9 +587,10 @@ module.exports = {
           if (
             /\[\d+\]$/.test(part) ||
             part.endsWith("[N]") ||
-            part.endsWith("[^]")
+            part.endsWith("[^]") ||
+            part.endsWith("[R]")
           ) {
-            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^|R)\]$/);
             if (!arrayKeyMatch) {
               current = undefined;
               break;
@@ -593,16 +605,22 @@ module.exports = {
             }
     
             const array = current[arrayKey];
-    
+
             if (indexOrSymbol === "N" || indexOrSymbol === "^") {
               current = array[array.length - 1];
+            } else if (indexOrSymbol === "R") {
+              if (array.length === 0) {
+                current = undefined;
+                break;
+              }
+              const randomIndex = Math.floor(Math.random() * array.length);
+              current = array[randomIndex];
             } else {
               const index = parseInt(indexOrSymbol, 10);
               if (isNaN(index) || index < 0 || index >= array.length) {
                 current = undefined;
                 break;
               }
-    
               current = array[index];
             }
           } else {
@@ -680,15 +698,31 @@ module.exports = {
     
         for (let i = 0; i < pathParts.length; i++) {
           const part = pathParts[i];
-          if (/\[\d+\]$/.test(part) || part.endsWith("[N]") || part.endsWith("[^]")) {
-            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+          if (/\[\d+\]$/.test(part) || part.endsWith("[N]") || part.endsWith("[^]") || part.endsWith("[R]")) {
+            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^|R)\]$/);
             if (!arrayKeyMatch) break;
+ 
             const [arrayKey, indexOrSymbol] = [arrayKeyMatch[1], arrayKeyMatch[2]];
+ 
             if (!Array.isArray(current[arrayKey])) break;
             const array = current[arrayKey];
-            current = indexOrSymbol === "N" || indexOrSymbol === "^" 
-              ? array[array.length - 1]
-              : array[parseInt(indexOrSymbol, 10)];
+  
+            if (indexOrSymbol === "N" || indexOrSymbol === "^") {
+              current = array[array.length - 1];
+            } else if (indexOrSymbol === "R") {
+              if (array.length === 0) {
+                current = undefined;
+                break;
+              }
+              current = array[Math.floor(Math.random() * array.length)];
+            } else {
+              const index = parseInt(indexOrSymbol, 10);
+              if (isNaN(index) || index < 0 || index >= array.length) {
+                current = undefined;
+                break;
+              }
+              current = array[index];
+            }
           } else {
             if (typeof current !== "object") break;
             current = current[part];
