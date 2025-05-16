@@ -1,4 +1,4 @@
-modVersion = "v2.3.1";
+modVersion = "v2.3.2";
 
 module.exports = {
   data: {
@@ -509,62 +509,77 @@ module.exports = {
     if (Array.isArray(values.cases)) {
       for (const dataCase of values.cases) {
         if (dataCase.type !== "data") continue;
-
+   
         const path = bridge.transf(dataCase.data.Path);
         const pathParts = path.split(".");
         let current = data;
 
-        for (const part of pathParts) {
-          if (
-            /\[\d+\]$/.test(part) ||
-            part.endsWith("[N]") ||
-            part.endsWith("[^]") ||
-            part.endsWith("[R]")
-          ) {
-            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^|R)\]$/);
-            if (!arrayKeyMatch) {
+        for (let i = 0; i < pathParts.length; i++) {
+          const part = pathParts[i];
+          const arrayMatch = part.match(/^(.+)\[(R(?::(\d+))?|\d+|N|\^)\]$/);
+
+          if (arrayMatch) {
+            const key = arrayMatch[1];
+            const indexOrSymbol = arrayMatch[2];
+            const countMatch = arrayMatch[3];
+            const count = countMatch ? parseInt(countMatch, 10) : 1;
+
+            if (!current || !Array.isArray(current[key])) {
               current = undefined;
               break;
             }
 
-            const arrayKey = arrayKeyMatch[1];
-            const indexOrSymbol = arrayKeyMatch[2];
-
-            if (!Array.isArray(current[arrayKey])) {
-              current = undefined;
-              break;
-            }
-
-            const array = current[arrayKey];
+            const array = current[key];
 
             if (indexOrSymbol === "N" || indexOrSymbol === "^") {
               current = array[array.length - 1];
-            } else if (indexOrSymbol === "R") {
+            } else if (indexOrSymbol.startsWith("R")) {
               if (array.length === 0) {
                 current = undefined;
                 break;
               }
-              const randomIndex = Math.floor(Math.random() * array.length);
-              current = array[randomIndex];
+
+              const indexes = new Set();
+              while (indexes.size < count && indexes.size < array.length) {
+                const randomIndex = Math.floor(Math.random() * array.length);
+                indexes.add(randomIndex);
+              }
+
+              const selectedItems = Array.from(indexes).map((idx) => array[idx]);
+              current = selectedItems;
+
+              if (i === pathParts.length - 1) break;
+
+              const remainingParts = pathParts.slice(i + 1);
+              current = current.map(item => {
+                if (typeof item !== "object" || item === null) return undefined;
+
+                let deepValue = item;
+                for (const subPart of remainingParts) {
+                  if (!deepValue || typeof deepValue !== "object") return undefined;
+                  deepValue = deepValue[subPart];
+                }
+                return deepValue;
+              }).filter(v => v !== undefined);
+
+              break;
             } else {
               const index = parseInt(indexOrSymbol, 10);
               if (isNaN(index) || index < 0 || index >= array.length) {
                 current = undefined;
-                 break;
-                }
- 
-                current = array[index]
-              }
-            } else {
-              if (!current || typeof current !== "object") {
-                current = undefined;
                 break;
               }
-              current = current[part];
+              current = array[index];
             }
-            if (current === undefined) {
-            break;
+          } else {
+            if (!current || typeof current !== "object" || current === null) {
+              current = undefined;
+              break;
+            }
+            current = current[part];
           }
+
+          if (current === undefined) break;
         }
 
         bridge.store(dataCase.data.store, current);
