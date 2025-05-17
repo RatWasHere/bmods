@@ -120,12 +120,12 @@ module.exports = {
       });
     }
 
-    if (!response.ok || !result.candidates || !result.candidates[0]) {
+    if (!response.ok || !response.candidates || !response.candidates[0]) {
       console.error(
         "Gemini API Error:",
         response.status,
         response.statusText,
-        result
+        response
       );
       return bridge.store(values.store, "Error fetching Gemini response.");
     }
