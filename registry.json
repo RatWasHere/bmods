@@ -87,7 +87,7 @@
       "creator": "qschnitzel"
     },
     "askGemini_MOD.js": {
-      "md5": "1e3ba5a8ed89c1ad6a1b2c02cc4033e7",
+      "md5": "8a4369861da35724ecb00cfe0b67a60b",
       "name": "Ask Gemini",
       "description": "Use Google Gemini AI to generate a response based on a prompt.",
       "modules": [
