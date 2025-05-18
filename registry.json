@@ -62,7 +62,7 @@
       "creator": "TheMonDon"
     },
     "CanvasGame2048Generator_MOD.js": {
-      "md5": "b21c840d7209a8beb39e362190f58ec0",
+      "md5": "c7db64f16d56245548f6c925149f1dc7",
       "name": "Canvas Game 2048 Generator",
       "modules": [
         "canvas"
