@@ -61,6 +61,15 @@
       "category": "Canvas Images",
       "creator": "TheMonDon"
     },
+    "CanvasGame2048Generator_MOD.js": {
+      "md5": "b21c840d7209a8beb39e362190f58ec0",
+      "name": "Canvas Game 2048 Generator",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "lik_rus"
+    },
     "CanvasImageFilter_MOD.js": {
       "md5": "a3f5caaa7211a526d943bd26eb5383b3",
       "name": "Canvas Image Filter",
