@@ -32,7 +32,7 @@ module.exports = {
     return `Path: ${data.path} - Content: ${data.content}`
   },
   compatibility: ["Any"],
-  run(values, message, client, bridge) {
+  async run(values, message, client, bridge) {
     for (const moduleName of this.modules){
       await client.getMods().require(moduleName)
     }
