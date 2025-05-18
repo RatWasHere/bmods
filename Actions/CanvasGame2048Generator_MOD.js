@@ -1,4 +1,4 @@
-modVersion = "v1.0.0";
+modVersion = "v1.0.1";
 
 module.exports = {
   data: {
@@ -41,6 +41,12 @@ module.exports = {
       element: "storageInput",
       storeAs: "newgameId",
       name: "New GameId",
+    },
+    "-",
+    {
+      element: "storageInput",
+      storeAs: "maxvalue",
+      name: "Max value",
     },
     "-",
     {
@@ -172,7 +178,11 @@ module.exports = {
 
       function arraysEqual(a, b) {
           return a.every((val, i) => val === b[i]);
-      }
+       }
+
+      function getMaxTile(board) {
+          return Math.max(...board.flat())
+       }
 
       async function renderBoardToImage(gameId) {
           const gameState = decodeGameIdToGameState(gameId);
@@ -256,8 +266,10 @@ module.exports = {
           }
 
           const imageBuffer = await renderBoardToImage(currentGameId);
+
           bridge.store(values.canvas, imageBuffer)
           bridge.store(values.newgameId, currentGameId)
+          bridge.store(values.maxvalue, getMaxTile(decodeGameIdToGameState(currentGameId).board))
       })();
 
   },
