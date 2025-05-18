@@ -70,6 +70,15 @@
       "category": "Canvas Images",
       "creator": "lik_rus"
     },
+    "CanvasGamesnakeGenerator_MOD.js": {
+      "md5": "1e250647501e17639cdc7b9ee99210a9",
+      "name": "Canvas Game Snake Generator",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "lik_rus"
+    },
     "CanvasImageFilter_MOD.js": {
       "md5": "a3f5caaa7211a526d943bd26eb5383b3",
       "name": "Canvas Image Filter",
