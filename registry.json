@@ -247,7 +247,7 @@
       "creator": "nitiqt"
     },
     "createJsonFile_MOD.js": {
-      "md5": "e4fb8f7d1cf33830cb2f2e242fdc59be",
+      "md5": "9821792c64d1f9d12c324eedfbf207df",
       "name": "Create JSON File",
       "modules": [
         "node:path",
@@ -814,7 +814,7 @@
       "creator": "Made with <3 by @lucxanul"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "858eb0ab7241efc8f059641660dff784",
+      "md5": "44ec316a6af139b6e2d5b4be28285c18",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
