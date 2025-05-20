@@ -31,6 +31,9 @@ In Bot Maker for Discord, press **CTRL + K** to open the search bar, then search
 From there, you can install, update, and delete mods.  
 After installing a mod, make sure to reload (**CTRL + R**) or restart Bot Maker for Discord.
 
+> [!IMPORTANT]  
+> Please make sure that you have an existing command in your project before trying to access the Mod Manager!
+
 ### Manual Installation
 
 1. Download the repository by clicking "Code" on the repository's home page and selecting "Download ZIP".
