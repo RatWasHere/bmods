@@ -31,7 +31,7 @@ module.exports = {
   ],
 
   subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
-    return `Get All User Mentions In ${constants.message(values.message)}`
+    return `Get All Role Mentions In ${constants.message(values.message)}`
   },
   
   compatibility: ["Any"],
