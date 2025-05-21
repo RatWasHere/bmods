@@ -448,11 +448,32 @@
       "category": "Canvafy Cards",
       "creator": "candiedapple"
     },
+    "getAllChannelMentions_MOD.js": {
+      "md5": "30b61e3d6949fecae106387a37b039ab",
+      "name": "Get All Mentioned Channels In Message",
+      "modules": [],
+      "category": "Messages",
+      "creator": "Acedia"
+    },
     "getAllGlobalData_MOD.js": {
       "md5": "55c5b14b1290a23ad19cf5ad38b6a9fe",
       "name": "Get All Global Data",
       "modules": [],
       "category": "Global Data",
+      "creator": "Acedia"
+    },
+    "getAllMentions_MOD.js": {
+      "md5": "144f5f9ec0658c645a2b2929c3bfd02c",
+      "name": "Get All Mentioned In Message",
+      "modules": [],
+      "category": "Messages",
+      "creator": "Acedia"
+    },
+    "getAllRoleMentions_MOD.js": {
+      "md5": "73097941a8fb8a208d30ff1829acf8d7",
+      "name": "Get All Mentioned Roles In Message",
+      "modules": [],
+      "category": "Messages",
       "creator": "Acedia"
     },
     "getAllSlashCommands_MOD.js": {
@@ -467,6 +488,13 @@
       "name": "Get All Text Command Names",
       "modules": [],
       "category": "Bot",
+      "creator": "Acedia"
+    },
+    "getAllUserMentions_MOD.js": {
+      "md5": "e1a5f857b9b5fb92b8ad1c4842b1c087",
+      "name": "Get All Mentioned Users In Message",
+      "modules": [],
+      "category": "Messages",
       "creator": "Acedia"
     },
     "getAxiosResultFromWebAPI_MOD.js": {
