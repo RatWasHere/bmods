@@ -449,7 +449,7 @@
       "creator": "candiedapple"
     },
     "getAllChannelMentions_MOD.js": {
-      "md5": "30b61e3d6949fecae106387a37b039ab",
+      "md5": "d8259bf10dca8dc5626253d03e06b39e",
       "name": "Get All Mentioned Channels In Message",
       "modules": [],
       "category": "Messages",
@@ -463,14 +463,14 @@
       "creator": "Acedia"
     },
     "getAllMentions_MOD.js": {
-      "md5": "144f5f9ec0658c645a2b2929c3bfd02c",
+      "md5": "f73a44477363ae9df71cd300b0104c16",
       "name": "Get All Mentioned In Message",
       "modules": [],
       "category": "Messages",
       "creator": "Acedia"
     },
     "getAllRoleMentions_MOD.js": {
-      "md5": "73097941a8fb8a208d30ff1829acf8d7",
+      "md5": "c4576879996d882e6d47d82cdfb6ba8f",
       "name": "Get All Mentioned Roles In Message",
       "modules": [],
       "category": "Messages",
