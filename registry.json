@@ -1403,6 +1403,14 @@
       "modules": [],
       "creator": "nitiqt"
     },
+    "oauthSuccess_MOD.js": {
+      "md5": "7a0deb95f502d6025a28319ac03d4f67",
+      "name": "OAuth Success",
+      "nameSchemes": [
+        "Store User As"
+      ],
+      "modules": []
+    },
     "queue_start_MOD.js": {
       "md5": "e862fee8d10a1f768165d2447f394f53",
       "name": "Queue Start",
