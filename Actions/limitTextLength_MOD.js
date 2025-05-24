@@ -48,6 +48,12 @@ module.exports = {
     const text = bridge.transf(values.text);
     const maxLength = parseInt(values.maxLength) || 2000;
     const exceededMessage = bridge.transf(values.exceededMessage) ?? "";
+
+    if (text.length <= maxLength) {
+      bridge.store(values.result, text);
+      return;
+    }
+
     let result = String(text).slice(0, maxLength - exceededMessage.length ?? 0);
     result += exceededMessage;
     bridge.store(values.result, result);
