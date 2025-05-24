@@ -1014,6 +1014,12 @@
       "category": "API",
       "creator": "qschnitzel"
     },
+    "pushLinkedRolesMetadata_MOD.js": {
+      "md5": "15189d2d8e0d83b45531aec36b81ec8c",
+      "name": "Push Linked Roles Metadata",
+      "modules": [],
+      "category": "Linked Roles"
+    },
     "pushover_MOD.js": {
       "md5": "8dca1d765ab156c731e23e707d27c3c6",
       "name": "Pushover API",
@@ -1180,6 +1186,12 @@
       "category": "Game",
       "creator": "candiedapple"
     },
+    "setLinkedRolesMetadata_MOD.js": {
+      "md5": "75e5679983e0206f3a9340c80d25ba84",
+      "name": "Set Linked Roles Metadata",
+      "modules": [],
+      "category": "Linked Roles"
+    },
     "sliceList_MOD.js": {
       "md5": "ef740ee7fe4121d707bb5a7a1a16b750",
       "name": "Slice List",
@@ -1203,6 +1215,17 @@
       "modules": [],
       "category": "Images",
       "creator": "qschnitzel"
+    },
+    "startOAuthAuthorizationServer_MOD.js": {
+      "md5": "1a5c086355e865b2d3430b0e89760854",
+      "name": "Start OAuth Authorization Server",
+      "modules": [
+        "express",
+        "passport-discord-auth",
+        "passport",
+        "express-session"
+      ],
+      "category": "OAuth"
     },
     "startRssFeed_MOD.js": {
       "md5": "e37342f0e4029fbe01c44a8e0d1927c6",
