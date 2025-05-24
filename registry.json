@@ -793,7 +793,7 @@
       "creator": "Acedia"
     },
     "limitTextLength_MOD.js": {
-      "md5": "0323786a675ab9cc0dc45764b50de998",
+      "md5": "85ea7e1b009f3c6eba13906999219d61",
       "name": "Limit Text Length",
       "description": "Limit the length of a text input to a specified number of characters.",
       "modules": [],
