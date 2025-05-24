@@ -792,6 +792,14 @@
       "category": "Control",
       "creator": "Acedia"
     },
+    "limitTextLength_MOD.js": {
+      "md5": "0323786a675ab9cc0dc45764b50de998",
+      "name": "Limit Text Length",
+      "description": "Limit the length of a text input to a specified number of characters.",
+      "modules": [],
+      "category": "Text",
+      "creator": "qschnitzel"
+    },
     "loadMemberMultipleData_MOD.js": {
       "md5": "87a9e14bd29038acee587ef1011e96ca",
       "name": "Get Member Multiple Datas",
@@ -1120,6 +1128,14 @@
       "name": "Round Number",
       "modules": [],
       "category": "Numbers"
+    },
+    "searchLyrics_MOD.js": {
+      "md5": "ef2d6e59e78e7072f138e03a892c305a",
+      "name": "Search Lyrics",
+      "description": "Use lrclib.net to search for lyrics of a song.",
+      "modules": [],
+      "category": "API",
+      "creator": "qschnitzel"
     },
     "searchMusic_MOD.js": {
       "md5": "0acf9e95b560881904ffc5a21ad8fa9b",
