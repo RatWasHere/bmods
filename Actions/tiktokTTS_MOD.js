@@ -6,6 +6,7 @@
   Why? Because its free ¯\_(ツ)_/¯
 */
 const fs = require("fs");
+const path = require("path");
 
 module.exports = {
   data: {
@@ -14,7 +15,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description: "Create Text-To-Speech audio using Tiktok's TTS.",
   },
   category: "AI",
   UI: [
@@ -174,6 +175,12 @@ module.exports = {
       storeAs: "directory",
       name: "Save file as",
     },
+    "-",
+    {
+      element: "storageInput",
+      storeAs: "path",
+      name: "Store Path to audio as",
+    },
   ],
 
   async run(values, interaction, client, bridge) {
@@ -189,13 +196,19 @@ module.exports = {
     };
 
     const response = await fetch(
-      `https://tiktok-tts.weilnet.workers.dev/api/generation`,
-      options,
+      `https://tiktok-tts.printmechanicalbeltpumpkingutter.workers.dev/api/generation`,
+      options
     );
 
     const jsonResponse = await response.json();
-    const audio = Buffer.from(jsonResponse.data, "base64");
 
-    fs.writeFileSync(bridge.file(values.directory), audio);
+    if (!fs.existsSync(path.join(__dirname, "..", "tts"))) {
+      fs.mkdirSync(path.join(__dirname, "..", "tts"));
+    }
+
+    const pathAudio = path.join(__dirname, "..", "tts", values.directory);
+    console.log(pathAudio);
+    fs.writeFileSync(pathAudio, Buffer.from(jsonResponse.audio, "base64"));
+    bridge.store(values.path, pathAudio);
   },
 };

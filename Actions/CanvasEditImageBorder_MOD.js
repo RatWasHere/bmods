@@ -37,7 +37,7 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Canvas = client.getMods().require("canvas");
+    const Canvas = await client.getMods().require("canvas");
     const imageData = await bridge.getImage(values.image);
 
     if (!imageData) {
@@ -58,7 +58,7 @@ module.exports = {
       const ctx = canvas.getContext("2d");
 
       const radius = parseInt(bridge.transf(values.radius), 10) || 0;
-      const circleinfo = values.circleinfo === "yes"; // Convert dropdown choice to boolean
+      const circleinfo = values.circleinfo?.type === "yes"; // Convert dropdown choice to boolean
 
       // Function to clip as a circle
       function circle() {
@@ -68,7 +68,7 @@ module.exports = {
           imagedata.height / 2,
           Math.min(imagedata.width, imagedata.height) / 2,
           0,
-          Math.PI * 2,
+          Math.PI * 2
         );
         ctx.closePath();
         ctx.clip();
@@ -85,7 +85,7 @@ module.exports = {
           imagedata.width,
           imagedata.height,
           imagedata.width - r,
-          imagedata.height,
+          imagedata.height
         );
         ctx.lineTo(r, imagedata.height);
         ctx.quadraticCurveTo(0, imagedata.height, 0, imagedata.height - r);

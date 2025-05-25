@@ -51,18 +51,18 @@ module.exports = {
   ],
 
   async run(values, interaction, client, bridge) {
-    const Canvas = client.getMods().require("canvas");
+    const Canvas = await client.getMods().require("canvas");
 
     try {
       const width = Math.max(1, parseInt(bridge.transf(values.width), 10));
       const height = Math.max(1, parseInt(bridge.transf(values.height), 10));
       const percent = Math.min(
         100,
-        Math.max(0, parseFloat(bridge.transf(values.percent))),
+        Math.max(0, parseFloat(bridge.transf(values.percent)))
       );
       const lineWidth = Math.min(
         height,
-        Math.max(1, parseInt(bridge.transf(values.lineWidth), 10)),
+        Math.max(1, parseInt(bridge.transf(values.lineWidth), 10))
       );
       const isRound = values.lineCap?.type === "1";
 

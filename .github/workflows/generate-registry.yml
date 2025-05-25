@@ -1,0 +1,263 @@
+name: Generate Mod Registry
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - "registry.json"
+
+jobs:
+  generate-registry:
+    if: "!contains(github.event.head_commit.message, 'Update registry.json')"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.SCHNITZEL }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Generate registry.json
+      run: |
+        node - << 'EOF'
+        const fs = require('fs');
+        const path = require('path');
+        const crypto = require('crypto');
+
+        // Folders to check
+        const folders = ["Actions", "Automations", "Events", "Themes", "Translations"];
+        const registry = {};
+
+        // Calculate MD5 hash for a file
+        const calculateMD5 = (filePath) => {
+          const fileContent = fs.readFileSync(filePath);
+          return crypto.createHash('md5').update(fileContent).digest('hex');
+        };
+
+        // Extract metadata from Actions/Events JS files
+        const extractJSMetadata = (filePath, folderType) => {
+          const metadata = {};
+          try {
+            const content = fs.readFileSync(filePath, 'utf8');
+            
+            // Extract name - handle differently for Events vs Actions
+            if (folderType === 'Events') {
+              // First check for direct module.exports.name pattern (new format)
+              const directNameMatch = content.match(/module\.exports\s*=\s*{[^}]*name:\s*"([^"]+)"/s);
+              if (directNameMatch && directNameMatch[1]) {
+                metadata.name = directNameMatch[1];
+              } else {
+                // Fallback to old format
+                const nameMatch = content.match(/eventData:\s*{\s*name:\s*"([^"]+)"/s) || 
+                                  content.match(/data:\s*{\s*name:\s*"([^"]+)"/s);
+                if (nameMatch && nameMatch[1]) {
+                  metadata.name = nameMatch[1];
+                }
+              }
+              
+              // Extract nameSchemes for Events (new format)
+              const nameSchemesMatch = content.match(/nameSchemes:\s*\[(.*?)\]/s);
+              if (nameSchemesMatch && nameSchemesMatch[1]) {
+                const schemeStr = nameSchemesMatch[1].trim();
+                if (schemeStr) {
+                  metadata.nameSchemes = schemeStr.split(',')
+                    .map(s => s.trim().replace(/["']/g, ''))
+                    .filter(s => s);
+                }
+              }
+            } else {
+              // For Actions and others
+              const nameMatch = content.match(/data:\s*{\s*name:\s*"([^"]+)"/s);
+              if (nameMatch && nameMatch[1]) {
+                metadata.name = nameMatch[1];
+              }
+            }
+            
+            // Extract display name for Events
+            if (folderType === 'Events') {
+              const displayNameMatch = content.match(/displayName:\s*"([^"]+)"/);
+              if (displayNameMatch && displayNameMatch[1]) {
+                metadata.displayName = displayNameMatch[1];
+              }
+            }
+            
+            // Extract description - could be in multiple places
+            let descriptionMatch = content.match(/data:\s*{[^}]*description:\s*"([^"]+)"/s);
+            if (!descriptionMatch) {
+              descriptionMatch = content.match(/info:\s*{[^}]*description:\s*"([^"]+)"/s);
+            }
+            if (!descriptionMatch && folderType === 'Events') {
+              descriptionMatch = content.match(/eventData:\s*{[^}]*description:\s*"([^"]+)"/s);
+            }
+            if (descriptionMatch && descriptionMatch[1]) {
+              metadata.description = descriptionMatch[1];
+            }
+            
+            // Extract modules
+            const modulesMatch = content.match(/modules:\s*\[(.*?)\]/s);
+            if (modulesMatch && modulesMatch[1]) {
+              const modulesStr = modulesMatch[1].trim();
+              if (modulesStr) {
+                metadata.modules = modulesStr.split(',')
+                  .map(m => m.trim().replace(/["']/g, ''))
+                  .filter(m => m);
+              } else {
+                metadata.modules = [];
+              }
+            } else {
+              metadata.modules = [];
+            }
+            
+            // Extract category
+            const categoryMatch = content.match(/category:\s*"([^"]+)"/);
+            if (categoryMatch && categoryMatch[1]) {
+              metadata.category = categoryMatch[1];
+            }
+            
+            // Extract creator from info block
+            const creatorMatch = content.match(/creator:\s*"([^"]+)"/);
+            if (creatorMatch && creatorMatch[1]) {
+              metadata.creator = creatorMatch[1];
+            }
+          } catch (err) {
+            console.error(`Error parsing JS metadata from ${filePath}:`, err);
+          }
+          return metadata;
+        };
+
+        // Extract metadata from data.json file in a directory
+        const extractDataJsonMetadata = (dirPath, folderType) => {
+          const metadata = {};
+          const dataJsonPath = path.join(dirPath, 'data.json');
+          
+          if (fs.existsSync(dataJsonPath)) {
+            try {
+              const dataJson = JSON.parse(fs.readFileSync(dataJsonPath, 'utf8'));
+              
+              if (dataJson.name) {
+                metadata.name = dataJson.name;
+              }
+              
+              if (dataJson.displayName) {
+                metadata.displayName = dataJson.displayName;
+              }
+              
+              if (dataJson.author) {
+                metadata.author = dataJson.author;
+              }
+              
+              // For any type that might have description
+              if (dataJson.description) {
+                metadata.description = dataJson.description;
+              }
+              
+            } catch (err) {
+              console.error(`Error parsing data.json from ${dataJsonPath}:`, err);
+            }
+          }
+          
+          return metadata;
+        };
+
+        // Process each folder
+        for (const folder of folders) {
+          if (!fs.existsSync(folder)) {
+            console.log(`Warning: ${folder} directory not found. Skipping.`);
+            continue;
+          }
+          
+          registry[folder] = {};
+          
+          // Function to walk directory recursively
+          const walkDir = (dir, baseDir) => {
+            const items = fs.readdirSync(dir);
+            
+            for (const item of items) {
+              const itemPath = path.join(dir, item);
+              const stats = fs.statSync(itemPath);
+              
+              if (stats.isDirectory()) {
+                // Skip translations with .default_ prefix
+                if (folder === 'Translations' && item.startsWith('.default_')) {
+                  continue; // Skip default translations
+                }
+                
+                // Skip ModManager in Automations
+                if (folder === 'Automations' && item === 'ModManager') {
+                  continue; // Skip ModManager in Automations
+                }
+                
+                // For folder-based mods (Automations, Themes, Translations)
+                if (folder === 'Automations' || folder === 'Themes' || folder === 'Translations') {
+                  const relativePath = path.relative(baseDir, itemPath);
+                  const metadata = extractDataJsonMetadata(itemPath, folder);
+                  
+                  // Calculate checksums for all files in the directory
+                  const fileChecksums = {};
+                  const walkForChecksums = (subDir) => {
+                    const subItems = fs.readdirSync(subDir);
+                    for (const subItem of subItems) {
+                      const subItemPath = path.join(subDir, subItem);
+                      if (fs.statSync(subItemPath).isDirectory()) {
+                        walkForChecksums(subItemPath);
+                      } else {
+                        const relativeFilePath = path.relative(itemPath, subItemPath);
+                        fileChecksums[relativeFilePath] = calculateMD5(subItemPath);
+                      }
+                    }
+                  };
+                  walkForChecksums(itemPath);
+                  
+                  metadata.files = fileChecksums;
+                  registry[folder][relativePath] = metadata;
+                } else {
+                  // For Actions and Events, keep walking
+                  walkDir(itemPath, baseDir);
+                }
+              } else if (folder === 'Actions' || folder === 'Events') {
+                // For file-based mods (Actions, Events)
+                const relativePath = path.relative(baseDir, itemPath);
+                
+                // Check if the file has "_MOD" in its name
+                if (!relativePath.includes('_MOD')) {
+                  continue; // Skip files without _MOD in their names
+                }
+                
+                const md5Hash = calculateMD5(itemPath);
+                
+                let metadata = {
+                  md5: md5Hash
+                };
+                
+                // For JS files, extract additional metadata
+                if (path.extname(itemPath) === '.js') {
+                  const jsMetadata = extractJSMetadata(itemPath, folder);
+                  metadata = { ...metadata, ...jsMetadata };
+                }
+                
+                registry[folder][relativePath] = metadata;
+              }
+            }
+          };
+          
+          walkDir(folder, folder);
+        }
+
+        // Write registry to file
+        fs.writeFileSync('registry.json', JSON.stringify(registry, null, 2));
+        console.log("Registry file generated successfully!");
+        EOF
+
+    - name: Commit and push registry.json
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add registry.json
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update registry.json"
+        git push https://${{ secrets.SCHNITZEL }}@github.com/${{ github.repository }}

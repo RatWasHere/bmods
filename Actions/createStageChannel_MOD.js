@@ -130,7 +130,7 @@ module.exports = {
 
   subtitle: (values, constants) => {
     return `Name: ${values.channelName} - Store As: ${constants.variable(
-      values.store,
+      values.store
     )}`;
   },
   compatibility: ["Any"],
@@ -283,7 +283,7 @@ module.exports = {
 
     channel = await bridge.guild.createChannel(
       ChannelTypes.GUILD_STAGE_VOICE,
-      channelOptions,
+      channelOptions
     );
 
     bridge.store(values.store, channel);

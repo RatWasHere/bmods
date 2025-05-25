@@ -12,7 +12,8 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description:
+      "Generate images using prodia.com. Requires an API key from prodia.com.",
   },
   category: "AI",
   UI: [

@@ -11,6 +11,7 @@ module.exports = {
     creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },
+  modules: ["fs", "yt-search", "stream", "@discordjs/voice", "@distube/ytdl-core"],
   UI: [
     {
       element: "input",

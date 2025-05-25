@@ -11,7 +11,7 @@ module.exports = {
     creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice", "libsodium", "libsodium-wrappers"],
+  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice"],
   UI: [
     {
       element: "input",
@@ -51,10 +51,9 @@ module.exports = {
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    await client.getMods().require("fs")
-    await client.getMods().require("ffmpeg")
-    await client.getMods().require("@discordjs/voice")
-    await client.getMods().require("stream")
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
 
     const fs = require("fs");
     const ffmpeg = require("ffmpeg");

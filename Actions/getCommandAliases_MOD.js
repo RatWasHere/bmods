@@ -7,7 +7,7 @@ module.exports = {
   data: {
     name: "",
   },
-  aliases: ["Get Command Aliases"],
+  aliases: [],
   category: "Bot",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",

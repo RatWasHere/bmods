@@ -51,7 +51,7 @@ module.exports = {
           setHeaders[key] = value;
         } else {
           console.error(
-            `WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`,
+            `WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`
           );
         }
       }

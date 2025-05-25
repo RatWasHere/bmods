@@ -10,7 +10,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel, splatchoot",
-    donate: "https://ko-fi.com/qschnitzel",
+    description: "Create Text-To-Speech audio using Elevenlabs API.",
   },
   category: "AI",
   data: {
@@ -58,7 +58,7 @@ module.exports = {
 
     const response = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${voice_id}`,
-      options,
+      options
     );
 
     const buffer = await streamToBuffer(response.body);

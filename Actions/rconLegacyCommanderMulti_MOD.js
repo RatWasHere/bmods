@@ -93,7 +93,9 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, interaction, client, bridge){
-    await client.getMods().require("mbr-rcon")
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
     const Rcon = require("mbr-rcon")
 
     for (let server of values.serverList){

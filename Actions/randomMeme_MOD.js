@@ -12,7 +12,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description: "Fetches a random meme from Reddit.",
   },
   UI: [
     {
@@ -34,7 +34,7 @@ module.exports = {
         let preview = res.preview[res.preview.length - 1];
 
         bridge.store(values.store, preview);
-      },
+      }
     );
   },
 };

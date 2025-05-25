@@ -77,7 +77,7 @@ module.exports = {
 
   async run(values, message, client, bridge) {
     const username = bridge.transf(values.username);
-    const { Kick } = client.getMods().require("streamer.info");
+    const { Kick } = await client.getMods().require("streamer.info");
 
     const kick = new Kick();
     const info = await kick.getStream(username);

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        font-family: "Arial", sans-serif;
+        backdrop-filter: none;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-icon {
+        animation: spin 1s linear infinite;
+      }
+
+      .card {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+      body {
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        z-index: 9999;
+      }
+      .container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        position: relative;
+        padding: 16px;
+        flex-shrink: 0;
+      }
+
+      .tabs {
+        margin: 0 auto;
+        background-color: #1e1e1e;
+        border-radius: 9999px;
+        display: inline-flex;
+        position: absolute;
+        gap: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 2px 2px;
+        border: #232323 1px solid;
+      }
+
+      .tab {
+        color: #9d9d9d;
+        border-radius: 9999px;
+        font-size: 20px;
+        font-weight: normal;
+        cursor: pointer;
+        padding: 2px 12px;
+      }
+
+      .tab.active {
+        color: #ffffff;
+        background: #232323;
+      }
+
+      .close-button {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        cursor: pointer;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transform: scale(1.4);
+        transition: transform 0.2s;
+      }
+
+      .close-button:hover {
+        transform: scale(1.6);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 16px;
+        overflow-y: auto;
+        padding: 0 16px 32px 16px;
+        flex-grow: 1;
+      }
+
+      .card {
+        background: #1e1e1e;
+        padding: 12px;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+        height: auto;
+        min-height: 130px;
+        max-height: 200px;
+      }
+      .installed {
+        border: 4px solid green;
+      }
+      .outdated {
+        border: 4px solid orange !important;
+      }
+      .search-input {
+        width: 160px;
+        margin: auto 0;
+      }
+      .card p {
+        margin: 0;
+        padding: 0;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+      }
+
+      .card .title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffffff;
+        margin-bottom: 4px;
+      }
+
+      .card .category {
+        font-size: 14px;
+        font-weight: bold;
+        color: #9d9d9d;
+        margin-bottom: 4px;
+      }
+
+      .card .description {
+        font-size: 12px;
+        color: #9d9d9d;
+        max-height: 60px;
+        overflow: hidden;
+        margin-bottom: 30px;
+      }
+
+      .card .author {
+        font-size: 14px;
+        color: #9d9d9d;
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+      }
+
+      .card .icon {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        right: 0px;
+        bottom: 0px;
+        padding: 8px;
+        color: #9d9d9d;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="search-container">
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Search..."
+            id="searchInput"
+          />
+        </div>
+
+        <div class="tabs" id="tabs">
+          <div id="actions-button" class="tab active">Actions</div>
+          <div id="events-button" class="tab">Events</div>
+          <div id="automations-button" class="tab">Automations</div>
+          <div id="themes-button" class="tab">Themes</div>
+          <div id="translations-button" class="tab">Translations</div>
+          <div id="installed-button" class="tab">Installed</div>
+        </div>
+
+        <a class="close-button" id="closeModManager">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.5"
+              y="0.5"
+              width="19"
+              height="19"
+              rx="9.5"
+              fill="#1E1E1E"
+              stroke="#232323"
+            />
+            <path
+              d="M7.28 6.22C7.13783 6.08752 6.94978 6.0154 6.75548 6.01882C6.56118 6.02225 6.37579 6.10096 6.23838 6.23838C6.10097 6.37579 6.02225 6.56118 6.01883 6.75548C6.0154 6.94978 6.08752 7.13782 6.22 7.28L8.94 10L6.22 12.72C6.14631 12.7887 6.08721 12.8715 6.04622 12.9635C6.00523 13.0555 5.98319 13.1548 5.98141 13.2555C5.97963 13.3562 5.99816 13.4562 6.03588 13.5496C6.0736 13.643 6.12974 13.7278 6.20096 13.799C6.27218 13.8703 6.35702 13.9264 6.4504 13.9641C6.54379 14.0018 6.64382 14.0204 6.74452 14.0186C6.84523 14.0168 6.94454 13.9948 7.03654 13.9538C7.12854 13.9128 7.21134 13.8537 7.28 13.78L10 11.06L12.72 13.78C12.7887 13.8537 12.8715 13.9128 12.9635 13.9538C13.0555 13.9948 13.1548 14.0168 13.2555 14.0186C13.3562 14.0204 13.4562 14.0018 13.5496 13.9641C13.643 13.9264 13.7278 13.8703 13.799 13.799C13.8703 13.7278 13.9264 13.643 13.9641 13.5496C14.0018 13.4562 14.0204 13.3562 14.0186 13.2555C14.0168 13.1548 13.9948 13.0555 13.9538 12.9635C13.9128 12.8715 13.8537 12.7887 13.78 12.72L11.06 10L13.78 7.28C13.9125 7.13782 13.9846 6.94978 13.9812 6.75548C13.9777 6.56118 13.899 6.37579 13.7616 6.23838C13.6242 6.10096 13.4388 6.02225 13.2445 6.01882C13.0502 6.0154 12.8622 6.08752 12.72 6.22L10 8.94L7.28 6.22Z"
+              fill="#9D9D9D"
+            />
+          </svg>
+        </a>
+      </div>
+      <div class="grid" id="mod-content"></div>
+    </div>
+  </body>
+</html>

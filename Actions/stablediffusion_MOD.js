@@ -18,7 +18,8 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description:
+      "Generate images from text using Stable Diffusion. Requires a local installation of Stable Diffusion.",
   },
   category: "Images",
   UI: [
@@ -88,7 +89,7 @@ module.exports = {
       .replaceAll(" ", "-");
     fs.writeFileSync(
       path.join(__dirname, "..", "LICENSES", file_name + ".jpg"),
-      generated,
+      generated
     );
 
     bridge.store(values.store, "AppData/LICENSES/" + file_name + ".jpg");

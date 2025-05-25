@@ -26,7 +26,7 @@ module.exports = {
         let preview = res[0].url;
 
         bridge.store(values.store, preview);
-      },
+      }
     );
   },
 };

@@ -79,72 +79,196 @@ Feel free to add a short description for your action as seen in [**animeSearch_M
   }
   ```
 
+---
+
 ## Bridge Controls
 
-- **get**:
-  ```javascript
-  (blob) :: Blob: variableInput generated object :: Value of variable
-  ```
-- **store**:
-  ```javascript
-  (blob) :: Blob: storageInput generated Object :: Void
-  ```
-- **getUser**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: userInput generated Object :: [User](https://docs.oceanic.ws/v1.9.0/classes/User.html) with a `member` [OPTIONAL] property
-  ```
-- **getChannel**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: channelInput generated Object :: [Channel](https://docs.oceanic.ws/v1.9.0/classes/Channel.html)
-  ```
-- **getInteraction**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: interactionInput generated Object :: [Interaction](https://docs.oceanic.ws/v1.9.0/classes/Interaction.html)
-  ```
-- **getImage**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: image (input) generated Object :: Image Buffer
-  ```
-- **getRole**:
-  ```javascript
-  [ASYNC] (blob) :: Blob: roleInput generated Object :: [Role](https://docs.oceanic.ws/v1.9.0/classes/Role.html)
-  ```
-- **runner**:
-  ```javascript
-  (actions) :: [ASYNC] Blob: actions generated Array :: Promise
-  ```
-- **call**:
-  ```javascript
-  (blob, actions) :: [ASYNC] Blob: Condition generated Object | Actions: Condition generated array :: Promise
-  ```
-- **callActions**:
-  ```javascript
-  (blob) :: [ASYNC] Blob: Object with any of these properties: {stop, jump, skip, actions} - Stop: Boolean, Jump: Number, Skip: Number, Actions: Array :: Promise
-  ```
-- **transf**:
-  ```javascript
-  (inputText) :: inputText: text to transform variables from ${...} to their values :: String
-  ```
-- **generateCustomID**:
-  ```javascript
-  () :: null :: Number
-  ```
-- **createTemporary**:
-  ```javascript
-  (blob) :: Blob: Object with these properties: {class, name, value} - Class: String (Optional) - Name: String - Value: Any; Creates temporary values in storage for sharing between a group's actions for context, inaccessible to the user. See joinVoiceChannel actions for examples :: Void
-  ```
-- **getTemporary**:
-  ```javascript
-  (blob) :: Blob: Object with these properties: {class, name} - Class: String (Optional) - Name: String :: Any
-  ```
-- **createGlobal**:
-  ```javascript
-  (blob) :: Blob: Object with these properties: {class, name, value} - Class: String (Optional) - Name: String - Value: Any; Creates global values in storage for sharing between a group's actions for context, inaccessible to the user. See createAnchor for examples :: Void
-  ```
-- **getGlobal**:
-  ```javascript
-  (blob) :: Blob: Object with these properties: {class, name} - Class: String (Optional) - Name: String :: Any
-  ```
+### `bridge.get(Object)` ⇒ `Any`
+
+```javascript
+// Retrieves a stored variable value
+bridge.get(Object);
+```
+
+- **Object**: The result of how you stored the variable input.
+
+---
+
+### `bridge.store(Object, value)` ⇒ `Any`
+
+```javascript
+// Stores a value into a variable
+bridge.store(Object, value);
+```
+
+- **Object**: The result of how you stored the variable input.
+- **value**: The value you want to store.
+
+---
+
+### `bridge.getUser(Object)` ⇒ `Promise<User>`
+
+```javascript
+// Retrieves a user or member object
+bridge.getUser(Object);
+```
+
+- **Object**: The result of how you stored the user/member input.
+
+---
+
+### `bridge.getChannel(Object)` ⇒ `Promise<Channel>`
+
+```javascript
+// Retrieves a channel object
+bridge.getChannel(Object);
+```
+
+- **Object**: The result of how you stored the channel input.
+
+---
+
+### `bridge.getInteraction(Object)` ⇒ `Promise<Interaction>`
+
+```javascript
+// Retrieves an interaction object
+bridge.getInteraction(Object);
+```
+
+- **Object**: The result of how you stored the interaction input.
+
+---
+
+### `bridge.getImage(Object)` ⇒ `Promise<Buffer>`
+
+```javascript
+// Retrieves an image buffer
+bridge.getImage(Object);
+```
+
+- **Object**: The result of how you stored the image input.
+
+---
+
+### `bridge.getRole(Object)` ⇒ `Promise<Role>`
+
+```javascript
+// Retrieves a role object
+bridge.getRole(Object);
+```
+
+- **Object**: The result of how you stored the role input.
+
+---
+
+### `bridge.runner(Array)` ⇒ `Promise<null>`
+
+```javascript
+// Runs an array of actions
+bridge.runner(Array);
+```
+
+- **Array**: Array of actions to run.
+
+---
+
+### `bridge.call(Object, Array)` ⇒ `Promise<null>`
+
+```javascript
+// Conditionally runs actions
+bridge.call(Object, Array);
+```
+
+- **Object**: The stored condition input.
+- **Array**: The stored actions to run if the condition is met.
+
+---
+
+### `bridge.callActions(Object)` ⇒ `Promise<null>`
+
+```javascript
+// Performs flow control with actions
+bridge.callActions({
+  stop: false, // Optional: whether to stop further execution
+  jump: 2, // Optional: jump to a specific action number
+  skip: 1, // Optional: number of actions to skip
+  actions: [], // Optional: array of actions to run
+});
+```
+
+- **Object**: Contains control logic for actions.
+
+---
+
+### `bridge.transf(String)` ⇒ `String`
+
+```javascript
+// Transfers text to bridge form
+bridge.transf("some text");
+```
+
+- **String**: Text to transfer.
+
+---
+
+### `bridge.generateCustomID()` ⇒ `Number`
+
+```javascript
+// Generates a custom numeric ID
+bridge.generateCustomID();
+```
+
+---
+
+### `bridge.createTemporary(Object)` ⇒ `null`
+
+```javascript
+// Creates a temporary variable
+bridge.createTemporary({
+  class: "myClass", // Optional
+  name: "tempName", // Required
+  value: "some value", // Required
+});
+```
+
+---
+
+### `bridge.getTemporary(Object)` ⇒ `Any`
+
+```javascript
+// Retrieves a temporary variable
+bridge.getTemporary({
+  class: "myClass", // Optional
+  name: "tempName", // Required
+});
+```
+
+---
+
+### `bridge.createGlobal(Object)` ⇒ `null`
+
+```javascript
+// Creates a global variable
+bridge.createGlobal({
+  class: "myClass", // Optional
+  name: "globalName", // Required
+  value: "some value", // Required
+});
+```
+
+---
+
+### `bridge.getGlobal(Object)` ⇒ `Any`
+
+```javascript
+// Retrieves a global variable
+bridge.getGlobal({
+  class: "myClass", // Optional
+  name: "globalName", // Required
+});
+```
+
+---
 
 ## Data Structure
 
@@ -163,4 +287,4 @@ Feel free to add a short description for your action as seen in [**animeSearch_M
 
 ## Still Got Questions?
 
-Feel free to ask any questions in our [Discord server](https://discord.gg/whtjS7BW3u).
+Feel free to ask any questions in our [Discord server](https://discord.gg/n9PWrxFQFF).

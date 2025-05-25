@@ -127,7 +127,7 @@ module.exports = {
       case "Add To Specific Position": {
         const position = parseInt(patternValue, 10) || 0;
         result = `${variable.slice(0, position)}${inputValue}${variable.slice(
-          position,
+          position
         )}`;
         break;
       }

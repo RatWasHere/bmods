@@ -16,7 +16,7 @@ module.exports = {
   ],
   subtitle: (values, constants, thisAction) => {
     return `Delete Scheduled Event - Event: ${constants.variable(
-      values.eventVariable,
+      values.eventVariable
     )}`;
   },
 

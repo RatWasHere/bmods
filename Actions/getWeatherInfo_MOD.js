@@ -72,8 +72,8 @@ module.exports = {
   ],
 
   async run(values, client, interaction, bridge) {
-    return new Promise((resolve, reject) => {
-      var weather = client.getMods().require("weather-js");
+    return new Promise(async (resolve, reject) => {
+      const weather = await client.getMods().require("weather-js");
 
       const location = bridge.transf(values.location);
       const typeofdegree = bridge.transf(values.degreetype);
@@ -88,7 +88,7 @@ module.exports = {
             bridge.store(values.skytext, result[0].current.skytext);
             bridge.store(
               values.observationpoint,
-              result[0].current.observationpoint,
+              result[0].current.observationpoint
             );
             bridge.store(values.feelslike, result[0].current.feelslike);
             bridge.store(values.humidity, result[0].current.humidity);
@@ -98,7 +98,7 @@ module.exports = {
 
             resolve();
           }
-        },
+        }
       );
     });
   },

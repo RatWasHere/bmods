@@ -11,7 +11,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description: "Get any Minecraft skin by its username.",
   },
   category: "Game",
   UI: [
@@ -63,7 +63,7 @@ module.exports = {
 
     bridge.store(
       values.store,
-      `https://mineskin.eu/${query}/${name}/${size}.png`,
+      `https://mineskin.eu/${query}/${name}/${size}.png`
     );
   },
 };

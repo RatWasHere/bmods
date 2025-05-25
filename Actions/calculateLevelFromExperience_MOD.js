@@ -115,7 +115,7 @@ module.exports = {
       const totalChars = bridge.transf(values.levelbarlenght) || 10;
       const filledChars = Math.floor(
         (experience - currentLevelExperience) /
-          ((nextLevelExperience - currentLevelExperience) / totalChars),
+          ((nextLevelExperience - currentLevelExperience) / totalChars)
       );
       const emptyChars = totalChars - filledChars;
       const levelBar =

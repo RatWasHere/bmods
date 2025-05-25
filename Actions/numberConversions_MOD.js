@@ -48,7 +48,8 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    const { evaluate } = await client.getMods().require("mathjs");
+    await client.getMods().require("mathjs");
+    const { evaluate } = require("mathjs")
     let conversionType = bridge.transf(values.convType.type);
     
     try {

@@ -13,7 +13,8 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description:
+      "Check if a string contains toxic content using the Profanity API.",
   },
   category: "Text",
   UI: [

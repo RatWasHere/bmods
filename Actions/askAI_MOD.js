@@ -12,7 +12,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "qschnitzel",
-    donate: "https://ko-fi.com/qschnitzel",
+    description: "Use an AI to ask a question.",
   },
   category: "AI",
   UI: [
@@ -110,11 +110,11 @@ module.exports = {
         response.status,
         response.statusText,
         "\n",
-        response,
+        response
       );
       return bridge.store(
         values.store,
-        "Error with Chat Completion, please message the bot author!",
+        "Error with Chat Completion, please message the bot author!"
       );
     }
 
