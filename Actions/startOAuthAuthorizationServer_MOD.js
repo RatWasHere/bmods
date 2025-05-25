@@ -203,11 +203,50 @@ module.exports = {
                 if (client.server && client.server.events) {
                     client.server.events.oauthSuccess(req.user);
                 }
-                res.status(200).send("OAuth successful! You can close this window.");
-            });
+                res.status(200).send(`
+                    <html>
+                    <head>
+                    <title>OAuth Successful</title>
+                    <style>
+                    body {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    margin: 0;
+                    background: #f5f7fa;
+                    font-family: Arial, sans-serif;
+                    color: #333;
+                    }
+                    .message {
+                    text-align: center;
+                    padding: 2rem;
+                    border-radius: 10px;
+                    background: #ffffff;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    }
+                    h1 {
+                    font-size: 1.5rem;
+                    margin-bottom: 1rem;
+                    }
+                    p {
+                    font-size: 1rem;
+                    color: #666;
+                    }
+                    </style>
+                    </head>
+                    <body>
+                    <div class="message">
+                    <h1>OAuth successful!</h1>
+                    <p>You can now close this window.</p>
+                    </div>
+                    </body>
+                    </html>
+                    `);
+                });
 
-            const server = app.listen(port, host, () => {
-                console.log(`Discord OAuth server running at http://${host}:${port}`);
+                const server = app.listen(port, host, () => {
+                    console.log(`Discord OAuth server running at http://${host}:${port}`);
             });
 
             return server;
