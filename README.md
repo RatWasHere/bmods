@@ -63,6 +63,8 @@ Try to use as few packages as possible, especially for simple functionality. Use
 
 AI-generated code is not allowed. While using AI as a tool for assistance is permitted, all code must be created and reviewed by human contributors.
 
+When making major changes (such as adding or removing functionality) to an existing mod, please discuss them with the original author or submit a Pull Request. Minor changes (such as formatting) can be pushed directly.
+
 ## Uploading Mods via GitHub Pull Requests
 
 To contribute your mods to this repository, you can use either the GitHub web interface or your local machine.\
