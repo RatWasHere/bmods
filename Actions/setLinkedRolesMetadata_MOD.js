@@ -32,7 +32,7 @@ module.exports = {
               element: "input",
               name: "Key",
               storeAs: "key",
-              placeholder: "cookies",
+              placeholder: "cookies (must be lowercase)",
             },
             "-",
             {
@@ -62,7 +62,7 @@ module.exports = {
               element: "input",
               name: "Key",
               storeAs: "key",
-              placeholder: "cookies",
+              placeholder: "cookies (must be lowercase)",
             },
             "-",
             {
@@ -92,7 +92,7 @@ module.exports = {
               element: "input",
               name: "Key",
               storeAs: "key",
-              placeholder: "level",
+              placeholder: "level (must be lowercase)",
             },
             "-",
             {
@@ -122,7 +122,7 @@ module.exports = {
               element: "input",
               name: "Key",
               storeAs: "key",
-              placeholder: "rank",
+              placeholder: "rank (must be lowercase)",
             },
             "-",
             {
@@ -152,7 +152,7 @@ module.exports = {
               element: "input",
               name: "Key",
               storeAs: "key",
-              placeholder: "joinDate",
+              placeholder: "join_date (must be lowercase)",
             },
             "-",
             {
@@ -182,7 +182,7 @@ module.exports = {
               element: "input",
               name: "Key",
               storeAs: "key",
-              placeholder: "memberSince",
+              placeholder: "member_since (must be lowercase)",
             },
             "-",
             {
@@ -212,7 +212,7 @@ module.exports = {
               element: "input",
               name: "Key",
               storeAs: "key",
-              placeholder: "verified",
+              placeholder: "verified (must be lowercase)",
             },
             "-",
             {
