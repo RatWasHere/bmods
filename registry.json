@@ -97,6 +97,12 @@
       "category": "Canvas Images",
       "creator": "TheMonDon"
     },
+    "addUserToGuild_MOD.js": {
+      "md5": "6d0dccf97c0ab0ad32766c3afdbe69f4",
+      "name": "Add User to Guild",
+      "modules": [],
+      "category": "OAuth"
+    },
     "animeSearch_MOD.js": {
       "md5": "04d0d982fa2fc7d1f152b2cb40615ddc",
       "name": "Anime Search",
