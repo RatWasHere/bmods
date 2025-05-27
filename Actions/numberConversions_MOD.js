@@ -1,4 +1,4 @@
-modVersion = "s.v1.2"
+modVersion = "s.v1.4"
 module.exports = {
   data: {
     name: "Number Conversions"
@@ -23,11 +23,22 @@ module.exports = {
       choices: {
         Normal: {name: "No Conversion / Plain Number", field: false},
         SciNot: {name: "Scientific Notation | Result: n×10^e, 3 d.p.", field: false},
-        Standardise: {name: "Standard Expression (adds commas)", field: false},
-        Generalise: {name: "Generalised Expression | Result 2 d.p. + K/M/B/T", field: false},
+        Standardise: {name: "Standard Expression | Result XX,XXX", field: false},
+        Generalise: {name: "Generalised Expression | Result: 2 d.p. + K/M/B/T", field: false},
         Log2r: {name: "Log2 | Result: 2^n+r", field: false},
-        PrimeFactors: {name: "Prime Factors", field: false}
+        PrimeFactors: {name: "Prime Factors", field: false},
+        Price: {name: "Standard Price | Result: XXXXX.xx", field: false},
+        GeneralisedPrice: {name: "Generalised Price | Result: XX,XXX.xx", field: false}
       }
+    },
+    {
+      element: "typedDropdown",
+      storeAs: "decimalNotation",
+      name: "Decimal Notation",
+      choices: {
+        period: {name: `Period "."`, field: false},
+        comma: {name: `Comma ","`, field: false},
+      },
     },
     "-",
     {
@@ -35,6 +46,7 @@ module.exports = {
       storeAs: "store",
       name: "Store Result As"
     },
+    "-",
     {
       element: "text",
       text: modVersion,
@@ -51,7 +63,14 @@ module.exports = {
     await client.getMods().require("mathjs");
     const { evaluate } = require("mathjs")
     let conversionType = bridge.transf(values.convType.type);
+    let decimalNotation = bridge.transf(values.decimalNotation.type)
     
+    const switchDecNotation = (num) => {
+      let [whole, dec] = String(num).split(".")
+      whole = whole.replaceAll(",",".")
+      return dec? `${whole},${dec}` : whole
+    }
+
     try {
       let input = 0;
       input = evaluate(bridge.transf(values.OriginalNum));
@@ -121,8 +140,22 @@ module.exports = {
 
           case "Normal":
             convertedTxt = number;
+            break
+
+          case "Price":
+            convertedTxt = number.toFixed(2)
+            break
+
+          case "GeneralisedPrice":
+            parts = number.toFixed(2).split(".")
+            formatted = parseInt(parts[0]).toLocaleString()
+            convertedTxt = `${formatted}.${parts[1]}`
+            break
         }
-  
+
+        if (decimalNotation == "comma"){
+          convertedTxt = switchDecNotation(convertedTxt)
+        }
         bridge.store(values.store, convertedTxt);
       }
       
