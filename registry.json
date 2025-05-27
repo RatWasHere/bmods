@@ -364,7 +364,7 @@
       "creator": "Acedia"
     },
     "fetchSteamId_MOD.js": {
-      "md5": "6541e8b4b8c224ea9f6f10ae50a1017f",
+      "md5": "8bef10629fc8d501a4d215517a7b0ec3",
       "name": "Fetch Steam Profile Info",
       "modules": [],
       "category": "WebAPIs",
@@ -928,7 +928,7 @@
       "creator": "Acedia"
     },
     "numberConversions_MOD.js": {
-      "md5": "926c8cf034526add7a5273d544271033",
+      "md5": "65ff17e9de3a52fdbf2d9662c794c953",
       "name": "Number Conversions",
       "modules": [
         "mathjs"
