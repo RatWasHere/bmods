@@ -97,6 +97,16 @@
       "category": "Canvas Images",
       "creator": "TheMonDon"
     },
+    "CensorlyAI_MOD.js": {
+      "md5": "5b14fb9df93705131a5c530c4690ea46",
+      "name": "Censorly AI",
+      "description": "Use an AI to check the text for bad words.",
+      "modules": [
+        "censorly"
+      ],
+      "category": "AI",
+      "creator": "LikRus"
+    },
     "addUserToGuild_MOD.js": {
       "md5": "6d0dccf97c0ab0ad32766c3afdbe69f4",
       "name": "Add User to Guild",
