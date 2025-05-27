@@ -58,30 +58,32 @@ module.exports = {
       const text = bridge.transf(values.text);
       const apikey = bridge.transf(values.key);
 
-try {
-  const response = await fetch("https://jwwodttgkwgvpnpxvgca.supabase.co/functions/v1/analyze-message ", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apikey}`,
-      "Content-Type": "application/json; charset=utf-8"
-    },
-    body: JSON.stringify({ text })
-  });
+      try {
+          const response = await fetch("https://jwwodttgkwgvpnpxvgca.supabase.co/functions/v1/analyze-message ", {
+              method: "POST",
+              headers: {
+                  "Authorization": `Bearer ${apikey}`,
+                  "Content-Type": "application/json; charset=utf-8"
+              },
+              body: JSON.stringify({
+                  text
+              })
+          });
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
 
-  const result = await response.json();
+          const result = await response.json();
 
-  bridge.store(values.flagged, result?.flagged);
-  bridge.store(values.topics, result?.topics);
-  bridge.store(values.confidence, result?.confidence);
-  bridge.store(values.language, result?.language);
+          bridge.store(values.flagged, result?.flagged);
+          bridge.store(values.topics, result?.topics);
+          bridge.store(values.confidence, result?.confidence);
+          bridge.store(values.language, result?.language);
 
-} catch (error) {
-  console.error('Error analyzing text:', error.message);
-}
+      } catch (error) {
+          console.error('Error analyzing text:', error.message);
+      }
 
   },
 };
