@@ -98,12 +98,10 @@
       "creator": "TheMonDon"
     },
     "CensorlyAI_MOD.js": {
-      "md5": "5b14fb9df93705131a5c530c4690ea46",
+      "md5": "d2887b82e110a924b59624a18d7ea39b",
       "name": "Censorly AI",
       "description": "Use an AI to check the text for bad words.",
-      "modules": [
-        "censorly"
-      ],
+      "modules": [],
       "category": "AI",
       "creator": "LikRus"
     },
