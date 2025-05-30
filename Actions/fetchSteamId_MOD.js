@@ -62,12 +62,18 @@ module.exports = {
     if (/^\d+$/.test(identifier) == true && identifier != undefined){
       steamId = identifier
     } else if (/^\d+$/.test(identifier) == false && identifier != undefined){
-      const vanityResponse = await fetch(`https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${identifier}`, {method:"GET", headers: {"Accept":"application/json"}})
-      if (!vanityResponse.ok){
+      let vanityQuery = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${identifier}`.replaceAll(" ", "")
+      const vanityResponse = await fetch(vanityQuery, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "User-Agent": "Other"
+        }})
+      if (!vanityResponse.ok || !vanityResponse.headers.get("content-type").includes(`application/json`)){
         let vanityErrorText = await vanityResponse.text()
         console.error(`HTTP Error! ${vanityErrorText}`)
         steamId = undefined
-      } else {
+      } else if (vanityResponse.headers.get("content-type").includes(`application/json`)){
         const vanityData = await vanityResponse.json()
         if (vanityData.response.success == 1) {
             steamId = vanityData.response.steamid
@@ -80,13 +86,19 @@ module.exports = {
     bridge.store(values.steamId, steamId)
 
     let profileObject
-    if (steamId != undefined && values.profileSummary){
-      const summaryResponse = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`, {method:"GET", headers: {"Accept":"application/json"}})
-      if (!summaryResponse.ok){
+    if (steamId != undefined && values.profileSummary?.value !== ""){
+      let summaryQuery = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`.replaceAll(" ", "")
+      const summaryResponse = await fetch(summaryQuery, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "User-Agent": "Other"
+        }})
+      if (!summaryResponse.ok || !summaryResponse.headers.get("content-type").includes(`application/json`)){
         let summaryErrorText = await summaryResponse.text()
         console.error(`HTTP Error! ${summaryErrorText}`)
         profileObject = undefined
-      } else {
+      } else if (summaryResponse.headers.get("content-type").includes(`application/json`)){
         const summary = await summaryResponse.json()
         if (summary.response.players.length > 0) {
           profileObject = summary.response.players[0]

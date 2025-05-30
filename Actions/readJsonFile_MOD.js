@@ -1,9 +1,9 @@
 modVersion = "s.v1.0"
 module.exports = {
   data: {
-    name: "Read Json File"
+    name: "Read JSON File"
   },
-  aliases: [],
+  aliases: ["Get JSON File"],
   modules: ["node:path", "node:fs"],
   category: "JSON",
   info: {
@@ -15,7 +15,7 @@ module.exports = {
     {
       element: "input",
       storeAs: "pathToJson",
-      name: "Path To Json File",
+      name: "Path To JSON File",
       placeholder: "path/to/file.json"
     },
     {

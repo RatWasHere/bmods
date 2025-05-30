@@ -3,7 +3,7 @@ module.exports = {
   data: {
     name: "Modify JSON File"
   },
-  aliases: [],
+  aliases: ["Edit JSON File"],
   modules: ["node:path", "node:fs"],
   category: "JSON",
   info: {
@@ -15,7 +15,7 @@ module.exports = {
     {
       element: "input",
       storeAs: "pathToJson",
-      name: "Path To Json File",
+      name: "Path To JSON File",
       placeholder: "path/to/file.json"
     },
     {
@@ -124,7 +124,9 @@ module.exports = {
 
     const forbiddenFiles = [
       path.normalize("AppData/Toolkit/storedData.json"),
-      path.normalize("AppData/data.json")
+      path.normalize("AppData/data.json"),
+      path.normalize("vars.json"),
+      path.normalize("schedules")
     ]
     if (forbiddenFiles.some(fp => fullPath.endsWith(fp))){
       return console.error(`Essential Files Are Not To Be Messed With!!`)
