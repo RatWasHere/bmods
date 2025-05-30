@@ -270,7 +270,7 @@
       "creator": "nitiqt"
     },
     "createJsonFile_MOD.js": {
-      "md5": "9821792c64d1f9d12c324eedfbf207df",
+      "md5": "9c8667252aa4288f33347ba8c037ef93",
       "name": "Create JSON File",
       "modules": [
         "node:path",
@@ -372,7 +372,7 @@
       "creator": "Acedia"
     },
     "fetchSteamId_MOD.js": {
-      "md5": "8bef10629fc8d501a4d215517a7b0ec3",
+      "md5": "155203248f00e9ccc0b3ba9a9dcb2826",
       "name": "Fetch Steam Profile Info",
       "modules": [],
       "category": "WebAPIs",
@@ -873,7 +873,7 @@
       "creator": "Made with <3 by @lucxanul"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "44ec316a6af139b6e2d5b4be28285c18",
+      "md5": "1fe675e09a9c54fe97002b3f21e82d82",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
@@ -1116,8 +1116,8 @@
       "creator": "Acedia"
     },
     "readJsonFile_MOD.js": {
-      "md5": "b04c65069dcb0ea8e0856bfc407734be",
-      "name": "Read Json File",
+      "md5": "03cf2f578184c22298057eeddaa2458c",
+      "name": "Read JSON File",
       "modules": [
         "node:path",
         "node:fs"
@@ -1249,6 +1249,20 @@
       ],
       "category": "RSS",
       "creator": "candiedapple"
+    },
+    "statusPage_MOD.js": {
+      "md5": "dc1434dc81f94137a215f33e7b37ffd9",
+      "name": "Create Status Page",
+      "modules": [
+        "node:http",
+        "node:os",
+        "node:fs",
+        "node:path",
+        "node:url",
+        "node:https"
+      ],
+      "category": "Utilities",
+      "creator": "Acedia & qizzle"
     },
     "storePlaylistInfo_MOD.js": {
       "md5": "f351dd1f0dc4e8c23e31b517b4c388d5",
