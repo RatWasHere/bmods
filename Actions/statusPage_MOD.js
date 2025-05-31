@@ -1,4 +1,5 @@
-modVersion = "s.v2.0"
+modVersion = "s.v2.1"
+
 module.exports = {
   data: {
     name: "Create Status Page",
@@ -6,9 +7,10 @@ module.exports = {
     port: "3000",
     graphHistoryCount: 60,
     consoleHistoryCount: 1000,
-    interval: 2.5
+    interval: 2.5,
+    theme: "default"
   },
-  aliases: [],
+  aliases: ["Status Page", "Web UI"],
   modules: ["node:http", "node:os", "node:fs", "node:path", "node:url", "node:https"],
   category: "Utilities",
   info: {
@@ -54,32 +56,10 @@ module.exports = {
     },
     "-",
     {
-      element: "menu",
-      storeAs: "replacements",
-      name: "HTML Content Replacements",
-      types: {
-        replacements: "replacements",
-      },
-      max: 99999,
-      UItypes: {
-        replacements:{
-          data: {},
-          name: "Replace",
-          preview: "`${option.data.findText} with ${option.data.replaceText}`",
-          UI: [
-            {
-              element: "input",
-              storeAs: "findText",
-              name: "Find Text",
-            },
-            {
-              element: "input",
-              storeAs: "replaceText",
-              name: "Replacement Text",
-            },
-          ],
-        },
-      },
+      element: "input",
+      storeAs: "theme",
+      name: "Theme",
+      placeholder: "default"
     },
     "-",
     {
@@ -112,6 +92,7 @@ module.exports = {
     const graphHistoryCount = parseInt(bridge.transf(values.graphHistoryCount)) || 60
     const logsHistoryCount = parseInt(bridge.transf(values.consoleHistoryCount)) || 100
     const interval = parseFloat(bridge.transf(values.interval))*1000 || 5000
+    const theme = bridge.transf(values.theme) || "default"
 
     const botData = require("../data.json")
     const appName = botData.name || "NodeJS"
@@ -125,8 +106,9 @@ module.exports = {
       workingPath = workingDir
     }
 
-    let htmlFilePath = path.join(workingPath, "statusPage", "index.html")
-    let icoFilePath = path.join(workingPath, "statusPage", "bmd.ico")
+    let htmlFilePath = path.join(workingPath, "statusPage", "themes", theme, "index.html")
+    let icoFilePath = path.join(workingPath, "statusPage", "themes", theme, "bmd.ico")
+    let cssFilePath = path.join(workingPath, "statusPage", "themes", theme, "style.css")
     let statusPageDir = path.dirname(htmlFilePath)
     if (!fs.existsSync(statusPageDir)){
       fs.mkdirSync(statusPageDir, { recursive: true })
@@ -134,8 +116,9 @@ module.exports = {
 
     // Getting Files From GitHub If They Dont Exist
     const siteFiles = {
-      html: {github: `https://raw.githubusercontent.com/slothyace/bmods-acedia/refs/heads/main/.assets/statusPage/index.html`, path: htmlFilePath, name: `index.html`},
-      ico: {github: `https://raw.githubusercontent.com/slothyace/bmods-acedia/refs/heads/main/.assets/statusPage/bmd.ico`, path: icoFilePath, name: `bmd.ico`}
+      html: {github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/index.html`, path: htmlFilePath, name: `index.html`},
+      ico: {github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/bmd.ico`, path: icoFilePath, name: `bmd.ico`},
+      css: {github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/style.css`, path: cssFilePath, name: `style.css`},
     }
     for (let coreKey in siteFiles) {
       const file = siteFiles[coreKey]
@@ -159,7 +142,7 @@ module.exports = {
                 try {
                   const data = Buffer.concat(chunks)
                   fs.writeFileSync(file.path, data) // No encoding specified so it works for binary too
-                  console.log(`"${file.name}" downloaded from GitHub.`)
+                  console.log(`"${file.name}" downloaded from ${file.github}.`)
                   resolve()
                 } catch (err) {
                   reject(err)
@@ -309,6 +292,17 @@ module.exports = {
       return pass === password
     }
 
+    let missingSiteFiles = []
+    for (let key in siteFiles){
+      const file = siteFiles[key]
+      if (!fs.existsSync(file.path)){
+        missingSiteFiles.push(file.name)
+      }
+    }
+    if (missingSiteFiles.length > 0){
+      return console.error(`Files (${missingSiteFiles.join(", ")}) Are Missing To Serve The Page!`)
+    }
+
     const server = http.createServer((request, response)=>{
       if(!checkAuthorization(request)){
         response.writeHead(401, {
@@ -331,17 +325,23 @@ module.exports = {
           }
           break
 
+        case "/style.css":
+          if (fs.existsSync(cssFilePath)){
+            response.writeHead(200, {
+              "content-type": "text/css"
+            })
+            fs.createReadStream(cssFilePath).pipe(response)
+          } else {
+            response.writeHead(404)
+            response.end("Style.css Not Found!")
+          }
+          break
+
         case "/monitor":
           response.writeHead(200, {
             "content-type": "text/html"
           })
           let htmlTemplate = fs.readFileSync(htmlFilePath, "utf-8")
-          htmlTemplate = htmlTemplate.replaceAll(/\$\{appName\}/g, appName).replaceAll(/\$\{updateInterval\}/g, interval)
-          for (let replacement of values.replacements){
-            const find = bridge.transf(replacement.data.findText)
-            const replace = bridge.transf(replacement.data.replaceText)
-            htmlTemplate = htmlTemplate.replaceAll(find, replace)
-          }
           response.end(htmlTemplate)
           break
 
