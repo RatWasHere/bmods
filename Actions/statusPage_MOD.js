@@ -2,7 +2,7 @@ modVersion = "s.v3.0";
 
 module.exports = {
   data: {
-    name: "Create Login Status Page",
+    name: "Create Status Page",
     host: "localhost",
     port: "3000",
     graphHistoryCount: 60,
