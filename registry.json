@@ -1251,15 +1251,16 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "032a85466f48454398edd4d72c051e63",
-      "name": "Create Status Page",
+      "md5": "1abc7ef3878d592fb6f39a1c5302047a",
+      "name": "Create Login Status Page",
       "modules": [
         "node:http",
         "node:os",
         "node:fs",
         "node:path",
         "node:url",
-        "node:https"
+        "node:https",
+        "node:crypto"
       ],
       "category": "Utilities",
       "creator": "Acedia & qizzle"
