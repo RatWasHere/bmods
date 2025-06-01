@@ -1251,8 +1251,8 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "1abc7ef3878d592fb6f39a1c5302047a",
-      "name": "Create Login Status Page",
+      "md5": "84b32c844c2ad64a997656dc854839cd",
+      "name": "Create Status Page",
       "modules": [
         "node:http",
         "node:os",
