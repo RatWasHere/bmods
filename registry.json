@@ -247,6 +247,13 @@
       "category": "Discord-Player Music",
       "creator": "TheMonDon"
     },
+    "controlRoleData_MOD.js": {
+      "md5": "68a5a3fffc6e94c7c1fe74929936eda6",
+      "name": "Control Role Data",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
     "controlcustomdata_MOD.js": {
       "md5": "2383f253cd39fa31256739b3a0299a6a",
       "name": "Control Custom Data",
@@ -316,6 +323,13 @@
       "modules": [],
       "category": "Files",
       "creator": "nitiqt"
+    },
+    "deleteRoleData_MOD.js": {
+      "md5": "724d669246b5676b5c7ada314a8edeba",
+      "name": "Delete Role Data",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
     },
     "deleteScheduledEvent_MOD.js": {
       "md5": "5cb81e108d18995459a4490216678779",
@@ -690,6 +704,20 @@
       "category": "Variables",
       "creator": "candiedapple"
     },
+    "getRoleDataData_MOD.js": {
+      "md5": "34a6aa8506dd3c512a5c3b9f42055663",
+      "name": "Get All Roles Data Data",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
+    "getRoleData_MOD.js": {
+      "md5": "cf3b9192ccec062d7c7570e3f92d936d",
+      "name": "Get Role Data",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
     "getRoleInfo_MOD.js": {
       "md5": "32954e57649c5b3d7bdf85a568540be5",
       "name": "Get Role Info PLUS",
@@ -849,8 +877,15 @@
       "category": "Server Data",
       "creator": "Acedia"
     },
+    "loadRoleMultipleData_MOD.js": {
+      "md5": "7f969037bd7084c8dc25e4ae824df3da",
+      "name": "Get Role Multiple Datas",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
     "loadUserMultipleData_MOD.js": {
-      "md5": "3bf63983114e3ac6ac8f4171242866ce",
+      "md5": "6ecb79800a7847f96578d779dae906d2",
       "name": "Get User Multiple Datas",
       "modules": [],
       "category": "User Data",
@@ -943,7 +978,7 @@
       "creator": "Acedia"
     },
     "numberConversions_MOD.js": {
-      "md5": "65ff17e9de3a52fdbf2d9662c794c953",
+      "md5": "9e05d8071e9767058e5c1228815ada26",
       "name": "Number Conversions",
       "modules": [
         "mathjs"
@@ -1141,6 +1176,13 @@
       "category": "Images",
       "creator": "candiedapple"
     },
+    "reduceDuplicatesInList_MOD.js": {
+      "md5": "b9d5e9f4143a7fe8d732e56d404edf56",
+      "name": "Reduce Duplicates In List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "Acedia"
+    },
     "robloxRanking_MOD.js": {
       "md5": "16a3ff50fc1880e4b557d7608f8237dc",
       "name": "Rank User in Group",
@@ -1258,7 +1300,7 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "84b32c844c2ad64a997656dc854839cd",
+      "md5": "527b2eefc0b6c108c6612a7cbdbbc8d3",
       "name": "Create Status Page",
       "modules": [
         "node:http",
@@ -1289,6 +1331,13 @@
       ],
       "category": "Discord-Player Music",
       "creator": "TheMonDon"
+    },
+    "storeRoleData_MOD.js": {
+      "md5": "f7c09272e558bb0a2ed02825e92c7d9f",
+      "name": "Store Role Data",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
     },
     "storeTrackInfo_MOD.js": {
       "md5": "e8eef0ea5497c4238ea9427186efb408",
