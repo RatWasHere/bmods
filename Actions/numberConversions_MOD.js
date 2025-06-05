@@ -1,4 +1,4 @@
-modVersion = "s.v1.4"
+modVersion = "s.v2.0"
 module.exports = {
   data: {
     name: "Number Conversions"
@@ -9,26 +9,28 @@ module.exports = {
     donate: "https://ko-fi.com/slothyacedia"
   },
   category: "Numbers",
+  aliases: ["Format Numbers"],
   modules: ["mathjs"],
   UI: [
     {
       element: "largeInput",
       storeAs: "OriginalNum",
-      name: "Number (can be expression too)",
+      name: "Number (Can Be Expression)",
     },
+    "-",
     {
       element: "typedDropdown",
       storeAs: "convType",
       name: "Conversions",
       choices: {
-        Normal: {name: "No Conversion / Plain Number", field: false},
-        SciNot: {name: "Scientific Notation | Result: n×10^e, 3 d.p.", field: false},
-        Standardise: {name: "Standard Expression | Result XX,XXX", field: false},
-        Generalise: {name: "Generalised Expression | Result: 2 d.p. + K/M/B/T", field: false},
-        Log2r: {name: "Log2 | Result: 2^n+r", field: false},
-        PrimeFactors: {name: "Prime Factors", field: false},
-        Price: {name: "Standard Price | Result: XXXXX.xx", field: false},
-        GeneralisedPrice: {name: "Generalised Price | Result: XX,XXX.xx", field: false}
+        plain: {name: "Plain Number | Example: 123.456", field: false},
+        standard: {name: "Standardized Expression | Example: 12,345.678", field: false},
+        sciNot: {name: "Scientific Notation | Example: 1.234×10⁵", field: false},
+        generalized: {name: "Generalized Expression | Example: 1.23 + K/M/B/T", field: false},
+        log2r: {name: "Log2r | Example: 2³+1", field: false},
+        primeFactors: {name: "Prime Factors | Example: 2³×3²x11", field: false},
+        price: {name: "Price | Example: 1234.56", field: false},
+        standardPrice: {name: "Standardized Price | Example: 1,234.56", field: false},
       }
     },
     {
@@ -36,8 +38,17 @@ module.exports = {
       storeAs: "decimalNotation",
       name: "Decimal Notation",
       choices: {
-        period: {name: `Period "."`, field: false},
-        comma: {name: `Comma ","`, field: false},
+        period: {name: `Period | .`, field: false},
+        comma: {name: `Comma | ,`, field: false},
+      },
+    },
+    {
+      element: "typedDropdown",
+      storeAs: "exponentPresentation",
+      name: "Present Exponents As",
+      choices: {
+        superscript: {name: "Superscript | nⁿ", field: false},
+        caret: {name: "Caret | n^n", field: false},
       },
     },
     "-",
@@ -60,10 +71,14 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    await client.getMods().require("mathjs");
+    for (const moduleName of this.modules){
+      await client.getMods().require(moduleName)
+    }
+
     const { evaluate } = require("mathjs")
-    let conversionType = bridge.transf(values.convType.type);
+    let conversionType = bridge.transf(values.convType.type)
     let decimalNotation = bridge.transf(values.decimalNotation.type)
+    let exponentPresentation = bridge.transf(values.exponentPresentation.type) || "caret"
     
     const switchDecNotation = (num) => {
       let [whole, dec] = String(num).split(".")
@@ -71,100 +86,173 @@ module.exports = {
       return dec? `${whole},${dec}` : whole
     }
 
+    function toSuperscript(num){
+      const superscriptMap = {
+        "0": "⁰",
+        "1": "¹",
+        "2": "²",
+        "3": "³",
+        "4": "⁴",
+        "5": "⁵",
+        "6": "⁶",
+        "7": "⁷",
+        "8": "⁸",
+        "9": "⁹",
+        "+": "⁺",
+        "-": "⁻",
+        "=": "⁼",
+        "(": "⁽",
+        ")": "⁾",
+      }
+      return String(num).split("").map(char => superscriptMap[char] || char).join("")
+    }
+
+    function toNormalScript(num){
+      const superscriptMap = {
+        "⁰": "0",
+        "¹": "1",
+        "²": "2",
+        "³": "3",
+        "⁴": "4",
+        "⁵": "5",
+        "⁶": "6",
+        "⁷": "7",
+        "⁸": "8",
+        "⁹": "9",
+        "⁺": "+",
+        "⁻": "-",
+        "⁼": "=",
+        "⁽": "(",
+        "⁾": ")",
+      }
+      return `^${String(num).split("").map(char => superscriptMap[char] || char).join("")}`
+    }
+
+    let input = 0
+    let convertedTxt
     try {
-      let input = 0;
-      input = evaluate(bridge.transf(values.OriginalNum));
-      let number = parseFloat(input);
-      let convertedTxt;
+      input = evaluate(bridge.transf(values.OriginalNum))
+      let number = parseFloat(input)
 
-      if (!isNaN(number)) {
-        switch (conversionType) {
-          case "SciNot":
-            const sciNot = number.toExponential().split("e");
-            if (parseInt(sciNot[1]) >= 0) {
-              exponent = sciNot[1].slice(1);
-            } else {
-              exponent = sciNot[1]
-            }
-            sciNot3dp = parseFloat(sciNot[0]).toFixed(3);
-            convertedTxt = `${sciNot3dp}×10^${exponent}`;
-            break;
-  
-          case "Standardise":
-            convertedTxt = number.toLocaleString();
-            break;
-  
-          case "Generalise":
-            if (number >= 1e12) convertedTxt = (number / 1e12).toFixed(2) + 'T';
-            else if (number >= 1e9) convertedTxt = (number / 1e9).toFixed(2) + 'B';
-            else if (number >= 1e6) convertedTxt = (number / 1e6).toFixed(2) + 'M';
-            else if (number >= 1e3) convertedTxt = (number / 1e3).toFixed(2) + 'K';
-            else convertedTxt = number.toFixed(1);
-            break;
-  
-          case "Log2r":
-            const expressAsPowersOf2 = (num) => {
-              let power = Math.floor(Math.log2(num));
-              let highestPowerOf2 = Math.pow(2, power);
-              let remainder = num - highestPowerOf2;
-              
-              if (remainder === 0) {
-                return `2^${power}`;
-              } else {
-                return `2^${power}+${remainder}`;
-              }
-            };
-  
-            convertedTxt = expressAsPowersOf2(number);
-            break;
-  
-          case "PrimeFactors":
-            const expressPrimeFactors = (num) => {
-              const factors = [];
-              let divisor = 2;
-              
-              while (num >= 2) {
-                if (num % divisor === 0) {
-                  factors.push(divisor);
-                  num = num / divisor;
-                } else {
-                  divisor++;
-                }
-              }
-  
-              return factors.join('×');
-            };
-  
-            convertedTxt = expressPrimeFactors(number);
-            break;
-
+      if (!isNaN(number)){
+        switch(conversionType){
+          case "plain":
           case "Normal":
-            convertedTxt = number;
+            convertedTxt = number
             break
 
+          case "standard":
+          case "Standardise":
+            convertedTxt = number.toLocaleString()
+            break
+
+          case "sciNot":
+          case "SciNot":
+            let sciNotValues = number.toExponential().split("e")
+            let exponent = parseInt(sciNotValues[1])
+            let coefficient = parseFloat(sciNotValues[0]).toFixed(3)
+            if (exponentPresentation == "superscript"){
+              convertedTxt = `${coefficient}×10${toSuperscript(exponent)}`
+            } else if (exponentPresentation == "caret"){
+              convertedTxt = `${coefficient}x10^${exponent}`
+            }
+            break
+            
+          case "generalized":
+          case "Generalise":
+            if (number >= 1e12){convertedTxt = (number / 1e12).toFixed(2) + "T"}
+            else if (number >= 1e9){convertedTxt = (number / 1e9).toFixed(2) + "B"}
+            else if (number >= 1e6){convertedTxt = (number / 1e6).toFixed(2) + "M"}
+            else if (number >= 1e3){convertedTxt = (number / 1e3).toFixed(2) + "K"}
+            else {convertedTxt = number}
+            break
+
+          case "log2r":
+          case "Log2r":
+            const expressAsP2 = (num)=>{
+              let exponent = Math.floor(Math.log2(num))
+              let highestPowerOf2 = Math.pow(2, exponent)
+              let remainder = num - highestPowerOf2
+              if (remainder === 0){
+                if (exponentPresentation == "superscript"){
+                  return `2${toSuperscript(exponent)}`
+                } else if (exponentPresentation == "caret"){
+                  return `2^${exponent}`
+                }
+              } else {
+                if (exponentPresentation == "superscript"){
+                  return `2${toSuperscript(exponent)}+${remainder}`
+                } else if (exponentPresentation == "caret"){
+                  return `2^${exponent}+${remainder}`
+                }
+              }
+            }
+            convertedTxt = expressAsP2(number)
+            break
+
+          case "primeFactors":
+          case "PrimeFactors":
+            const expressAsPF = (num)=>{
+              let factors = []
+              let divisor = 2
+              
+              while (num >= 2){
+                if (num % divisor === 0){
+                  factors.push(divisor)
+                  num = num / divisor
+                } else {
+                  divisor++
+                }
+              }
+
+              let reducedFactors = []
+              let factorMap = {}
+              for (let factor of factors){
+                factorMap[factor] = (factorMap[factor] || 0) + 1
+              }
+
+              for (let [prime, count] of Object.entries(factorMap)){
+                if (count > 1){
+                  if (exponentPresentation == "superscript"){
+                    reducedFactors.push(`${prime}${toSuperscript(count)}`)
+                  } else if (exponentPresentation == "caret"){
+                    reducedFactors.push(`${prime}^${count}`)
+                  }
+                } else {
+                  reducedFactors.push(`${prime}`)
+                }
+              }
+
+              return reducedFactors.join("×")
+            }
+
+            convertedTxt = expressAsPF(number)
+            break
+
+          case "price":
           case "Price":
             convertedTxt = number.toFixed(2)
             break
 
+          case "standardPrice":
           case "GeneralisedPrice":
-            parts = number.toFixed(2).split(".")
-            formatted = parseInt(parts[0]).toLocaleString()
-            convertedTxt = `${formatted}.${parts[1]}`
+            let parts = number.toFixed(2).split(".")
+            let formattedDollar = parseInt(parts[0]).toLocaleString()
+            convertedTxt = `${formattedDollar}.${parts[1]}`
             break
         }
 
         if (decimalNotation == "comma"){
           convertedTxt = switchDecNotation(convertedTxt)
         }
-        bridge.store(values.store, convertedTxt);
-      }
-      
-      else {
-        bridge.store(values.store, "Number Format Not Supported.");
-      }
-    }
 
-    catch (error) {
+        bridge.store(values.store, convertedTxt)
+      } else {
+        bridge.store(values.store, `Number Format Not Supported.`)
+      }
+
+    } catch (error) {
+      console.log(error)
       bridge.store(values.store, error)
     }
   }

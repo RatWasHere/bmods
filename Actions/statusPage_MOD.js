@@ -505,11 +505,16 @@ module.exports = {
         case "/login":
           if (loginSystem === "token") {
             if (request.method === "GET") {
-              response.writeHead(200, {
-                "content-type": "text/html",
-              });
-              let loginPageHtml = fs.readFileSync(loginHtmlFilePath, "utf-8");
-              response.end(loginPageHtml);
+              if (checkToken(request) == false) {
+                response.writeHead(200, {
+                  "content-type": "text/html",
+                });
+                let loginPageHtml = fs.readFileSync(loginHtmlFilePath, "utf-8");
+                response.end(loginPageHtml);
+              } else {
+                response.writeHead(301, { location: "/monitor" });
+                response.end();
+              }
             } else if (request.method === "POST") {
               let postBody = "";
               request.on("data", (dataChunk) => (postBody += dataChunk));
@@ -548,8 +553,7 @@ module.exports = {
 
         case "/monitor":
           if (loginSystem === "token") {
-            let monitorAuthorized = checkToken(request);
-            if (monitorAuthorized == false) {
+            if (checkToken(request) == false) {
               response.writeHead(301, { location: "/login" });
               response.end();
             } else {
@@ -570,8 +574,7 @@ module.exports = {
 
         case "/raw":
           if (loginSystem === "token") {
-            let rawAuthorized = checkToken(request);
-            if (rawAuthorized == false) {
+            if (checkToken(request) == false) {
               response.writeHead(301, { location: "/login" });
               response.end();
             } else {

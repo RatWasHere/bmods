@@ -1,7 +1,7 @@
 modVersion = "s.v1.0";
 module.exports = {
-  data: { name: "Get User Multiple Datas" },
-  category: "User Data",
+  data: { name: "Get Role Multiple Datas" },
+  category: "Role Data",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
@@ -15,9 +15,9 @@ module.exports = {
     },
     "-",
     {
-      element: "user",
-      storeAs: "user",
-      name: "User",
+      element: "role",
+      storeAs: "role",
+      name: "Role",
     },
     {
       element: "input",
@@ -28,7 +28,7 @@ module.exports = {
     {
       element: "menu",
       storeAs: "retrievelist",
-      name: "List of User Datas",
+      name: "List of Role Datas",
       types: {
         data: "datas",
       },
@@ -59,19 +59,38 @@ module.exports = {
     },
   ],
   subtitle: (values, constants) => {
-    return `Retrieve ${values.retrievelist.length} datas of ${constants.user(
-      values.user
+    return `Retrieve ${values.retrievelist.length} datas of ${constants.role(
+      values.role
     )}.`;
   },
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    let storedData = bridge.data.IO.get();
+    // initialize roles if it doesnt exist
+    const path = require("node:path");
+    const botData = require("../data.json");
+    const workingDir = path.normalize(process.cwd());
+    let projectFolder;
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
+      projectFolder = botData.prjSrc;
+    } else {
+      projectFolder = workingDir;
+    }
+
+    let storedPath = path.join(projectFolder, "AppData", "ToolKit", "storedData.json")
+    let storedData = JSON.parse(bridge.fs.readFileSync(storedPath))
+
+    if (!storedData.roles){
+      storedData.roles = {}
+      bridge.fs.writeFileSync(storedPath, JSON.stringify(storedData))
+    }
+
+    storedData = bridge.data.IO.get();
     let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : "";
-    let user = await bridge.getUser(values.user);
+    let role = await bridge.getRole(values.role);
 
     for (let item of values.retrievelist) {
-      let userData = defaultVal;
+      let roleData = defaultVal;
 
       const dataName = item.data.dataname;
       const storeLocation = item.data.store;
@@ -80,18 +99,18 @@ module.exports = {
         const getDataName = bridge.transf(dataName);
 
         if (
-          storedData.users &&
-          storedData.users[user.id] &&
-          storedData.users[user.id][getDataName]
+          storedData.roles &&
+          storedData.roles[roles.id] &&
+          storedData.roles[role.id][getDataName]
         ) {
-          userData = storedData.users[user.id][getDataName];
+          roleData = storedData.roles[role.id][getDataName];
         }
       } catch (error) {
-        storedData.users[user.id] = {};
+        storedData.roles[role.id] = {};
         bridge.data.IO.write(storedData);
       }
 
-      bridge.store(storeLocation, userData);
+      bridge.store(storeLocation, roleData);
     }
   },
 };
