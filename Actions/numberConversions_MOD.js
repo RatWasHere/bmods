@@ -196,13 +196,17 @@ module.exports = {
               let factors = []
               let divisor = 2
               
-              while (num >= 2){
+              while (num >= 2 && divisor < 1012){ //Hard cap at 1012 digit prime so that the bot doesn't sht itself
                 if (num % divisor === 0){
                   factors.push(divisor)
                   num = num / divisor
                 } else {
                   divisor++
                 }
+              }
+
+              if (num !== 0){
+                factors.push(num)
               }
 
               let reducedFactors = []
