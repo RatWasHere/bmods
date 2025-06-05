@@ -690,6 +690,13 @@
       "category": "Variables",
       "creator": "candiedapple"
     },
+    "getRoleInfo_MOD.js": {
+      "md5": "32954e57649c5b3d7bdf85a568540be5",
+      "name": "Get Role Info PLUS",
+      "modules": [],
+      "category": "Roles",
+      "creator": "LikRus"
+    },
     "getRoleMentions_MOD.js": {
       "md5": "f39f8e0879c475cde34604ee94175a9c",
       "name": "Get Role Mentions In List",
