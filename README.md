@@ -72,7 +72,7 @@ For a detailed tutorial, [**view this**](https://github.com/RatWasHere/bmods/blo
 
 ## Contact
 
-Join our community on the [Discord server](https://discord.gg/whtjS7BW3u) for support and discussion.
+Join our community on the [Discord server](https://discord.gg/n9PWrxFQFF) for support and discussion.
 
 ## License
 
