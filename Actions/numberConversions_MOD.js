@@ -1,7 +1,7 @@
-modVersion = "s.v2.0"
+modVersion = "v2.1.4"
 module.exports = {
   data: {
-    name: "Number Conversions"
+    name: "Number Conversions",
   },
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
@@ -107,8 +107,8 @@ module.exports = {
       return String(num).split("").map(char => superscriptMap[char] || char).join("")
     }
 
-    function toNormalScript(num){
-      const superscriptMap = {
+    function parseSuperScript(expression){
+      const normalizeSuperscriptMap = {
         "⁰": "0",
         "¹": "1",
         "²": "2",
@@ -125,16 +125,23 @@ module.exports = {
         "⁽": "(",
         "⁾": ")",
       }
-      return `^${String(num).split("").map(char => superscriptMap[char] || char).join("")}`
+      normalizedExpression = expression.replace(/([0-9.]+)([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁽⁾]+)/g, (_, base, exponent) =>{
+        let normalizeSuper = exponent.split("").map(char => normalizeSuperscriptMap[char] || char).join("")
+        return `${base}^${normalizeSuper}`
+      })
+
+      return normalizedExpression
     }
+
+    let originalExpression = parseSuperScript(bridge.transf(values.OriginalNum))
 
     let input = 0
     let convertedTxt
     try {
-      input = evaluate(bridge.transf(values.OriginalNum))
+      input = evaluate(originalExpression)
       let number = parseFloat(input)
 
-      if (!isNaN(number)){
+      if (!isNaN(number) && number <= 1.7e308){
         switch(conversionType){
           case "plain":
           case "Normal":
@@ -187,35 +194,38 @@ module.exports = {
                 }
               }
             }
-            convertedTxt = expressAsP2(number)
+            if (number < 0){
+              convertedTxt = `Number Needs To Be Positive To Be Represented As Log2r`
+            } else {
+              convertedTxt = expressAsP2(number)
+            }
             break
 
           case "primeFactors":
           case "PrimeFactors":
             const expressAsPF = (num)=>{
-              let factors = []
+              let factors = {}
               let divisor = 2
               
-              while (num >= 2 && divisor < 1012){ //Hard cap at 1012 digit prime so that the bot doesn't sht itself
-                if (num % divisor === 0){
-                  factors.push(divisor)
-                  num = num / divisor
-                } else {
-                  divisor++
+              while (num % 2 === 0){
+                factors[2] = (factors[2]||0) +1
+                num /= 2
+              }
+
+              for (let divisor = 3; divisor <= Math.sqrt(num); divisor += 2){
+                while (num % divisor === 0){
+                  factors[divisor] = (factors[divisor]||0) +1
+                  num /= divisor
                 }
               }
 
-              if (num !== 0){
-                factors.push(num)
+              if (num > 2){
+                factors[num] = (factors[num]||0) +1
               }
 
               let reducedFactors = []
-              let factorMap = {}
-              for (let factor of factors){
-                factorMap[factor] = (factorMap[factor] || 0) + 1
-              }
 
-              for (let [prime, count] of Object.entries(factorMap)){
+              for (let [prime, count] of Object.entries(factors)){
                 if (count > 1){
                   if (exponentPresentation == "superscript"){
                     reducedFactors.push(`${prime}${toSuperscript(count)}`)
@@ -252,7 +262,7 @@ module.exports = {
 
         bridge.store(values.store, convertedTxt)
       } else {
-        bridge.store(values.store, `Number Format Not Supported.`)
+        bridge.store(values.store, `Number Format Not Supported Or Is Too Big.`)
       }
 
     } catch (error) {

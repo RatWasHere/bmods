@@ -1,5 +1,5 @@
 // should free the file after its done reading so that other actions can be performed on the file if needed
-modVersion = "s.v1.2"
+modVersion = "v1.2.0"
 
 module.exports = {
   data: {

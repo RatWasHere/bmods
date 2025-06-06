@@ -1,4 +1,4 @@
-modVersion = "s.v1.0 | AceFix"
+modVersion = "v1.0.0 | AceFix"
 module.exports = {
   data: {
     name: "Skip In Queue",

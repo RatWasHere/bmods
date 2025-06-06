@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "v1.0.0"
 module.exports = {
   data: { name: "Get All Global Data" },
   category: "Global Data",

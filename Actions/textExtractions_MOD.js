@@ -1,4 +1,4 @@
-modVersion = "s.v1.1"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "Extract From Text"

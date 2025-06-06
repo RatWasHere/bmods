@@ -1,4 +1,4 @@
-modVersion = "s.v3.0";
+modVersion = "v3.0.2";
 
 module.exports = {
   data: {

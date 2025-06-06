@@ -1,5 +1,5 @@
 // requires the yt-dlp binary for whichever platform is it that you use.
-modVersion = "s.v1.3"
+modVersion = "v1.3.0"
 
 module.exports ={
   data: {

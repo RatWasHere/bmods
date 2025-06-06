@@ -1,4 +1,4 @@
-modVersion = "s.v2.1 | AceFix"
+modVersion = "v2.1.0 | AceFix"
 module.exports = {
   data: {
     name: "Create File",

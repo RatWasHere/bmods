@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "v2.0.0"
 module.exports = {
   data: {
     name: "Better Multiple Comparisons"
@@ -36,11 +36,17 @@ module.exports = {
               storeAs: "conditionType",
               name: "Operand",
               choices: [
-                {name: "More Than", field: false},
-                {name: "Less Than", field: false},
                 {name: "Equals To", field: false},
                 {name: "Not Equals To", field: false},
-                {name: "Matches Regex", field: false}
+                {name: "More Than", field: false},
+                {name: "More Than / Equals To", field: false},
+                {name: "Less Than", field: false},
+                {name: "Less Than / Equal To", field: false},
+                {name: "Matches Regex", field: false},
+                {name: "Starts With", field: false},
+                {name: "Ends With", field: false},
+                {name: "Contains", field: false},
+                {name: "Is Number", field: false},
               ],
             },
             {
@@ -50,16 +56,11 @@ module.exports = {
             },
             "-",
             {
-              element: "toggle",
-              storeAs: "ignore",
-              name: "Do Nothing If Not Matching",
-            },
-            {
               element: "condition",
               storeAs: "true",
               storeActionsAs: "trueActions",
-              name: "If Matches Condition, Run",
-            },
+              name: "If True, Run",
+            }
           ]
         }
       }
@@ -68,15 +69,9 @@ module.exports = {
       element: "condition",
       storeAs: "else",
       storeActionsAs: "elseActions",
-      name: "If No Matches, Run"
+      name: "If No Matches At All, Run"
     },
     "-",
-    {
-      element: "condition",
-      storeAs: "falseBack",
-      storeActionsAs: "falseBackActions",
-      name: "If Condition Doesn't Match, Run"
-    },
     {
       element: "text",
       text: modVersion,
@@ -99,25 +94,37 @@ module.exports = {
 
       switch (conditionType){
         case "More Than":
-          if(oriValue > compValue){
+          if(Number(oriValue) > Number(compValue)){
+            conditionMatch = true
+          }
+          break
+
+        case "More Than / Equals To":
+          if(Number(oriValue) >= Number(compValue)){
             conditionMatch = true
           }
           break
 
         case "Less Than":
-          if(oriValue < compValue){
+          if(Number(oriValue) < Number(compValue)){
+            conditionMatch = true
+          }
+          break
+
+        case "Less Than / Equals To":
+          if(Number(oriValue) <= Number(compValue)){
             conditionMatch = true
           }
           break
 
         case "Equals To":
-          if(oriValue == compValue){
+          if(Number(oriValue) === Number(compValue)){
             conditionMatch = true
           }
           break
 
         case "Not Equals To":
-          if(oriValue != compValue){
+          if(Number(oriValue) !== Number(compValue)){
             conditionMatch = true
           }
           break
@@ -126,20 +133,40 @@ module.exports = {
           if (conditionMatch = oriValue.match(new RegExp("^" + compValue + "$", "i"))){
             conditionMatch = true
           }
+          break
+
+        case "Starts With":
+          if(oriValue.startsWith(compValue)){
+            conditionMatch = true
+          }
+          break
+
+        case "Ends With":
+          if(oriValue.endsWith(compValue)){
+            conditionMatch = true
+          }
+          break
+
+        case "Contains":
+          if(oriValue.includes(compValue)){
+            conditionMatch = true
+          }
+          break
+
+        case "Is Number":
+          if(typeof parseFloat(oriValue) === "number" && `${parseFloat(oriValue)}` !== `NaN`){
+            conditionMatch = true
+          }
+          break
       }
 
       if (conditionMatch == true){
         await bridge.call(conditionData.true, conditionData.trueActions)
         matches = true
       }
-      else {
-        if(conditionData.ignore == false){
-          await bridge.call(values.falseBack, values.falseBackActions)
-        }
-      }
     }
 
-    if (!matches){
+    if (matches === false){
       await bridge.call(values.else, values.elseActions)
     }
   }

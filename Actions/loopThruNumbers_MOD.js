@@ -1,5 +1,5 @@
 //Im just adding this to spite rat kekw
-modVersion = "s.v1.0"
+modVersion = "v1.0.0"
 
 module.exports = {
   data: {

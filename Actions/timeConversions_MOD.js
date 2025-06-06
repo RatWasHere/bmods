@@ -1,4 +1,4 @@
-modVersion = "s.v2.2"
+modVersion = "v2.2.0"
 module.exports = {
   data: {
     name: "Time Conversions",
