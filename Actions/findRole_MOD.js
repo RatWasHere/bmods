@@ -42,7 +42,7 @@ const p = {
   'VIEW_CHANNEL': "View Channels",
 }
 
-modVersion = "v1.1.0";
+modVersion = "v1.2.0";
 
 module.exports = {
   category: "Roles",
@@ -128,6 +128,12 @@ module.exports = {
       name: "Store Role As"
     },
     {
+      element: "store",
+      storeAs: "storeerorr",
+      name: "Store List Conditions (Erorr)"
+    },
+    "-",
+    {
       element: "condition",
       storeAs: "ifexists",
       storeActionsAs: "ifexistsActions",
@@ -151,77 +157,71 @@ module.exports = {
   async run(values, message, client, bridge) {
       let roles = await bridge.guild.getRoles();
       
-      const filteredRoles = roles.filter((role) => {
-          const isStandard = values.standard === true;
-          const isIntegration = values.integration === true;
-          const isDisplay = values.display === true;
-          const isNotification = values.notification === true;
-          const isAvailableForPurchase = values.availableForPurchase === true;
-          const isPremiumSubscriber = values.premiumSubscriber === true;
-          
-          if (isStandard && (isIntegration || isDisplay || isNotification || isAvailableForPurchase || isPremiumSubscriber)) {
-              return false;
-          }
-          
-          let conditions = [];
-          
-          if (isIntegration) conditions.push(role.managed === true);
-          if (isDisplay) conditions.push(role.hoist === true);
-          if (isNotification) conditions.push(role.mentionable === true);
-          if (isAvailableForPurchase) conditions.push(role.tags?.availableForPurchase === true);
-          if (isPremiumSubscriber) conditions.push(role.tags?.premiumSubscriber === true);
-          
-          const passBasicConditions = conditions.every(Boolean);
-          
-          const noBasicConditions = conditions.length === 0 && !isStandard;
-          if (!passBasicConditions && !noBasicConditions) return false;
-          
-          let passCasesPermissions = true;
-          
-          if (Array.isArray(values.cases)) {
-              for (const dataCase of values.cases) {
-                  if (dataCase.type !== "data") continue;
-                  
-                  const casePermissionKey = dataCase.data?.permission;
-                  const compile = dataCase.data?.compile === true;
-                  
-                  if (!casePermissionKey) continue;
-                  
-                  const permissionName = String(casePermissionKey).toUpperCase();
-                  
-                  const hasPermission = role.permissions.has(permissionName);
-                  
-                  if ((compile && !hasPermission) || (!compile && hasPermission)) {
-                      passCasesPermissions = false;
-                      break;
-                  }
-              }
-          }
-          
-          return passBasicConditions && passCasesPermissions;
-      });
-      
       let toMatch = bridge.transf(values.value);
-      
       let result;
+      
       switch (values.method) {
           case "Role ID":
-              result = filteredRoles.find((role) => role.id === toMatch);
+              result = roles.find((role) => role.id === toMatch);
               break;
           case "Role Name":
-              result = filteredRoles.find((role) => role.name === toMatch);
+              result = roles.find((role) => role.name === toMatch);
               break;
           case "Role Position":
               const position = parseInt(toMatch, 10);
-              result = filteredRoles.find((role) => role.position === position);
+              result = roles.find((role) => role.position === position);
               break;
       }
       
-      if (result !== undefined) {
+      if (!result) {
+          bridge.store(values.storeerorr, ["not_found"]);
+          await bridge.call(values.ifError, values.ifErrorActions);
+          return;
+      }
+      
+      const failedFilters = [];
+      
+      const isStandard = values.standard === true;
+      const isIntegration = values.integration === true;
+      const isDisplay = values.display === true;
+      const isNotification = values.notification === true;
+      const isAvailableForPurchase = values.availableForPurchase === true;
+      const isPremiumSubscriber = values.premiumSubscriber === true;
+      
+      if (isStandard && (isIntegration || isDisplay || isNotification || isAvailableForPurchase || isPremiumSubscriber)) {
+          failedFilters.push("standard");
+      }
+      
+      if (isIntegration && !result.managed) failedFilters.push("integration");
+      if (isDisplay && !result.hoist) failedFilters.push("display");
+      if (isNotification && !result.mentionable) failedFilters.push("notification");
+      if (isAvailableForPurchase && !result.tags?.availableForPurchase) failedFilters.push("availableForPurchase");
+      if (isPremiumSubscriber && !result.tags?.premiumSubscriber) failedFilters.push("premiumSubscriber");
+      
+      if (Array.isArray(values.cases)) {
+          for (const dataCase of values.cases) {
+              if (dataCase.type !== "data") continue;
+              
+              const casePermissionKey = dataCase.data?.permission;
+              const compile = dataCase.data?.compile === true;
+              
+              if (!casePermissionKey) continue;
+              
+              const permissionName = String(casePermissionKey).toUpperCase();
+              const hasPermission = result.permissions.has(permissionName);
+              
+              if ((compile && !hasPermission) || (!compile && hasPermission)) {
+                  failedFilters.push(permissionName.toLowerCase());
+              }
+          }
+      }
+      
+      if (failedFilters.length > 0) {
+          bridge.store(values.storeerorr, failedFilters);
+          await bridge.call(values.ifError, values.ifErrorActions);
+      } else {
           bridge.store(values.store, result);
           await bridge.call(values.ifexists, values.ifexistsActions);
-      } else {
-          await bridge.call(values.ifError, values.ifErrorActions);
       }
   },
 };
