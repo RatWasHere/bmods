@@ -24,12 +24,17 @@ module.exports = {
         possibilities: {
           data: {},
           name: "Possibility",
-          preview: "`${option.data.chance}%`",
+          preview: "`${option.data.chance || ''}% | ${option.data.chanceLabel || ''}`",
           UI: [
             {
               element: "input",
               storeAs: "chance",
               name: "Chance %",
+            },
+            {
+              element: "input",
+              storeAs: "chanceLabel",
+              name: "Label"
             },
             {
               element: "actions",
