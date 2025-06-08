@@ -1,4 +1,4 @@
-modVersion = "v2.0.0"
+modVersion = "v2.0.1"
 module.exports = {
   data: {
     name: "Better Multiple Comparisons"
@@ -94,37 +94,37 @@ module.exports = {
 
       switch (conditionType){
         case "More Than":
-          if(Number(oriValue) > Number(compValue)){
+          if(oriValue > compValue){
             conditionMatch = true
           }
           break
 
         case "More Than / Equals To":
-          if(Number(oriValue) >= Number(compValue)){
+          if(oriValue >= compValue){
             conditionMatch = true
           }
           break
 
         case "Less Than":
-          if(Number(oriValue) < Number(compValue)){
+          if(oriValue < compValue){
             conditionMatch = true
           }
           break
 
         case "Less Than / Equals To":
-          if(Number(oriValue) <= Number(compValue)){
+          if(oriValue <= compValue){
             conditionMatch = true
           }
           break
 
         case "Equals To":
-          if(Number(oriValue) === Number(compValue)){
+          if(oriValue === compValue){
             conditionMatch = true
           }
           break
 
         case "Not Equals To":
-          if(Number(oriValue) !== Number(compValue)){
+          if(oriValue !== compValue){
             conditionMatch = true
           }
           break
