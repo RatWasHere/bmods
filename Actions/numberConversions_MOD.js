@@ -1,4 +1,4 @@
-modVersion = "v2.1.4"
+modVersion = "v2.1.5"
 module.exports = {
   data: {
     name: "Number Conversions",
@@ -36,7 +36,7 @@ module.exports = {
     {
       element: "typedDropdown",
       storeAs: "decimalNotation",
-      name: "Decimal Notation",
+      name: "Decimal Symbol",
       choices: {
         period: {name: `Period | .`, field: false},
         comma: {name: `Comma | ,`, field: false},
@@ -77,7 +77,7 @@ module.exports = {
 
     const { evaluate } = require("mathjs")
     let conversionType = bridge.transf(values.convType.type)
-    let decimalNotation = bridge.transf(values.decimalNotation.type)
+    let decimalNotation = bridge.transf(values.decimalNotation.type) || "period"
     let exponentPresentation = bridge.transf(values.exponentPresentation.type) || "caret"
     
     const switchDecNotation = (num) => {
