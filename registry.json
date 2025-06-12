@@ -985,7 +985,7 @@
       "creator": "Acedia"
     },
     "numberConversions_MOD.js": {
-      "md5": "b8b33aec302ccdb3be8ff6c0c87756e9",
+      "md5": "27e27da5f4f637da7efc868f808cd6e3",
       "name": "Number Conversions",
       "modules": [
         "mathjs"
