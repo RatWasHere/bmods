@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.1"
 module.exports = {
   data: {
     name: "Modify JSON File"
@@ -31,32 +31,43 @@ module.exports = {
       element: "",
       storeAs: "content",
       name: "Content",
-      large: true
     },
     "",
     {
       element: "",
       html: `
-        <button style="width: fit-content;" onclick="
+        <button style="width: fit-content;" class="hoverablez" onclick="
           const content = document.getElementById('content').value;
+          const btext = this.querySelector('#buttonText')
+
+          if (!this.dataset.fixedSize) {
+            this.style.width = this.offsetWidth + 'px';
+            this.style.height = this.offsetHeight + 'px';
+            this.dataset.fixedSize = 'true';
+          }
+
           try {
             JSON.parse(content);
-            this.style.background = 'green';
+            this.style.background = '#28a745';
+            btext.textContent = 'Valid';
+            document.getElementById('content').value = JSON.stringify(JSON.parse(content), null, 2);
           } catch (error) {
-            this.style.background = 'red';
+            this.style.background = '#dc3545';
+            btext.textContent = 'Invalid';
           }
           setTimeout(() => {
             this.style.background = '';
+            btext.textContent = 'Validate JSON';
           }, 500);
-        "><btext>
+        "><btext id="buttonText">
           Validate JSON
           </btext>
         </button>
       `
     },
     {
-      element: "",
-      text: `JSON Validation Button May Not Work If You're Using Variables.<br>Green = Valid JSON<br>Red = Invalid JSON`
+      element: "text",
+      text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`
     },
     "-",
     {

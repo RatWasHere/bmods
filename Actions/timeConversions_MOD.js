@@ -1,4 +1,4 @@
-modVersion = "v2.2.0"
+modVersion = "v2.2.1"
 module.exports = {
   data: {
     name: "Time Conversions",
@@ -246,7 +246,7 @@ module.exports = {
         let format = bridge.transf(values.outputUnit.value)
 
         let years = Math.floor(msTimeBase/(1000*60*60*24*365.25))
-        msTimeBase %= (1000*60*60*365.25)
+        msTimeBase %= (1000*60*60*24*365.25)
 
         let months = Math.floor(msTimeBase/(1000*60*60*24*30.44))
         msTimeBase %= (1000*60*60*24*30.44)

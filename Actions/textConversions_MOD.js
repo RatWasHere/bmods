@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.1"
 module.exports = {
   data: {
     name: "Text Conversions",
@@ -84,11 +84,11 @@ module.exports = {
         break
 
       case "B64Encode":
-        convertedTxt = btoa(toConv)
+        convertedTxt = Buffer.from(toConv, "utf-8").toString("base64")
         break
 
       case "B64Decode":
-        convertedTxt = atob(toConv)
+        convertedTxt = Buffer.from(toConv, "base64").toString("utf-8")
         break
 
       case "BinEncode":
