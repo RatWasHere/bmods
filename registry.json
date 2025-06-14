@@ -277,7 +277,7 @@
       "creator": "nitiqt"
     },
     "createJsonFile_MOD.js": {
-      "md5": "01a13e239644515fc5ef73da20b22d74",
+      "md5": "efe955d126cb610e13b2dd044af9e1dd",
       "name": "Create JSON File",
       "modules": [
         "node:path",
@@ -922,7 +922,7 @@
       "creator": "Made with <3 by @lucxanul"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "32a2d78a31e571a5cb7cb7ab275198e2",
+      "md5": "babfada7164194fcb80cca4a9d15c3ae",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
@@ -1378,7 +1378,7 @@
       "creator": "Made with <3 by Lucxanul"
     },
     "textConversions_MOD.js": {
-      "md5": "a69ecdafc6f4461e9d29a6a5afe96010",
+      "md5": "6d587c58efd915b0e868b855aeb1fb47",
       "name": "Text Conversions",
       "modules": [],
       "category": "Text",
@@ -1400,7 +1400,7 @@
       "creator": "qschnitzel"
     },
     "timeConversions_MOD.js": {
-      "md5": "582f5121b4ee8de34250e14724cfe055",
+      "md5": "539f451a767202606307b34b5a9f4d20",
       "name": "Time Conversions",
       "modules": [],
       "category": "Time",
