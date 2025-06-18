@@ -1307,7 +1307,7 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "a52f0cb789315946ce3c4930fdb5aa80",
+      "md5": "066b10322500a53d50aa6f93335ee3d9",
       "name": "Create Status Page",
       "modules": [
         "node:http",
@@ -1442,13 +1442,14 @@
       "creator": "candiedapple"
     },
     "wget_MOD.js": {
-      "md5": "084d502fa061a4ed5876606c893b8562",
+      "md5": "c33c482dee401be9c9842e3264fb2259",
       "name": "wget Download",
       "modules": [
         "wget-improved",
         "fs",
         "path"
       ],
+      "category": "WebAPIs",
       "creator": "Acedia"
     },
     "ytSearchv2_MOD.js": {
