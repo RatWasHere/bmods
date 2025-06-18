@@ -5,7 +5,7 @@ module.exports = {
   },
   aliases: ["Download File"],
   modules: ["wget-improved", "fs", "path"],
-  category: "",
+  category: "WebAPIs",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
