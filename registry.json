@@ -324,6 +324,16 @@
       "category": "Files",
       "creator": "nitiqt"
     },
+    "deleteFromGitHub_MOD.js": {
+      "md5": "c9f36ece187429aea47f2e1e41e41a50",
+      "name": "Delete File From GitHub",
+      "modules": [
+        "node:fs",
+        "node:path"
+      ],
+      "category": "WebAPIs",
+      "creator": "Acedia"
+    },
     "deleteRoleData_MOD.js": {
       "md5": "501e0aced455849b20a4a9ae53046847",
       "name": "Delete Role Data",
@@ -1419,6 +1429,16 @@
       "modules": [],
       "category": "Control",
       "creator": "Acedia QOLs"
+    },
+    "uploadToGitHub_MOD.js": {
+      "md5": "228c0cf44325e0d75116a874769dc8c2",
+      "name": "Upload File To GitHub",
+      "modules": [
+        "node:fs",
+        "node:path"
+      ],
+      "category": "WebAPIs",
+      "creator": "Acedia"
     },
     "urlShortener_MOD.js": {
       "md5": "34f4766c6599fb38b849651eb8ad4b21",
