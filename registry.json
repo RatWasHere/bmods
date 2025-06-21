@@ -277,7 +277,7 @@
       "creator": "nitiqt"
     },
     "createJsonFile_MOD.js": {
-      "md5": "efe955d126cb610e13b2dd044af9e1dd",
+      "md5": "1914fd555beb1a07838f103ed0777718",
       "name": "Create JSON File",
       "modules": [
         "node:path",
@@ -932,7 +932,7 @@
       "creator": "Made with <3 by @lucxanul"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "babfada7164194fcb80cca4a9d15c3ae",
+      "md5": "3fd1f58d2edd39f77a96d92aa69c9e43",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
@@ -1175,7 +1175,7 @@
       "creator": "Acedia"
     },
     "readJsonFile_MOD.js": {
-      "md5": "963669c0dc006730e8c9b1ac88afdb0b",
+      "md5": "93e5fb7ded48f782f800f5dde0298148",
       "name": "Read JSON File",
       "modules": [
         "node:path",
@@ -1462,12 +1462,12 @@
       "creator": "candiedapple"
     },
     "wget_MOD.js": {
-      "md5": "c33c482dee401be9c9842e3264fb2259",
+      "md5": "479b17951c0f62ff430f0ae640462a3e",
       "name": "wget Download",
       "modules": [
         "wget-improved",
-        "fs",
-        "path"
+        "node:fs",
+        "node:path"
       ],
       "category": "WebAPIs",
       "creator": "Acedia"
