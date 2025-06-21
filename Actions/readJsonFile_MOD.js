@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.1"
 module.exports = {
   data: {
     name: "Read JSON File"
@@ -49,7 +49,7 @@ module.exports = {
     }
 
     const path = require("node:path")
-    const fs = bridge.fs
+    const fs = require("node:fs")
 
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())

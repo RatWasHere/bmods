@@ -1,4 +1,4 @@
-modVersion = "v1.0.1"
+modVersion = "v1.0.3"
 
 
 module.exports = {
@@ -87,7 +87,7 @@ module.exports = {
     }
 
     const path = require("node:path")
-    const fs = bridge.fs
+    const fs = require("node:fs")
 
     let destination = path.normalize(bridge.transf(values.jsonFilePath))
 
@@ -113,6 +113,9 @@ module.exports = {
     if (!fs.existsSync(dirName)){
       fs.mkdirSync(dirName, { recursive: true })
     }
+
+    let parsedPath = path.parse(fullPath)
+    fullPath = path.join(parsedPath.dir, parsedPath.name + ".json")
 
     let jsonString = bridge.transf(values.content)
     const sanitizeArrays = (str) => {

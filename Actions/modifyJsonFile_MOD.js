@@ -1,4 +1,4 @@
-modVersion = "v1.0.1"
+modVersion = "v1.0.5"
 module.exports = {
   data: {
     name: "Modify JSON File"
@@ -71,9 +71,14 @@ module.exports = {
     },
     "-",
     {
-      element: "toggle",
-      storeAs: "prettyPrint",
-      name: "Pretty Print?",
+      element: "toggleGroup",
+      storeAs: ["createIfMissing", "prettyPrint"],
+      nameSchemes: ["Create File If Missing", "Pretty Print?"],
+    },
+    {
+      element: "store",
+      storeAs: "modifiedJson",
+      name: "Store Modified JSON As"
     },
     "-",
     {
@@ -120,7 +125,7 @@ module.exports = {
     }
 
     const path = require("node:path")
-    const fs = bridge.fs
+    const fs = require("node:fs")
     
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
@@ -132,6 +137,8 @@ module.exports = {
     let pathToJson = path.normalize(bridge.transf(values.pathToJson))
 
     let fullPath = path.join(path.normalize(projectFolder), pathToJson)
+    let parsedPath = path.parse(fullPath)
+    fullPath = path.join(parsedPath.dir, parsedPath.name + ".json")
 
     const forbiddenFiles = [
       path.normalize("AppData/Toolkit/storedData.json"),
@@ -143,7 +150,17 @@ module.exports = {
       return console.error(`Essential Files Are Not To Be Messed With!!`)
     }
     if (!fs.existsSync(fullPath)){
-      return console.error(`File ${fullPath} Doesn't Exist!`)
+      if (values.createIfMissing === true){
+
+        let dirName = path.dirname(fullPath)
+        if (!fs.existsSync(dirName)){
+          fs.mkdirSync(dirName, { recursive: true })
+        }
+
+        fs.writeFileSync(fullPath, JSON.stringify({}, null))
+      } else {
+        return console.error(`File ${fullPath} Doesn't Exist!`)
+      }
     }
 
     const originalFileContent = fs.readFileSync(fullPath, "utf8")
@@ -242,5 +259,6 @@ module.exports = {
     } else {finalContent = JSON.stringify(jsonObject, null)}
 
     fs.writeFileSync(fullPath, finalContent)
+    bridge.store(values.modifiedJson, jsonObject)
   }
 }

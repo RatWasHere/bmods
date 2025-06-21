@@ -1,10 +1,10 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.4"
 module.exports = {
   data: {
     name: "wget Download"
   },
   aliases: ["Download File"],
-  modules: ["wget-improved", "fs", "path"],
+  modules: ["wget-improved", "node:fs", "node:path"],
   category: "WebAPIs",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
@@ -35,9 +35,9 @@ module.exports = {
     },
     "-",
     {
-      element: "toggle",
-      storeAs: "deleteAfter",
-      name: "Delete File?"
+      element: "toggleGroup",
+      storeAs: ["deleteAfter", "logging"],
+      nameSchemes: ["Delete File After?", "Print Logs?"]
     },
     "-",
     {
@@ -64,11 +64,20 @@ module.exports = {
     }
 
     const wget = require("wget-improved")
-    const fs = require("fs")
-    const path = require("path")
+    const fs = require("node:fs")
+    const path = require("node:path")
     const options = {}
     let dlLink = bridge.transf(values.dlLink)
-    let filePath = path.normalize(bridge.transf(values.filePath) || "./")
+    let relativePath = path.normalize(bridge.transf(values.filePath) || `./`)
+
+    const botData = require("../data.json")
+    const workingDir = path.normalize(process.cwd())
+    let projectFolder
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
+      projectFolder = botData.prjSrc
+    } else {projectFolder = workingDir}
+
+    let filePath = path.join(projectFolder, relativePath)
     let fileDir = path.dirname(filePath)
     if (fs.existsSync(fileDir) == false){fs.mkdirSync(fileDir, {recursive: true})}
     
@@ -76,28 +85,36 @@ module.exports = {
       let download = wget.download(dlLink, filePath, options)
 
       download.on("error", function(err){
-        console.log(err)
+        if (values.logging){
+          console.log(err)
+        }
         bridge.call(values.onError, values.onErrorActions)
         return resolve(err)
       })
 
       download.on("start", function(fileSize){
+        if(values.logging){
+          console.log(`Download Starting...`)
+        }
       })
 
       download.on("end", function(output){
-        console.log(`File Download From ${dlLink} Completed, ${output}`)
-        let fileSize = fs.statSync(`./${filePath}`).size
-        if (values.fileBuffer){
-          fileRead = bridge.fs.readFileSync(`./${filePath}`)
-          bridge.store(values.fileBuffer, fileRead)
+        if (values.logging){
+          console.log(`File Download From ${dlLink} Completed, ${output} ${filePath}`)
         }
+        let fileSize = fs.statSync(filePath).size
+        let fileRead = fs.readFileSync(filePath)
+        bridge.store(values.fileBuffer, fileRead)
         bridge.store(values.fileSize, fileSize)
         return resolve()
       })
     })
 
     if (values.deleteAfter == true){
-      fs.unlinkSync(`./${filePath}`)
+      fs.unlinkSync(filePath)
+      if(values.logging){
+        console.log(`${filePath} Deleted`)
+      }
     }
   }
 }
