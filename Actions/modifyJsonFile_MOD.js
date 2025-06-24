@@ -28,40 +28,50 @@ module.exports = {
       },
     },
     {
-      element: "",
+      element: "largeInput",
       storeAs: "content",
       name: "Content",
     },
-    "",
+    "-",
     {
-      element: "",
+      element: "html",
       html: `
-        <button style="width: fit-content;" class="hoverablez" onclick="
-          const content = document.getElementById('content').value;
-          const btext = this.querySelector('#buttonText')
+        <button
+          style="width: fit-content"
+          class="hoverablez"
+          onclick="
+                  const textArea = document.getElementById('content');
+                  const content = textArea.value;
+                  const btext = this.querySelector('#buttonText');
 
-          if (!this.dataset.fixedSize) {
-            this.style.width = this.offsetWidth + 'px';
-            this.style.height = this.offsetHeight + 'px';
-            this.dataset.fixedSize = 'true';
-          }
+                  if (!this.dataset.fixedSize) {
+                    this.style.width = this.offsetWidth + 'px';
+                    this.style.height = this.offsetHeight + 'px';
+                    this.dataset.fixedSize = 'true';
+                  }
 
-          try {
-            JSON.parse(content);
-            this.style.background = '#28a745';
-            btext.textContent = 'Valid';
-            document.getElementById('content').value = JSON.stringify(JSON.parse(content), null, 2);
-          } catch (error) {
-            this.style.background = '#dc3545';
-            btext.textContent = 'Invalid';
-          }
-          setTimeout(() => {
-            this.style.background = '';
-            btext.textContent = 'Validate JSON';
-          }, 500);
-        "><btext id="buttonText">
-          Validate JSON
-          </btext>
+                  try {
+                    let parsed = JSON.parse(content);
+                    let formatted = JSON.stringify(parsed, null, 2);
+                    this.style.background = '#28a745';
+                    btext.textContent = 'Valid';
+                    if (content !== formatted){
+                      textArea.value = formatted;
+                      let textLength = textArea.value.length;
+                      textArea.focus();
+                      textArea.setSelectionRange(textLength, textLength);
+                    }
+                  } catch (error) {
+                    this.style.background = '#dc3545';
+                    btext.textContent = 'Invalid';
+                  }
+                  setTimeout(() => {
+                    this.style.background = '';
+                    btext.textContent = 'Validate JSON';
+                  }, 500);
+                "
+        >
+          <btext id="buttonText"> Validate JSON </btext>
         </button>
       `
     },
@@ -149,6 +159,7 @@ module.exports = {
     if (forbiddenFiles.some(fp => fullPath.endsWith(fp))){
       return console.error(`Essential Files Are Not To Be Messed With!!`)
     }
+    
     if (!fs.existsSync(fullPath)){
       if (values.createIfMissing === true){
 
@@ -166,18 +177,18 @@ module.exports = {
     const originalFileContent = fs.readFileSync(fullPath, "utf8")
     let jsonObject
     let isJson
-    try {
-      jsonObject = JSON.parse(originalFileContent)
-      isJson = true
-    } catch (err){
-      return console.error(`Invalid Original JSON Content: ${err.message}`)
-      jsonObject = originalFileContent
-      isJson = false
-    }
 
-    let actionType = bridge.transf(values.jsonAction.type)
-    let objectPath = bridge.transf(values.jsonAction.value).trim()
-    let rawContent = bridge.transf(values.content)
+    function cleanEmpty(obj, keys) {
+      for (let i = keys.length - 1; i >= 0; i--) {
+        let key = keys[i]
+        let parent = keys.slice(0, i).reduce((o, k) => o?.[k], obj)
+        if (parent && Object.keys(parent[key] || {}).length === 0) {
+          delete parent[key]
+        } else {
+          break
+        }
+      }
+    }
 
     const sanitizeArrays = (str) => {
       return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
@@ -194,24 +205,38 @@ module.exports = {
       })
     }
 
+    try {
+      jsonObject = JSON.parse(originalFileContent)
+      isJson = true
+    } catch (err){
+      console.error(`Invalid Original JSON Content: ${err.message}`)
+      jsonObject = originalFileContent
+      isJson = false
+      return
+    }
+
+    let actionType = bridge.transf(values.jsonAction.type)
+    let objectPath = bridge.transf(values.jsonAction.value).trim()
+    let rawContent = bridge.transf(values.content)
+
+
     rawContent = sanitizeArrays(rawContent)
     if (!/^\s*(\[|\{)/.test(rawContent)) {
       rawContent = `"${rawContent.replace(/^["']|["']$/g, '').replace(/"/g, '\\"')}"`
     }
 
+    objectPath = objectPath.replaceAll("..", ".")
     if (objectPath.startsWith(".")) {
       objectPath = objectPath.slice(1)
     }
 
-    // Validate path
     if (
       objectPath === "" ||
       objectPath.includes("..") ||
       objectPath.startsWith(".") ||
       objectPath.endsWith(".")
-    ) {
-      return console.error(`Invalid path: "${bridge.transf(values.jsonAction.values)}"`)
-      }
+    ) {return console.error(`Invalid path: "${bridge.transf(values.jsonAction.values)}"`)}
+
     const keys = objectPath.split(".")
     const lastKey = keys.pop()
     let target = jsonObject
@@ -234,22 +259,16 @@ module.exports = {
 
     if (jsonObject && isJson == true){
       switch(actionType){
-        case "create":
+        case "create":{
           target[lastKey] = parsedContent
           break
+        }
 
-        case "delete":
+        case "delete":{
           delete target[lastKey]
-          let cleanupObj = jsonObject
-          for (let i = 0; i < keys.length - 1; i++) {
-            const key = keys[i]
-            if (Object.keys(cleanupObj[key]).length === 0) {
-              delete cleanupObj[key]
-              break
-            }
-            cleanupObj = cleanupObj[key]
-          }
+          cleanEmpty(jsonObject, keys)
           break
+        }
       }
     }
 

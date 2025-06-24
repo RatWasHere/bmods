@@ -29,32 +29,42 @@ module.exports = {
     {
       element: "html",
       html: `
-        <button style="width: fit-content;" class="hoverablez" onclick="
-          const content = document.getElementById('content').value;
-          const btext = this.querySelector('#buttonText')
+        <button
+          style="width: fit-content"
+          class="hoverablez"
+          onclick="
+                  const textArea = document.getElementById('content');
+                  const content = textArea.value;
+                  const btext = this.querySelector('#buttonText');
 
-          if (!this.dataset.fixedSize) {
-            this.style.width = this.offsetWidth + 'px';
-            this.style.height = this.offsetHeight + 'px';
-            this.dataset.fixedSize = 'true';
-          }
+                  if (!this.dataset.fixedSize) {
+                    this.style.width = this.offsetWidth + 'px';
+                    this.style.height = this.offsetHeight + 'px';
+                    this.dataset.fixedSize = 'true';
+                  }
 
-          try {
-            JSON.parse(content);
-            this.style.background = '#28a745';
-            btext.textContent = 'Valid';
-            document.getElementById('content').value = JSON.stringify(JSON.parse(content), null, 2);
-          } catch (error) {
-            this.style.background = '#dc3545';
-            btext.textContent = 'Invalid';
-          }
-          setTimeout(() => {
-            this.style.background = '';
-            btext.textContent = 'Validate JSON';
-          }, 500);
-        "><btext id="buttonText">
-          Validate JSON
-          </btext>
+                  try {
+                    let parsed = JSON.parse(content);
+                    let formatted = JSON.stringify(parsed, null, 2);
+                    this.style.background = '#28a745';
+                    btext.textContent = 'Valid';
+                    if (content !== formatted){
+                      textArea.value = formatted;
+                      let textLength = textArea.value.length;
+                      textArea.focus();
+                      textArea.setSelectionRange(textLength, textLength);
+                    }
+                  } catch (error) {
+                    this.style.background = '#dc3545';
+                    btext.textContent = 'Invalid';
+                  }
+                  setTimeout(() => {
+                    this.style.background = '';
+                    btext.textContent = 'Validate JSON';
+                  }, 500);
+                "
+        >
+          <btext id="buttonText"> Validate JSON </btext>
         </button>
       `
     },
