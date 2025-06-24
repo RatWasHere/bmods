@@ -277,7 +277,7 @@
       "creator": "nitiqt"
     },
     "createJsonFile_MOD.js": {
-      "md5": "1914fd555beb1a07838f103ed0777718",
+      "md5": "a49d65b413484ac9ba237c8a0cfdb0e1",
       "name": "Create JSON File",
       "modules": [
         "node:path",
@@ -932,12 +932,19 @@
       "creator": "Made with <3 by @lucxanul"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "3fd1f58d2edd39f77a96d92aa69c9e43",
+      "md5": "99cea4cfac2d2b7188bff5e2536965af",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
         "node:fs"
       ],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
+    "modifyObject_MOD.js": {
+      "md5": "512a1f36013d0ce3dc0514febafbb6d7",
+      "name": "Modify JSON Object",
+      "modules": [],
       "category": "JSON",
       "creator": "Acedia"
     },
@@ -949,6 +956,16 @@
       ],
       "category": "Global Data",
       "creator": "candiedapple"
+    },
+    "multiModifyJsonFile_MOD.js": {
+      "md5": "c1219454cec94cbf6c57be51237ff3ce",
+      "name": "Multi Modify JSON File",
+      "modules": [
+        "node:path",
+        "node:fs"
+      ],
+      "category": "JSON",
+      "creator": "Acedia"
     },
     "multicheckIfMemberHasRole_MOD.js": {
       "md5": "826898159b88446584f0ca9b576d00a8",
