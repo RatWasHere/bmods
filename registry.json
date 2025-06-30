@@ -247,13 +247,6 @@
       "category": "Discord-Player Music",
       "creator": "TheMonDon"
     },
-    "controlRoleData_MOD.js": {
-      "md5": "27f744892283557b57af473bf3d23fcf",
-      "name": "Control Role Data",
-      "modules": [],
-      "category": "Role Data",
-      "creator": "Acedia"
-    },
     "controlcustomdata_MOD.js": {
       "md5": "2383f253cd39fa31256739b3a0299a6a",
       "name": "Control Custom Data",
@@ -332,13 +325,6 @@
         "node:path"
       ],
       "category": "WebAPIs",
-      "creator": "Acedia"
-    },
-    "deleteRoleData_MOD.js": {
-      "md5": "501e0aced455849b20a4a9ae53046847",
-      "name": "Delete Role Data",
-      "modules": [],
-      "category": "Role Data",
       "creator": "Acedia"
     },
     "deleteScheduledEvent_MOD.js": {
@@ -724,13 +710,6 @@
     "getRoleDataData_MOD.js": {
       "md5": "bd7382eb0b007437de377265e4fd0535",
       "name": "Get All Roles Data Data",
-      "modules": [],
-      "category": "Role Data",
-      "creator": "Acedia"
-    },
-    "getRoleData_MOD.js": {
-      "md5": "db2b6952d23713f5f953ca9c1077fb89",
-      "name": "Get Role Data",
       "modules": [],
       "category": "Role Data",
       "creator": "Acedia"
@@ -1365,13 +1344,6 @@
       ],
       "category": "Discord-Player Music",
       "creator": "TheMonDon"
-    },
-    "storeRoleData_MOD.js": {
-      "md5": "f9f30eb2460a919cceda8b6f3d4475f4",
-      "name": "Store Role Data",
-      "modules": [],
-      "category": "Role Data",
-      "creator": "Acedia"
     },
     "storeTrackInfo_MOD.js": {
       "md5": "e8eef0ea5497c4238ea9427186efb408",
