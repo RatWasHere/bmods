@@ -836,6 +836,14 @@
       "category": "Encrypt",
       "creator": "Acedia"
     },
+    "htmlToPdf_MOD.js": {
+      "md5": "31d540c2e76b189205949aff356061de",
+      "name": "Html To Pdf",
+      "description": "This mod converts HTML files into PDF using puppeteer, please provide a path to an existing HTML file and a path to where the generated PDF will be created.",
+      "modules": [],
+      "category": "File",
+      "creator": "Maco"
+    },
     "insultGenerator_MOD.js": {
       "md5": "87b944cd675d499495a29daae48e1fb0",
       "name": "Insult Generator",
