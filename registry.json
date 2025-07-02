@@ -105,6 +105,13 @@
       "category": "AI",
       "creator": "LikRus"
     },
+    "accessObject_MOD.js": {
+      "md5": "82efd008cd9214eee8f6649c8b4b1ec2",
+      "name": "Access JSON Object",
+      "modules": [],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
     "addUserToGuild_MOD.js": {
       "md5": "6d0dccf97c0ab0ad32766c3afdbe69f4",
       "name": "Add User to Guild",
@@ -276,6 +283,13 @@
         "node:path",
         "node:fs"
       ],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
+    "createObject_MOD.js": {
+      "md5": "9262bf12087c2001b49be852c31233ff",
+      "name": "Create JSON Object",
+      "modules": [],
       "category": "JSON",
       "creator": "Acedia"
     },
@@ -937,7 +951,7 @@
       "creator": "candiedapple"
     },
     "multiModifyJsonFile_MOD.js": {
-      "md5": "c1219454cec94cbf6c57be51237ff3ce",
+      "md5": "c2729233eeeaae540f34d3464264b4f4",
       "name": "Multi Modify JSON File",
       "modules": [
         "node:path",
