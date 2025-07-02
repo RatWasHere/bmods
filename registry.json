@@ -196,6 +196,14 @@
       "category": "Gift Keys",
       "creator": "candiedapple"
     },
+    "checkIfAttachmentImageIsValid_MOD.js": {
+      "md5": "4c3172b8ea7dbf767b8b9f101b1a761c",
+      "name": "Check If Image Is Valid",
+      "description": "This mod verifies the integrity of attachment image files, checking their signature headers and comparing them to the standard. If signature headers are okay returns true, else returns false. Feel free to edit :)",
+      "modules": [],
+      "category": "Images",
+      "creator": "Maco"
+    },
     "checkIfFolderExists_MOD.js": {
       "md5": "d7f0187e925264418d8ad57040059ae6",
       "name": "Check If Folder Exists",
