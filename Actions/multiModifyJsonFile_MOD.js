@@ -1,4 +1,4 @@
-modVersion = "v1.0.1";
+modVersion = "v1.0.3";
 module.exports = {
   data: {
     name: "Multi Modify JSON File",
@@ -246,7 +246,7 @@ module.exports = {
     for (let modification of values.modifications) {
       modificationData = modification.data;
       let actionType = bridge.transf(modificationData.jsonAction.type);
-      let objectPath = bridge.transf(modificationData.jsonAction.value);
+      let objectPath = bridge.transf(modificationData.jsonAction.value).trim();
       let rawContent = bridge.transf(modificationData.content);
 
       objectPath = objectPath.replaceAll("..", ".");
@@ -260,7 +260,7 @@ module.exports = {
       }
 
       if (objectPath === "" || objectPath.includes("..") || objectPath.startsWith(".") || objectPath.endsWith(".")) {
-        return console.error(`Invalid path: "${bridge.transf(values.jsonAction.values)}"`);
+        return console.error(`Invalid path: "${objectPath}"`);
       }
 
       const keys = objectPath.split(".");
