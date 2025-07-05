@@ -1,4 +1,4 @@
-modVersion = "v2.2.0";
+modVersion = "v2.2.1";
 
 module.exports = {
   data: {
@@ -1156,971 +1156,565 @@ module.exports = {
     return `Controlling ${numData} Data(s)`;
   },
   async run(values, message, client, bridge) {
-    let fs = bridge.fs;
-
-    if (!values.database) {
-      console.error(
-        "Error: The path to the database (Database) is not defined."
-      );
-      return;
-    }
-
-    const botData = require("../data.json");
-    let dbPath = bridge.transf(values.database);
-    const currentDir = process.cwd().replace(/\\/g, "/");
-
-    if (currentDir.includes("common/Bot Maker For Discord")) {
-      dbPath = botData.prjSrc + `/` + dbPath;
-      var fullPath = dbPath.replace(/\\/g, "/");
-    } else {
-      var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, "/");
-    }
-
-    const dirPath = fullPath.split("/").slice(0, -1).join("/");
-
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true });
-    }
-
-    if (!fs.existsSync(fullPath)) {
-      fs.writeFileSync(fullPath, "{}", "utf8");
-    }
-
-    if (values.deleteJson) {
-      fs.writeFileSync(fullPath, "{}", "utf8");
-    }
-
-    let data = {};
-    if (fs.existsSync(fullPath)) {
-      const rawData = fs.readFileSync(fullPath, "utf8");
-      data = JSON.parse(rawData);
-    }
-
-    if (Array.isArray(values.cases)) {
-      for (const dataCase of values.cases) {
-        if (dataCase.type !== "data") continue;
-        let matchesCriteria = true;
-
-        if (dataCase.data.comparisonlist && dataCase.data.comparisonlist[0]) {
-          matchesCriteria = false;
-          let variable = bridge.get(
-            dataCase.data.comparisonlist[0].data.variable
+      let fs = bridge.fs;
+      
+      if (!values.database) {
+          console.error(
+              "Error: The path to the database (Database) is not defined."
           );
-          let secondValue = bridge.transf(
-            dataCase.data.comparisonlist[0].data.compareValue
-          );
-
-          switch (dataCase.data.comparisonlist[0].data.comparator) {
-            case "Equals":
-              if (`${variable}` == `${secondValue}`) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Doesn't Equal":
-              if (variable != secondValue) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Exists":
-              matchesCriteria = variable != null || variable != undefined;
-              break;
-
-            case "Equals Exactly":
-              if (variable === secondValue) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Greater Than":
-              if (Number(variable) > Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Less Than":
-              if (Number(variable) < Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Equal Or Greater Than":
-              if (Number(variable) >= Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Equal Or Less Than":
-              if (Number(variable) <= Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Is Number":
-              if (
-                typeof parseInt(variable) == "number" &&
-                `${parseInt(variable)}` != `NaN`
-              ) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Matches Regex":
-              matchesCriteria = Boolean(
-                variable.match(new RegExp("^" + secondValue + "$", "i"))
-              );
-              break;
-
-            case "Exactly includes":
-              if (typeof variable?.toString().includes === "function") {
-                matchesCriteria = variable.toString().includes(secondValue);
-              }
-              break;
-          }
-        }
-        if (matchesCriteria == true) {
-          const rawPath = bridge.transf(dataCase.data.path);
-          const value = bridge.transf(dataCase.data.value);
-
-          const pathParts = rawPath.split(".");
-          let current = data;
-
-          for (let i = 0; i < pathParts.length - 1; i++) {
-            let part = pathParts[i];
-            const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-
-            if (arrayMatch) {
-              const [_, arrayKey, indexOrSymbol] = arrayMatch;
-
-              if (!Array.isArray(current[arrayKey])) {
-                current[arrayKey] = [];
-              }
-              let array = current[arrayKey];
-
-              if (indexOrSymbol === "N") {
-                const nextPart = pathParts[i + 1];
-                if (nextPart) {
-                  array.push({});
-                  current = array[array.length - 1];
-                } else {
-                  array.push(value);
-                }
-                continue;
-              } else if (indexOrSymbol === "^") {
-                if (array.length === 0) {
-                  array.push({});
-                }
-                current = array[array.length - 1];
-                continue;
-              } else {
-                const index = parseInt(indexOrSymbol, 10);
-                if (isNaN(index)) continue;
-
-                while (array.length <= index) {
-                  array.push(null);
-                }
-
-                if (typeof array[index] !== "object" || array[index] === null) {
-                  array[index] = {};
-                }
-                current = array[index];
-              }
-            } else {
-              if (typeof current[part] !== "object" || current[part] === null) {
-                current[part] = {};
-              }
-              current = current[part];
-            }
-          }
-
-          const lastPart = pathParts[pathParts.length - 1];
-          const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
-
-          if (lastPartMatch) {
-            const [_, arrayKey, indexOrSymbol] = lastPartMatch;
-
-            if (!Array.isArray(current[arrayKey])) {
-              current[arrayKey] = [];
-            }
-            const array = current[arrayKey];
-
-            if (indexOrSymbol === "N") {
-              array.push(value);
-            } else if (indexOrSymbol === "^") {
-              if (array.length === 0) {
-                array.push(typeof value === "object" ? { ...value } : value);
-              } else {
-                if (typeof array[array.length - 1] !== "object") {
-                  array[array.length - 1] = {};
-                }
-                array[array.length - 1] = {
-                  ...array[array.length - 1],
-                  ...value,
-                };
-              }
-            } else {
-              const index = parseInt(indexOrSymbol, 10);
-              if (isNaN(index)) return;
-
-              while (array.length <= index) {
-                array.push(null);
-              }
-
-              if (typeof value === "object" && value !== null) {
-                if (typeof array[index] !== "object" || array[index] === null) {
-                  array[index] = {};
-                }
-                array[index] = { ...array[index], ...value };
-              } else {
-                array[index] = value;
-              }
-            }
-          } else {
-            if (typeof value === "object" && value !== null) {
-              current[lastPart] = {
-                ...current[lastPart],
-                ...value,
-              };
-            } else {
-              current[lastPart] = value;
-            }
-          }
-        }
+          return;
       }
-    }
-
-    if (Array.isArray(values.cases3)) {
-      for (const dataCase of values.cases3) {
-        if (dataCase.type !== "data") continue;
-        let matchesCriteria = true;
-
-        if (dataCase.data.comparisonlist && dataCase.data.comparisonlist[0]) {
-          matchesCriteria = false;
-          let variable = bridge.get(
-            dataCase.data.comparisonlist[0].data.variable
-          );
-          let secondValue = bridge.transf(
-            dataCase.data.comparisonlist[0].data.compareValue
-          );
-
-          switch (dataCase.data.comparisonlist[0].data.comparator) {
-            case "Equals":
-              if (`${variable}` == `${secondValue}`) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Doesn't Equal":
-              if (variable != secondValue) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Exists":
-              matchesCriteria = variable != null || variable != undefined;
-              break;
-
-            case "Equals Exactly":
-              if (variable === secondValue) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Greater Than":
-              if (Number(variable) > Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Less Than":
-              if (Number(variable) < Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Equal Or Greater Than":
-              if (Number(variable) >= Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Equal Or Less Than":
-              if (Number(variable) <= Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Is Number":
-              if (
-                typeof parseInt(variable) == "number" &&
-                `${parseInt(variable)}` != `NaN`
-              ) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Matches Regex":
-              matchesCriteria = Boolean(
-                variable.match(new RegExp("^" + secondValue + "$", "i"))
-              );
-              break;
-
-            case "Exactly includes":
-              if (typeof variable?.toString().includes === "function") {
-                matchesCriteria = variable.toString().includes(secondValue);
-              }
-              break;
-          }
-        }
-        if (matchesCriteria == true) {
-          const rawPath = bridge.transf(dataCase.data.path);
-          const value = bridge.transf(dataCase.data.value);
-
-          const pathParts = rawPath.split(".");
-
-          let current = data;
-          for (let i = 0; i < pathParts.length - 1; i++) {
-            const part = pathParts[i];
-
-            if (
-              /\[\d+\]$/.test(part) ||
-              part.endsWith("[N]") ||
-              part.endsWith("[^]")
-            ) {
-              const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-              if (!arrayKeyMatch) continue;
-
-              const arrayKey = arrayKeyMatch[1];
-              const indexOrSymbol = arrayKeyMatch[2];
-
-              if (!Array.isArray(current[arrayKey])) {
-                current[arrayKey] = [];
-              }
-
-              current = current[arrayKey];
-
-              if (indexOrSymbol === "N") {
-                const nextPart = pathParts[i + 1];
-                if (nextPart) {
-                  current.push({});
-                  current = current[current.length - 1];
-                } else {
-                  current.push(value);
-                }
-                continue;
-              }
-
-              if (indexOrSymbol === "^") {
-                if (current.length > 0) {
-                  const lastElement = current[current.length - 1];
-                  if (typeof lastElement !== "object" || lastElement === null) {
-                    current[current.length - 1] = {};
+      
+      const botData = require("../data.json");
+      let dbPath = bridge.transf(values.database);
+      const currentDir = process.cwd().replace(/\\/g, "/");
+      
+      if (currentDir.includes("common/Bot Maker For Discord")) {
+          dbPath = botData.prjSrc + `/` + dbPath;
+          var fullPath = dbPath.replace(/\\/g, "/");
+      } else {
+          var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, "/");
+      }
+      
+      const dirPath = fullPath.split("/").slice(0, -1).join("/");
+      
+      if (!fs.existsSync(dirPath)) {
+          fs.mkdirSync(dirPath, {
+              recursive: true
+          });
+      }
+      
+      if (!fs.existsSync(fullPath)) {
+          fs.writeFileSync(fullPath, "{}", "utf8");
+      }
+      
+      if (values.deleteJson) {
+          fs.writeFileSync(fullPath, "{}", "utf8");
+      }
+      
+      let data = {};
+      if (fs.existsSync(fullPath)) {
+          const rawData = fs.readFileSync(fullPath, "utf8");
+          data = JSON.parse(rawData);
+      }
+      
+      function matchesComparator(variable, comparator, secondValue) {
+          switch (comparator) {
+              case "Equals":
+                  return `${variable}` == `${secondValue}`;
+              case "Doesn't Equal":
+                  return variable != secondValue;
+              case "Exists":
+                  return variable !== null && variable !== undefined;
+              case "Equals Exactly":
+                  return variable === secondValue;
+              case "Greater Than":
+                  return Number(variable) > Number(secondValue);
+              case "Less Than":
+                  return Number(variable) < Number(secondValue);
+              case "Equal Or Greater Than":
+                  return Number(variable) >= Number(secondValue);
+              case "Equal Or Less Than":
+                  return Number(variable) <= Number(secondValue);
+              case "Is Number":
+                  return !isNaN(parseInt(variable));
+              case "Matches Regex":
+                  try {
+                      return new RegExp(`^${secondValue}$`, "i").test(variable);
+                  } catch (e) {
+                      return false;
                   }
-                  current = current[current.length - 1];
-                } else {
-                  current.push({});
-                  current = current[current.length - 1];
-                }
-                continue;
-              }
-
-              const index = parseInt(indexOrSymbol, 10);
-              if (isNaN(index)) continue;
-
-              while (current.length <= index) {
-                current.push(null);
-              }
-
-              if (
-                typeof current[index] !== "object" ||
-                current[index] === null
-              ) {
-                current[index] = {};
-              }
-
-              current = current[index];
-            } else {
-              if (!current[part] || typeof current[part] !== "object") {
-                current[part] = {};
-              }
-
-              current = current[part];
-            }
+              case "Exactly includes":
+                  return typeof variable?.toString().includes === "function" ?
+                      variable.toString().includes(secondValue) :
+                      false;
+              default:
+                  return false;
           }
-
-          const lastPart = pathParts[pathParts.length - 1];
-
-          const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
-          if (lastPartMatch) {
-            const arrayKey = lastPartMatch[1];
-            const indexOrSymbol = lastPartMatch[2];
-
-            if (!Array.isArray(current[arrayKey])) {
-              current[arrayKey] = [];
-            }
-
-            const array = current[arrayKey];
-
-            if (indexOrSymbol === "N") {
-              array.push(value);
-            } else if (indexOrSymbol === "^") {
-              if (array.length > 0) {
-                const lastElement = array[array.length - 1];
-                if (typeof lastElement !== "object" || lastElement === null) {
-                  array[array.length - 1] = {};
-                }
-                Object.assign(array[array.length - 1], value);
-              } else {
-                array.push(value);
-              }
-            } else {
-              const index = parseInt(indexOrSymbol, 10);
-              if (isNaN(index)) continue;
-
-              while (array.length <= index) {
-                array.push(null);
-              }
-
-              if (typeof value === "string") {
-                array[index] = value;
-              } else if (typeof value === "object") {
-                if (typeof array[index] !== "object" || array[index] === null) {
-                  array[index] = {};
-                }
-                Object.assign(array[index], value);
-              } else {
-                array[index] = value;
-              }
-            }
-          } else {
-            current[lastPart] = value;
-          }
-        }
       }
-    }
-
-    if (Array.isArray(values.cases4)) {
-      for (const dataCase of values.cases4) {
-        switch (dataCase.type) {
-          case "value":
-            if (Array.isArray(dataCase.data?.cases5)) {
+      
+      if (Array.isArray(values.cases)) {
+          for (const dataCase of values.cases) {
+              if (dataCase.type !== "data") continue;
+              const comparison = dataCase.data.comparisonlist?.[0];
               let matchesCriteria = true;
-
-              if (
-                dataCase.data.comparisonlist &&
-                dataCase.data.comparisonlist[0]
-              ) {
-                matchesCriteria = false;
-                let variable = bridge.get(
-                  dataCase.data.comparisonlist[0].data.variable
-                );
-                let secondValue = bridge.transf(
-                  dataCase.data.comparisonlist[0].data.compareValue
-                );
-
-                switch (dataCase.data.comparisonlist[0].data.comparator) {
-                  case "Equals":
-                    if (`${variable}` == `${secondValue}`) {
-                      matchesCriteria = true;
-                    }
-                    break;
-
-                  case "Doesn't Equal":
-                    if (variable != secondValue) {
-                      matchesCriteria = true;
-                    }
-                    break;
-
-                  case "Exists":
-                    matchesCriteria = variable != null || variable != undefined;
-                    break;
-
-                  case "Equals Exactly":
-                    if (variable === secondValue) {
-                      matchesCriteria = true;
-                    }
-                    break;
-
-                  case "Greater Than":
-                    if (Number(variable) > Number(secondValue)) {
-                      matchesCriteria = true;
-                    }
-                    break;
-
-                  case "Less Than":
-                    if (Number(variable) < Number(secondValue)) {
-                      matchesCriteria = true;
-                    }
-                    break;
-
-                  case "Equal Or Greater Than":
-                    if (Number(variable) >= Number(secondValue)) {
-                      matchesCriteria = true;
-                    }
-                    break;
-
-                  case "Equal Or Less Than":
-                    if (Number(variable) <= Number(secondValue)) {
-                      matchesCriteria = true;
-                    }
-                    break;
-
-                  case "Is Number":
-                    if (
-                      typeof parseInt(variable) == "number" &&
-                      `${parseInt(variable)}` != `NaN`
-                    ) {
-                      matchesCriteria = true;
-                    }
-                    break;
-
-                  case "Matches Regex":
-                    matchesCriteria = Boolean(
-                      variable.match(new RegExp("^" + secondValue + "$", "i"))
-                    );
-                    break;
-
-                  case "Exactly includes":
-                    if (typeof variable?.toString().includes === "function") {
-                      matchesCriteria = variable
-                        .toString()
-                        .includes(secondValue);
-                    }
-                    break;
-                }
+              
+              if (comparison) {
+                  const variable = bridge.get(comparison.data.variable);
+                  const secondValue = bridge.transf(comparison.data.compareValue);
+                  matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
               }
-
               if (matchesCriteria == true) {
-                const res = dataCase.data.cases5.reduce((acc, item) => {
-                  if (
-                    item.type === "data" &&
-                    item.data &&
-                    typeof item.data.name === "string" &&
-                    typeof item.data.value !== "undefined"
-                  ) {
-                    let itemMatches = true;
-
-                    if (
-                      item.data.comparisonlist &&
-                      item.data.comparisonlist[0]
-                    ) {
-                      itemMatches = false;
-                      let variable = bridge.get(
-                        item.data.comparisonlist[0].data.variable
-                      );
-                      let secondValue = bridge.transf(
-                        item.data.comparisonlist[0].data.compareValue
-                      );
-
-                      switch (item.data.comparisonlist[0].data.comparator) {
-                        case "Equals":
-                          if (`${variable}` == `${secondValue}`)
-                            itemMatches = true;
-                          break;
-                        case "Doesn't Equal":
-                          if (variable != secondValue) itemMatches = true;
-                          break;
-                        case "Exists":
-                          itemMatches =
-                            variable != null && variable != undefined;
-                          break;
-                        case "Equals Exactly":
-                          if (variable === secondValue) itemMatches = true;
-                          break;
-                        case "Greater Than":
-                          if (Number(variable) > Number(secondValue))
-                            itemMatches = true;
-                          break;
-                        case "Less Than":
-                          if (Number(variable) < Number(secondValue))
-                            itemMatches = true;
-                          break;
-                        case "Equal Or Greater Than":
-                          if (Number(variable) >= Number(secondValue))
-                            itemMatches = true;
-                          break;
-                        case "Equal Or Less Than":
-                          if (Number(variable) <= Number(secondValue))
-                            itemMatches = true;
-                          break;
-                        case "Is Number":
-                          itemMatches =
-                            typeof parseInt(variable) == "number" &&
-                            `${parseInt(variable)}` != `NaN`;
-                          break;
-                        case "Matches Regex":
-                          itemMatches = Boolean(
-                            variable.match(
-                              new RegExp("^" + secondValue + "$", "i")
-                            )
-                          );
-                          break;
-                        case "Exactly includes":
-                          itemMatches =
-                            variable?.toString().includes(secondValue) || false;
-                          break;
-                      }
-                    }
-                    if (itemMatches) {
-                      acc[bridge.transf(item.data.name)] = bridge.transf(
-                        item.data.value
-                      );
-                    }
-                  }
-                  return acc;
-                }, {});
-
-                const resu = dataCase.data.name
-                  ? { [bridge.transf(dataCase.data.name)]: res }
-                  : res;
-
-                const pathParts = bridge.transf(dataCase.data.path).split(".");
-                let current = data;
-
-                for (let i = 0; i < pathParts.length - 1; i++) {
-                  const part = pathParts[i];
-                  if (!current[part]) {
-                    current[part] = {};
-                  }
-                  current = current[part];
-                }
-
-                const lastPart = pathParts[pathParts.length - 1];
-                current[lastPart] = resu;
-              }
-            }
-            break;
-
-          case "array":
-            if (Array.isArray(dataCase.data?.cases6)) {
-              let matchesCriteria = true;
-
-              if (
-                dataCase.data.comparisonlist &&
-                dataCase.data.comparisonlist[0]
-              ) {
-                matchesCriteria = false;
-                let variable = bridge.get(
-                  dataCase.data.comparisonlist[0].data.variable
-                );
-                let secondValue = bridge.transf(
-                  dataCase.data.comparisonlist[0].data.compareValue
-                );
-
-                switch (dataCase.data.comparisonlist[0].data.comparator) {
-                  case "Equals":
-                    matchesCriteria = `${variable}` == `${secondValue}`;
-                    break;
-                  case "Doesn't Equal":
-                    matchesCriteria = variable != secondValue;
-                    break;
-                  case "Exists":
-                    matchesCriteria =
-                      variable !== null && variable !== undefined;
-                    break;
-                  case "Equals Exactly":
-                    matchesCriteria = variable === secondValue;
-                    break;
-                  case "Greater Than":
-                    matchesCriteria = Number(variable) > Number(secondValue);
-                    break;
-                  case "Less Than":
-                    matchesCriteria = Number(variable) < Number(secondValue);
-                    break;
-                  case "Equal Or Greater Than":
-                    matchesCriteria = Number(variable) >= Number(secondValue);
-                    break;
-                  case "Equal Or Less Than":
-                    matchesCriteria = Number(variable) <= Number(secondValue);
-                    break;
-                  case "Is Number":
-                    matchesCriteria = !isNaN(parseInt(variable));
-                    break;
-                  case "Matches Regex":
-                    try {
-                      matchesCriteria = new RegExp(
-                        `^${secondValue}$`,
-                        "i"
-                      ).test(variable);
-                    } catch (e) {
-                      matchesCriteria = false;
-                    }
-                    break;
-                  case "Exactly includes":
-                    matchesCriteria =
-                      variable?.toString().includes(secondValue) || false;
-                    break;
-                }
-              }
-
-              if (matchesCriteria) {
-                const result = dataCase.data.cases6.reduce((acc, item) => {
-                  if (
-                    item.type === "data" &&
-                    item.data &&
-                    typeof item.data.name === "string" &&
-                    typeof item.data.value !== "undefined"
-                  ) {
-                    let itemMatches = true;
-
-                    if (
-                      item.data.comparisonlist &&
-                      item.data.comparisonlist[0]
-                    ) {
-                      itemMatches = false;
-                      let variable = bridge.get(
-                        item.data.comparisonlist[0].data.variable
-                      );
-                      let secondValue = bridge.transf(
-                        item.data.comparisonlist[0].data.compareValue
-                      );
-
-                      switch (item.data.comparisonlist[0].data.comparator) {
-                        case "Equals":
-                          itemMatches = `${variable}` == `${secondValue}`;
-                          break;
-                        case "Doesn't Equal":
-                          itemMatches = variable != secondValue;
-                          break;
-                        case "Exists":
-                          itemMatches =
-                            variable !== null && variable !== undefined;
-                          break;
-                        case "Equals Exactly":
-                          itemMatches = variable === secondValue;
-                          break;
-                        case "Greater Than":
-                          itemMatches = Number(variable) > Number(secondValue);
-                          break;
-                        case "Less Than":
-                          itemMatches = Number(variable) < Number(secondValue);
-                          break;
-                        case "Equal Or Greater Than":
-                          itemMatches = Number(variable) >= Number(secondValue);
-                          break;
-                        case "Equal Or Less Than":
-                          itemMatches = Number(variable) <= Number(secondValue);
-                          break;
-                        case "Is Number":
-                          itemMatches = !isNaN(parseInt(variable));
-                          break;
-                        case "Matches Regex":
-                          try {
-                            itemMatches = new RegExp(
-                              `^${secondValue}$`,
-                              "i"
-                            ).test(variable);
-                          } catch (e) {
-                            itemMatches = false;
+                  const rawPath = bridge.transf(dataCase.data.path);
+                  const value = bridge.transf(dataCase.data.value);
+                  
+                  const pathParts = rawPath.split(".");
+                  let current = data;
+                  
+                  for (let i = 0; i < pathParts.length - 1; i++) {
+                      let part = pathParts[i];
+                      const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+                      
+                      if (arrayMatch) {
+                          const [_, arrayKey, indexOrSymbol] = arrayMatch;
+                          
+                          if (!Array.isArray(current[arrayKey])) {
+                              current[arrayKey] = [];
                           }
-                          break;
-                        case "Exactly includes":
-                          itemMatches =
-                            variable?.toString().includes(secondValue) || false;
-                          break;
+                          let array = current[arrayKey];
+                          
+                          if (indexOrSymbol === "N") {
+                              const nextPart = pathParts[i + 1];
+                              if (nextPart) {
+                                  array.push({});
+                                  current = array[array.length - 1];
+                              } else {
+                                  array.push(value);
+                              }
+                              continue;
+                          } else if (indexOrSymbol === "^") {
+                              if (array.length === 0) {
+                                  array.push({});
+                              }
+                              current = array[array.length - 1];
+                              continue;
+                          } else {
+                              const index = parseInt(indexOrSymbol, 10);
+                              if (isNaN(index)) continue;
+                              
+                              while (array.length <= index) {
+                                  array.push(null);
+                              }
+                              
+                              if (typeof array[index] !== "object" || array[index] === null) {
+                                  array[index] = {};
+                              }
+                              current = array[index];
+                          }
+                      } else {
+                          if (typeof current[part] !== "object" || current[part] === null) {
+                              current[part] = {};
+                          }
+                          current = current[part];
                       }
-                    }
-
-                    if (itemMatches) {
-                      acc[bridge.transf(item.data.name)] = bridge.transf(
-                        item.data.value
-                      );
-                    }
                   }
-                  return acc;
-                }, {});
-
-                const pathParts = bridge.transf(dataCase.data.path).split(".");
-                let current = data;
-
-                for (let i = 0; i < pathParts.length - 1; i++) {
-                  const part = pathParts[i];
-                  if (!current[part]) current[part] = {};
-                  current = current[part];
-                }
-
-                const lastPart = pathParts[pathParts.length - 1];
-                if (!Array.isArray(current[lastPart])) {
-                  current[lastPart] = [];
-                }
-                current[lastPart].push(result);
+                  
+                  const lastPart = pathParts[pathParts.length - 1];
+                  const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+                  
+                  if (lastPartMatch) {
+                      const [_, arrayKey, indexOrSymbol] = lastPartMatch;
+                      
+                      if (!Array.isArray(current[arrayKey])) {
+                          current[arrayKey] = [];
+                      }
+                      const array = current[arrayKey];
+                      
+                      if (indexOrSymbol === "N") {
+                          array.push(value);
+                      } else if (indexOrSymbol === "^") {
+                          if (array.length === 0) {
+                              array.push(typeof value === "object" ? {
+                                  ...value
+                              } : value);
+                          } else {
+                              if (typeof array[array.length - 1] !== "object") {
+                                  array[array.length - 1] = {};
+                              }
+                              array[array.length - 1] = {
+                                  ...array[array.length - 1],
+                                  ...value,
+                              };
+                          }
+                      } else {
+                          const index = parseInt(indexOrSymbol, 10);
+                          if (isNaN(index)) return;
+                          
+                          while (array.length <= index) {
+                              array.push(null);
+                          }
+                          
+                          if (typeof value === "object" && value !== null) {
+                              if (typeof array[index] !== "object" || array[index] === null) {
+                                  array[index] = {};
+                              }
+                              array[index] = {
+                                  ...array[index],
+                                  ...value
+                              };
+                          } else {
+                              array[index] = value;
+                          }
+                      }
+                  } else {
+                      if (typeof value === "object" && value !== null) {
+                          current[lastPart] = {
+                              ...current[lastPart],
+                              ...value,
+                          };
+                      } else {
+                          current[lastPart] = value;
+                      }
+                  }
               }
-            }
-            break;
-        }
+          }
       }
-    }
-
-    if (Array.isArray(values.cases1)) {
-      for (const dataCase of values.cases1) {
-        if (dataCase.type !== "data") continue;
-        let matchesCriteria = true;
-
-        if (dataCase.data.comparisonlist && dataCase.data.comparisonlist[0]) {
-          matchesCriteria = false;
-          let variable = bridge.get(
-            dataCase.data.comparisonlist[0].data.variable
-          );
-          let secondValue = bridge.transf(
-            dataCase.data.comparisonlist[0].data.compareValue
-          );
-
-          switch (dataCase.data.comparisonlist[0].data.comparator) {
-            case "Equals":
-              if (`${variable}` == `${secondValue}`) {
-                matchesCriteria = true;
+      
+      if (Array.isArray(values.cases3)) {
+          for (const dataCase of values.cases3) {
+              if (dataCase.type !== "data") continue;
+              const comparison = dataCase.data.comparisonlist?.[0];
+              let matchesCriteria = true;
+              
+              if (comparison) {
+                  const variable = bridge.get(comparison.data.variable);
+                  const secondValue = bridge.transf(comparison.data.compareValue);
+                  matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
               }
-              break;
-
-            case "Doesn't Equal":
-              if (variable != secondValue) {
-                matchesCriteria = true;
+              if (matchesCriteria == true) {
+                  const rawPath = bridge.transf(dataCase.data.path);
+                  const value = bridge.transf(dataCase.data.value);
+                  
+                  const pathParts = rawPath.split(".");
+                  
+                  let current = data;
+                  for (let i = 0; i < pathParts.length - 1; i++) {
+                      const part = pathParts[i];
+                      
+                      if (
+                          /\[\d+\]$/.test(part) ||
+                          part.endsWith("[N]") ||
+                          part.endsWith("[^]")
+                      ) {
+                          const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+                          if (!arrayKeyMatch) continue;
+                          
+                          const arrayKey = arrayKeyMatch[1];
+                          const indexOrSymbol = arrayKeyMatch[2];
+                          
+                          if (!Array.isArray(current[arrayKey])) {
+                              current[arrayKey] = [];
+                          }
+                          
+                          current = current[arrayKey];
+                          
+                          if (indexOrSymbol === "N") {
+                              const nextPart = pathParts[i + 1];
+                              if (nextPart) {
+                                  current.push({});
+                                  current = current[current.length - 1];
+                              } else {
+                                  current.push(value);
+                              }
+                              continue;
+                          }
+                          
+                          if (indexOrSymbol === "^") {
+                              if (current.length > 0) {
+                                  const lastElement = current[current.length - 1];
+                                  if (typeof lastElement !== "object" || lastElement === null) {
+                                      current[current.length - 1] = {};
+                                  }
+                                  current = current[current.length - 1];
+                              } else {
+                                  current.push({});
+                                  current = current[current.length - 1];
+                              }
+                              continue;
+                          }
+                          
+                          const index = parseInt(indexOrSymbol, 10);
+                          if (isNaN(index)) continue;
+                          
+                          while (current.length <= index) {
+                              current.push(null);
+                          }
+                          
+                          if (
+                              typeof current[index] !== "object" ||
+                              current[index] === null
+                          ) {
+                              current[index] = {};
+                          }
+                          
+                          current = current[index];
+                      } else {
+                          if (!current[part] || typeof current[part] !== "object") {
+                              current[part] = {};
+                          }
+                          
+                          current = current[part];
+                      }
+                  }
+                  
+                  const lastPart = pathParts[pathParts.length - 1];
+                  
+                  const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+                  if (lastPartMatch) {
+                      const arrayKey = lastPartMatch[1];
+                      const indexOrSymbol = lastPartMatch[2];
+                      
+                      if (!Array.isArray(current[arrayKey])) {
+                          current[arrayKey] = [];
+                      }
+                      
+                      const array = current[arrayKey];
+                      
+                      if (indexOrSymbol === "N") {
+                          array.push(value);
+                      } else if (indexOrSymbol === "^") {
+                          if (array.length > 0) {
+                              const lastElement = array[array.length - 1];
+                              if (typeof lastElement !== "object" || lastElement === null) {
+                                  array[array.length - 1] = {};
+                              }
+                              Object.assign(array[array.length - 1], value);
+                          } else {
+                              array.push(value);
+                          }
+                      } else {
+                          const index = parseInt(indexOrSymbol, 10);
+                          if (isNaN(index)) continue;
+                          
+                          while (array.length <= index) {
+                              array.push(null);
+                          }
+                          
+                          if (typeof value === "string") {
+                              array[index] = value;
+                          } else if (typeof value === "object") {
+                              if (typeof array[index] !== "object" || array[index] === null) {
+                                  array[index] = {};
+                              }
+                              Object.assign(array[index], value);
+                          } else {
+                              array[index] = value;
+                          }
+                      }
+                  } else {
+                      current[lastPart] = value;
+                  }
               }
-              break;
-
-            case "Exists":
-              matchesCriteria = variable != null || variable != undefined;
-              break;
-
-            case "Equals Exactly":
-              if (variable === secondValue) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Greater Than":
-              if (Number(variable) > Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Less Than":
-              if (Number(variable) < Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Equal Or Greater Than":
-              if (Number(variable) >= Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Equal Or Less Than":
-              if (Number(variable) <= Number(secondValue)) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Is Number":
-              if (
-                typeof parseInt(variable) == "number" &&
-                `${parseInt(variable)}` != `NaN`
-              ) {
-                matchesCriteria = true;
-              }
-              break;
-
-            case "Matches Regex":
-              matchesCriteria = Boolean(
-                variable.match(new RegExp("^" + secondValue + "$", "i"))
-              );
-              break;
-
-            case "Exactly includes":
-              if (typeof variable?.toString().includes === "function") {
-                matchesCriteria = variable.toString().includes(secondValue);
-              }
-              break;
           }
-        }
-        if (matchesCriteria == true) {
-          const path = bridge.transf(dataCase.data.path);
-          const pathParts = path.split(".");
-          let current = data;
-
-          for (let i = 0; i < pathParts.length - 1; i++) {
-            const part = pathParts[i];
-
-            if (
-              /\[\d+\]$/.test(part) ||
-              part.endsWith("[N]") ||
-              part.endsWith("[^]")
-            ) {
-              const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-              if (!arrayKeyMatch) break;
-
-              const arrayKey = arrayKeyMatch[1];
-              const indexOrSymbol = arrayKeyMatch[2];
-
-              if (!Array.isArray(current[arrayKey])) {
-                current = undefined;
-                break;
-              }
-
-              const array = current[arrayKey];
-              let index;
-
-              if (indexOrSymbol === "N") {
-                index = array.length - 1;
-              } else if (indexOrSymbol === "^") {
-                index = 0;
-              } else {
-                index = parseInt(indexOrSymbol, 10);
-                if (isNaN(index) || index >= array.length) {
-                  current = undefined;
-                  break;
-                }
-              }
-
-              current = array[index];
-            } else {
-              if (!current[part]) {
-                current = undefined;
-                break;
-              }
-              current = current[part];
-            }
-          }
-
-          if (!current) {
-            continue;
-          }
-
-          const lastPart = pathParts[pathParts.length - 1];
-          const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
-
-          if (lastPartMatch) {
-            const arrayKey = lastPartMatch[1];
-            const indexOrSymbol = lastPartMatch[2];
-
-            if (!Array.isArray(current[arrayKey])) {
-              continue;
-            }
-
-            const array = current[arrayKey];
-
-            if (indexOrSymbol === "N" || indexOrSymbol === "^") {
-              if (array.length > 0) {
-                array.pop();
-              }
-            } else {
-              const index = parseInt(indexOrSymbol, 10);
-              if (!isNaN(index) && index < array.length) {
-                array.splice(index, 1);
-              }
-            }
-          } else {
-            delete current[lastPart];
-          }
-        }
       }
-    }
-
-    if (values.logToConsole) {
-      console.log(data);
-    }
-    fs.writeFileSync(fullPath, JSON.stringify(data, null, 2));
+      
+      if (Array.isArray(values.cases4)) {
+          for (const dataCase of values.cases4) {
+              switch (dataCase.type) {
+                  case "value":
+                      if (Array.isArray(dataCase.data?.cases5)) {
+                          const comparison = dataCase.data.comparisonlist?.[0];
+                          let matchesCriteria = true;
+                          
+                          if (comparison) {
+                              const variable = bridge.get(comparison.data.variable);
+                              const secondValue = bridge.transf(comparison.data.compareValue);
+                              matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
+                          }
+                          
+                          if (matchesCriteria == true) {
+                              const res = dataCase.data.cases5.reduce((acc, item) => {
+                                  if (
+                                      item.type === "data" &&
+                                      item.data &&
+                                      typeof item.data.name === "string" &&
+                                      typeof item.data.value !== "undefined"
+                                  ) {
+                                      const comparison = item.data.comparisonlist?.[0];
+                                      let itemMatches = true;
+                                      
+                                      if (comparison) {
+                                          const variable = bridge.get(comparison.data.variable);
+                                          const secondValue = bridge.transf(comparison.data.compareValue);
+                                          itemMatches = matchesComparator(variable, comparison.data.comparator, secondValue);
+                                      }
+                                      if (itemMatches) {
+                                          acc[bridge.transf(item.data.name)] = bridge.transf(
+                                              item.data.value
+                                          );
+                                      }
+                                  }
+                                  return acc;
+                              }, {});
+                              
+                              const resu = dataCase.data.name ?
+                                  {
+                                      [bridge.transf(dataCase.data.name)]: res
+                                  } :
+                                  res;
+                              
+                              const pathParts = bridge.transf(dataCase.data.path).split(".");
+                              let current = data;
+                              
+                              for (let i = 0; i < pathParts.length - 1; i++) {
+                                  const part = pathParts[i];
+                                  if (!current[part]) {
+                                      current[part] = {};
+                                  }
+                                  current = current[part];
+                              }
+                              
+                              const lastPart = pathParts[pathParts.length - 1];
+                              current[lastPart] = resu;
+                          }
+                      }
+                      break;
+                      
+                  case "array":
+                      if (Array.isArray(dataCase.data?.cases6)) {
+                          const comparison = dataCase.data.comparisonlist?.[0];
+                          let matchesCriteria = true;
+                          
+                          if (comparison) {
+                              const variable = bridge.get(comparison.data.variable);
+                              const secondValue = bridge.transf(comparison.data.compareValue);
+                              matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
+                          }
+                          
+                          if (matchesCriteria) {
+                              const result = dataCase.data.cases6.reduce((acc, item) => {
+                                  if (
+                                      item.type === "data" &&
+                                      item.data &&
+                                      typeof item.data.name === "string" &&
+                                      typeof item.data.value !== "undefined"
+                                  ) {
+                                      const comparison = item.data.comparisonlist?.[0];
+                                      let itemMatches = true;
+                                      
+                                      if (comparison) {
+                                          const variable = bridge.get(comparison.data.variable);
+                                          const secondValue = bridge.transf(comparison.data.compareValue);
+                                          itemMatches = matchesComparator(variable, comparison.data.comparator, secondValue);
+                                      }
+                                      
+                                      if (itemMatches) {
+                                          acc[bridge.transf(item.data.name)] = bridge.transf(
+                                              item.data.value
+                                          );
+                                      }
+                                  }
+                                  return acc;
+                              }, {});
+                              
+                              const pathParts = bridge.transf(dataCase.data.path).split(".");
+                              let current = data;
+                              
+                              for (let i = 0; i < pathParts.length - 1; i++) {
+                                  const part = pathParts[i];
+                                  if (!current[part]) current[part] = {};
+                                  current = current[part];
+                              }
+                              
+                              const lastPart = pathParts[pathParts.length - 1];
+                              if (!Array.isArray(current[lastPart])) {
+                                  current[lastPart] = [];
+                              }
+                              current[lastPart].push(result);
+                          }
+                      }
+                      break;
+              }
+          }
+      }
+      
+      if (Array.isArray(values.cases1)) {
+          for (const dataCase of values.cases1) {
+              if (dataCase.type !== "data") continue;
+              const comparison = dataCase.data.comparisonlist?.[0];
+              let matchesCriteria = true;
+              
+              if (comparison) {
+                  const variable = bridge.get(comparison.data.variable);
+                  const secondValue = bridge.transf(comparison.data.compareValue);
+                  matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
+              }
+              if (matchesCriteria == true) {
+                  const path = bridge.transf(dataCase.data.path);
+                  const pathParts = path.split(".");
+                  let current = data;
+                  
+                  for (let i = 0; i < pathParts.length - 1; i++) {
+                      const part = pathParts[i];
+                      
+                      if (
+                          /\[\d+\]$/.test(part) ||
+                          part.endsWith("[N]") ||
+                          part.endsWith("[^]")
+                      ) {
+                          const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+                          if (!arrayKeyMatch) break;
+                          
+                          const arrayKey = arrayKeyMatch[1];
+                          const indexOrSymbol = arrayKeyMatch[2];
+                          
+                          if (!Array.isArray(current[arrayKey])) {
+                              current = undefined;
+                              break;
+                          }
+                          
+                          const array = current[arrayKey];
+                          let index;
+                          
+                          if (indexOrSymbol === "N") {
+                              index = array.length - 1;
+                          } else if (indexOrSymbol === "^") {
+                              index = 0;
+                          } else {
+                              index = parseInt(indexOrSymbol, 10);
+                              if (isNaN(index) || index >= array.length) {
+                                  current = undefined;
+                                  break;
+                              }
+                          }
+                          
+                          current = array[index];
+                      } else {
+                          if (!current[part]) {
+                              current = undefined;
+                              break;
+                          }
+                          current = current[part];
+                      }
+                  }
+                  
+                  if (!current) {
+                      continue;
+                  }
+                  
+                  const lastPart = pathParts[pathParts.length - 1];
+                  const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+                  
+                  if (lastPartMatch) {
+                      const arrayKey = lastPartMatch[1];
+                      const indexOrSymbol = lastPartMatch[2];
+                      
+                      if (!Array.isArray(current[arrayKey])) {
+                          continue;
+                      }
+                      
+                      const array = current[arrayKey];
+                      
+                      if (indexOrSymbol === "N" || indexOrSymbol === "^") {
+                          if (array.length > 0) {
+                              array.pop();
+                          }
+                      } else {
+                          const index = parseInt(indexOrSymbol, 10);
+                          if (!isNaN(index) && index < array.length) {
+                              array.splice(index, 1);
+                          }
+                      }
+                  } else {
+                      delete current[lastPart];
+                  }
+              }
+          }
+      }
+      
+      if (values.logToConsole) {
+          console.log(data);
+      }
+      fs.writeFileSync(fullPath, JSON.stringify(data, null, 2));
   },
 };
