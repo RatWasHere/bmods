@@ -788,7 +788,7 @@
       "creator": "lik_rus"
     },
     "getWeatherInfo_MOD.js": {
-      "md5": "80746ec1290520d63ebd4b0585486959",
+      "md5": "34c3892422cf387f5c14a37c716ac790",
       "name": "Get Weather Info",
       "modules": [
         "weather-js"
