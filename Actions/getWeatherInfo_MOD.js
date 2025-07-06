@@ -71,7 +71,7 @@ module.exports = {
     },
   ],
 
-  async run(values, client, interaction, bridge) {
+  async run(values, interaction, client, bridge) {
     return new Promise(async (resolve, reject) => {
       const weather = await client.getMods().require("weather-js");
 
