@@ -404,7 +404,7 @@
       "creator": "Acedia"
     },
     "fetchSteamId_MOD.js": {
-      "md5": "02a2bb8e966338c44d20f63720c86702",
+      "md5": "248336f96bd51159b332c96ade9270f8",
       "name": "Fetch Steam Profile Info",
       "modules": [],
       "category": "WebAPIs",
@@ -983,6 +983,13 @@
       "category": "Members",
       "creator": "LikRus"
     },
+    "multipleCalculations_MOD.js": {
+      "md5": "53221c2a803ce2f9ccd7687850e42d0b",
+      "name": "Multiple Calculations",
+      "modules": [],
+      "category": "Numbers",
+      "creator": "Acedia"
+    },
     "multipleRegexComparisons_MOD.js": {
       "md5": "27328873cd64ca6adc840b43b44a2ed1",
       "name": "Multiple Regex Comparisons",
@@ -1343,7 +1350,7 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "066b10322500a53d50aa6f93335ee3d9",
+      "md5": "45802e97d73e1c3dd959c0db16879c97",
       "name": "Create Status Page",
       "modules": [
         "node:http",
