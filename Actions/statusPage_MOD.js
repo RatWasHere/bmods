@@ -206,7 +206,7 @@ module.exports = {
       const file = siteFiles[coreKey];
 
       if (!fs.existsSync(file.path)) {
-        console.log(`Missing "${file.name}" in ${file.path}, downloading from GitHub.`);
+        console.log(`[Status Page] Missing "${file.name}" in ${file.path}, downloading from GitHub.`);
 
         try {
           await new Promise((resolve, reject) => {
@@ -214,7 +214,7 @@ module.exports = {
               .get(file.github, (response) => {
                 if (response.statusCode !== 200) {
                   reject(
-                    new Error(`Failed to download "${file.name}" from GitHub. Status Code: ${response.statusCode}`)
+                    new Error(`[Status Page] Failed to download "${file.name}" from GitHub. Status Code: ${response.statusCode}`)
                   );
                   return;
                 }
@@ -227,7 +227,7 @@ module.exports = {
                   try {
                     const data = Buffer.concat(chunks);
                     fs.writeFileSync(file.path, data); // No encoding specified so it works for binary too
-                    console.log(`"${file.name}" downloaded from ${file.github}.`);
+                    console.log(`"[Status Page] ${file.name}" downloaded from ${file.github}.`);
                     resolve();
                   } catch (err) {
                     reject(err);
@@ -239,7 +239,7 @@ module.exports = {
               });
           });
         } catch (err) {
-          console.error(`Error while downloading "${file.name}" from GitHub:`, err);
+          console.error(`[Status Page] Error while downloading "${file.name}" from GitHub:`, err);
         }
       }
     }
@@ -452,7 +452,7 @@ module.exports = {
       }
     }
     if (missingSiteFiles.length > 0) {
-      return console.error(`Files (${missingSiteFiles.join(", ")}) Are Missing To Serve The Page!`);
+      return console.error(`[Status Page] Files (${missingSiteFiles.join(", ")}) Are Missing To Serve The Page!`);
     }
 
     const server = http.createServer((request, response) => {
@@ -603,7 +603,7 @@ module.exports = {
     });
 
     server.listen(port, host, () => {
-      console.log(`Status Page Available At "http://${host}:${port}/monitor"`);
+      console.log(`[Status Page] Status Page Available At "http://${host}:${port}/monitor"`);
     });
   },
 };

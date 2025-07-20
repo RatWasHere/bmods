@@ -1,5 +1,4 @@
-const generatePoToken = require('./generatePoToken');
-modVersion = "v1.0.0 | AceTweaks"
+modVersion = "v1.0.1 | AceTweaks"
 
 module.exports = {
   data: {

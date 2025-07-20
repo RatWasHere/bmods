@@ -85,6 +85,8 @@ module.exports = {
     } else {steamId = undefined}
     bridge.store(values.steamId, steamId)
 
+    await new Promise(resolve => setTimeout(resolve, 500))
+
     let profileObject
     if (steamId != undefined && values.profileSummary?.value !== ""){
       let summaryQuery = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`.replaceAll(" ", "")
