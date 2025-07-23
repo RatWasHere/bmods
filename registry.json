@@ -764,6 +764,13 @@
       "category": "Scheduled Events",
       "creator": "nitiqt"
     },
+    "getServerPrefix_MOD.js": {
+      "md5": "8d26fb55778bf6a98c1bc515847b8729",
+      "name": "Get Server Prefix",
+      "modules": [],
+      "category": "Server Management",
+      "creator": "TheMonDon"
+    },
     "getTagsFromDanbooruPost_MOD.js": {
       "md5": "39cd8dba8f08b50add67dc94bdbb438c",
       "name": "Get Tags from Danbooru Post",
@@ -1299,11 +1306,25 @@
       "category": "Game",
       "creator": "candiedapple"
     },
+    "serverPrefixInject_MOD.js": {
+      "md5": "9d3d11e0aa59e0deca72503934a17fb3",
+      "name": "Server Prefix Injection",
+      "modules": [],
+      "category": "Server Management",
+      "creator": "TheMonDon"
+    },
     "setLinkedRolesMetadata_MOD.js": {
       "md5": "82c12c713a5ddc4c71f084b50b2bbe35",
       "name": "Set Linked Roles Metadata",
       "modules": [],
       "category": "Linked Roles"
+    },
+    "setServerPrefix_MOD.js": {
+      "md5": "79bdcbced298bf2abf0261bfaf640595",
+      "name": "Set Server Prefix",
+      "modules": [],
+      "category": "Server Management",
+      "creator": "TheMonDon"
     },
     "sliceList_MOD.js": {
       "md5": "c16d95e82dbaecceffd8ec8a2f4a4d3c",
