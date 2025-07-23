@@ -764,13 +764,6 @@
       "category": "Scheduled Events",
       "creator": "nitiqt"
     },
-    "getServerPrefix_MOD.js": {
-      "md5": "0a5c3e476004b106269e62e57f6f63da",
-      "name": "Get Server Prefix",
-      "modules": [],
-      "category": "Server Management",
-      "creator": "TheMonDon"
-    },
     "getTagsFromDanbooruPost_MOD.js": {
       "md5": "39cd8dba8f08b50add67dc94bdbb438c",
       "name": "Get Tags from Danbooru Post",
@@ -1311,20 +1304,6 @@
       "name": "Set Linked Roles Metadata",
       "modules": [],
       "category": "Linked Roles"
-    },
-    "setServerPrefix_MOD.js": {
-      "md5": "20db7e546d6c1450998079ee67aba154",
-      "name": "Set Server Prefix",
-      "modules": [],
-      "category": "Server Management",
-      "creator": "TheMonDon"
-    },
-    "setupServerPrefixes_MOD.js": {
-      "md5": "3ec18fd6f0931f5d0e2e99562cb3796a",
-      "name": "Setup Server Prefixes",
-      "modules": [],
-      "category": "Server Management",
-      "creator": "TheMonDon"
     },
     "sliceList_MOD.js": {
       "md5": "c16d95e82dbaecceffd8ec8a2f4a4d3c",
