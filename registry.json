@@ -246,6 +246,15 @@
       "category": "Files",
       "creator": "Rat"
     },
+    "controlLavalinkMusic_MOD.js": {
+      "md5": "c3ad0e52af4965422aa7f63c52d008bd",
+      "name": "Control Lavalink Music",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
     "controlMemberMultiDatas_MOD.js": {
       "md5": "d191019cb44c10bfd49db0d0df173586",
       "name": "Control Member Multi Datas",
@@ -645,6 +654,24 @@
       "category": "Media",
       "creator": "lik_rus"
     },
+    "getLavalinkPlayerInfo_MOD.js": {
+      "md5": "2beda365176cb884a21d10c3d4705d6b",
+      "name": "Get Lavalink Player Info",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
+    "getLavalinkResultInfo_MOD.js": {
+      "md5": "0d59b8e6a1f5225ab9c871c43ab6a4d8",
+      "name": "Get Lavalink Result Info",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
     "getListElementPosition_MOD.js": {
       "md5": "c690b7cdb491003cfa7903a66c1591d7",
       "name": "Get List Element Position",
@@ -874,6 +901,15 @@
       "category": "Control",
       "creator": "Acedia"
     },
+    "lavalinkConnection_MOD.js": {
+      "md5": "5d1527ad8a489ad0ffd509bbdf77026d",
+      "name": "Lavalink Connection",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
     "limitTextLength_MOD.js": {
       "md5": "85ea7e1b009f3c6eba13906999219d61",
       "name": "Limit Text Length",
@@ -1075,6 +1111,15 @@
       ],
       "category": "Music",
       "creator": "Acedia"
+    },
+    "playLavalinkMusic_MOD.js": {
+      "md5": "52d308353077d12fb3c06e58424a46e2",
+      "name": "Play Lavalink Music",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
     },
     "playMusic_MOD.js": {
       "md5": "375e4c82b98cf47dd413aeb717578401",
@@ -1538,6 +1583,32 @@
       "name": "Audit Log Created",
       "nameSchemes": [
         "Store AuditLog As"
+      ],
+      "modules": []
+    },
+    "lavalink_queue_end_MOD.js": {
+      "md5": "733c90f6b02400a620adfca4f3371af9",
+      "name": "Lavalink Queue End",
+      "nameSchemes": [
+        "Store Player As"
+      ],
+      "modules": []
+    },
+    "lavalink_track_end_MOD.js": {
+      "md5": "69fdec52319ce48d00c4d3d6a73e3928",
+      "name": "Lavalink Track End",
+      "nameSchemes": [
+        "Store Player As",
+        "Store Track As"
+      ],
+      "modules": []
+    },
+    "lavalink_track_start_MOD.js": {
+      "md5": "3666c764e31386780fb337d3dff8e8be",
+      "name": "Lavalink Track Start",
+      "nameSchemes": [
+        "Store Player As",
+        "Store Track As"
       ],
       "modules": []
     },
