@@ -798,6 +798,13 @@
       "category": "Server Management",
       "creator": "TheMonDon"
     },
+    "getSftpFile_MOD.js": {
+      "md5": "ccf18293c8f7228beb10b87741f406ec",
+      "name": "Get SFTP File",
+      "modules": [],
+      "category": "Files",
+      "creator": "TheMonDon"
+    },
     "getTagsFromDanbooruPost_MOD.js": {
       "md5": "39cd8dba8f08b50add67dc94bdbb438c",
       "name": "Get Tags from Danbooru Post",
@@ -1350,6 +1357,13 @@
       ],
       "category": "Game",
       "creator": "candiedapple"
+    },
+    "sendSftpFile_MOD.js": {
+      "md5": "d3d3263192fcc900a31f16c3a9e38e96",
+      "name": "Send SFTP File",
+      "modules": [],
+      "category": "Files",
+      "creator": "TheMonDon"
     },
     "serverPrefixInject_MOD.js": {
       "md5": "9d3d11e0aa59e0deca72503934a17fb3",
