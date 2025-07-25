@@ -902,7 +902,7 @@
       "creator": "Acedia"
     },
     "lavalinkConnection_MOD.js": {
-      "md5": "5d1527ad8a489ad0ffd509bbdf77026d",
+      "md5": "af194377d11a40a9ef78bcd7a3e7af4c",
       "name": "Lavalink Connection",
       "modules": [
         "lavalink-client"
