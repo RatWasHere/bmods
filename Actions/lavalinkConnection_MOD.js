@@ -110,7 +110,6 @@ module.exports = {
         },
       });
 
-      // Add node connection logging
       client.lavalink.nodeManager
         .on("connect", (node) => {
           console.log(`Connected to Lavalink node: ${node.id}`);
@@ -127,52 +126,14 @@ module.exports = {
           console.warn(`Reconnecting to Lavalink node: ${node.id}`);
         });
 
-      // This section should also be placed where it runs ONCE during initialization.
-      // It's more complex because you need to iterate over shards and re-attach on reconnects.
-
-      async function setupWebSocketListeners(client) {
-        // Wait for shards to be ready, or at least for some to exist
-        while (!client.shards || client.shards.size === 0) {
-          console.log(
-            "Shards ain't ready yet. Waiting to hijack the WebSocket..."
-          );
-          await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds
+      client.on("packet", (packet) => {
+        if (
+          packet.t === "VOICE_STATE_UPDATE" ||
+          packet.t === "VOICE_SERVER_UPDATE"
+        ) {
+          client.lavalink.sendRawData(packet);
         }
-
-        client.shards.forEach((shard) => {
-          // Only attach if not already attached, because these Websockets can be recreated
-          if (!shard._LavalinkWsListenerAdded) {
-            shard.ws.on("message", (rawDataFromWs) => {
-              try {
-                let rawData = rawDataFromWs; // Now rawDataFromWs is directly our data
-
-                // If it's a Buffer (binary data), convert it to a string.
-                // Discord gateway JSON is always text, so this is a safeguard.
-                if (rawData instanceof Buffer) {
-                  rawData = rawData.toString("utf8");
-                }
-
-                // If it's still not a string, or it's empty, or it's not defined,
-                // then this message is useless or malformed. Just ignore it.
-                if (typeof rawData !== "string" || !rawData.trim()) {
-                  return;
-                }
-
-                const payload = JSON.parse(rawData);
-
-                // Send the parsed payload to lavalink-client
-                client.lavalink.sendRawData(payload);
-              } catch (e) {
-                console.error("Error parsing WebSocket message:", e);
-              }
-            });
-            shard._LavalinkWsListenerAdded = true;
-          }
-        });
-
-        // You might also need to re-run this function if shards reconnect or new ones are added
-        // (e.g., if BMD has an event for shard ready/reconnect)
-      }
+      });
 
       function wait(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
@@ -189,9 +150,7 @@ module.exports = {
         client.lavalink.init(client.user);
       }
 
-      initLavalinkWithRetry(client).then(() => {
-        setupWebSocketListeners(client);
-      });
+      initLavalinkWithRetry(client);
     });
   },
 };
