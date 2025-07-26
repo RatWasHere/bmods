@@ -30,7 +30,7 @@ module.exports = {
         comparison: {
           data: {},
           name: "Comparison",
-          preview: "`${option.data.comparator} ${option.data.value}`",
+          preview: "`${option.data.comparator||''} ${option.data.value||''}`",
           UI: [
             {
               element: "dropdown",

@@ -9,7 +9,7 @@ module.exports = {
     creator: "Acedia Fixes",
     donate: "https://ko-fi.com/slothyacedia"
   },
-  modules: ["node:path"],
+  modules: ["node:path", "node:fs"],
   UI: [
     {
       element: "input",
@@ -38,7 +38,7 @@ module.exports = {
     }
     
     const path = require("node:path")
-    const fs = bridge.fs;
+    const fs = require("node:fs")
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
     filePath = bridge.transf(values.path)
