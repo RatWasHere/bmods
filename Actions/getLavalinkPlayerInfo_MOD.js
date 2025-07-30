@@ -61,7 +61,10 @@ module.exports = {
   },
 
   async run(values, message, client, bridge) {
-    let player = await bridge.get(values.playerVariable);
+    let player;
+    if (values.playerVariable) {
+      player = await bridge.get(values.playerVariable);
+    }
     let output;
 
     if (!player) {

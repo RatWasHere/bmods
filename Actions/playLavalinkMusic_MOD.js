@@ -94,8 +94,9 @@ module.exports = {
       }
 
       const volume = bridge.transf(values.defaultVolume);
-      if (volume) {
-        await player.setVolume(volume);
+      if (volume !== "undefined") {
+        console.log("Volume", volume);
+        await player.setVolume(Number(volume));
       }
 
       const result = await player.search(
