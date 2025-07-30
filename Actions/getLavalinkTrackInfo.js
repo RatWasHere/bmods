@@ -22,7 +22,7 @@ module.exports = {
       element: "input",
       name: "Track Number",
       storeAs: "trackNumber",
-      placeholder: "Only used for lavalink result tracks (default: 0)",
+      placeholder: "Only used for result or queue tracks (default: 0)",
     },
     "-",
     {

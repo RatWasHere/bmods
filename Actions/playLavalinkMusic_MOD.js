@@ -32,6 +32,13 @@ module.exports = {
     },
     "-",
     {
+      element: "input",
+      name: "Default Volume",
+      storeAs: "defaultVolume",
+      placeholder: "Leave blank for 100",
+    },
+    "-",
+    {
       element: "storageInput",
       name: "Store Result As",
       storeAs: "store",
@@ -84,6 +91,11 @@ module.exports = {
 
       if (!player.connected) {
         await player.connect();
+      }
+
+      const volume = await bridge.transf(values.defaultVolume);
+      if (volume) {
+        await player.setVolume(volume);
       }
 
       const result = await player.search(

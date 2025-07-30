@@ -2,7 +2,7 @@ modVersion = "v1.0.0";
 
 module.exports = {
   data: {
-    name: "Get Lavalink Player Info",
+    name: "Get Lavalink Queue Info",
   },
   category: "Lavalink Music",
   info: {
@@ -25,14 +25,9 @@ module.exports = {
       storeAs: "infoAction",
       name: "Info Action",
       choices: {
-        exists: { name: "Exists" },
-        guildId: { name: "Guild Id" },
-        voiceChannelId: { name: "Voice Channel Id" },
-        textChannelId: { name: "Text Channel Id" },
-        isPlaying: { name: "Is Playing?" },
-        isPaused: { name: "Is Paused?" },
-        repeatMode: { name: "Repeat Mode" },
-        volume: { name: "Volume" },
+        tracks: { name: "Tracks" },
+        previousTracks: { name: "Previous Tracks" },
+        currentTrack: { name: "Current Track" },
       },
     },
     "-",
@@ -50,7 +45,7 @@ module.exports = {
   compatibility: ["Any"],
 
   subtitle: (values, constants, thisAction) => {
-    return `Player Info - ${
+    return `Queue Info - ${
       thisAction.UI.find((e) => e.element == "typedDropdown").choices[
         values.infoAction.type
       ].name
@@ -59,54 +54,30 @@ module.exports = {
 
   async run(values, message, client, bridge) {
     let player = await bridge.get(values.playerVariable);
-    let output;
 
     if (!player) {
       player = client.lavalink.getPlayer(message.guild.id);
     }
 
     if (!player) {
-      return console.error("Player not found in Get Lavalink Player Info");
+      return console.error("Player not found in Get Lavalink Queue Info");
     }
 
+    let output;
+
     switch (values.infoAction.type) {
-      case "exists": {
-        output = !!player;
+      case "tracks": {
+        output = player.queue.tracks;
         break;
       }
 
-      case "guildId": {
-        output = player.guildId;
+      case "previousTracks": {
+        output = player.queue.previous;
         break;
       }
 
-      case "voiceChannelId": {
-        output = player.voiceChannelId;
-        break;
-      }
-
-      case "textChannelId": {
-        output = player.textChannelId;
-        break;
-      }
-
-      case "isPlaying": {
-        output = player.playing;
-        break;
-      }
-
-      case "isPaused": {
-        output = player.paused;
-        break;
-      }
-
-      case "repeatMode": {
-        output = player.repeatMode;
-        break;
-      }
-
-      case "volume": {
-        output = player.volume;
+      case "currentTrack": {
+        output = player.queue.current;
         break;
       }
     }
