@@ -47,7 +47,7 @@ module.exports = {
       },
     },
     {
-      element: "typedDropdown",
+      element: " ",
       storeAs: "repeatMode",
       name: "Repeat Mode",
       choices: {
