@@ -247,7 +247,7 @@
       "creator": "Rat"
     },
     "controlLavalinkMusic_MOD.js": {
-      "md5": "45e6fc31be76afc25830eabe9b6d520e",
+      "md5": "41f17fb5f9a13a930e3fee46b0631261",
       "name": "Control Lavalink Music",
       "modules": [
         "lavalink-client"
@@ -667,7 +667,7 @@
       "creator": "lik_rus"
     },
     "getLavalinkPlayerInfo_MOD.js": {
-      "md5": "3e98c5ddcbcc438b6ad2847284bb33b1",
+      "md5": "0139e139a53a5630a931586140d48e5e",
       "name": "Get Lavalink Player Info",
       "modules": [
         "lavalink-client"
@@ -675,8 +675,17 @@
       "category": "Lavalink Music",
       "creator": "TheMonDon"
     },
+    "getLavalinkPlayer_MOD.js": {
+      "md5": "b53e3ff8ed381a831d18b2b707fa4ace",
+      "name": "Get Lavalink Player",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
     "getLavalinkQueueInfo_MOD.js": {
-      "md5": "2fc63b7f3dbfa73275cc7a76362d9163",
+      "md5": "e3c89eae3e4514f9bc90c1daa1752e8c",
       "name": "Get Lavalink Queue Info",
       "modules": [
         "lavalink-client"
@@ -1141,7 +1150,7 @@
       "creator": "Acedia"
     },
     "playLavalinkMusic_MOD.js": {
-      "md5": "eb22004595e66fbcf54aef7841a2a2fa",
+      "md5": "a4bd9c9feb2280c51cba055289f6d671",
       "name": "Play Lavalink Music",
       "modules": [
         "lavalink-client"
