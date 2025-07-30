@@ -247,7 +247,7 @@
       "creator": "Rat"
     },
     "controlLavalinkMusic_MOD.js": {
-      "md5": "59d569ed2710330a728e7d709376f9f8",
+      "md5": "cfb3d0d7a05759cdb5dec6653155ac58",
       "name": "Control Lavalink Music",
       "modules": [
         "lavalink-client"
