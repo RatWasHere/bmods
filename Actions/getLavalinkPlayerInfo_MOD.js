@@ -13,11 +13,14 @@ module.exports = {
   modules: ["lavalink-client"],
   UI: [
     {
+      element: "text",
+      text: 'Leave player variable empty to use "current" player (fill in for events)',
+    },
+    "-",
+    {
       element: "variable",
       name: "Player Variable",
       storeAs: "playerVariable",
-      placeholder:
-        'Leave empty to use the "current" player (fill in for events)',
     },
     "-",
     {

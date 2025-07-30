@@ -64,7 +64,7 @@ module.exports = {
 
   async run(values, message, client, bridge) {
     const voiceChannel = await bridge.getChannel(values.voiceChannel);
-    const query = await bridge.transf(values.query);
+    const query = bridge.transf(values.query);
 
     if (!voiceChannel) {
       console.log("Voice channel not found or not specified.");
@@ -93,7 +93,7 @@ module.exports = {
         await player.connect();
       }
 
-      const volume = await bridge.transf(values.defaultVolume);
+      const volume = bridge.transf(values.defaultVolume);
       if (volume) {
         await player.setVolume(volume);
       }
