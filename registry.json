@@ -247,7 +247,7 @@
       "creator": "Rat"
     },
     "controlLavalinkMusic_MOD.js": {
-      "md5": "41f17fb5f9a13a930e3fee46b0631261",
+      "md5": "ecdfc109b91f75a03edd0f2a4e727ec5",
       "name": "Control Lavalink Music",
       "modules": [
         "lavalink-client"
@@ -263,7 +263,7 @@
       "creator": "nitiqt"
     },
     "controlMusic_MOD.js": {
-      "md5": "d949da67e95174c2a0e4c48173a50e2c",
+      "md5": "c28c9f4c043093caccc393e78c0ab0ae",
       "name": "Control Music",
       "modules": [
         "discord-player"
@@ -672,7 +672,7 @@
       "creator": "lik_rus"
     },
     "getLavalinkPlayerInfo_MOD.js": {
-      "md5": "0139e139a53a5630a931586140d48e5e",
+      "md5": "b8107ba835eb46ec2e76dcb8f069d80a",
       "name": "Get Lavalink Player Info",
       "modules": [
         "lavalink-client"
@@ -681,7 +681,7 @@
       "creator": "TheMonDon"
     },
     "getLavalinkPlayer_MOD.js": {
-      "md5": "b53e3ff8ed381a831d18b2b707fa4ace",
+      "md5": "641bae6145ec00111125f04fe8f3e3e1",
       "name": "Get Lavalink Player",
       "modules": [
         "lavalink-client"
@@ -690,7 +690,7 @@
       "creator": "TheMonDon"
     },
     "getLavalinkQueueInfo_MOD.js": {
-      "md5": "e3c89eae3e4514f9bc90c1daa1752e8c",
+      "md5": "ebfa8c2150bbe754b803d9a23e2278a8",
       "name": "Get Lavalink Queue Info",
       "modules": [
         "lavalink-client"
@@ -834,7 +834,7 @@
       "creator": "TheMonDon"
     },
     "getSftpFile_MOD.js": {
-      "md5": "ccf18293c8f7228beb10b87741f406ec",
+      "md5": "aab8d73530f3d76647cf6d2550a2810d",
       "name": "Get SFTP File",
       "modules": [],
       "category": "Files",
@@ -944,7 +944,7 @@
       "creator": "Acedia"
     },
     "lavalinkConnection_MOD.js": {
-      "md5": "af194377d11a40a9ef78bcd7a3e7af4c",
+      "md5": "01ee1e38151f123431926ce95962f461",
       "name": "Lavalink Connection",
       "modules": [
         "lavalink-client"
@@ -1003,7 +1003,7 @@
       "creator": "Acedia"
     },
     "loopMusic_MOD.js": {
-      "md5": "63406b4a89bd25ea96a1210a936353f3",
+      "md5": "12e025d723f9fd9415a1c213ce47885f",
       "name": "Loop Music",
       "modules": [
         "discord-player"
@@ -1155,7 +1155,7 @@
       "creator": "Acedia"
     },
     "playLavalinkMusic_MOD.js": {
-      "md5": "a4bd9c9feb2280c51cba055289f6d671",
+      "md5": "f1e8cc248670df484af4e3e738c6cd45",
       "name": "Play Lavalink Music",
       "modules": [
         "lavalink-client"
@@ -1164,7 +1164,7 @@
       "creator": "TheMonDon"
     },
     "playMusic_MOD.js": {
-      "md5": "375e4c82b98cf47dd413aeb717578401",
+      "md5": "27caf3cf5d8017d44795dd2ffd23847c",
       "name": "Play Music",
       "modules": [
         "discord-player",
@@ -1351,7 +1351,7 @@
       "creator": "qschnitzel"
     },
     "searchMusic_MOD.js": {
-      "md5": "0acf9e95b560881904ffc5a21ad8fa9b",
+      "md5": "1a81a3d6b7306e1deab55bf81214547a",
       "name": "Search Music",
       "modules": [
         "discord-player"
@@ -1394,14 +1394,14 @@
       "creator": "candiedapple"
     },
     "sendSftpFile_MOD.js": {
-      "md5": "d3d3263192fcc900a31f16c3a9e38e96",
+      "md5": "bf3dcc8504b7f31f9b17faadd3398ac5",
       "name": "Send SFTP File",
       "modules": [],
       "category": "Files",
       "creator": "TheMonDon"
     },
     "serverPrefixInject_MOD.js": {
-      "md5": "9d3d11e0aa59e0deca72503934a17fb3",
+      "md5": "fac13e8982cd1883479f453f113c2b81",
       "name": "Server Prefix Injection",
       "modules": [],
       "category": "Server Management",
