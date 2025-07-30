@@ -55,13 +55,14 @@ module.exports = {
 
   async run(values, message, client, bridge) {
     let player;
+    let output;
+
     if (values.playerVariable) {
       player = await bridge.get(values.playerVariable);
     }
-    let output;
 
     if (!player) {
-      player = client.lavalink.getPlayer(message.guild.id);
+      player = client.lavalink.getPlayer(bridge.guild.id);
     }
 
     if (!player) {

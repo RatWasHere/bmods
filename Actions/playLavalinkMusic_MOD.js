@@ -70,11 +70,11 @@ module.exports = {
     }
 
     try {
-      let player = client.lavalink.getPlayer(message.guild.id);
+      let player = client.lavalink.getPlayer(bridge.guild.id);
 
       if (!player) {
         player = client.lavalink.createPlayer({
-          guildId: message.guild.id,
+          guildId: bridge.guild.id,
           voiceChannelId: voiceChannel.id,
           textChannelId: message.channel.id,
           selfDeaf: values.selfDeaf,

@@ -1,5 +1,3 @@
-modVersion = "v1.0.0";
-
 module.exports = {
   data: {
     name: "Get Lavalink Result Info",
@@ -37,12 +35,11 @@ module.exports = {
     "-",
     {
       element: "text",
-      text: '"Playlist" will be null if no playlist was loaded. \nLoad type will be "search", "track", "playlist", or "error".',
+      text: '"Playlist" will be null if no playlist was loaded.',
     },
-    "-",
     {
       element: "text",
-      text: modVersion,
+      text: 'Load type will be "search", "track", "playlist", or "error".',
     },
   ],
   compatibility: ["Any"],

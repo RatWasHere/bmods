@@ -11,17 +11,6 @@ module.exports = {
   modules: ["lavalink-client"],
   UI: [
     {
-      element: "text",
-      text: 'Leave player variable empty to use "current" player (fill in for events)',
-    },
-    "-",
-    {
-      element: "variable",
-      name: "Player Variable",
-      storeAs: "playerVariable",
-    },
-    "-",
-    {
       element: "typedDropdown",
       storeAs: "musicAction",
       name: "Music Action",
@@ -99,14 +88,7 @@ module.exports = {
   },
 
   async run(values, message, client, bridge) {
-    let player;
-    if (values.playerVariable) {
-      player = await bridge.get(values.playerVariable);
-    }
-
-    if (!player) {
-      player = client.lavalink.getPlayer(message.guild.id);
-    }
+    const player = client.lavalink.getPlayer(bridge.guild.id);
 
     if (!player) {
       return console.error("Player not found in Control Lavalink Music");
