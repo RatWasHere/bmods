@@ -1,5 +1,3 @@
-modVersion = "v1.0.5";
-
 module.exports = {
   data: {
     name: "Control Music",
@@ -31,11 +29,6 @@ module.exports = {
           placeholder: "Song Number",
         },
       },
-    },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
     },
   ],
   subtitle: (values, constants, thisAction) => {

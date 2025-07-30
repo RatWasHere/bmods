@@ -1,5 +1,3 @@
-modVersion = "v1.0.5";
-
 module.exports = {
   data: {
     name: "Search Music",
@@ -22,11 +20,6 @@ module.exports = {
       element: "storageInput",
       name: "Store Tracks As",
       storeAs: "store",
-    },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
     },
   ],
   subtitle: (data, constants) => {

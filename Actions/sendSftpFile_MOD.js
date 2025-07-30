@@ -1,5 +1,3 @@
-modVersion = "v1.0.0";
-
 module.exports = {
   data: {
     name: "Send SFTP File",
@@ -39,11 +37,6 @@ module.exports = {
       storeAs: "remoteFilePath",
       placeholder:
         "Path to save the file on the SFTP server, e.g., /path/to/remote/file.txt",
-    },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
     },
   ],
   compatibility: ["Any"],

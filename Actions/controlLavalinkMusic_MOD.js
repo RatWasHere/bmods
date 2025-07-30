@@ -1,5 +1,3 @@
-modVersion = "v1.0.0";
-
 module.exports = {
   data: {
     name: "Control Lavalink Music",
@@ -63,11 +61,6 @@ module.exports = {
     {
       element: "text",
       text: "Will do nothing if no music is playing, no previous track or incorrect track numbers.",
-    },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
     },
   ],
   compatibility: ["Any"],

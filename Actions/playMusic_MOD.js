@@ -1,5 +1,3 @@
-modVersion = "v1.0.6";
-
 module.exports = {
   data: {
     name: "Play Music",
@@ -60,11 +58,6 @@ module.exports = {
       storeAs: "ifError",
       storeActionsAs: "ifErrorActions",
       name: "If Error",
-    },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
     },
   ],
   subtitle: (data, constants) => {

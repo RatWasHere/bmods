@@ -1,4 +1,3 @@
-modVersion = "v1.0";
 module.exports = {
   name: "Music Queue End",
   nameSchemes: ["Store Queue As"],

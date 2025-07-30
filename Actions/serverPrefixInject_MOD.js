@@ -28,7 +28,7 @@ module.exports = {
   },
 
   startup: async (bridge, client) => {
-    console.log("Initializing Server Prefix Injection System v1.0.0...");
+    console.log(`Initializing Server Prefix Injection System ${modVersion}...`);
 
     const mainData = require(require("path").join(__dirname, "../data.json"));
 

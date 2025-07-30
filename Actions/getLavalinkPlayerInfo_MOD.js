@@ -1,5 +1,3 @@
-modVersion = "v1.0.0";
-
 module.exports = {
   data: {
     name: "Get Lavalink Player Info",
@@ -43,11 +41,6 @@ module.exports = {
       element: "storageInput",
       name: "Store Result As",
       storeAs: "store",
-    },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
     },
   ],
   compatibility: ["Any"],

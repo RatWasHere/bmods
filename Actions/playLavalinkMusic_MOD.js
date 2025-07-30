@@ -1,5 +1,3 @@
-modVersion = "v1.0.0";
-
 module.exports = {
   data: {
     name: "Play Lavalink Music",
@@ -50,11 +48,6 @@ module.exports = {
       storeActionsAs: "ifErrorActions",
       name: "If Error",
     },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
-    },
   ],
   compatibility: ["Any"],
 
@@ -93,9 +86,8 @@ module.exports = {
         await player.connect();
       }
 
-      const volume = bridge.transf(values.defaultVolume);
-      if (volume !== "undefined") {
-        console.log("Volume", volume);
+      if (values.defaultVolume) {
+        const volume = bridge.transf(values.defaultVolume);
         await player.setVolume(Number(volume));
       }
 

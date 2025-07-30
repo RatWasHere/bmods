@@ -1,5 +1,3 @@
-modVersion = "v1.0.5";
-
 module.exports = {
   data: {
     name: "Loop Music",
@@ -22,11 +20,6 @@ module.exports = {
         queue: { name: "Loop Current Queue" },
         autoplay: { name: "Autoplay" },
       },
-    },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
     },
   ],
   subtitle: (values, constants, thisAction) => {

@@ -1,5 +1,3 @@
-modVersion = "v1.0.0";
-
 module.exports = {
   modules: ["lavalink-client"],
   data: {
@@ -36,8 +34,10 @@ module.exports = {
     },
     "-",
     {
-      element: "text",
-      text: modVersion,
+      element: "input",
+      name: "Destroy Player Milliseconds",
+      storeAs: "destroyAfterMs",
+      placeholder: "Leave empty to not leave voice channel when queue ends",
     },
   ],
   compatibility: ["Any"],
@@ -62,6 +62,11 @@ module.exports = {
 
       const botData = require("../data.json");
       const appName = botData.name || "BMD Bot";
+      let destroyAfterMs;
+
+      if (values.destroyAfterMs) {
+        destroyAfterMs = Number(bridge.transf(values.destroyAfterMs));
+      }
 
       client.lavalink = new LavalinkManager({
         nodes: [
@@ -104,7 +109,7 @@ module.exports = {
             destroyPlayer: false,
           },
           onEmptyQueue: {
-            destroyAfterMs: 30_000,
+            destroyAfterMs,
             autoPlayFunction: null,
           },
         },
