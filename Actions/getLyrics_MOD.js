@@ -8,7 +8,7 @@ module.exports = {
   info: {
     source: "https://github.com/ratWasHere/bmods",
     creator: "TheMonDon",
-    donate: "https://cisn.xyz/donate",
+    donate: "https://cisn.xyz/Donate",
   },
   modules: ["discord-player"],
   UI: [
@@ -22,7 +22,7 @@ module.exports = {
       element: "input",
       storeAs: "lyricChoice",
       name: "Use Result #",
-      placeholder: "Starts From #1"
+      placeholder: "Starts From #1",
     },
     {
       element: "storageInput",
@@ -32,14 +32,14 @@ module.exports = {
     {
       element: "store",
       name: "Store Lyrics Object List As",
-      storeAs: "allResults"
+      storeAs: "allResults",
     },
     "-",
     {
       element: "condition",
       name: "If No Lyrics Found",
       storeAs: "noLyrics",
-      storeActionsAs: "noLyricsAction"
+      storeActionsAs: "noLyricsAction",
     },
     "-",
     {
@@ -62,20 +62,24 @@ module.exports = {
       .search({ q: query })
       .catch((error) => console.error(error));
 
-    if (!lyrics[0]){
-      bridge.store(values.store, undefined)
-      bridge.store(values.allResults, undefined)
-      bridge.call(values.noLyrics, values.noLyricsAction)
+    if (!lyrics[0]) {
+      bridge.store(values.store, undefined);
+      bridge.store(values.allResults, undefined);
+      bridge.call(values.noLyrics, values.noLyricsAction);
     } else {
-      let lyricNum = (parseInt(Math.floor(bridge.transf(values.lyricChoice))) - 1) || 0
-      if (!isNaN(lyricNum) && !lyrics[lyricNum]){
-        bridge.store(values.store, lyrics[0])
-      } else if (!isNaN(lyricNum)){
-        bridge.store(values.store, lyrics[lyricNum])
-      } else if (isNaN(lyricNum)){
-        bridge.store(values.store, `${values.lyricChoice} is not a valid number.`)
+      let lyricNum =
+        parseInt(Math.floor(bridge.transf(values.lyricChoice))) - 1 || 0;
+      if (!isNaN(lyricNum) && !lyrics[lyricNum]) {
+        bridge.store(values.store, lyrics[0]);
+      } else if (!isNaN(lyricNum)) {
+        bridge.store(values.store, lyrics[lyricNum]);
+      } else if (isNaN(lyricNum)) {
+        bridge.store(
+          values.store,
+          `${values.lyricChoice} is not a valid number.`
+        );
       }
-      bridge.store(values.allResults, lyrics)
+      bridge.store(values.allResults, lyrics);
     }
   },
 };

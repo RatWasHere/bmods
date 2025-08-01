@@ -6,7 +6,7 @@ module.exports = {
   info: {
     source: "https://github.com/ratWasHere/bmods",
     creator: "TheMonDon",
-    donate: "https://cisn.xyz/donate",
+    donate: "https://cisn.xyz/Donate",
   },
   UI: [
     {
