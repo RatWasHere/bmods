@@ -17,7 +17,7 @@
       "creator": "lik_rus"
     },
     "CanvasCreateBackground_MOD.js": {
-      "md5": "b06ec68524f0ab7e3874147e66f66eed",
+      "md5": "bf149ac6c3abfeae2c3380c86211eb6b",
       "name": "Canvas Create Background",
       "modules": [
         "canvas"
@@ -26,7 +26,7 @@
       "creator": "TheMonDon , lik_rus"
     },
     "CanvasCreateImage_MOD.js": {
-      "md5": "456a851e4bbb9130b495f9b4b5d4aad6",
+      "md5": "6966de61feb27430e02ea8863295bbe0",
       "name": "Canvas Create Image",
       "modules": [
         "canvas"
@@ -35,7 +35,7 @@
       "creator": "TheMonDon , lik_rus"
     },
     "CanvasDrawImage_MOD.js": {
-      "md5": "da5337b8b225ac0000dfa865d56c5806",
+      "md5": "0a5e7b511e9e3439720689b5d73005a0",
       "name": "Canvas Draw Image on Image",
       "modules": [
         "canvas"
@@ -44,7 +44,7 @@
       "creator": "TheMonDon"
     },
     "CanvasDrawText_MOD.js": {
-      "md5": "797adf6eccaa88dd3030246580b6ccb7",
+      "md5": "b04f70fea8b56c1969f70be6bf9c0d95",
       "name": "Canvas Draw Text on Image",
       "modules": [
         "canvas"
@@ -53,7 +53,7 @@
       "creator": "TheMonDon"
     },
     "CanvasEditImageBorder_MOD.js": {
-      "md5": "44a7a78d3791abf699e98030ab2264af",
+      "md5": "9cc31e0587fd5cb8eeca1a54a2fb46b6",
       "name": "Canvas Edit Image Border",
       "modules": [
         "canvas"
@@ -89,7 +89,7 @@
       "creator": "lik_rus"
     },
     "CanvasImageFilter_MOD.js": {
-      "md5": "a3f5caaa7211a526d943bd26eb5383b3",
+      "md5": "f3004e640ae3d07eee44058560df6d81",
       "name": "Canvas Image Filter",
       "modules": [
         "canvas"
@@ -247,7 +247,7 @@
       "creator": "Rat"
     },
     "controlLavalinkMusic_MOD.js": {
-      "md5": "86663889eecbca4bae0e6763fca909d1",
+      "md5": "f29a2c457a69b387d97bac93582df934",
       "name": "Control Lavalink Music",
       "modules": [
         "lavalink-client"
@@ -263,7 +263,7 @@
       "creator": "nitiqt"
     },
     "controlMusic_MOD.js": {
-      "md5": "c28c9f4c043093caccc393e78c0ab0ae",
+      "md5": "0fdcb5cd92a2ae4c80672bed4ce47f35",
       "name": "Control Music",
       "modules": [
         "discord-player"
@@ -594,7 +594,7 @@
       "creator": "Acedia QOLs"
     },
     "getColorName_MOD.js": {
-      "md5": "53004e4ed1eacdccbf24f1773fee1052",
+      "md5": "071b5f03d1d52a4aa4c2f6bd3155a931",
       "name": "Get Color Name",
       "modules": [
         "color-name-list",
@@ -672,7 +672,7 @@
       "creator": "lik_rus"
     },
     "getLavalinkPlayerInfo_MOD.js": {
-      "md5": "25d0c336e3722d9f8594cab79ed189ea",
+      "md5": "3b632e56ea96b0c0c1c190d0fea7804c",
       "name": "Get Lavalink Player Info",
       "modules": [
         "lavalink-client"
@@ -681,7 +681,7 @@
       "creator": "TheMonDon"
     },
     "getLavalinkQueueInfo_MOD.js": {
-      "md5": "a0faa72e5650ede1e0cfff8d96a69c93",
+      "md5": "55a1b15cfce2d4218815bc7fbc147ed9",
       "name": "Get Lavalink Queue Info",
       "modules": [
         "lavalink-client"
@@ -690,7 +690,7 @@
       "creator": "TheMonDon"
     },
     "getLavalinkResultInfo_MOD.js": {
-      "md5": "e65c79e204f0aa2e0f9fe61b231fcd10",
+      "md5": "1d3ff757ea78f20d54e516c2d1bf9fe7",
       "name": "Get Lavalink Result Info",
       "modules": [
         "lavalink-client"
@@ -706,7 +706,7 @@
       "creator": "candiedapple"
     },
     "getLyrics_MOD.js": {
-      "md5": "18920712b75f13f2c2b96b5fa3c3ddde",
+      "md5": "4db2591a62bddc897062b3ca4c49e0ed",
       "name": "Get Lyrics",
       "modules": [
         "discord-player"
@@ -818,14 +818,14 @@
       "creator": "nitiqt"
     },
     "getServerPrefix_MOD.js": {
-      "md5": "8d26fb55778bf6a98c1bc515847b8729",
+      "md5": "e09ddcb334f8f71b407da53bd39eed37",
       "name": "Get Server Prefix",
       "modules": [],
       "category": "Server Management",
       "creator": "TheMonDon"
     },
     "getSftpFile_MOD.js": {
-      "md5": "aab8d73530f3d76647cf6d2550a2810d",
+      "md5": "f7cc16c1f76f0caafbc1658bf775e9ad",
       "name": "Get SFTP File",
       "modules": [],
       "category": "Files",
@@ -935,7 +935,7 @@
       "creator": "Acedia"
     },
     "lavalinkConnection_MOD.js": {
-      "md5": "01ee1e38151f123431926ce95962f461",
+      "md5": "cbb7584937a079f9fba418ed1846f0a5",
       "name": "Lavalink Connection",
       "modules": [
         "lavalink-client"
@@ -994,7 +994,7 @@
       "creator": "Acedia"
     },
     "loopMusic_MOD.js": {
-      "md5": "12e025d723f9fd9415a1c213ce47885f",
+      "md5": "33d7b6b9bab2f20eb03f6b285fe828de",
       "name": "Loop Music",
       "modules": [
         "discord-player"
@@ -1146,7 +1146,7 @@
       "creator": "Acedia"
     },
     "playLavalinkMusic_MOD.js": {
-      "md5": "c40d1808b76e0b69eea431b5166409df",
+      "md5": "548f38a514a8b2028c33be960fb2f54d",
       "name": "Play Lavalink Music",
       "modules": [
         "lavalink-client"
@@ -1155,7 +1155,7 @@
       "creator": "TheMonDon"
     },
     "playMusic_MOD.js": {
-      "md5": "27caf3cf5d8017d44795dd2ffd23847c",
+      "md5": "f02ae78d0ba667e9d10f6e757e33be4d",
       "name": "Play Music",
       "modules": [
         "discord-player",
@@ -1166,7 +1166,7 @@
       "creator": "TheMonDon"
     },
     "postgresConnection_MOD.js": {
-      "md5": "c478702125d1fe1abe4bacf50fb42a5d",
+      "md5": "e6255c398b9c13d3b5a056ab9c3c50b2",
       "name": "PostGres Connection",
       "modules": [
         "pg"
@@ -1175,7 +1175,7 @@
       "creator": "TheMonDon"
     },
     "postgresQuery_MOD.js": {
-      "md5": "92aeee2d0f6d5343030ea785b43fa944",
+      "md5": "f096024dbc9e1b4ec4e59f18f28ac8ec",
       "name": "PostGres Query",
       "modules": [],
       "category": "Global Data",
@@ -1342,7 +1342,7 @@
       "creator": "qschnitzel"
     },
     "searchMusic_MOD.js": {
-      "md5": "1a81a3d6b7306e1deab55bf81214547a",
+      "md5": "8e3250a5851623e8963f7bd5375751db",
       "name": "Search Music",
       "modules": [
         "discord-player"
@@ -1385,14 +1385,14 @@
       "creator": "candiedapple"
     },
     "sendSftpFile_MOD.js": {
-      "md5": "bf3dcc8504b7f31f9b17faadd3398ac5",
+      "md5": "5d68689f9d9333044a0348346df07d76",
       "name": "Send SFTP File",
       "modules": [],
       "category": "Files",
       "creator": "TheMonDon"
     },
     "serverPrefixInject_MOD.js": {
-      "md5": "fac13e8982cd1883479f453f113c2b81",
+      "md5": "3f1e28f27cee7f1a5a86ae2015941c6e",
       "name": "Server Prefix Injection",
       "modules": [],
       "category": "Server Management",
@@ -1405,7 +1405,7 @@
       "category": "Linked Roles"
     },
     "setServerPrefix_MOD.js": {
-      "md5": "79bdcbced298bf2abf0261bfaf640595",
+      "md5": "4030d99a3e63a87f39e66a71188785f8",
       "name": "Set Server Prefix",
       "modules": [],
       "category": "Server Management",
@@ -1471,7 +1471,7 @@
       "creator": "Acedia & qizzle"
     },
     "storePlaylistInfo_MOD.js": {
-      "md5": "f351dd1f0dc4e8c23e31b517b4c388d5",
+      "md5": "fe53b590217317bd73935700bfcbb8c4",
       "name": "Store Playlist Info",
       "modules": [
         "discord-player"
@@ -1480,7 +1480,7 @@
       "creator": "TheMonDon"
     },
     "storeQueueInfo_MOD.js": {
-      "md5": "00ce80b1e5655a0af880835f21b3c995",
+      "md5": "2466ba87a3b36d212b0b41fdb7188159",
       "name": "Store Queue Info",
       "modules": [
         "discord-player"
@@ -1489,7 +1489,7 @@
       "creator": "TheMonDon"
     },
     "storeTrackInfo_MOD.js": {
-      "md5": "e8eef0ea5497c4238ea9427186efb408",
+      "md5": "6badb2e99d1042c6dac1a46284dec688",
       "name": "Store Track Info",
       "modules": [
         "discord-player"
