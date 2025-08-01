@@ -1,9 +1,9 @@
 // should free the file after its done reading so that other actions can be performed on the file if needed
-modVersion = "v1.2.2"
+modVersion = "v1.2.3"
 
 module.exports = {
   data: {
-    name: "Play File",
+    name: "Play File Att fix",
   },
   category: "Music",
   info: {
@@ -11,7 +11,7 @@ module.exports = {
     creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice", "node:path"],
+  modules: ["fs", "ffmpeg", "stream", "@discordjs/voice"],
   UI: [
     {
       element: "input",
@@ -60,18 +60,19 @@ module.exports = {
     const path = require("node:path")
     const {createAudioResource} = require("@discordjs/voice");
     const {Readable} = require("stream")
-
+    let projectFolder
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
-    let projectFolder
     if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
       projectFolder = botData.prjSrc
     } else {projectFolder = workingDir}
 
-    let fullPath = path.join(projectFolder, bridge.transf(values.path))
+    let relativePath = bridge.transf(values.path)
+
+    let fullPath = path.join(projectFolder, relativePath)
 
     let audioBuffer = fs.readFileSync(fullPath)
-    if(values.logging == true){console.log(audioBuffer instanceof Buffer)}
+    if(values.logging == true){console.log("Instance Of Buffer: ",audioBuffer instanceof Buffer)}
     
     if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object"){
       let audioStream = Readable.from(audioBuffer)
@@ -82,7 +83,8 @@ module.exports = {
         name: bridge.guild.id,
       });
 
-      let fileName = path.basename(fullPath, path.extname(fullPath)) || "Unknown File"
+      let pathMatch = fullPath.match(/[^\\/]+(?=\.[^\\/]+$)/)
+      let fileName = pathMatch ? pathMatch[0]: "Unknown File"
 
       switch (values.queuing) {
         case `Don't Queue, Just Play`:
