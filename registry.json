@@ -501,7 +501,7 @@
       "modules": []
     },
     "generateRankCard_MOD.js": {
-      "md5": "4eddbdabeb3c890969852971d638b5c4",
+      "md5": "d743b3d570d2956d425d869bd05a099c",
       "name": "Generate Rank Card",
       "modules": [
         "canvacord",
