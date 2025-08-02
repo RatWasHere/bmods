@@ -8,7 +8,7 @@
       "creator": "Rat"
     },
     "CanvasCaptchaGenerator_MOD.js": {
-      "md5": "b889f22df422766a8180b0fa5de7e6a5",
+      "md5": "07221e1a71369a0b6b84f6ba870b6c0b",
       "name": "Canvas Captcha Generator",
       "modules": [
         "canvas"
@@ -26,7 +26,7 @@
       "creator": "TheMonDon , lik_rus"
     },
     "CanvasCreateImage_MOD.js": {
-      "md5": "6966de61feb27430e02ea8863295bbe0",
+      "md5": "9bf346464d1b64304405b044da095280",
       "name": "Canvas Create Image",
       "modules": [
         "canvas"
@@ -34,8 +34,17 @@
       "category": "Canvas Images",
       "creator": "TheMonDon , lik_rus"
     },
+    "CanvasCreateProgressCircle_MOD.js": {
+      "md5": "3da587e9e6cc4529e2eec13e604ee25d",
+      "name": "Canvas Create Progress Circle",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "TheMonDon"
+    },
     "CanvasDrawImage_MOD.js": {
-      "md5": "0a5e7b511e9e3439720689b5d73005a0",
+      "md5": "eb0345287d21445455100014e2271001",
       "name": "Canvas Draw Image on Image",
       "modules": [
         "canvas"
@@ -44,7 +53,7 @@
       "creator": "TheMonDon"
     },
     "CanvasDrawText_MOD.js": {
-      "md5": "b04f70fea8b56c1969f70be6bf9c0d95",
+      "md5": "bea22e24d8ae74d74c8d70c5121dbbc4",
       "name": "Canvas Draw Text on Image",
       "modules": [
         "canvas"
@@ -490,6 +499,16 @@
       "md5": "1d8d4a007d48fd66528122caf67a3a43",
       "name": "Generate Random Word(s)",
       "modules": []
+    },
+    "generateRankCard_MOD.js": {
+      "md5": "4eddbdabeb3c890969852971d638b5c4",
+      "name": "Generate Rank Card",
+      "modules": [
+        "canvacord",
+        "canvas"
+      ],
+      "category": "Images",
+      "creator": "TheMonDon"
     },
     "generateRankLevelCard_MOD.js": {
       "md5": "5eaa78aa4d30101294b4707c774c71e1",
