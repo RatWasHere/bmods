@@ -68,7 +68,7 @@ module.exports = {
         imageh *= scaleh;
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Canvas Create Image Error:", error);
     }
   },
 };

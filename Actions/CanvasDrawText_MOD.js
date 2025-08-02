@@ -167,7 +167,7 @@ module.exports = {
         bridge.store(values.store, buffer);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Canvas Draw Text Error:", error);
       });
   },
 };
