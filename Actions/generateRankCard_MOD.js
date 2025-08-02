@@ -17,6 +17,7 @@ module.exports = {
       choices: {
         canvacord: { name: "Canvacord" },
         lurkr: { name: "Lurkr" },
+        arcane: { name: "Arcane" },
       },
     },
     "-",
@@ -63,6 +64,7 @@ module.exports = {
       storeAs: "overlay",
       name: "Overlay Percent (optional)",
     },
+    // UI 15/16 "-" and Bar Color
     "-",
     {
       element: " ",
@@ -78,45 +80,72 @@ module.exports = {
   ],
 
   script: (values) => {
-    function refreshElements() {
-      type = values.data.cardStyle.type;
+    try {
+      function refreshElements() {
+        type = values.data.cardStyle.type;
 
-      switch (type) {
-        case "lurkr":
-          // Status
-          values.UI[9] = " ";
-          values.UI[10].element = " ";
-          // Overlay Percent
-          values.UI[13] = " ";
-          values.UI[14].element = " ";
-          // Bar Color
-          values.UI[15] = "-";
-          values.UI[16].element = "input";
-          break;
+        switch (type) {
+          case "lurkr": {
+            // Display Name
+            values.UI[2].element = "inputGroup";
+            values.UI[2].storeAs = ["username", "displayName"];
+            values.UI[2].nameSchemes = ["Username", "Display Name"];
+            // Status
+            values.UI[9] = " ";
+            values.UI[10].element = " ";
+            // Overlay Percent
+            values.UI[13] = " ";
+            values.UI[14].element = " ";
+            // Bar Color
+            values.UI[15] = "-";
+            values.UI[16].element = "input";
+            break;
+          }
 
-        case "canvacord":
-          // Status
-          values.UI[9] = "-";
-          values.UI[10].element = "input";
-          // Overlay Percent
-          values.UI[13] = "-";
-          values.UI[14].element = "input";
-          // Bar Color
-          values.UI[15] = " ";
-          values.UI[16].element = " ";
-          break;
+          case "canvacord": {
+            // Display Name
+            values.UI[2].element = "inputGroup";
+            values.UI[2].storeAs = ["username", "displayName"];
+            values.UI[2].nameSchemes = ["Username", "Display Name"];
+            // Status
+            values.UI[9] = "-";
+            values.UI[10].element = "input";
+            // Overlay Percent
+            values.UI[13] = "-";
+            values.UI[14].element = "input";
+            // Bar Color
+            values.UI[15] = " ";
+            values.UI[16].element = " ";
+            break;
+          }
+
+          case "arcane": {
+            // Display Name
+            values.UI[2].element = "input";
+            values.UI[2].storeAs = "username";
+            values.UI[2].name = "Username";
+            // Status
+            values.UI[9] = " ";
+            values.UI[10].element = " ";
+            // Overlay Percent
+            values.UI[13] = " ";
+            values.UI[14].element = " ";
+          }
+        }
+
+        setTimeout(() => {
+          values.updateUI();
+        }, values.commonAnimation * 100);
       }
 
-      setTimeout(() => {
-        values.updateUI();
-      }, values.commonAnimation * 100);
-    }
-
-    refreshElements();
-
-    values.events.on("change", () => {
       refreshElements();
-    });
+
+      values.events.on("change", () => {
+        refreshElements();
+      });
+    } catch (err) {
+      console.error(err);
+    }
   },
 
   async run(values, interaction, client, bridge) {
@@ -303,11 +332,165 @@ module.exports = {
           buffer = canvas.toBuffer("image/png");
           break;
         }
+
+        case "arcane": {
+          const { createCanvas, loadImage } = require("canvas");
+
+          const WIDTH = 800;
+          const HEIGHT = 200;
+
+          const user = {
+            username: bridge.transf(values.username),
+            avatarUrl: bridge.transf(values.avatar),
+            rank: bridge.transf(values.rank),
+            level: bridge.transf(values.level),
+            currentXP: bridge.transf(values.current),
+            requiredXP: bridge.transf(values.required),
+          };
+
+          const canvas = createCanvas(WIDTH, HEIGHT);
+          const ctx = canvas.getContext("2d");
+
+          // Colors
+          const backgroundColor = "#1E2327";
+          const accentColor = "#3FBEC2";
+          const barBackground = "#ffffff";
+
+          // Background
+          ctx.fillStyle = backgroundColor;
+          ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+          // Diagonal accent
+          ctx.fillStyle = accentColor;
+          ctx.beginPath();
+          ctx.moveTo(WIDTH * 0.75, 0);
+          ctx.lineTo(WIDTH, 0);
+          ctx.lineTo(WIDTH, HEIGHT);
+          ctx.closePath();
+          ctx.fill();
+
+          // Avatar
+          const avatar = await loadImage(user.avatarUrl);
+          const avatarSize = 100;
+          const avatarX = 20;
+          const avatarY = 20;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(
+            avatarX + avatarSize / 2,
+            avatarY + avatarSize / 2,
+            avatarSize / 2,
+            0,
+            Math.PI * 2
+          );
+          ctx.clip();
+          ctx.drawImage(avatar, avatarX, avatarY, avatarSize, avatarSize);
+          ctx.restore();
+
+          // Username
+          ctx.fillStyle = "#ffffff";
+          ctx.font = "bold 28px sans-serif";
+          ctx.fillText(`@${user.username}`, 140, 60);
+
+          // Underline
+          const textWidth = ctx.measureText(`@${user.username}`).width;
+          ctx.strokeStyle = accentColor;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(140, 65);
+          ctx.lineTo(140 + textWidth, 65);
+          ctx.stroke();
+
+          // Stats text (Level, XP, Rank)
+          ctx.font = "20px sans-serif";
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(`Level: ${user.level}`, 140, 95);
+          const xpText = `XP: ${user.currentXP} / ${user.requiredXP}`;
+          ctx.fillText(xpText, 250, 95);
+          const xpTextWidth = ctx.measureText(xpText).width;
+          ctx.fillText(`Rank: ${user.rank}`, 260 + xpTextWidth + 10, 95);
+
+          // XP Bar
+          const barX = 10;
+          const barY = 140;
+          const triangleMargin = 100; // adjust this value based on triangle width
+          const barWidth = WIDTH - 20 - triangleMargin;
+          const barHeight = 30;
+          const progress = user.currentXP / user.requiredXP;
+
+          // Bar background
+          ctx.fillStyle = barBackground;
+          ctx.beginPath();
+          ctx.moveTo(barX + barHeight / 2, barY);
+          ctx.lineTo(barX + barWidth - barHeight / 2, barY);
+          ctx.quadraticCurveTo(
+            barX + barWidth,
+            barY,
+            barX + barWidth,
+            barY + barHeight / 2
+          );
+          ctx.quadraticCurveTo(
+            barX + barWidth,
+            barY + barHeight,
+            barX + barWidth - barHeight / 2,
+            barY + barHeight
+          );
+          ctx.lineTo(barX + barHeight / 2, barY + barHeight);
+          ctx.quadraticCurveTo(
+            barX,
+            barY + barHeight,
+            barX,
+            barY + barHeight / 2
+          );
+          ctx.quadraticCurveTo(barX, barY, barX + barHeight / 2, barY);
+          ctx.closePath();
+          ctx.fill();
+
+          // Progress bar
+          const filledWidth = (barWidth - 0) * progress;
+          ctx.fillStyle = accentColor;
+          ctx.beginPath();
+          ctx.moveTo(barX + barHeight / 2, barY);
+          if (filledWidth >= barHeight) {
+            ctx.lineTo(barX + filledWidth - barHeight / 2, barY);
+            ctx.quadraticCurveTo(
+              barX + filledWidth,
+              barY,
+              barX + filledWidth,
+              barY + barHeight / 2
+            );
+            ctx.quadraticCurveTo(
+              barX + filledWidth,
+              barY + barHeight,
+              barX + filledWidth - barHeight / 2,
+              barY + barHeight
+            );
+            ctx.lineTo(barX + barHeight / 2, barY + barHeight);
+            ctx.quadraticCurveTo(
+              barX,
+              barY + barHeight,
+              barX,
+              barY + barHeight / 2
+            );
+            ctx.quadraticCurveTo(barX, barY, barX + barHeight / 2, barY);
+          } else {
+            // Handle very low XP case
+            ctx.lineTo(barX + filledWidth, barY);
+            ctx.lineTo(barX + filledWidth, barY + barHeight);
+            ctx.lineTo(barX, barY + barHeight);
+            ctx.lineTo(barX, barY);
+          }
+          ctx.closePath();
+          ctx.fill();
+
+          buffer = canvas.toBuffer("image/png");
+          break;
+        }
       }
 
       bridge.store(values.store, buffer);
     } catch (error) {
-      console.error("Generate Canvacord Rank Card Error:", error);
+      console.error("Generate Rank Card Error:", error);
     }
   },
 };
