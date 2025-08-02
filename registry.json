@@ -1637,6 +1637,19 @@
   },
   "Automations": {},
   "Events": {
+    "DataPathChanged_MOD.js": {
+      "md5": "ba9ebf1b9518461bb40c642d41e09c18",
+      "name": "Data Path Changed (Custom Data)",
+      "nameSchemes": [
+        "Store Path As (String)",
+        "Store Value As (String or object)",
+        "Store Old Value As (String or object)",
+        "Store Change Type As (String)"
+      ],
+      "description": "The event that is triggered when the json files are modified using Custom Data!",
+      "modules": [],
+      "creator": "LikRus"
+    },
     "audit_log_created_MOD.js": {
       "md5": "6559563f4b2ff640ce597aafa1efee05",
       "name": "Audit Log Created",
