@@ -1,9 +1,12 @@
-modVersion = "v2.2.1";
+modVersion = "v2.3.0";
 
 module.exports = {
   data: {
     name: "Control Custom Data",
   },
+  aliases: [
+    "Control Json Data",
+  ],
   category: "Custom Data",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
@@ -196,7 +199,7 @@ module.exports = {
       },
       UItypes: {
         options: {
-          name: "Create Data Array",
+          name: "Create Data Array (This section will be deleted with the next update! (It's already disabled!))",
           inheritData: true,
           UI: [
             {
@@ -364,7 +367,7 @@ module.exports = {
                 value: {
                   name: "Create Data Object Value",
                   preview:
-                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.name}`",
+                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.name} (${option.data.cases5?.length ?? 0} items)`",
                   data: { path: "", name: "" },
                   UI: [
                     {
@@ -467,7 +470,7 @@ module.exports = {
                         data: {
                           name: "Add Object Value",
                           preview:
-                            "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.value}`",
+                            "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.name} - ${option.data.value}`",
                           data: { name: "", value: "" },
                           UI: [
                             {
@@ -566,7 +569,7 @@ module.exports = {
                 array: {
                   name: "Create Data Object Array",
                   preview:
-                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path}`",
+                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} (${option.data.cases6?.length ?? 0} items)`",
                   data: {},
                   UI: [
                     {
@@ -805,7 +808,7 @@ module.exports = {
                 data: {
                   name: "Delete Data",
                   preview:
-                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Path: ${option.data.patch}`",
+                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Path: ${option.data.path}`",
                   data: { patch: "" },
                   UI: [
                     {
@@ -905,244 +908,288 @@ module.exports = {
   ],
 
   compatibility: ["Any"],
-
-  script: (data) => {
-    const fs = require('fs');
-    const path = require('path');
-    const { clipboard } = require('electron');
-    let directoryHistory = [];
-    let initialInterfaceElements = [];
-    
-    function getProjectDirectory() {
-      const botData = require("../data.json");
-      const currentDir = process.cwd().replace(/\\/g, "/");
-      return currentDir.includes("common/Bot Maker For Discord") 
-        ? botData.prjSrc.replace(/\\/g, "/") 
-        : currentDir;
-    }
-    
-    function readDirectory(directoryPath) {
-      try {
-        const items = fs.readdirSync(directoryPath, { withFileTypes: true });
-        return items
-          .filter(item => item.isDirectory() || path.extname(item.name).toLowerCase() === ".json")
-          .map(item => ({
-            name: item.name,
-            isDirectory: item.isDirectory()
-          }));
-      } catch (error) {
-        alert(`Failed to read directory: ${directoryPath}`);
-        return [];
-      }
-    }
-    
-    function displayDirectoryContents(directoryPath) {
-      const items = readDirectory(directoryPath);
-      const editorContent = data.document.getElementById("editorContent");
-      while (editorContent.firstChild) editorContent.removeChild(editorContent.firstChild);
-    
-      const buttonContainer = document.createElement("div");
-      buttonContainer.style.display = "flex";
-      buttonContainer.style.gap = "10px";
-      buttonContainer.style.marginTop = "15px";
-      buttonContainer.style.marginBottom = "15px";
-      buttonContainer.style.alignItems = "center";
-      buttonContainer.style.justifyContent = "center";
-      buttonContainer.style.width = "100%";
-    
-      function createStyledButton(text, handler) {
-        const btn = document.createElement("div");
-        btn.className = "hoverablez";
-        btn.textContent = text;
-        btn.style.padding = "8px 15px";
-        btn.style.borderRadius = "4px";
-        btn.style.cursor = "pointer";
-        btn.style.fontSize = "13px";
-        btn.style.textAlign = "center";
-        btn.style.backgroundColor = "#333";
-        btn.style.color = "#fff";
-        btn.style.minWidth = "70px";
-        btn.onclick = handler;
-        return btn;
-      }
-    
-      const backButton = createStyledButton("Back", () => {
-        if (directoryHistory.length > 1) {
-          directoryHistory.pop();
-          displayDirectoryContents(directoryHistory[directoryHistory.length - 1]);
-        } else {
-          directoryHistory = [];
-          displayInitialMenu();
-        }
-      });
-    
-      let selectedItem = null;
-    
-      if (directoryHistory.length > 0) {
-        const relativePath = path.relative(getProjectDirectory(), directoryPath).replace(/\\/g, "/");
-        if (relativePath && relativePath.trim() !== "") {
-          selectedItem = {
-            name: path.basename(directoryPath),
-            isDirectory: true,
-            fullPath: directoryPath,
-            relativePath: relativePath
-          };
-        }
-      }
-    
-      const copyPathButton = createStyledButton("Copy Path", () => {
-        if (selectedItem && selectedItem.relativePath && selectedItem.relativePath.trim() !== "") {
-          clipboard.writeText(selectedItem.relativePath);
-          alert(`Copied: ${selectedItem.relativePath}`);
-        } else {
-          alert("Cannot copy empty path.");
-        }
-      });
-    
-      copyPathButton.disabled = !selectedItem || !selectedItem.relativePath || selectedItem.relativePath.trim() === "";
-    
-      buttonContainer.appendChild(backButton);
-      buttonContainer.appendChild(copyPathButton);
-    
-      const title = document.createElement("div");
-      title.textContent = `Contents of: ${directoryPath}`;
-      title.style.fontWeight = "bold";
-      title.style.marginBottom = "10px";
-    
-      const selectionMessage = document.createElement("div");
-      selectionMessage.id = "selectionMessage";
-      selectionMessage.style.marginBottom = "10px";
-      selectionMessage.style.fontStyle = "italic";
-      selectionMessage.style.display = "none";
-    
-      const list = document.createElement("ul");
-      list.style.listStyleType = "none";
-      list.style.padding = "0";
-    
-      items.forEach((item) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = item.isDirectory 
-          ? `[Folder] ${item.name}` 
-          : `[File] ${item.name}`;
-        listItem.style.marginBottom = "5px";
-        listItem.style.cursor = "pointer";
-        listItem.classList.add("hoverablez");
-    
-        const fullPath = path.join(directoryPath, item.name);
-        const relativePath = path.relative(getProjectDirectory(), fullPath).replace(/\\/g, "/");
-        
-        listItem.onclick = () => {
-          if (!item.isDirectory) {
-            if (relativePath && relativePath.trim() !== "") {
-              selectedItem = {
-                name: item.name,
-                isDirectory: false,
-                fullPath,
-                relativePath
-              };
-              copyPathButton.disabled = false;
-              selectionMessage.textContent = `File selected: ${item.name}`;
-              selectionMessage.style.display = "block";
-            } else {
-              selectedItem = null;
-              copyPathButton.disabled = true;
-              selectionMessage.style.display = "none";
-            }
-          } else {
-            if (relativePath && relativePath.trim() !== "") {
-              selectedItem = {
-                name: item.name,
-                isDirectory: true,
-                fullPath,
-                relativePath
-              };
-              copyPathButton.disabled = false;
-              selectionMessage.style.display = "none";
-            } else {
-              selectedItem = null;
-              copyPathButton.disabled = true;
-              selectionMessage.style.display = "none";
-            }
-    
-            directoryHistory.push(fullPath);
-            displayDirectoryContents(fullPath);
-          }
-        };
-        list.appendChild(listItem);
-      });
-    
-      if (directoryHistory.length > 0) {
-        editorContent.appendChild(buttonContainer);
-      }
-      editorContent.appendChild(title);
-      editorContent.appendChild(selectionMessage);
-      editorContent.appendChild(list);
-    }
-    
-    function displayInitialMenu() {
-      const editorContent = data.document.getElementById("editorContent");
-      while (editorContent.firstChild) editorContent.removeChild(editorContent.firstChild);
       
-      initialInterfaceElements.forEach(element => {
-        const clone = element.cloneNode(false);
-        clone.innerHTML = element.innerHTML;
-        editorContent.appendChild(clone);
-      });
-    
-      if (!document.querySelector('.project-files-button')) {
-        const projectButton = createProjectFilesButton();
-        editorContent.appendChild(projectButton);
-      }
-    }
-    
-    function createProjectFilesButton() {
-      const button = document.createElement("div");
-      button.className = 'project-files-button';
-      button.innerHTML = `
-        <div class="hoverablez" style="
-          position: absolute;
-          top: 70px;
-          right: 10px;
-          padding: 5px 10px;
-          border-radius: 3px;
-          cursor: pointer;
-          font-size: 12px;
-          max-width: 150px;
-          white-space: nowrap;
-          z-index: 1000;
-        ">
-          Show Project Files
-        </div>
-      `;
-      button.onclick = () => {
-        const projectDir = getProjectDirectory();
-        directoryHistory.push(projectDir);
-        displayDirectoryContents(projectDir);
-      };
-      return button;
-    }
-    
-    setTimeout(() => {
-      const editorContent = data.document.getElementById("editorContent");
-      if (!editorContent) return;
-  
-      const initialChildren = Array.from(editorContent.children).map(el => {
-        const clone = document.createElement(el.tagName);
-        for (let attr of el.attributes) {
-          if (attr.name !== 'value') {
-            clone.setAttribute(attr.name, attr.value);
+  script: (data) => {
+          const fs = require('fs');
+          const path = require('path');
+          const {
+              clipboard,
+              shell
+          } = require('electron');
+          const {
+              exec
+          } = require('child_process');
+          
+          let directoryHistory = [];
+          let initialInterfaceElements = [];
+          
+          function createStyledButton(text, handler) {
+              const btn = document.createElement("div");
+              btn.className = "hoverablez";
+              btn.textContent = text;
+              btn.style.padding = "8px 15px";
+              btn.style.borderRadius = "4px";
+              btn.style.cursor = "pointer";
+              btn.style.fontSize = "13px";
+              btn.style.textAlign = "center";
+              btn.style.backgroundColor = "#333";
+              btn.style.color = "#fff";
+              btn.style.minWidth = "70px";
+              btn.onclick = handler;
+              
+              Object.defineProperty(btn, 'disabled', {
+                  set(value) {
+                      if (value) {
+                          btn.style.opacity = "0.5";
+                          btn.style.cursor = "not-allowed";
+                          btn.onclick = null;
+                      } else {
+                          btn.style.opacity = "1";
+                          btn.style.cursor = "pointer";
+                          btn.onclick = handler;
+                      }
+                  }
+              });
+              
+              return btn;
           }
-        }
-        clone.innerHTML = el.innerHTML;
-        return clone;
-      });
-      initialInterfaceElements = initialChildren;
-  
-      const projectButton = createProjectFilesButton();
-      editorContent.appendChild(projectButton);
-    }, 0);
-  },
-
+          
+          function getProjectDirectory() {
+              const botData = require("../data.json");
+              const currentDir = process.cwd().replace(/\\/g, "/");
+              return currentDir.includes("common/Bot Maker For Discord") ?
+                  botData.prjSrc.replace(/\\/g, "/") :
+                  currentDir;
+          }
+          
+          function readDirectory(directoryPath) {
+              try {
+                  const items = fs.readdirSync(directoryPath, {
+                      withFileTypes: true
+                  });
+                  return items
+                      .filter(item => item.isDirectory() || path.extname(item.name).toLowerCase() === ".json")
+                      .map(item => ({
+                          name: item.name,
+                          isDirectory: item.isDirectory()
+                      }));
+              } catch (error) {
+                  alert(`Failed to read directory: ${directoryPath}`);
+                  return [];
+              }
+          }
+          
+          function displayDirectoryContents(directoryPath) {
+              const items = readDirectory(directoryPath);
+              const editorContent = data.document.getElementById("editorContent");
+              while (editorContent.firstChild) editorContent.removeChild(editorContent.firstChild);
+              
+              const buttonContainer = document.createElement("div");
+              buttonContainer.style.display = "flex";
+              buttonContainer.style.gap = "10px";
+              buttonContainer.style.marginTop = "15px";
+              buttonContainer.style.marginBottom = "15px";
+              buttonContainer.style.alignItems = "center";
+              buttonContainer.style.justifyContent = "center";
+              buttonContainer.style.width = "100%";
+              
+              const backButton = createStyledButton("Back", () => {
+                  if (directoryHistory.length > 1) {
+                      directoryHistory.pop();
+                      displayDirectoryContents(directoryHistory[directoryHistory.length - 1]);
+                  } else {
+                      directoryHistory = [];
+                      displayInitialMenu();
+                      if (copyPathButton) copyPathButton.disabled = true;
+                      if (selectionMessage) selectionMessage.style.display = "none";
+                  }
+              });
+              
+              let selectedItem = null;
+              
+              if (directoryHistory.length > 0) {
+                  const relativePath = path.relative(getProjectDirectory(), directoryPath).replace(/\\/g, "/");
+                  if (relativePath && relativePath.trim() !== "") {
+                      selectedItem = {
+                          name: path.basename(directoryPath),
+                          isDirectory: true,
+                          fullPath: directoryPath,
+                          relativePath
+                      };
+                  }
+              }
+              
+              const copyPathButton = createStyledButton("Copy Path", () => {
+                  if (selectedItem && !selectedItem.isDirectory && selectedItem.relativePath) {
+                      clipboard.writeText(selectedItem.relativePath);
+                      alert(`Copied path: ${selectedItem.relativePath}`);
+                  } else {
+                      alert("Please select a .json file to copy its path.");
+                  }
+              });
+              copyPathButton.disabled = true;
+              
+              const openFolderButton = createStyledButton("Open Folder", () => {
+                  let folderPath;
+                  
+                  if (selectedItem && selectedItem.fullPath) {
+                      folderPath = selectedItem.isDirectory ?
+                          selectedItem.fullPath :
+                          path.dirname(selectedItem.fullPath);
+                  } else {
+                      folderPath = getProjectDirectory();
+                  }
+                  
+                  if (process.platform === 'win32') {
+                      const cmd = selectedItem && !selectedItem.isDirectory ?
+                          `explorer /select,"${selectedItem.fullPath.replace(/\//g, '\\')}"` :
+                          `explorer "${folderPath.replace(/\//g, '\\')}"`;
+                      exec(cmd);
+                  } else {
+                      shell.openPath(folderPath).then((error) => {
+                          if (error) alert(`Could not open folder: ${error}`);
+                      });
+                  }
+              });
+              
+              buttonContainer.appendChild(backButton);
+              buttonContainer.appendChild(copyPathButton);
+              buttonContainer.appendChild(openFolderButton);
+              
+              const title = document.createElement("div");
+              title.textContent = `Contents of: ${directoryPath}`;
+              title.style.fontWeight = "bold";
+              title.style.marginBottom = "10px";
+              
+              const selectionMessage = document.createElement("div");
+              selectionMessage.id = "selectionMessage";
+              selectionMessage.style.marginBottom = "10px";
+              selectionMessage.style.fontStyle = "italic";
+              selectionMessage.style.display = "none";
+              
+              const list = document.createElement("ul");
+              list.style.listStyleType = "none";
+              list.style.padding = "0";
+              
+              items.forEach((item) => {
+                  const listItem = document.createElement("li");
+                  listItem.textContent = item.isDirectory ?
+                      `[Folder] ${item.name}` :
+                      `[File] ${item.name}`;
+                  listItem.style.marginBottom = "5px";
+                  listItem.style.cursor = "pointer";
+                  listItem.classList.add("hoverablez");
+                  
+                  const fullPath = path.join(directoryPath, item.name);
+                  const relativePath = path.relative(getProjectDirectory(), fullPath).replace(/\\/g, "/");
+                  
+                  listItem.onclick = () => {
+                      if (!item.isDirectory) {
+                          if (relativePath && relativePath.trim() !== "") {
+                              selectedItem = {
+                                  name: item.name,
+                                  isDirectory: false,
+                                  fullPath,
+                                  relativePath
+                              };
+                              selectionMessage.textContent = `File selected: ${item.name}`;
+                              selectionMessage.style.display = "block";
+                              copyPathButton.disabled = false;
+                          }
+                      } else {
+                          selectedItem = null;
+                          selectionMessage.style.display = "none";
+                          copyPathButton.disabled = true;
+                          
+                          directoryHistory.push(fullPath);
+                          displayDirectoryContents(fullPath);
+                      }
+                  };
+                  
+                  list.appendChild(listItem);
+              });
+              
+              if (directoryHistory.length > 0) {
+                  editorContent.appendChild(buttonContainer);
+              }
+              editorContent.appendChild(title);
+              editorContent.appendChild(selectionMessage);
+              editorContent.appendChild(list);
+          }
+          
+          function displayInitialMenu() {
+              const editorContent = data.document.getElementById("editorContent");
+              while (editorContent.firstChild) editorContent.removeChild(editorContent.firstChild);
+              
+              initialInterfaceElements.forEach(element => {
+                  const clone = element.cloneNode(false);
+                  clone.innerHTML = element.innerHTML;
+                  editorContent.appendChild(clone);
+              });
+              
+              if (!document.querySelector('.project-files-button')) {
+                  const projectButton = createProjectFilesButton();
+                  editorContent.appendChild(projectButton);
+              }
+              
+              if (typeof copyPathButton !== 'undefined' && copyPathButton) {
+                  copyPathButton.disabled = true;
+              }
+              if (selectionMessage) {
+                  selectionMessage.style.display = "none";
+              }
+          }
+          
+          function createProjectFilesButton() {
+              const button = document.createElement("div");
+              button.className = 'project-files-button';
+              button.innerHTML = `
+      <div class="hoverablez" style="
+        position: absolute;
+        top: 70px;
+        right: 10px;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 12px;
+        max-width: 150px;
+        white-space: nowrap;
+        z-index: 1000;
+        background-color: #333;
+        color: #fff;
+      ">
+        Show Project Files
+      </div>
+    `;
+              button.onclick = () => {
+                  const projectDir = getProjectDirectory();
+                  directoryHistory = [projectDir];
+                  displayDirectoryContents(projectDir);
+              };
+              return button;
+          }
+          
+          setTimeout(() => {
+              const editorContent = data.document.getElementById("editorContent");
+              if (!editorContent) return;
+              
+              const initialChildren = Array.from(editorContent.children).map(el => {
+                  const clone = document.createElement(el.tagName);
+                  for (let attr of el.attributes) {
+                      if (attr.name !== 'value') {
+                          clone.setAttribute(attr.name, attr.value);
+                      }
+                  }
+                  clone.innerHTML = el.innerHTML;
+                  return clone;
+              });
+              initialInterfaceElements = initialChildren;
+              
+              const projectButton = createProjectFilesButton();
+              editorContent.appendChild(projectButton);
+          }, 0);
+      },
+      
   subtitle: (values, constants, thisAction) => {
     const checkAndCount = (arr) => (Array.isArray(arr) ? arr.length : 0);
     let numData1 = checkAndCount(values.cases);
@@ -1236,6 +1283,7 @@ module.exports = {
       if (Array.isArray(values.cases)) {
           for (const dataCase of values.cases) {
               if (dataCase.type !== "data") continue;
+              
               const comparison = dataCase.data.comparisonlist?.[0];
               let matchesCriteria = true;
               
@@ -1244,9 +1292,12 @@ module.exports = {
                   const secondValue = bridge.transf(comparison.data.compareValue);
                   matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
               }
-              if (matchesCriteria == true) {
+              
+              if (matchesCriteria) {
                   const rawPath = bridge.transf(dataCase.data.path);
                   const value = bridge.transf(dataCase.data.value);
+                  
+                  let oldValue = undefined;
                   
                   const pathParts = rawPath.split(".");
                   let current = data;
@@ -1257,7 +1308,6 @@ module.exports = {
                       
                       if (arrayMatch) {
                           const [_, arrayKey, indexOrSymbol] = arrayMatch;
-                          
                           if (!Array.isArray(current[arrayKey])) {
                               current[arrayKey] = [];
                           }
@@ -1281,11 +1331,9 @@ module.exports = {
                           } else {
                               const index = parseInt(indexOrSymbol, 10);
                               if (isNaN(index)) continue;
-                              
                               while (array.length <= index) {
                                   array.push(null);
                               }
-                              
                               if (typeof array[index] !== "object" || array[index] === null) {
                                   array[index] = {};
                               }
@@ -1304,15 +1352,16 @@ module.exports = {
                   
                   if (lastPartMatch) {
                       const [_, arrayKey, indexOrSymbol] = lastPartMatch;
-                      
                       if (!Array.isArray(current[arrayKey])) {
                           current[arrayKey] = [];
                       }
                       const array = current[arrayKey];
                       
                       if (indexOrSymbol === "N") {
+                          oldValue = undefined;
                           array.push(value);
                       } else if (indexOrSymbol === "^") {
+                          oldValue = array.length > 0 ? array[array.length - 1] : undefined;
                           if (array.length === 0) {
                               array.push(typeof value === "object" ? {
                                   ...value
@@ -1323,17 +1372,16 @@ module.exports = {
                               }
                               array[array.length - 1] = {
                                   ...array[array.length - 1],
-                                  ...value,
+                                  ...(typeof value === "object" ? value : {}),
                               };
                           }
                       } else {
                           const index = parseInt(indexOrSymbol, 10);
-                          if (isNaN(index)) return;
-                          
+                          if (isNaN(index)) continue;
                           while (array.length <= index) {
                               array.push(null);
                           }
-                          
+                          oldValue = array[index];
                           if (typeof value === "object" && value !== null) {
                               if (typeof array[index] !== "object" || array[index] === null) {
                                   array[index] = {};
@@ -1347,152 +1395,27 @@ module.exports = {
                           }
                       }
                   } else {
+                      oldValue = current[lastPart];
                       if (typeof value === "object" && value !== null) {
                           current[lastPart] = {
-                              ...current[lastPart],
-                              ...value,
+                              ...(current[lastPart] || {}),
+                              ...value
                           };
                       } else {
                           current[lastPart] = value;
                       }
                   }
-              }
-          }
-      }
-      
-      if (Array.isArray(values.cases3)) {
-          for (const dataCase of values.cases3) {
-              if (dataCase.type !== "data") continue;
-              const comparison = dataCase.data.comparisonlist?.[0];
-              let matchesCriteria = true;
-              
-              if (comparison) {
-                  const variable = bridge.get(comparison.data.variable);
-                  const secondValue = bridge.transf(comparison.data.compareValue);
-                  matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
-              }
-              if (matchesCriteria == true) {
-                  const rawPath = bridge.transf(dataCase.data.path);
-                  const value = bridge.transf(dataCase.data.value);
                   
-                  const pathParts = rawPath.split(".");
                   
-                  let current = data;
-                  for (let i = 0; i < pathParts.length - 1; i++) {
-                      const part = pathParts[i];
-                      
-                      if (
-                          /\[\d+\]$/.test(part) ||
-                          part.endsWith("[N]") ||
-                          part.endsWith("[^]")
-                      ) {
-                          const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-                          if (!arrayKeyMatch) continue;
-                          
-                          const arrayKey = arrayKeyMatch[1];
-                          const indexOrSymbol = arrayKeyMatch[2];
-                          
-                          if (!Array.isArray(current[arrayKey])) {
-                              current[arrayKey] = [];
-                          }
-                          
-                          current = current[arrayKey];
-                          
-                          if (indexOrSymbol === "N") {
-                              const nextPart = pathParts[i + 1];
-                              if (nextPart) {
-                                  current.push({});
-                                  current = current[current.length - 1];
-                              } else {
-                                  current.push(value);
-                              }
-                              continue;
-                          }
-                          
-                          if (indexOrSymbol === "^") {
-                              if (current.length > 0) {
-                                  const lastElement = current[current.length - 1];
-                                  if (typeof lastElement !== "object" || lastElement === null) {
-                                      current[current.length - 1] = {};
-                                  }
-                                  current = current[current.length - 1];
-                              } else {
-                                  current.push({});
-                                  current = current[current.length - 1];
-                              }
-                              continue;
-                          }
-                          
-                          const index = parseInt(indexOrSymbol, 10);
-                          if (isNaN(index)) continue;
-                          
-                          while (current.length <= index) {
-                              current.push(null);
-                          }
-                          
-                          if (
-                              typeof current[index] !== "object" ||
-                              current[index] === null
-                          ) {
-                              current[index] = {};
-                          }
-                          
-                          current = current[index];
-                      } else {
-                          if (!current[part] || typeof current[part] !== "object") {
-                              current[part] = {};
-                          }
-                          
-                          current = current[part];
-                      }
+                  let changeType;
+                  if (oldValue === undefined || oldValue === null) {
+                      changeType = "set";
+                  } else {
+                      changeType = "update";
                   }
                   
-                  const lastPart = pathParts[pathParts.length - 1];
-                  
-                  const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
-                  if (lastPartMatch) {
-                      const arrayKey = lastPartMatch[1];
-                      const indexOrSymbol = lastPartMatch[2];
-                      
-                      if (!Array.isArray(current[arrayKey])) {
-                          current[arrayKey] = [];
-                      }
-                      
-                      const array = current[arrayKey];
-                      
-                      if (indexOrSymbol === "N") {
-                          array.push(value);
-                      } else if (indexOrSymbol === "^") {
-                          if (array.length > 0) {
-                              const lastElement = array[array.length - 1];
-                              if (typeof lastElement !== "object" || lastElement === null) {
-                                  array[array.length - 1] = {};
-                              }
-                              Object.assign(array[array.length - 1], value);
-                          } else {
-                              array.push(value);
-                          }
-                      } else {
-                          const index = parseInt(indexOrSymbol, 10);
-                          if (isNaN(index)) continue;
-                          
-                          while (array.length <= index) {
-                              array.push(null);
-                          }
-                          
-                          if (typeof value === "string") {
-                              array[index] = value;
-                          } else if (typeof value === "object") {
-                              if (typeof array[index] !== "object" || array[index] === null) {
-                                  array[index] = {};
-                              }
-                              Object.assign(array[index], value);
-                          } else {
-                              array[index] = value;
-                          }
-                      }
-                  } else {
-                      current[lastPart] = value;
+                  if (typeof client?.emitDataChange === "function") {
+                      client.emitDataChange(rawPath, value, oldValue, changeType);
                   }
               }
           }
@@ -1505,13 +1428,11 @@ module.exports = {
                       if (Array.isArray(dataCase.data?.cases5)) {
                           const comparison = dataCase.data.comparisonlist?.[0];
                           let matchesCriteria = true;
-                          
                           if (comparison) {
                               const variable = bridge.get(comparison.data.variable);
                               const secondValue = bridge.transf(comparison.data.compareValue);
                               matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
                           }
-                          
                           if (matchesCriteria == true) {
                               const res = dataCase.data.cases5.reduce((acc, item) => {
                                   if (
@@ -1522,7 +1443,6 @@ module.exports = {
                                   ) {
                                       const comparison = item.data.comparisonlist?.[0];
                                       let itemMatches = true;
-                                      
                                       if (comparison) {
                                           const variable = bridge.get(comparison.data.variable);
                                           const secondValue = bridge.transf(comparison.data.compareValue);
@@ -1537,25 +1457,31 @@ module.exports = {
                                   return acc;
                               }, {});
                               
-                              const resu = dataCase.data.name ?
-                                  {
+                              const resu = dataCase.data.name ? {
                                       [bridge.transf(dataCase.data.name)]: res
                                   } :
                                   res;
                               
-                              const pathParts = bridge.transf(dataCase.data.path).split(".");
+                              const rawPath = bridge.transf(dataCase.data.path);
+                              const pathParts = rawPath.split(".");
                               let current = data;
+                              
+                              let oldValue = undefined;
                               
                               for (let i = 0; i < pathParts.length - 1; i++) {
                                   const part = pathParts[i];
-                                  if (!current[part]) {
-                                      current[part] = {};
-                                  }
+                                  if (!current[part]) current[part] = {};
                                   current = current[part];
                               }
                               
                               const lastPart = pathParts[pathParts.length - 1];
                               current[lastPart] = resu;
+                              
+                              const changeType = oldValue === undefined ? "set" : "update";
+                              
+                              if (typeof client?.emitDataChange === "function") {
+                                  client.emitDataChange(rawPath, resu, oldValue, changeType);
+                              }
                           }
                       }
                       break;
@@ -1564,13 +1490,11 @@ module.exports = {
                       if (Array.isArray(dataCase.data?.cases6)) {
                           const comparison = dataCase.data.comparisonlist?.[0];
                           let matchesCriteria = true;
-                          
                           if (comparison) {
                               const variable = bridge.get(comparison.data.variable);
                               const secondValue = bridge.transf(comparison.data.compareValue);
                               matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
                           }
-                          
                           if (matchesCriteria) {
                               const result = dataCase.data.cases6.reduce((acc, item) => {
                                   if (
@@ -1581,13 +1505,11 @@ module.exports = {
                                   ) {
                                       const comparison = item.data.comparisonlist?.[0];
                                       let itemMatches = true;
-                                      
                                       if (comparison) {
                                           const variable = bridge.get(comparison.data.variable);
                                           const secondValue = bridge.transf(comparison.data.compareValue);
                                           itemMatches = matchesComparator(variable, comparison.data.comparator, secondValue);
                                       }
-                                      
                                       if (itemMatches) {
                                           acc[bridge.transf(item.data.name)] = bridge.transf(
                                               item.data.value
@@ -1597,8 +1519,11 @@ module.exports = {
                                   return acc;
                               }, {});
                               
-                              const pathParts = bridge.transf(dataCase.data.path).split(".");
+                              const rawPath = bridge.transf(dataCase.data.path);
+                              const pathParts = rawPath.split(".");
                               let current = data;
+                              
+                              let oldValue = undefined;
                               
                               for (let i = 0; i < pathParts.length - 1; i++) {
                                   const part = pathParts[i];
@@ -1611,6 +1536,12 @@ module.exports = {
                                   current[lastPart] = [];
                               }
                               current[lastPart].push(result);
+                              
+                              const changeType = oldValue === undefined ? "set" : "update";
+                              
+                              if (typeof client?.emitDataChange === "function") {
+                                  client.emitDataChange(rawPath, result, oldValue, changeType);
+                              }
                           }
                       }
                       break;
@@ -1685,6 +1616,8 @@ module.exports = {
                   const lastPart = pathParts[pathParts.length - 1];
                   const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
                   
+                  let deletedValue = undefined;
+                  
                   if (lastPartMatch) {
                       const arrayKey = lastPartMatch[1];
                       const indexOrSymbol = lastPartMatch[2];
@@ -1697,16 +1630,30 @@ module.exports = {
                       
                       if (indexOrSymbol === "N" || indexOrSymbol === "^") {
                           if (array.length > 0) {
-                              array.pop();
+                              if (indexOrSymbol === "N") {
+                                  deletedValue = array[array.length - 1];
+                                  array.pop();
+                              } else {
+                                  deletedValue = array[0];
+                                  array.shift();
+                              }
                           }
                       } else {
                           const index = parseInt(indexOrSymbol, 10);
                           if (!isNaN(index) && index < array.length) {
+                              deletedValue = array[index];
                               array.splice(index, 1);
                           }
                       }
                   } else {
-                      delete current[lastPart];
+                      if (current.hasOwnProperty(lastPart)) {
+                          deletedValue = current[lastPart];
+                          delete current[lastPart];
+                      }
+                  }
+                  
+                  if (typeof client?.emitDataChange === "function" && deletedValue !== undefined) {
+                      client.emitDataChange(path, undefined, deletedValue, "delete");
                   }
               }
           }
