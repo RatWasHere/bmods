@@ -1174,7 +1174,7 @@
       "creator": "TheMonDon"
     },
     "playMusic_MOD.js": {
-      "md5": "f02ae78d0ba667e9d10f6e757e33be4d",
+      "md5": "faf256e0fdee6bf7803f266fa57f6e47",
       "name": "Play Music",
       "modules": [
         "discord-player",
