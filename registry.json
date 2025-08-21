@@ -114,6 +114,13 @@
       "category": "AI",
       "creator": "LikRus"
     },
+    "ConvertdhmsToSeconds_MOD.js": {
+      "md5": "49c895f2e3ca7fae917b0c6d96ba98ef",
+      "name": "Convert dhms to seconds",
+      "modules": [],
+      "category": "Numbers",
+      "creator": "lik_rus"
+    },
     "accessObject_MOD.js": {
       "md5": "82efd008cd9214eee8f6649c8b4b1ec2",
       "name": "Access JSON Object",
