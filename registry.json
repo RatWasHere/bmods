@@ -312,6 +312,27 @@
       "category": "JSON",
       "creator": "Acedia"
     },
+    "createModularSelectMenuchannel_MOD.js": {
+      "md5": "93b1f5de43ea3411d78e02e038e0090b",
+      "name": "Create Modular Select Menu Channel",
+      "modules": [],
+      "category": "Modularity",
+      "creator": "lik_rus"
+    },
+    "createModularSelectMenuroles_MOD.js": {
+      "md5": "e280260ee0bf91385653bd14002af122",
+      "name": "Create Modular Select Menu Roles",
+      "modules": [],
+      "category": "Modularity",
+      "creator": "lik_rus"
+    },
+    "createModularSelectMenuuser_MOD.js": {
+      "md5": "6c45cb3da57dc161a29228d7fafe6eaa",
+      "name": "Create Modular Select Menu User",
+      "modules": [],
+      "category": "Modularity",
+      "creator": "lik_rus"
+    },
     "createObject_MOD.js": {
       "md5": "9262bf12087c2001b49be852c31233ff",
       "name": "Create JSON Object",
