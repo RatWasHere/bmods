@@ -1099,6 +1099,13 @@
       "category": "Members",
       "creator": "LikRus"
     },
+    "multicreateListElement_MOD.js": {
+      "md5": "fcfc20c4338a46073862815e7d942a53",
+      "name": "Multi Create List Element",
+      "modules": [],
+      "category": "Lists",
+      "creator": "LikRus"
+    },
     "multipleCalculations_MOD.js": {
       "md5": "53221c2a803ce2f9ccd7687850e42d0b",
       "name": "Multiple Calculations",
