@@ -1,4 +1,4 @@
-modVersion = "v2.3.0";
+modVersion = "v2.3.1";
 
 module.exports = {
   data: {
@@ -193,43 +193,43 @@ module.exports = {
       element: "menu",
       max: 1,
       required: true,
-      storeAs: "Create Data Array",
+      storeAs: "Data transfer",
       types: {
-        options: "Create Data Array",
+        options: "Data transfer",
       },
       UItypes: {
         options: {
-          name: "Create Data Array (This section will be deleted with the next update! (It's already disabled!))",
+          name: "Data transfer",
           inheritData: true,
           UI: [
             {
               element: "menu",
               help: {
-                title: "Create Data Array?",
+                title: "Data transfer?",
                 UI: [
                   {
                     element: "text",
-                    text: "Create Data Array?",
+                    text: "Data transfer?",
                     header: true,
                   },
                   {
                     element: "text",
-                    text: `You can create a value in an array.`,
+                    text: `With this, you can transfer data from one place to another.`,
                   },
                 ],
               },
               storeAs: "cases3",
-              name: "Create Data Array",
+              name: "Data transfer",
               types: {
                 data: "Data",
               },
               max: 200,
               UItypes: {
                 data: {
-                  name: "Create Data Array",
+                  name: "Data transfer",
                   preview:
                     "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.value}`",
-                  data: { path: "", value: "" },
+                  data: { path: "", pathtransfer: "" },
                   UI: [
                     {
                       element: "menu",
@@ -314,9 +314,17 @@ module.exports = {
                     },
                     "-",
                     {
+                      element: "toggle",
+                      storeAs: "deletedata",       
+                      name: "Deleting the transfer date.",
+                      true: "Yes!",
+                      false: "Nono!"
+                    },
+                    "-",
+                    {
                       element: "input",
-                      storeAs: "value",
-                      name: "Name",
+                      storeAs: "pathtransfer",
+                      name: "Path transfer",
                     },
                   ],
                 },
@@ -1545,6 +1553,203 @@ module.exports = {
                           }
                       }
                       break;
+              }
+          }
+      }
+      
+      if (Array.isArray(values.cases3)) {
+          for (const dataCase of values.cases3) {
+              if (dataCase.type !== "data") continue;
+              
+              const comparison = dataCase.data.comparisonlist?.[0];
+              let matchesCriteria = true;
+              
+              if (comparison) {
+                  const variable = bridge.get(comparison.data.variable);
+                  const secondValue = bridge.transf(comparison.data.compareValue);
+                  matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
+              }
+              
+              if (!matchesCriteria) continue;
+              
+              const path = bridge.transf(dataCase.data.path);
+              const pathtransfer = bridge.transf(dataCase.data.pathtransfer);
+              const shouldDelete = Boolean(dataCase.data.deletedata);
+              
+              const getValueFromPath = (obj, pathStr) => {
+                  const parts = pathStr.split(".");
+                  let current = obj;
+                  
+                  for (let i = 0; i < parts.length; i++) {
+                      const part = parts[i];
+                      const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+                      
+                      if (arrayMatch) {
+                          const key = arrayMatch[1];
+                          const indexStr = arrayMatch[2];
+                          
+                          if (!current[key] || !Array.isArray(current[key])) {
+                              return {
+                                  found: false
+                              };
+                          }
+                          
+                          const arr = current[key];
+                          let index;
+                          
+                          if (indexStr === "N") index = arr.length - 1;
+                          else if (indexStr === "^") index = 0;
+                          else {
+                              index = parseInt(indexStr, 10);
+                              if (isNaN(index) || index < 0 || index >= arr.length) {
+                                  return {
+                                      found: false
+                                  };
+                              }
+                          }
+                          
+                          if (i === parts.length - 1) {
+                              return {
+                                  found: true,
+                                  value: arr[index],
+                                  parent: arr,
+                                  key: index
+                              };
+                          } else {
+                              if (index >= 0 && index < arr.length) {
+                                  current = arr[index];
+                              } else {
+                                  return {
+                                      found: false
+                                  };
+                              }
+                          }
+                      } else {
+                          if (!current.hasOwnProperty(part)) {
+                              return {
+                                  found: false
+                              };
+                          }
+                          if (i === parts.length - 1) {
+                              return {
+                                  found: true,
+                                  value: current[part],
+                                  parent: current,
+                                  key: part
+                              };
+                          }
+                          current = current[part];
+                      }
+                  }
+                  return {
+                      found: false
+                  };
+              };
+              
+              const sourceResult = getValueFromPath(data, path);
+              if (!sourceResult.found) continue;
+              
+              const {
+                  value: transferredValue,
+                  parent: srcParent,
+                  key: srcKey
+              } = sourceResult;
+              
+              const transferParts = pathtransfer.split(".");
+              let transferParent = data;
+              
+              for (let i = 0; i < transferParts.length - 1; i++) {
+                  const part = transferParts[i];
+                  const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+                  
+                  if (arrayMatch) {
+                      const arrayKey = arrayMatch[1];
+                      const indexStr = arrayMatch[2];
+                      
+                      if (!Array.isArray(transferParent[arrayKey])) {
+                          transferParent[arrayKey] = [];
+                      }
+                      const arr = transferParent[arrayKey];
+                      
+                      let index;
+                      if (indexStr === "N") {
+                          if (arr.length === 0) {
+                              arr[0] = {};
+                          }
+                          index = arr.length - 1;
+                      } else if (indexStr === "^") {
+                          if (arr.length === 0) {
+                              arr[0] = {};
+                          }
+                          index = 0;
+                      } else {
+                          index = parseInt(indexStr, 10);
+                          if (isNaN(index)) continue;
+                          
+                          while (arr.length <= index) {
+                              arr.push(undefined);
+                          }
+                          
+                          if (arr[index] === undefined || arr[index] === null || typeof arr[index] !== "object") {
+                              arr[index] = {};
+                          }
+                      }
+                      
+                      transferParent = arr[index];
+                  } else {
+                      if (!transferParent[part] || typeof transferParent[part] !== "object" || transferParent[part] === null) {
+                          transferParent[part] = {};
+                      }
+                      transferParent = transferParent[part];
+                  }
+              }
+              
+              const lastPart = transferParts[transferParts.length - 1];
+              const lastArrayMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+              
+              if (lastArrayMatch) {
+                  const arrayKey = lastArrayMatch[1];
+                  const indexStr = lastArrayMatch[2];
+                  
+                  if (!Array.isArray(transferParent[arrayKey])) {
+                      transferParent[arrayKey] = [];
+                  }
+                  const arr = transferParent[arrayKey];
+                  
+                  if (indexStr === "N") {
+                      arr.push(transferredValue);
+                  } else if (indexStr === "^") {
+                      arr.unshift(transferredValue);
+                  } else {
+                      const index = parseInt(indexStr, 10);
+                      if (!isNaN(index)) {
+                          while (arr.length <= index) arr.push(undefined);
+                          arr[index] = transferredValue;
+                      }
+                  }
+              } else {
+                  transferParent[lastPart] = transferredValue;
+              }
+              
+              let wasDeleted = false;
+              if (shouldDelete) {
+                  if (Array.isArray(srcParent)) {
+                      srcParent.splice(srcKey, 1);
+                  } else {
+                      delete srcParent[srcKey];
+                  }
+                  wasDeleted = true;
+              }
+              
+              if (typeof client?.emitDataChange === "function") {
+                  client.emitDataChange({
+                          oldpath: path,
+                          newpath: pathtransfer
+                      },
+                      transferredValue,
+                      transferredValue,
+                      wasDeleted ? "transfer-delete" : "transfer-keep"
+                  );
               }
           }
       }
