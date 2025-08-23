@@ -228,7 +228,7 @@ module.exports = {
                 data: {
                   name: "Data transfer",
                   preview:
-                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.value}`",
+                    "`${option.data.comparisonlist?.[0] ? '⚠️' : ''} Query: ${option.data.path} - ${option.data.pathtransfer}`",
                   data: { path: "", pathtransfer: "" },
                   UI: [
                     {
