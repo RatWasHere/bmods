@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.1"
 module.exports = {
   data: {
     name: "Upload File To GitHub",
@@ -153,7 +153,7 @@ module.exports = {
         return
       }
 
-      bridge.store(values.resp, `Upload Success: https://github.com/${owner}/${repo}/blob/${branch}/${remotePath}`)
+      bridge.store(values.resp, `https://github.com/${owner}/${repo}/blob/${branch}/${remotePath}`)
     } catch (error) {
       bridge.store(values.resp, `Upload Failed: ${error.message}`)
     }
