@@ -461,6 +461,13 @@
       "category": "WebAPIs",
       "creator": "Acedia QOLs"
     },
+    "filterList_MOD.js": {
+      "md5": "87aec99bfb24942e2bdd3a67adf6de22",
+      "name": "Filter List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "Acedia"
+    },
     "findChannel_MOD.js": {
       "md5": "7d692b624ed1a2156264bdc6df942416",
       "name": "Find Channel PLUS",
