@@ -1380,6 +1380,14 @@
       "modules": [],
       "category": "Numbers"
     },
+    "samTTS_MOD.js": {
+      "md5": "f18ea4772a14ce24f2caa1f9dd07ae1b",
+      "name": "SAM TTS",
+      "description": "Create Text-To-Speech audio with SAM TTS",
+      "modules": [],
+      "category": "TTS",
+      "creator": "qschnitzel"
+    },
     "searchLyrics_MOD.js": {
       "md5": "ef2d6e59e78e7072f138e03a892c305a",
       "name": "Search Lyrics",
