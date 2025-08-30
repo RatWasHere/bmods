@@ -1387,6 +1387,16 @@
       "modules": [],
       "category": "Numbers"
     },
+    "runJsFile_MOD.js": {
+      "md5": "c76e3121367643a85ec136e509cc3af7",
+      "name": "Run Js File",
+      "description": "Using this action, you can play the code from the files.",
+      "modules": [
+        "node:path"
+      ],
+      "category": "Control",
+      "creator": "LikRus"
+    },
     "samTTS_MOD.js": {
       "md5": "f18ea4772a14ce24f2caa1f9dd07ae1b",
       "name": "SAM TTS",
