@@ -1150,6 +1150,16 @@
       "category": "Global Data",
       "creator": "candiedapple"
     },
+    "nationalToday_MOD.js": {
+      "md5": "fd1f9dc4e704841197f12b9be468375b",
+      "name": "National Today",
+      "description": "Get todays holidays using nationaltoday.com",
+      "modules": [
+        "jsdom"
+      ],
+      "category": "API",
+      "creator": "qschnitzel"
+    },
     "numberClamp_MOD.js": {
       "md5": "9f6309b7804813b3f732839d2dc0533d",
       "name": "Number Clamp",
