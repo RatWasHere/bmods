@@ -227,7 +227,7 @@ module.exports = {
                   try {
                     const data = Buffer.concat(chunks);
                     fs.writeFileSync(file.path, data); // No encoding specified so it works for binary too
-                    console.log(`"[Status Page] ${file.name}" downloaded from ${file.github}.`);
+                    console.log(`[Status Page] "${file.name}" downloaded from ${file.github}.`);
                     resolve();
                   } catch (err) {
                     reject(err);

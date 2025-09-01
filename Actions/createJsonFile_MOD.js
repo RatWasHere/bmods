@@ -1,5 +1,4 @@
-modVersion = "v1.0.3"
-
+modVersion = "v1.0.4"
 
 module.exports = {
   data: {
@@ -152,8 +151,7 @@ module.exports = {
     try {
       jsonObject = JSON.parse(jsonString)
     } catch (error){
-      console.error(`Invalid JSON Content: ${error.message}`)
-      jsonObject = {}
+      return console.error(`Invalid JSON Content: ${error.message}`)
     }
     
     let finalContent

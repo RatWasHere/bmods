@@ -1,4 +1,4 @@
-modVersion = "v1.0.1"
+modVersion = "v1.0.2"
 module.exports = {
   data: {
     name: "Read JSON File"
@@ -77,8 +77,19 @@ module.exports = {
     let finalResult = jsonObject
     if (values.pathToElement){
       let elementPath = bridge.transf(values.pathToElement).trim()
+      elementPath = elementPath.replaceAll("..", ".")
       if (elementPath.startsWith(`.`)){
         elementPath.slice(1)
+      }
+
+      if (
+        elementPath === "" ||
+        elementPath.includes("..") ||
+        elementPath.startsWith(".") ||
+        elementPath.endsWith(".")
+      ){
+        console.error(`Invalid path: "${elementPath}"`)
+        continue
       }
 
       try{
