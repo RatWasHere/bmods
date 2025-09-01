@@ -53,7 +53,7 @@ After installing a mod, make sure to reload (**CTRL + R**) or restart Bot Maker 
 
 ### Quickstart
 
-Use the create-bmd npx package to quick-start a new mod.
+Use the [create-bmd](https://github.com/qizzle/create-bmd) npx package to quick-start a new mod.
 
 ```
 npx create-bmd@latest
