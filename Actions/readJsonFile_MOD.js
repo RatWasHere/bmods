@@ -89,7 +89,7 @@ module.exports = {
         elementPath.endsWith(".")
       ){
         console.error(`Invalid path: "${elementPath}"`)
-        continue
+        return
       }
 
       try{
