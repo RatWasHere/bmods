@@ -79,7 +79,7 @@ module.exports = {
       let elementPath = bridge.transf(values.pathToElement).trim()
       elementPath = elementPath.replaceAll("..", ".")
       if (elementPath.startsWith(`.`)){
-        elementPath.slice(1)
+        elementPath = elementPath.slice(1)
       }
 
       if (
