@@ -1,4 +1,4 @@
-modVersion = "v3.0.3";
+modVersion = "v3.0.4";
 
 module.exports = {
   data: {
@@ -13,6 +13,7 @@ module.exports = {
   aliases: ["Status Page", "Web UI"],
   modules: ["node:http", "node:os", "node:fs", "node:path", "node:url", "node:https", "node:crypto"],
   category: "Utilities",
+  modVersion,
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia & qizzle",
@@ -149,59 +150,42 @@ module.exports = {
       workingPath = workingDir;
     }
 
-    let loginHtmlFilePath = path.join(workingPath, "statusPage", "login.html");
     let htmlFilePath = path.join(workingPath, "statusPage", "themes", theme, "index.html");
     let icoFilePath = path.join(workingPath, "statusPage", "themes", theme, "bmd.ico");
     let cssFilePath = path.join(workingPath, "statusPage", "themes", theme, "style.css");
+    let loginHtmlFilePath = path.join(workingPath, "statusPage", "login.html");
     let statusPageThemeDir = path.join(workingPath, "statusPage", "themes", theme);
     if (!fs.existsSync(statusPageThemeDir)) {
       fs.mkdirSync(statusPageThemeDir, { recursive: true });
     }
 
     // Getting Files From GitHub If They Dont Exist
-    let siteFiles;
-    if (loginSystem === "basic") {
-      siteFiles = {
-        html: {
-          github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/index.html`,
-          path: htmlFilePath,
-          name: `index.html`,
-        },
-        ico: {
-          github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/bmd.ico`,
-          path: icoFilePath,
-          name: `bmd.ico`,
-        },
-        css: {
-          github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/style.css`,
-          path: cssFilePath,
-          name: `style.css`,
-        },
-      };
-    } else if (loginSystem === "token") {
-      siteFiles = {
-        login: {
-          github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/core/login.html`,
-          path: loginHtmlFilePath,
-          name: `login.html`,
-        },
-        html: {
-          github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/index.html`,
-          path: htmlFilePath,
-          name: `index.html`,
-        },
-        ico: {
-          github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/bmd.ico`,
-          path: icoFilePath,
-          name: `bmd.ico`,
-        },
-        css: {
-          github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/style.css`,
-          path: cssFilePath,
-          name: `style.css`,
-        },
+    let siteFiles = {
+      html: {
+        github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/index.html`,
+        path: htmlFilePath,
+        name: `index.html`,
+      },
+      ico: {
+        github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/bmd.ico`,
+        path: icoFilePath,
+        name: `bmd.ico`,
+      },
+      css: {
+        github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/style.css`,
+        path: cssFilePath,
+        name: `style.css`,
+      },
+    };
+
+    if (loginSystem === "token") {
+      siteFiles["login"] = {
+        github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/core/login.html`,
+        path: loginHtmlFilePath,
+        name: `login.html`,
       };
     }
+
     for (let coreKey in siteFiles) {
       const file = siteFiles[coreKey];
 
@@ -214,7 +198,9 @@ module.exports = {
               .get(file.github, (response) => {
                 if (response.statusCode !== 200) {
                   reject(
-                    new Error(`[Status Page] Failed to download "${file.name}" from GitHub. Status Code: ${response.statusCode}`)
+                    new Error(
+                      `[Status Page] Failed to download "${file.name}" from GitHub. Status Code: ${response.statusCode}`
+                    )
                   );
                   return;
                 }
@@ -305,6 +291,7 @@ module.exports = {
     // Version Contants
     const nodeJsVer = process.versions.node;
     const ocncJsVer = oceanic.Constants.VERSION;
+    const statusPageVer = this.modVersion
 
     // Creating Data For Graphs
     let dataHistory = [];
@@ -584,6 +571,7 @@ module.exports = {
                   versions: {
                     node: nodeJsVer,
                     oceanic: ocncJsVer,
+                    statusPage: statusPageVer
                   },
                 },
                 null,
