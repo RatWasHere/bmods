@@ -1,14 +1,14 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    // name: "Get Member Multiple Datas",
+    name: "",
   },
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  // category: "Member Data",
+  category: "",
   UI: [
     {
       element: "input",
