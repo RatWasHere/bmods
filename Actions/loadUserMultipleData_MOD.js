@@ -55,6 +55,12 @@ module.exports = {
     },
     {
       element: "text",
+      text: `<div style="font-size: 20px; color: red; text-align: center;">
+      This Mod Is Deprecated.
+      </div>`
+    },
+    {
+      element: "text",
       text: modVersion,
     },
   ],
