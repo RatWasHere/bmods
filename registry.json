@@ -366,6 +366,48 @@
       "category": "Utilities",
       "creator": "Acedia"
     },
+    "ctrlMultipleChnDatas_MOD.js": {
+      "md5": "f5f2521ba2ba08e395255c13fc038cd1",
+      "name": "Control Multiple Channel Datas",
+      "modules": [],
+      "category": "Channel Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleGldDatas_MOD.js": {
+      "md5": "aca805fa0d35c5c3330fd6ec39d12670",
+      "name": "Control Multiple Server Datas",
+      "modules": [],
+      "category": "Server Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleMbrDatas_MOD.js": {
+      "md5": "bf149f7e820920ac897c178c6f53dc1f",
+      "name": "Control Multiple Member Datas",
+      "modules": [],
+      "category": "Member Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleMsgDatas_MOD.js": {
+      "md5": "59e352c045542aa3a3e416ee98dc1ae3",
+      "name": "Control Multiple Message Datas",
+      "modules": [],
+      "category": "Message Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleRleDatas_MOD.js": {
+      "md5": "a26602374451bc1a2ab8ba47511f79fa",
+      "name": "Control Multiple Role Datas",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleUsrDatas_MOD.js": {
+      "md5": "3d609ad4a412a475d547d0952a161875",
+      "name": "Control Multiple User Datas",
+      "modules": [],
+      "category": "User Data",
+      "creator": "Acedia"
+    },
     "customdatatop_MOD.js": {
       "md5": "ac2552a7a7dea02b143028f9f18f8ef7",
       "name": "Custom Data Top",
@@ -651,7 +693,7 @@
       "creator": "TheMonDon"
     },
     "getCommandAliases_MOD.js": {
-      "md5": "b366cbaac1ed65b3616586ae1106e18b",
+      "md5": "0b11481c02c589a7cc0b6e710277a914",
       "modules": [],
       "category": "Bot",
       "creator": "Acedia"
@@ -803,6 +845,48 @@
       "modules": [],
       "category": "Game",
       "creator": "qschnitzel"
+    },
+    "getMultipleChnDatas_MOD.js": {
+      "md5": "77dc844533e88c25f03af4e86b44de36",
+      "name": "Get Multiple Channel Datas",
+      "modules": [],
+      "category": "Channel Data",
+      "creator": "Acedia"
+    },
+    "getMultipleGldDatas_MOD.js": {
+      "md5": "5e1575df6eb931266084bb650b1f9973",
+      "name": "Get Multiple Server Datas",
+      "modules": [],
+      "category": "Server Data",
+      "creator": "Acedia"
+    },
+    "getMultipleMbrDatas_MOD.js": {
+      "md5": "cb7cb4df8e65382052b702eb39da5e27",
+      "name": "Get Multiple Member Datas",
+      "modules": [],
+      "category": "Member Data",
+      "creator": "Acedia"
+    },
+    "getMultipleMsgDatas_MOD.js": {
+      "md5": "adeac4f31c0c54aa3befa2ab429582d9",
+      "name": "Get Multiple Message Datas",
+      "modules": [],
+      "category": "Message Data",
+      "creator": "Acedia"
+    },
+    "getMultipleRleDatas_MOD.js": {
+      "md5": "10481496576f0c7d2584a16fa6b18df9",
+      "name": "Get Multiple Role Datas",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
+    "getMultipleUsrDatas_MOD.js": {
+      "md5": "c6692c27e93d85133581c870318657d1",
+      "name": "Get Multiple User Datas",
+      "modules": [],
+      "category": "User Data",
+      "creator": "Acedia"
     },
     "getRankInRobloxGroup_MOD.js": {
       "md5": "eef78a0ae67b63e0652baee052cd374d",
@@ -999,15 +1083,13 @@
       "creator": "qschnitzel"
     },
     "loadMemberMultipleData_MOD.js": {
-      "md5": "b9895701a0a9f51ed12386eb5585fb97",
-      "name": "Get Member Multiple Datas",
+      "md5": "73c8fc366796e7872ef894b062cac9a3",
       "modules": [],
       "category": "Member Data",
       "creator": "Acedia"
     },
     "loadMultipleChannelData_MOD.js": {
-      "md5": "6f573d3a7ead16c6e35f91c366602143",
-      "name": "Get Channel Multiple Datas",
+      "md5": "3d0f2b606430eb53005ad25e69f07c4c",
       "modules": [],
       "category": "Channel Data",
       "creator": "Acedia"
@@ -1020,21 +1102,20 @@
       "creator": "Acedia"
     },
     "loadMultipleGuildData_MOD.js": {
-      "md5": "788549d7d6a90fdc63d8edd844478c9c",
-      "name": "Get Multiple Server Datas",
+      "md5": "2b5fc82ecf6646edd131ff1102bbee76",
       "modules": [],
       "category": "Server Data",
       "creator": "Acedia"
     },
     "loadRoleMultipleData_MOD.js": {
-      "md5": "567a4e24fcb8fb7ba72d0d945f28825d",
+      "md5": "3eecb0e4acf133a5e6b300aef9d9809b",
       "name": "Get Role Multiple Datas",
       "modules": [],
       "category": "Role Data",
       "creator": "Acedia"
     },
     "loadUserMultipleData_MOD.js": {
-      "md5": "97a0469a2020b158b63d6675972c1cb0",
+      "md5": "576d98c26fbb5255d7e719c71b54f84c",
       "name": "Get User Multiple Datas",
       "modules": [],
       "category": "User Data",
