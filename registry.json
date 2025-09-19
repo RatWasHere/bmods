@@ -693,9 +693,8 @@
       "creator": "TheMonDon"
     },
     "getCommandAliases_MOD.js": {
-      "md5": "0b11481c02c589a7cc0b6e710277a914",
+      "md5": "fafa5ed3b587e2dee3b2a01aa1d12d6f",
       "modules": [],
-      "category": "Bot",
       "creator": "Acedia"
     },
     "getCommandInfo_MOD.js": {
@@ -1083,15 +1082,13 @@
       "creator": "qschnitzel"
     },
     "loadMemberMultipleData_MOD.js": {
-      "md5": "73c8fc366796e7872ef894b062cac9a3",
+      "md5": "05f5aa691241e8111383305c0e02e18a",
       "modules": [],
-      "category": "Member Data",
       "creator": "Acedia"
     },
     "loadMultipleChannelData_MOD.js": {
-      "md5": "3d0f2b606430eb53005ad25e69f07c4c",
+      "md5": "694166673a5d9faad778a51e114c1fed",
       "modules": [],
-      "category": "Channel Data",
       "creator": "Acedia"
     },
     "loadMultipleGlobalData_MOD.js": {
@@ -1102,23 +1099,18 @@
       "creator": "Acedia"
     },
     "loadMultipleGuildData_MOD.js": {
-      "md5": "2b5fc82ecf6646edd131ff1102bbee76",
+      "md5": "c71f4d9be5c1de73f57ec2b4cce45417",
       "modules": [],
-      "category": "Server Data",
       "creator": "Acedia"
     },
     "loadRoleMultipleData_MOD.js": {
-      "md5": "3eecb0e4acf133a5e6b300aef9d9809b",
-      "name": "Get Role Multiple Datas",
+      "md5": "e39f093dd117e6ac9339e0b9a900137d",
       "modules": [],
-      "category": "Role Data",
       "creator": "Acedia"
     },
     "loadUserMultipleData_MOD.js": {
-      "md5": "576d98c26fbb5255d7e719c71b54f84c",
-      "name": "Get User Multiple Datas",
+      "md5": "0bb44d51b2509eba36089672f253f44d",
       "modules": [],
-      "category": "User Data",
       "creator": "Acedia"
     },
     "loopMusic_MOD.js": {
