@@ -8,7 +8,7 @@ module.exports = {
     name: "",
   },
   aliases: [],
-  category: "Bot",
+  // category: "Bot",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",

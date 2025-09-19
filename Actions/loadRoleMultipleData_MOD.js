@@ -1,7 +1,7 @@
 modVersion = "v1.0.0";
 module.exports = {
-  data: { name: "Get Role Multiple Datas" },
-  category: "Role Data",
+  // data: { name: "Get Role Multiple Datas" },
+  // category: "Role Data",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",

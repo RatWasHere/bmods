@@ -1,14 +1,14 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Get Member Multiple Datas",
+    // name: "Get Member Multiple Datas",
   },
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  category: "Member Data",
+  // category: "Member Data",
   UI: [
     {
       element: "input",
@@ -54,6 +54,12 @@ module.exports = {
           ],
         },
       },
+    },
+    {
+      element: "text",
+      text: `<div style="font-size: 20px; color: red; text-align: center;">
+      This Mod Is Deprecated.
+      </div>`
     },
     {
       element: "text",

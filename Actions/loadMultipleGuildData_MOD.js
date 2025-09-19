@@ -1,14 +1,14 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Get Multiple Server Datas",
+    // name: "Get Multiple Server Datas",
   },
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  category: "Server Data",
+  // category: "Server Data",
   UI: [
     {
       element: "input",

@@ -1,14 +1,14 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Get Channel Multiple Datas",
+    // name: "Get Channel Multiple Datas",
   },
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  category: "Channel Data",
+  // category: "Channel Data",
   UI: [
     {
       element: "input",
