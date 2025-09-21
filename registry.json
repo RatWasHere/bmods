@@ -682,6 +682,13 @@
       "category": "Shortcuts",
       "creator": "Acedia QOLs"
     },
+    "getChannelThreads_MOD.js": {
+      "md5": "82742af7bfb786b31846d193327d14c5",
+      "name": "Get Channel Threads",
+      "modules": [],
+      "category": "Channels",
+      "creator": "Acedia"
+    },
     "getColorName_MOD.js": {
       "md5": "071b5f03d1d52a4aa4c2f6bd3155a931",
       "name": "Get Color Name",
