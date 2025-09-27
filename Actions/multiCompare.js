@@ -1,4 +1,4 @@
-modVersion = "v1.0.2 | AcediaQOLs"
+modVersion = "v1.0.2 | AceQOLs"
 module.exports = {
   data: {
     name: "Multiple Comparisons",

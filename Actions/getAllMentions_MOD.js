@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "Get All Mentioned In Message"
@@ -56,20 +56,20 @@ module.exports = {
     let fullRoleMentions
     let fullChannelMentions
 
-    if(values.users){
+    if(values.users.value !== ""){
       fullUserMentions = await Promise.all(userMentions.map(async user => {
         user.member = await bridge.guild.members.get(user.id)
         return user
       }))
     }
     
-    if(values.roles){
+    if(values.roles.value !== ""){
       fullRoleMentions = roleMentions.map(role =>{
         return bridge.guild.roles.get(role)
       })
     }
 
-    if(values.channel){
+    if(values.channel.value !== ""){
       fullChannelMentions = channelMentions.map(channel =>{
         return client.getChannel(channel)
       })

@@ -1,5 +1,5 @@
 //Im just adding this to spite rat kekw
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 
 module.exports = {
   data: {
@@ -8,7 +8,7 @@ module.exports = {
   },
   info: {
   source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
-  creator: "Acedia QOLs",
+  creator: "Acedia",
   donate: "https://ko-fi.com/slothyacedia",
   },
   category: "Loops",
@@ -61,12 +61,16 @@ module.exports = {
   compatibility: ["Any"],
 
   async run(values, message, client, bridge){
-    let startNum = parseInt(bridge.transf(values.startAt), 10)
-    let endNum = parseInt(bridge.transf(values.endAt), 10)
-    let increment = parseInt(bridge.transf(values.increment), 10) || 1
+    let startNum = parseFloat(bridge.transf(values.startAt), 10)
+    let endNum = parseFloat(bridge.transf(values.endAt), 10)
+    let increment = Math.abs(parseFloat(bridge.transf(values.increment), 10)) || 1
 
-    if (isNaN(startNum) || isNaN(endNum) || isNaN(increment) || !Number.isInteger(startNum) || !Number.isInteger(endNum) || !Number.isInteger(increment)){
-      throw new Error(`Start At / End At / Increment is not a integer!`)
+    if (isNaN(startNum) || isNaN(endNum) || isNaN(increment)){
+      throw new Error(`Start At / End At / Increment Is Not A Number!`)
+    }
+
+    if (startNum > endNum){
+      throw new Error(`Start At Can't Be Bigger Than End At!`)
     }
 
     for (let start = startNum; start <= endNum; start += increment){
