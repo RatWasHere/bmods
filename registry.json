@@ -1778,7 +1778,17 @@
       "creator": "Acedia QOLs"
     }
   },
-  "Automations": {},
+  "Automations": {
+    "GetFilePath": {
+      "name": "Get File Path",
+      "author": "LikRus",
+      "description": "Copying the file path to the clipboard.",
+      "files": {
+        "data.json": "16c4283c24011f6dd0ca4120afc85968",
+        "main.js": "4941eaaea3330e8b85c0ef1895b8e544"
+      }
+    }
+  },
   "Events": {
     "DataPathChanged_MOD.js": {
       "md5": "ba9ebf1b9518461bb40c642d41e09c18",
