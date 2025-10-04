@@ -4,7 +4,7 @@ module.exports = {
   data: {
     name: "Set Tracked Time Restriction"
   },
-  aliases: [],
+  aliases: ["Set Cooldown", "Cooldown", "Command Cooldown"],
   modules: [],
   category: "Control",
   info: {
