@@ -3,7 +3,7 @@ modVersion = "v1.2.3"
 
 module.exports = {
   data: {
-    name: "Play File Att fix",
+    name: "Play File",
   },
   category: "Music",
   info: {

@@ -124,7 +124,7 @@ module.exports = {
       workingPath = workingDir
     }
 
-    let routesFilePath = path.join(workingPath, "webapiRoutes.json")
+    let routesFilePath = path.join(workingPath, "aceModsJSON", "webapiRoutes.json")
 
     let host = bridge.transf(values.host) || "localhost"
     let port = parseInt(bridge.transf(values.port)) || "8080"
