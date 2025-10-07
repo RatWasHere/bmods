@@ -241,7 +241,7 @@
       "creator": "LikRus"
     },
     "checkcustomdata_MOD.js": {
-      "md5": "cf8cdf89a1ca0a2865df7f39dc1935ab",
+      "md5": "0b7d645f0074675893032e108867f39b",
       "name": "Check Custom Data",
       "description": "Allows you to check custom json files!",
       "modules": [],
@@ -281,7 +281,7 @@
       "creator": "TheMonDon"
     },
     "controlcustomdata_MOD.js": {
-      "md5": "b4a66c79fb559550edd7df44ab6c6c84",
+      "md5": "914d2dfbf3d7f4200aae34a49edaf3c5",
       "name": "Control Custom Data",
       "description": "Allows you to create custom json files!",
       "modules": [],
@@ -409,7 +409,7 @@
       "creator": "Acedia"
     },
     "customdatatop_MOD.js": {
-      "md5": "ac2552a7a7dea02b143028f9f18f8ef7",
+      "md5": "7dcc4036712bb64dafe4c46e607adb4f",
       "name": "Custom Data Top",
       "description": "Allows you to create a leaderboard from custom json files!",
       "modules": [],
@@ -1667,7 +1667,7 @@
       "creator": "TheMonDon"
     },
     "storecustomdata_MOD.js": {
-      "md5": "5052c02c32fae1a951bf37ff6159e7c9",
+      "md5": "73b66cb96abb9992cc81654fad7d53ce",
       "name": "Store Custom Data",
       "description": "Allows you to get information from custom json files!",
       "modules": [],
