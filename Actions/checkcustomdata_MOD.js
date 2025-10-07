@@ -1,4 +1,4 @@
-modVersion = "v2.2.0";
+modVersion = "v2.3.0";
 
 module.exports = {
   data: {
@@ -444,170 +444,192 @@ module.exports = {
   },
 
   async run(values, message, client, bridge) {
-    let fs = bridge.fs;
-
-    if (!values.database) {
-      console.error(
-        "Error: The path to the database (Database) is not defined."
-      );
-      return;
-    }
-
-    const botData = require("../data.json");
-    let dbPath = bridge.transf(values.database);
-    const currentDir = process.cwd().replace(/\\/g, "/");
-
-    if (currentDir.includes("common/Bot Maker For Discord")) {
-      dbPath = botData.prjSrc + `/` + dbPath;
-      var fullPath = dbPath.replace(/\\/g, "/");
-    } else {
-      var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, "/");
-    }
-
-    const dirPath = fullPath.split("/").slice(0, -1).join("/");
-
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true });
-    }
-
-    if (!fs.existsSync(fullPath)) {
-      fs.writeFileSync(fullPath, "{}", "utf8");
-    }
-
-    if (values.deleteJson) {
-      fs.writeFileSync(fullPath, "{}", "utf8");
-    }
-
-    let data = {};
-    let matchesCriteria = false;
-
-    if (fs.existsSync(fullPath)) {
-      try {
-        const rawData = fs.readFileSync(fullPath, "utf8");
-        data = JSON.parse(rawData);
-
-        const path = bridge.transf(values.Path);
-        const pathParts = path.split(".");
-        let variable = data;
-
-        for (const part of pathParts) {
-          if (
-            /\[\d+\]$/.test(part) ||
-            part.endsWith("[N]") ||
-            part.endsWith("[^]")
-          ) {
-            const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-            if (!arrayKeyMatch) {
-              variable = undefined;
-              break;
-            }
-
-            const arrayKey = arrayKeyMatch[1];
-            const indexOrSymbol = arrayKeyMatch[2];
-
-            if (!Array.isArray(variable[arrayKey])) {
-              variable = undefined;
-              break;
-            }
-
-            const array = variable[arrayKey];
-
-            if (indexOrSymbol === "N" || indexOrSymbol === "^") {
-              variable = array[array.length - 1];
-            } else {
-              const index = parseInt(indexOrSymbol, 10);
-              if (isNaN(index) || index < 0 || index >= array.length) {
-                variable = undefined;
-                break;
-              }
-              variable = array[index];
-            }
-          } else {
-            if (!variable || typeof variable !== "object") {
-              variable = undefined;
-              break;
-            }
-            variable = variable[part];
-          }
-
-          if (variable === undefined) {
-            break;
-          }
-        }
-
-        let secondValue = bridge.transf(values.compareValue);
-
-        switch (values.comparator) {
-          case "Equals":
-            if (`${variable}` == `${secondValue}`) {
-              matchesCriteria = true;
-            }
-            break;
-          case "Doesn't Equal":
-            if (variable != secondValue) {
-              matchesCriteria = true;
-            }
-            break;
-          case "Exists":
-            matchesCriteria = variable != null && variable !== undefined;
-            break;
-          case "Equals Exactly":
-            if (variable === secondValue) {
-              matchesCriteria = true;
-            }
-            break;
-          case "Greater Than":
-            if (Number(variable) > Number(secondValue)) {
-              matchesCriteria = true;
-            }
-            break;
-          case "Less Than":
-            if (Number(variable) < Number(secondValue)) {
-              matchesCriteria = true;
-            }
-            break;
-          case "Equal Or Greater Than":
-            if (Number(variable) >= Number(secondValue)) {
-              matchesCriteria = true;
-            }
-            break;
-          case "Equal Or Less Than":
-            if (Number(variable) <= Number(secondValue)) {
-              matchesCriteria = true;
-            }
-            break;
-          case "Is Number":
-            if (
-              typeof parseInt(variable) === "number" &&
-              !isNaN(parseInt(variable))
-            ) {
-              matchesCriteria = true;
-            }
-            break;
-          case "Matches Regex":
-            try {
-              matchesCriteria = Boolean(
-                variable?.toString().match(new RegExp(`^${secondValue}$`, "i"))
-              );
-            } catch (error) {
-              matchesCriteria = false;
-            }
-            break;
-          case "Exactly includes":
-            if (typeof variable?.toString().includes === "function") {
-              matchesCriteria = variable.toString().includes(secondValue);
-            }
-            break;
-        }
-      } catch (error) {
-        console.error("Ошибка при чтении или обработке данных:", error);
+      let fs = bridge.fs;
+      
+      if (!values.database) {
+          console.error(
+              "Error: The path to the database (Database) is not defined."
+          );
+          return;
       }
-    }
-
-    if (matchesCriteria) {
-      bridge.call(values.true, values.trueActions);
-    } else {
-      bridge.call(values.false, values.falseActions);
-    }
+      
+      const botData = require("../data.json");
+      let dbPath = bridge.transf(values.database);
+      const currentDir = process.cwd().replace(/\\/g, "/");
+      
+      if (currentDir.includes("common/Bot Maker For Discord")) {
+          dbPath = botData.prjSrc + `/` + dbPath;
+          var fullPath = dbPath.replace(/\\/g, "/");
+      } else {
+          var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, "/");
+      }
+      
+      const dirPath = fullPath.split("/").slice(0, -1).join("/");
+      
+      if (!fs.existsSync(dirPath)) {
+          fs.mkdirSync(dirPath, {
+              recursive: true
+          });
+      }
+      
+      if (!fs.existsSync(fullPath)) {
+          fs.writeFileSync(fullPath, "{}", "utf8");
+      }
+      
+      if (values.deleteJson) {
+          fs.writeFileSync(fullPath, "{}", "utf8");
+      }
+      
+      let data = {};
+      let matchesCriteria = false;
+      
+      const isObjectLike = (v) => v !== null && typeof v === "object";
+      const parsePathNested = (path) =>
+          path.split(".").map((seg) => {
+              const key = seg.match(/^[^\[]+/)?.[0] ?? "";
+              const ops = [];
+              const re = /\[([^\]]+)\]/g;
+              let m;
+              while ((m = re.exec(seg))) ops.push(m[1]);
+              return {
+                  key,
+                  ops
+              };
+          });
+      
+      const selectFromArrayByToken = (arr, token) => {
+          if (!Array.isArray(arr)) return [];
+          if (token === "N" || token === "^") {
+              if (arr.length === 0) return [];
+              return [arr.length - 1];
+          }
+          if (token.startsWith("R")) {
+              if (arr.length === 0) return [];
+              let n = 1;
+              const m = token.match(/^R(?::(\d+))?$/);
+              if (m && m[1]) n = Math.max(1, parseInt(m[1], 10));
+              const need = Math.min(n, arr.length);
+              const idxs = new Set();
+              while (idxs.size < need) idxs.add(Math.floor(Math.random() * arr.length));
+              return Array.from(idxs);
+          }
+          const idx = parseInt(token, 10);
+          if (Number.isNaN(idx) || idx < 0 || idx >= arr.length) return [];
+          return [idx];
+      };
+      
+      const traverseForRead = (root, rawPath) => {
+          const segments = parsePathNested(rawPath);
+          let nodes = [root];
+          
+          for (const seg of segments) {
+              if (seg.key) {
+                  const next = [];
+                  for (const n of nodes) {
+                      if (isObjectLike(n) && seg.key in n) next.push(n[seg.key]);
+                  }
+                  nodes = next;
+                  if (nodes.length === 0) return [];
+              }
+              
+              for (const op of seg.ops) {
+                  const next = [];
+                  for (const n of nodes) {
+                      if (!Array.isArray(n)) continue;
+                      const idxs = selectFromArrayByToken(n, op);
+                      for (const i of idxs) next.push(n[i]);
+                  }
+                  nodes = next;
+                  if (nodes.length === 0) return [];
+              }
+          }
+          
+          return nodes;
+      };
+      
+      if (fs.existsSync(fullPath)) {
+          try {
+              const rawData = fs.readFileSync(fullPath, "utf8");
+              data = JSON.parse(rawData);
+              
+              const path = bridge.transf(values.Path);
+              const endNodes = traverseForRead(data, path);
+              
+              let variable;
+              if (endNodes.length === 0) variable = undefined;
+              else if (endNodes.length === 1) variable = endNodes[0];
+              else variable = endNodes;
+              
+              let secondValue = bridge.transf(values.compareValue);
+              
+              const asArray = (v) => (Array.isArray(v) ? v : v === undefined ? [] : [v]);
+              
+              const cmp = values.comparator;
+              const vals = asArray(variable);
+              
+              const someStr = (pred) =>
+                  vals.some((v) => pred(v, typeof v?.toString === "function" ? v.toString() : String(v)));
+              const everyStr = (pred) =>
+                  vals.length === 0 ?
+                  pred(undefined, "undefined") :
+                  vals.every((v) => pred(v, typeof v?.toString === "function" ? v.toString() : String(v)));
+              
+              switch (cmp) {
+                  case "Equals":
+                      matchesCriteria = someStr((v) => `${v}` == `${secondValue}`);
+                      break;
+                  case "Doesn't Equal":
+                      matchesCriteria = everyStr((v) => v != secondValue);
+                      break;
+                  case "Exists":
+                      matchesCriteria = vals.some((v) => v !== null && v !== undefined);
+                      break;
+                  case "Equals Exactly":
+                      matchesCriteria = vals.some((v) => v === secondValue);
+                      break;
+                  case "Greater Than":
+                      matchesCriteria = vals.some((v) => Number(v) > Number(secondValue));
+                      break;
+                  case "Less Than":
+                      matchesCriteria = vals.some((v) => Number(v) < Number(secondValue));
+                      break;
+                  case "Equal Or Greater Than":
+                      matchesCriteria = vals.some((v) => Number(v) >= Number(secondValue));
+                      break;
+                  case "Equal Or Less Than":
+                      matchesCriteria = vals.some((v) => Number(v) <= Number(secondValue));
+                      break;
+                  case "Is Number":
+                      matchesCriteria = vals.some((v) => {
+                          const n = Number(v);
+                          return typeof n === "number" && !Number.isNaN(n);
+                      });
+                      break;
+                  case "Matches Regex":
+                      try {
+                          const re = new RegExp(`^${secondValue}$`, "i");
+                          matchesCriteria = vals.some((v) => re.test(String(v)));
+                      } catch {
+                          matchesCriteria = false;
+                      }
+                      break;
+                  case "Exactly includes":
+                      matchesCriteria = vals.some((v) =>
+                          String(v).includes(typeof secondValue === "string" ? secondValue : String(secondValue))
+                      );
+                      break;
+                  default:
+                      matchesCriteria = false;
+              }
+          } catch (error) {
+            bridge.call(values.false, values.falseActions);
+          }
+      }
+      
+      if (matchesCriteria) {
+          bridge.call(values.true, values.trueActions);
+      } else {
+          bridge.call(values.false, values.falseActions);
+      }
   },
 };

@@ -438,254 +438,329 @@ module.exports = {
       },
 
   run(values, message, client, bridge) {
-    let fs = bridge.fs;
-
-    if (!values.database) {
-      console.error(
-        "Error: The path to the database (Database) is not defined."
-      );
-      return;
-    }
-
-    const botData = require("../data.json");
-    let dbPath = bridge.transf(values.database);
-    const currentDir = process.cwd().replace(/\\/g, "/");
-
-    if (currentDir.includes("common/Bot Maker For Discord")) {
-      dbPath = botData.prjSrc + `/` + dbPath;
-      var fullPath = dbPath.replace(/\\/g, "/");
-    } else {
-      var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, "/");
-    }
-
-    const dirPath = fullPath.split("/").slice(0, -1).join("/");
-
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true });
-    }
-
-    if (!fs.existsSync(fullPath)) {
-      fs.writeFileSync(fullPath, "{}", "utf8");
-    }
-
-    if (values.deleteJson) {
-      fs.writeFileSync(fullPath, "{}", "utf8");
-    }
-
-    let data = fs.readFileSync(fullPath, "utf8");
-    let jsonObject = JSON.parse(data);
-    let dataList = [];
-
-    const nameidobject = bridge.transf(values.id);
-
-    const additionalFields = [];
-    if (Array.isArray(values.cases1)) {
-      for (const dataCase of values.cases1) {
-        const name = bridge.transf(dataCase.data.name);
-        const compile = dataCase.data.compile;
-
-        additionalFields.push({ name, compile });
+      let fs = bridge.fs;
+      
+      if (!values.database) {
+          console.error(
+              "Error: The path to the database (Database) is not defined."
+          );
+          return;
       }
-    }
-
-    const path = values.path ? bridge.transf(values.path) : null;
-
-    if (path) {
-      const pathParts = path.split(".");
-      let current = jsonObject;
-
-      for (let i = 0; i < pathParts.length; i++) {
-        const part = pathParts[i];
-
-        if (
-          /\[\d+\]$/.test(part) ||
-          part.endsWith("[N]") ||
-          part.endsWith("[^]")
-        ) {
-          const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-          if (!arrayKeyMatch) {
-            current = undefined;
-            break;
-          }
-          const arrayKey = arrayKeyMatch[1];
-          const indexOrSymbol = arrayKeyMatch[2];
-          if (!Array.isArray(current[arrayKey])) {
-            current = undefined;
-            break;
-          }
-          const array = current[arrayKey];
-          if (indexOrSymbol === "N" || indexOrSymbol === "^") {
-            current = array[array.length - 1];
-          } else {
-            const index = parseInt(indexOrSymbol, 10);
-            if (isNaN(index) || index < 0 || index >= array.length) {
-              current = undefined;
-              break;
-            }
-            current = array[index];
-          }
-        } else {
-          if (!current || typeof current !== "object") {
-            current = undefined;
-            break;
-          }
-          current = current[part];
-        }
-
-        if (current === undefined) {
-          break;
-        }
+      
+      const botData = require("../data.json");
+      let dbPath = bridge.transf(values.database);
+      const currentDir = process.cwd().replace(/\\/g, "/");
+      
+      if (currentDir.includes("common/Bot Maker For Discord")) {
+          dbPath = botData.prjSrc + `/` + dbPath;
+          var fullPath = dbPath.replace(/\\/g, "/");
+      } else {
+          var fullPath = `${currentDir}/${dbPath}`.replace(/\\/g, "/");
       }
-
-      if (current && Array.isArray(current)) {
-        current.forEach((item, index) => {
-          const entry = { [nameidobject]: item[nameidobject] || index };
-
-          const mainValue = item[bridge.transf(values.dataName)];
-          if (mainValue !== undefined) {
-            entry[bridge.transf(values.dataName)] = mainValue;
-          }
-
-          additionalFields.forEach(({ name, compile }) => {
-            const fieldValue = item[name];
-            if (fieldValue !== undefined) {
-              entry[name] = fieldValue;
-
-              if (compile) {
-                entry.SortValue = fieldValue;
-              }
-            }
+      
+      const dirPath = fullPath.split("/").slice(0, -1).join("/");
+      
+      if (!fs.existsSync(dirPath)) {
+          fs.mkdirSync(dirPath, {
+              recursive: true
           });
-
-          dataList.push(entry);
-        });
-      } else if (current && typeof current === "object") {
-        for (let key in current) {
-          const item = current[key];
-          const entry = { [nameidobject]: item[nameidobject] || key };
-
-          const mainValue = item[bridge.transf(values.dataName)];
-          if (mainValue !== undefined) {
-            entry[bridge.transf(values.dataName)] = mainValue;
-          }
-
-          additionalFields.forEach(({ name, compile }) => {
-            const fieldValue = item[name];
-            if (fieldValue !== undefined) {
-              entry[name] = fieldValue;
-
-              if (compile) {
-                entry.SortValue = fieldValue;
-              }
-            }
+      }
+      
+      if (!fs.existsSync(fullPath)) {
+          fs.writeFileSync(fullPath, "{}", "utf8");
+      }
+      
+      if (values.deleteJson) {
+          fs.writeFileSync(fullPath, "{}", "utf8");
+      }
+      
+      let data = fs.readFileSync(fullPath, "utf8");
+      let jsonObject = JSON.parse(data);
+      
+      const isObj = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+      
+      const parsePathNested = (path) =>
+          path.split(".").map((seg) => {
+              const key = seg.match(/^[^\[]+/)?.[0] ?? "";
+              const ops = [];
+              const re = /\[([^\]]+)\]/g;
+              let m;
+              while ((m = re.exec(seg))) ops.push(m[1]);
+              return {
+                  key,
+                  ops
+              };
           });
-
-          dataList.push(entry);
-        }
-      }
-    } else {
-      for (let key in jsonObject) {
-        const item = jsonObject[key];
-        const entry = { [nameidobject]: item[nameidobject] || key };
-
-        const mainValue = item[bridge.transf(values.dataName)];
-        if (mainValue !== undefined) {
-          entry[bridge.transf(values.dataName)] = mainValue;
-        }
-
-        additionalFields.forEach(({ name, compile }) => {
-          const fieldValue = item[name];
-          if (fieldValue !== undefined) {
-            entry[name] = fieldValue;
-
-            if (compile) {
-              entry.SortValue = fieldValue;
-            }
+      
+      const selectFromArrayByToken = (arr, token) => {
+          if (!Array.isArray(arr)) return [];
+          if (token === "N" || token === "^") {
+              if (arr.length === 0) return [];
+              return [arr.length - 1];
           }
-        });
-
-        dataList.push(entry);
-      }
-    }
-
-    if (dataList.length === 0) return;
-
-    dataList.sort((a, b) => {
-      const aValue =
-        a.SortValue !== undefined
-          ? parseInt(a.SortValue, 10)
-          : parseInt(a[bridge.transf(values.dataName)], 10);
-      const bValue =
-        b.SortValue !== undefined
-          ? parseInt(b.SortValue, 10)
-          : parseInt(b[bridge.transf(values.dataName)], 10);
-      return values.sortOrder === "Ascending"
-        ? aValue - bValue
-        : bValue - aValue;
-    });
-
-    let filteredDataList;
-    const resultType = values.resultType.toLowerCase();
-    switch (resultType) {
-      case "top n results":
-        const topN = Number(bridge.transf(values.rangeStart));
-        if (topN > 0) filteredDataList = dataList.slice(0, topN);
-        break;
-      case "bottom n results":
-        const bottomN = Number(bridge.transf(values.rangeEnd));
-        if (bottomN > 0) filteredDataList = dataList.slice(-bottomN);
-        break;
-      case "range":
-        const rangeStart = Number(bridge.transf(values.rangeStart));
-        const rangeEnd = Number(bridge.transf(values.rangeEnd));
-        filteredDataList = dataList.slice(rangeStart, rangeEnd);
-        break;
-      case "all results":
-        filteredDataList = dataList;
-        break;
-    }
-
-    if (filteredDataList) {
-      const formatType = values.formatType.toLowerCase();
-      switch (formatType) {
-        case "the created array is top":
-          bridge.store(values.store, filteredDataList);
-          break;
-
-        case "custom text as a list":
-          const formattedResult = filteredDataList
-            .map((item) => {
-              let resultString = values.resultFormat;
-
-              resultString = resultString.replace(
-                /\$\{([^}]+)\}/g,
-                (_, content) => {
-                  if (/[+\-*/]/.test(content)) {
-                    const replacedExpr = content.replace(
-                      /([а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z0-9\s]*)/g,
-                      (match) => {
-                        const key = match.trim();
-                        return Number(item[key] || 0);
-                      }
-                    );
-
-                    try {
-                      return new Function(`return (${replacedExpr})`)();
-                    } catch {
-                      return 0;
-                    }
-                  } else {
-                    return item[content.trim()] || "";
+          if (token.startsWith("R")) {
+              if (arr.length === 0) return [];
+              let n = 1;
+              const m = token.match(/^R(?::(\d+))?$/);
+              if (m && m[1]) n = Math.max(1, parseInt(m[1], 10));
+              const need = Math.min(n, arr.length);
+              const idxs = new Set();
+              while (idxs.size < need) idxs.add(Math.floor(Math.random() * arr.length));
+              return Array.from(idxs);
+          }
+          const idx = parseInt(token, 10);
+          if (Number.isNaN(idx) || idx < 0 || idx >= arr.length) return [];
+          return [idx];
+      };
+      
+      const traverseForRead = (root, rawPath) => {
+          if (!rawPath) return [root];
+          const segments = parsePathNested(rawPath);
+          let nodes = [root];
+          
+          for (const seg of segments) {
+              if (seg.key) {
+                  const next = [];
+                  for (const n of nodes) {
+                      if (isObj(n) && seg.key in n) next.push(n[seg.key]);
                   }
-                }
+                  nodes = next;
+                  if (nodes.length === 0) return [];
+              }
+              for (const op of seg.ops) {
+                  const next = [];
+                  for (const n of nodes) {
+                      if (!Array.isArray(n)) continue;
+                      const idxs = selectFromArrayByToken(n, op);
+                      for (const i of idxs) next.push(n[i]);
+                  }
+                  nodes = next;
+                  if (nodes.length === 0) return [];
+              }
+          }
+          return nodes;
+      };
+      
+      const getDeepValue = (obj, path) => {
+          if (!path) return undefined;
+          return path.split(".").reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : undefined), obj);
+      };
+      
+      const computeSortValue = (item, compile, fallback) => {
+          if (compile === true) return fallback;
+          
+          if (typeof compile === "string" && compile.trim()) {
+              const expr = compile.replace(
+                  /([A-Za-zА-Яа-яЁё_][\wА-Яа-яЁё_.]*)/g,
+                  (m) => {
+                      const val = getDeepValue(item, m);
+                      const num = Number(val);
+                      return Number.isFinite(num) ? String(num) : "0";
+                  }
               );
-
-              return resultString;
-            })
-            .join(",");
-          bridge.store(values.store, bridge.transf(formattedResult).split(","));
-          break;
+              try {
+                  return new Function(`return (${expr})`)();
+              } catch {
+                  return fallback;
+              }
+          }
+          
+          return fallback;
+      };
+      
+      const collator = new Intl.Collator(undefined, {
+          numeric: true,
+          sensitivity: "base"
+      });
+      const toSortKey = (v) => {
+          const n = Number(v);
+          if (Number.isFinite(n)) return n;
+          return v == null ? "" : String(v);
+      };
+      const compareKeys = (aKey, bKey, order) => {
+          const aNum = typeof aKey === "number" ? aKey : Number(aKey);
+          const bNum = typeof bKey === "number" ? bKey : Number(bKey);
+          const aIsNum = Number.isFinite(aNum);
+          const bIsNum = Number.isFinite(bNum);
+          
+          let cmp;
+          if (aIsNum && bIsNum) {
+              cmp = aNum - bNum;
+          } else {
+              cmp = collator.compare(String(aKey), String(bKey));
+          }
+          return order === "Ascending" ? cmp : -cmp;
+      };
+      
+      const nameidobject = bridge.transf(values.id);
+      
+      const additionalFields = [];
+      if (Array.isArray(values.cases1)) {
+          for (const dataCase of values.cases1) {
+              const name = bridge.transf(dataCase.data.name);
+              const compile = dataCase.data.compile;
+              additionalFields.push({
+                  name,
+                  compile
+              });
+          }
       }
-    }
+      
+      const path = values.path ? bridge.transf(values.path) : null;
+      
+      let current;
+      if (path) {
+          const nodes = traverseForRead(jsonObject, path);
+          if (nodes.length <= 1) {
+              current = nodes[0];
+          } else {
+              const flat = [];
+              for (const n of nodes) {
+                  if (Array.isArray(n)) flat.push(...n);
+                  else if (isObj(n)) flat.push(...Object.values(n));
+                  else flat.push(n);
+              }
+              current = flat;
+          }
+      } else {
+          current = jsonObject;
+      }
+      
+      const dataList = [];
+      const mainKey = bridge.transf(values.dataName);
+      
+      const pushEntryFromItem = (item, fallbackId) => {
+          if (!isObj(item)) return;
+          const entry = {
+              [nameidobject]: item[nameidobject] ?? fallbackId
+          };
+          
+          const mainValue = item[mainKey];
+          if (mainValue !== undefined) entry[mainKey] = mainValue;
+          
+          let sortSet = false;
+          
+          for (const {
+                  name,
+                  compile
+              }
+              of additionalFields) {
+              const fieldValue = item[name];
+              if (fieldValue !== undefined) {
+                  entry[name] = fieldValue;
+                  
+                  if (!sortSet && (compile === true || (typeof compile === "string" && compile.trim()))) {
+                      const sv = computeSortValue(item, compile, fieldValue);
+                      entry.SortValue = sv;
+                      sortSet = true;
+                  }
+              }
+          }
+          
+          dataList.push(entry);
+      };
+      
+      if (Array.isArray(current)) {
+          current.forEach((item, index) => pushEntryFromItem(item, index));
+      } else if (isObj(current)) {
+          for (const key in current) {
+              pushEntryFromItem(current[key], key);
+          }
+      }
+      
+      if (dataList.length === 0) return;
+      
+      const sortOrder = values.sortOrder === "Ascending" ? "Ascending" : "Descending";
+      const decorated = dataList.map((e, i) => {
+          const base = e.SortValue !== undefined ? e.SortValue : e[mainKey];
+          const key = toSortKey(base);
+          return {
+              e,
+              i,
+              key
+          };
+      });
+      decorated.sort((A, B) => {
+          const r = compareKeys(A.key, B.key, sortOrder);
+          if (r !== 0) return r;
+          const idA = String(A.e[nameidobject] ?? "");
+          const idB = String(B.e[nameidobject] ?? "");
+          const r2 = collator.compare(idA, idB);
+          if (r2 !== 0) return r2;
+          return A.i - B.i;
+      });
+      const sorted = decorated.map(d => d.e);
+      
+      let filteredDataList;
+      const resultType = String(values.resultType || "").toLowerCase();
+      switch (resultType) {
+          case "top n results": {
+              const topN = Number(bridge.transf(values.rangeStart));
+              if (topN > 0) filteredDataList = sorted.slice(0, topN);
+              break;
+          }
+          case "bottom n results": {
+              const bottomN = Number(bridge.transf(values.rangeEnd));
+              if (bottomN > 0) filteredDataList = sorted.slice(-bottomN);
+              break;
+          }
+          case "range": {
+              const rangeStart = Number(bridge.transf(values.rangeStart));
+              const rangeEnd = Number(bridge.transf(values.rangeEnd));
+              filteredDataList = sorted.slice(
+                  Number.isFinite(rangeStart) ? rangeStart : 0,
+                  Number.isFinite(rangeEnd) ? rangeEnd : undefined
+              );
+              break;
+          }
+          case "all results":
+          default:
+              filteredDataList = sorted;
+              break;
+      }
+      
+      if (filteredDataList) {
+          const formatType = String(values.formatType || "").toLowerCase();
+          switch (formatType) {
+              case "the created array is top":
+                  bridge.store(values.store, filteredDataList);
+                  break;
+                  
+              case "custom text as a list": {
+                  const formattedResult = filteredDataList
+                      .map((item) => {
+                          let resultString = values.resultFormat;
+                          
+                          resultString = resultString.replace(/\$\{([^}]+)\}/g, (_, content) => {
+                              const expr = content.trim();
+                              if (/[+\-*/()%]/.test(expr)) {
+                                  const replaced = expr.replace(
+                                      /([A-Za-zА-Яа-яЁё_][\wА-Яа-яЁё_.]*)/g,
+                                      (m) => {
+                                          const v = getDeepValue(item, m);
+                                          const n = Number(v);
+                                          return Number.isFinite(n) ? String(n) : "0";
+                                      }
+                                  );
+                                  try {
+                                      return new Function(`return (${replaced})`)();
+                                  } catch {
+                                      return "";
+                                  }
+                              } else {
+                                  const v = getDeepValue(item, expr);
+                                  return v != null ? String(v) : "";
+                              }
+                          });
+                          
+                          return resultString;
+                      })
+                      .join(",");
+                  
+                  bridge.store(values.store, bridge.transf(formattedResult).split(","));
+                  break;
+              }
+          }
+      } 
   },
 };

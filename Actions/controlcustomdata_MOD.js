@@ -1,4 +1,4 @@
-modVersion = "v2.3.1";
+modVersion = "v2.4.0";
 
 module.exports = {
   data: {
@@ -1289,6 +1289,42 @@ module.exports = {
       }
       
       if (Array.isArray(values.cases)) {
+          const isObj = (v) => typeof v === "object" && v !== null && !Array.isArray(v);
+          
+          const ensureObjectProp = (host, key) => {
+              if (!isObj(host[key])) host[key] = {};
+              return host[key];
+          };
+          
+          const ensureArrayProp = (host, key) => {
+              if (!Array.isArray(host[key])) host[key] = [];
+              return host[key];
+          };
+          
+          const ensureArrayElem = (arr, idx, desiredType) => {
+              while (arr.length <= idx) arr.push(desiredType === "array" ? [] : {});
+              const cur = arr[idx];
+              if (desiredType === "array") {
+                  if (!Array.isArray(cur)) arr[idx] = [];
+              } else {
+                  if (!isObj(cur)) arr[idx] = {};
+              }
+              return arr[idx];
+          };
+          
+          const parsePath = (path) =>
+              path.split(".").map((seg) => {
+                  const key = seg.match(/^[^\[]+/)?.[0] ?? "";
+                  const ops = [];
+                  const re = /\[([^\]]+)\]/g;
+                  let m;
+                  while ((m = re.exec(seg))) ops.push(m[1]);
+                  return {
+                      key,
+                      ops
+                  };
+              });
+          
           for (const dataCase of values.cases) {
               if (dataCase.type !== "data") continue;
               
@@ -1301,133 +1337,142 @@ module.exports = {
                   matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
               }
               
-              if (matchesCriteria) {
-                  const rawPath = bridge.transf(dataCase.data.path);
-                  const value = bridge.transf(dataCase.data.value);
+              if (!matchesCriteria) continue;
+              
+              const rawPath = bridge.transf(dataCase.data.path);
+              const value = bridge.transf(dataCase.data.value);
+              
+              let oldValue = undefined;
+              
+              const segments = parsePath(rawPath);
+              let current = data;
+              
+              for (let i = 0; i < segments.length - 1; i++) {
+                  const seg = segments[i];
+                  if (!seg.key && seg.ops.length === 0) continue;
                   
-                  let oldValue = undefined;
-                  
-                  const pathParts = rawPath.split(".");
-                  let current = data;
-                  
-                  for (let i = 0; i < pathParts.length - 1; i++) {
-                      let part = pathParts[i];
-                      const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+                  if (seg.ops.length === 0) {
+                      current = ensureObjectProp(current, seg.key);
+                  } else {
+                      let arr = ensureArrayProp(current, seg.key);
                       
-                      if (arrayMatch) {
-                          const [_, arrayKey, indexOrSymbol] = arrayMatch;
-                          if (!Array.isArray(current[arrayKey])) {
-                              current[arrayKey] = [];
-                          }
-                          let array = current[arrayKey];
+                      for (let k = 0; k < seg.ops.length; k++) {
+                          const op = seg.ops[k];
+                          const hasNextOp = k < seg.ops.length - 1;
+                          const desiredType = hasNextOp ? "array" : "object";
                           
-                          if (indexOrSymbol === "N") {
-                              const nextPart = pathParts[i + 1];
-                              if (nextPart) {
-                                  array.push({});
-                                  current = array[array.length - 1];
+                          if (op === "N") {
+                              arr.push(desiredType === "array" ? [] : {});
+                              const elem = arr[arr.length - 1];
+                              if (desiredType === "array") {
+                                  arr = elem;
                               } else {
-                                  array.push(value);
+                                  current = elem;
                               }
-                              continue;
-                          } else if (indexOrSymbol === "^") {
-                              if (array.length === 0) {
-                                  array.push({});
+                          } else if (op === "^") {
+                              if (arr.length === 0) arr.push(desiredType === "array" ? [] : {});
+                              const elem = arr[arr.length - 1];
+                              if (desiredType === "array") {
+                                  if (!Array.isArray(elem)) arr[arr.length - 1] = [];
+                                  arr = arr[arr.length - 1];
+                              } else {
+                                  if (!isObj(elem)) arr[arr.length - 1] = {};
+                                  current = arr[arr.length - 1];
                               }
-                              current = array[array.length - 1];
-                              continue;
                           } else {
-                              const index = parseInt(indexOrSymbol, 10);
-                              if (isNaN(index)) continue;
-                              while (array.length <= index) {
-                                  array.push(null);
+                              const idx = parseInt(op, 10);
+                              if (isNaN(idx)) continue;
+                              const elem = ensureArrayElem(arr, idx, desiredType);
+                              if (desiredType === "array") {
+                                  arr = elem;
+                              } else {
+                                  current = elem;
                               }
-                              if (typeof array[index] !== "object" || array[index] === null) {
-                                  array[index] = {};
-                              }
-                              current = array[index];
                           }
-                      } else {
-                          if (typeof current[part] !== "object" || current[part] === null) {
-                              current[part] = {};
-                          }
-                          current = current[part];
                       }
                   }
+              }
+              
+              const last = segments[segments.length - 1];
+              
+              if (last.ops.length === 0) {
+                  oldValue = current[last.key];
+                  if (isObj(value)) {
+                      current[last.key] = {
+                          ...(isObj(current[last.key]) ? current[last.key] : {}),
+                          ...value
+                      };
+                  } else {
+                      current[last.key] = value;
+                  }
+              } else {
+                  let arr = ensureArrayProp(current, last.key);
                   
-                  const lastPart = pathParts[pathParts.length - 1];
-                  const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
-                  
-                  if (lastPartMatch) {
-                      const [_, arrayKey, indexOrSymbol] = lastPartMatch;
-                      if (!Array.isArray(current[arrayKey])) {
-                          current[arrayKey] = [];
-                      }
-                      const array = current[arrayKey];
+                  for (let k = 0; k < last.ops.length - 1; k++) {
+                      const op = last.ops[k];
+                      const desiredType = "array";
                       
-                      if (indexOrSymbol === "N") {
-                          oldValue = undefined;
-                          array.push(value);
-                      } else if (indexOrSymbol === "^") {
-                          oldValue = array.length > 0 ? array[array.length - 1] : undefined;
-                          if (array.length === 0) {
-                              array.push(typeof value === "object" ? {
-                                  ...value
-                              } : value);
-                          } else {
-                              if (typeof array[array.length - 1] !== "object") {
-                                  array[array.length - 1] = {};
-                              }
-                              array[array.length - 1] = {
-                                  ...array[array.length - 1],
-                                  ...(typeof value === "object" ? value : {}),
-                              };
-                          }
+                      if (op === "N") {
+                          arr.push([]);
+                          arr = arr[arr.length - 1];
+                      } else if (op === "^") {
+                          if (arr.length === 0) arr.push([]);
+                          if (!Array.isArray(arr[arr.length - 1])) arr[arr.length - 1] = [];
+                          arr = arr[arr.length - 1];
                       } else {
-                          const index = parseInt(indexOrSymbol, 10);
-                          if (isNaN(index)) continue;
-                          while (array.length <= index) {
-                              array.push(null);
-                          }
-                          oldValue = array[index];
-                          if (typeof value === "object" && value !== null) {
-                              if (typeof array[index] !== "object" || array[index] === null) {
-                                  array[index] = {};
-                              }
-                              array[index] = {
-                                  ...array[index],
-                                  ...value
-                              };
-                          } else {
-                              array[index] = value;
-                          }
+                          const idx = parseInt(op, 10);
+                          if (isNaN(idx)) continue;
+                          const elem = ensureArrayElem(arr, idx, "array");
+                          arr = elem;
                       }
-                  } else {
-                      oldValue = current[lastPart];
-                      if (typeof value === "object" && value !== null) {
-                          current[lastPart] = {
-                              ...(current[lastPart] || {}),
+                  }
+                  
+                  const finalOp = last.ops[last.ops.length - 1];
+                  
+                  if (finalOp === "N") {
+                      oldValue = undefined;
+                      arr.push(value);
+                  } else if (finalOp === "^") {
+                      oldValue = arr.length > 0 ? arr[arr.length - 1] : undefined;
+                      if (arr.length === 0) {
+                          arr.push(isObj(value) ? {
                               ...value
-                          };
+                          } : value);
                       } else {
-                          current[lastPart] = value;
+                          if (!isObj(arr[arr.length - 1])) arr[arr.length - 1] = {};
+                          arr[arr.length - 1] = {
+                              ...arr[arr.length - 1],
+                              ...(isObj(value) ? value : {}),
+                          };
+                      }
+                  } else {
+                      const idx = parseInt(finalOp, 10);
+                      if (!isNaN(idx)) {
+                          while (arr.length <= idx) arr.push(null);
+                          oldValue = arr[idx];
+                          if (isObj(value)) {
+                              if (!isObj(arr[idx])) arr[idx] = {};
+                              arr[idx] = {
+                                  ...arr[idx],
+                                  ...value
+                              };
+                          } else {
+                              arr[idx] = value;
+                          }
                       }
                   }
-                  
-                  
-                  let changeType;
-                  if (oldValue === undefined || oldValue === null) {
-                      changeType = "set";
-                  } else {
-                      changeType = "update";
-                  }
-                  
-                  if (typeof client?.emitDataChange === "function") {
-                      client.emitDataChange(rawPath, value, oldValue, changeType);
-                  }
+              }
+              
+              let changeType;
+              if (oldValue === undefined || oldValue === null) changeType = "set";
+              else changeType = "update";
+              
+              if (typeof client?.emitDataChange === "function") {
+                  client.emitDataChange(rawPath, value, oldValue, changeType);
               }
           }
       }
+      
       
       if (Array.isArray(values.cases4)) {
           for (const dataCase of values.cases4) {
@@ -1558,6 +1603,142 @@ module.exports = {
       }
       
       if (Array.isArray(values.cases3)) {
+          const isObj = (v) => typeof v === "object" && v !== null && !Array.isArray(v);
+          
+          const parsePath = (path) =>
+              path.split(".").map((seg) => {
+                  const key = seg.match(/^[^\[]+/)?.[0] ?? "";
+                  const ops = [];
+                  const re = /\[([^\]]+)\]/g;
+                  let m;
+                  while ((m = re.exec(seg))) ops.push(m[1]);
+                  return {
+                      key,
+                      ops
+                  };
+              });
+          
+          const getValueFromPathNested = (root, pathStr) => {
+              const segments = parsePath(pathStr);
+              let current = root;
+              
+              for (let i = 0; i < segments.length - 1; i++) {
+                  const seg = segments[i];
+                  if (!seg.key) return {
+                      found: false
+                  };
+                  
+                  if (seg.ops.length === 0) {
+                      if (current && Object.prototype.hasOwnProperty.call(current, seg.key)) {
+                          current = current[seg.key];
+                      } else return {
+                          found: false
+                      };
+                  } else {
+                      if (!current || !Array.isArray(current[seg.key])) return {
+                          found: false
+                      };
+                      let arr = current[seg.key];
+                      
+                      for (let k = 0; k < seg.ops.length; k++) {
+                          const op = seg.ops[k];
+                          const hasNextOp = k < seg.ops.length - 1;
+                          
+                          let idx;
+                          if (op === "N" || op === "^") {
+                              if (arr.length === 0) return {
+                                  found: false
+                              };
+                              idx = arr.length - 1;
+                          } else {
+                              idx = parseInt(op, 10);
+                              if (isNaN(idx) || idx < 0 || idx >= arr.length) return {
+                                  found: false
+                              };
+                          }
+                          
+                          const elem = arr[idx];
+                          if (hasNextOp) {
+                              if (!Array.isArray(elem)) return {
+                                  found: false
+                              };
+                              arr = elem;
+                          } else {
+                              current = elem;
+                          }
+                      }
+                  }
+              }
+              
+              const last = segments[segments.length - 1];
+              if (!last.key) return {
+                  found: false
+              };
+              
+              if (last.ops.length === 0) {
+                  if (!current || !Object.prototype.hasOwnProperty.call(current, last.key)) {
+                      return {
+                          found: false
+                      };
+                  }
+                  return {
+                      found: true,
+                      value: current[last.key],
+                      parent: current,
+                      key: last.key
+                  };
+              } else {
+                  if (!current || !Array.isArray(current[last.key])) return {
+                      found: false
+                  };
+                  let arr = current[last.key];
+                  
+                  for (let k = 0; k < last.ops.length - 1; k++) {
+                      const op = last.ops[k];
+                      
+                      let idx;
+                      if (op === "N" || op === "^") {
+                          if (arr.length === 0) return {
+                              found: false
+                          };
+                          idx = arr.length - 1;
+                      } else {
+                          idx = parseInt(op, 10);
+                          if (isNaN(idx) || idx < 0 || idx >= arr.length) return {
+                              found: false
+                          };
+                      }
+                      
+                      const elem = arr[idx];
+                      if (!Array.isArray(elem)) return {
+                          found: false
+                      };
+                      arr = elem;
+                  }
+                  
+                  const finalOp = last.ops[last.ops.length - 1];
+                  let idx;
+                  if (finalOp === "N" || finalOp === "^") {
+                      if (arr.length === 0) return {
+                          found: false
+                      };
+                      idx = arr.length - 1;
+                  } else {
+                      idx = parseInt(finalOp, 10);
+                      if (isNaN(idx) || idx < 0 || idx >= arr.length) return {
+                          found: false
+                      };
+                  }
+                  
+                  return {
+                      found: true,
+                      value: arr[idx],
+                      parent: arr,
+                      key: idx
+                  };
+              }
+          };
+          
           for (const dataCase of values.cases3) {
               if (dataCase.type !== "data") continue;
               
@@ -1567,168 +1748,132 @@ module.exports = {
               if (comparison) {
                   const variable = bridge.get(comparison.data.variable);
                   const secondValue = bridge.transf(comparison.data.compareValue);
-                  matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
+                  matchesCriteria = matchesComparator(
+                      variable,
+                      comparison.data.comparator,
+                      secondValue
+                  );
               }
-              
               if (!matchesCriteria) continue;
               
               const path = bridge.transf(dataCase.data.path);
               const pathtransfer = bridge.transf(dataCase.data.pathtransfer);
               const shouldDelete = Boolean(dataCase.data.deletedata);
               
-              const getValueFromPath = (obj, pathStr) => {
-                  const parts = pathStr.split(".");
-                  let current = obj;
-                  
-                  for (let i = 0; i < parts.length; i++) {
-                      const part = parts[i];
-                      const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-                      
-                      if (arrayMatch) {
-                          const key = arrayMatch[1];
-                          const indexStr = arrayMatch[2];
-                          
-                          if (!current[key] || !Array.isArray(current[key])) {
-                              return {
-                                  found: false
-                              };
-                          }
-                          
-                          const arr = current[key];
-                          let index;
-                          
-                          if (indexStr === "N") index = arr.length - 1;
-                          else if (indexStr === "^") index = 0;
-                          else {
-                              index = parseInt(indexStr, 10);
-                              if (isNaN(index) || index < 0 || index >= arr.length) {
-                                  return {
-                                      found: false
-                                  };
-                              }
-                          }
-                          
-                          if (i === parts.length - 1) {
-                              return {
-                                  found: true,
-                                  value: arr[index],
-                                  parent: arr,
-                                  key: index
-                              };
-                          } else {
-                              if (index >= 0 && index < arr.length) {
-                                  current = arr[index];
-                              } else {
-                                  return {
-                                      found: false
-                                  };
-                              }
-                          }
-                      } else {
-                          if (!current.hasOwnProperty(part)) {
-                              return {
-                                  found: false
-                              };
-                          }
-                          if (i === parts.length - 1) {
-                              return {
-                                  found: true,
-                                  value: current[part],
-                                  parent: current,
-                                  key: part
-                              };
-                          }
-                          current = current[part];
-                      }
-                  }
-                  return {
-                      found: false
-                  };
-              };
-              
-              const sourceResult = getValueFromPath(data, path);
+              const sourceResult = getValueFromPathNested(data, path);
               if (!sourceResult.found) continue;
-              
               const {
                   value: transferredValue,
                   parent: srcParent,
                   key: srcKey
               } = sourceResult;
               
-              const transferParts = pathtransfer.split(".");
+              const targetSegs = parsePath(pathtransfer);
               let transferParent = data;
               
-              for (let i = 0; i < transferParts.length - 1; i++) {
-                  const part = transferParts[i];
-                  const arrayMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
+              for (let i = 0; i < targetSegs.length - 1; i++) {
+                  const seg = targetSegs[i];
+                  if (!seg.key) {
+                      transferParent = undefined;
+                      break;
+                  }
                   
-                  if (arrayMatch) {
-                      const arrayKey = arrayMatch[1];
-                      const indexStr = arrayMatch[2];
-                      
-                      if (!Array.isArray(transferParent[arrayKey])) {
-                          transferParent[arrayKey] = [];
-                      }
-                      const arr = transferParent[arrayKey];
-                      
-                      let index;
-                      if (indexStr === "N") {
-                          if (arr.length === 0) {
-                              arr[0] = {};
-                          }
-                          index = arr.length - 1;
-                      } else if (indexStr === "^") {
-                          if (arr.length === 0) {
-                              arr[0] = {};
-                          }
-                          index = 0;
-                      } else {
-                          index = parseInt(indexStr, 10);
-                          if (isNaN(index)) continue;
-                          
-                          while (arr.length <= index) {
-                              arr.push(undefined);
-                          }
-                          
-                          if (arr[index] === undefined || arr[index] === null || typeof arr[index] !== "object") {
-                              arr[index] = {};
-                          }
-                      }
-                      
-                      transferParent = arr[index];
+                  if (seg.ops.length === 0) {
+                      if (!isObj(transferParent[seg.key])) transferParent[seg.key] = {};
+                      transferParent = transferParent[seg.key];
                   } else {
-                      if (!transferParent[part] || typeof transferParent[part] !== "object" || transferParent[part] === null) {
-                          transferParent[part] = {};
+                      if (!Array.isArray(transferParent[seg.key])) transferParent[seg.key] = [];
+                      let arr = transferParent[seg.key];
+                      
+                      for (let k = 0; k < seg.ops.length; k++) {
+                          const op = seg.ops[k];
+                          const hasNextOp = k < seg.ops.length - 1;
+                          const desiredType = hasNextOp ? "array" : "object";
+                          
+                          let idx;
+                          if (op === "N") {
+                              arr.push(desiredType === "array" ? [] : {});
+                              idx = arr.length - 1;
+                          } else if (op === "^") {
+                              if (arr.length === 0) arr.push(desiredType === "array" ? [] : {});
+                              idx = arr.length - 1;
+                          } else {
+                              idx = parseInt(op, 10);
+                              if (isNaN(idx) || idx < 0) idx = 0;
+                              while (arr.length <= idx) arr.push(undefined);
+                              if (desiredType === "array") {
+                                  if (!Array.isArray(arr[idx])) arr[idx] = [];
+                              } else {
+                                  if (!isObj(arr[idx])) arr[idx] = {};
+                              }
+                          }
+                          
+                          if (desiredType === "array") {
+                              if (!Array.isArray(arr[idx])) arr[idx] = [];
+                              arr = arr[idx];
+                          } else {
+                              if (!isObj(arr[idx])) arr[idx] = {};
+                              transferParent = arr[idx];
+                          }
                       }
-                      transferParent = transferParent[part];
                   }
               }
               
-              const lastPart = transferParts[transferParts.length - 1];
-              const lastArrayMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+              if (!transferParent) continue;
               
-              if (lastArrayMatch) {
-                  const arrayKey = lastArrayMatch[1];
-                  const indexStr = lastArrayMatch[2];
+              const last = targetSegs[targetSegs.length - 1];
+              
+              if (last.ops.length === 0) {
+                  transferParent[last.key] = transferredValue;
+              } else {
+                  if (!Array.isArray(transferParent[last.key])) transferParent[last.key] = [];
+                  let arr = transferParent[last.key];
                   
-                  if (!Array.isArray(transferParent[arrayKey])) {
-                      transferParent[arrayKey] = [];
+                  for (let k = 0; k < last.ops.length - 1; k++) {
+                      const op = last.ops[k];
+                      let idx;
+                      
+                      if (op === "N") {
+                          arr.push([]);
+                          idx = arr.length - 1;
+                      } else if (op === "^") {
+                          if (arr.length === 0) arr.push([]);
+                          idx = arr.length - 1;
+                      } else {
+                          idx = parseInt(op, 10);
+                          if (isNaN(idx) || idx < 0) idx = 0;
+                          while (arr.length <= idx) arr.push([]);
+                      }
+                      
+                      if (!Array.isArray(arr[idx])) arr[idx] = [];
+                      arr = arr[idx];
                   }
-                  const arr = transferParent[arrayKey];
                   
-                  if (indexStr === "N") {
+                  const finalOp = last.ops[last.ops.length - 1];
+                  
+                  if (finalOp === "N") {
                       arr.push(transferredValue);
-                  } else if (indexStr === "^") {
-                      arr.unshift(transferredValue);
+                  } else if (finalOp === "^") {
+                      if (arr.length === 0) {
+                          arr.push(transferredValue);
+                      } else {
+                          const li = arr.length - 1;
+                          if (isObj(transferredValue)) {
+                              if (!isObj(arr[li])) arr[li] = {};
+                              arr[li] = {
+                                  ...arr[li],
+                                  ...transferredValue
+                              };
+                          } else {
+                          }
+                      }
                   } else {
-                      const index = parseInt(indexStr, 10);
-                      if (!isNaN(index)) {
-                          while (arr.length <= index) arr.push(undefined);
-                          arr[index] = transferredValue;
+                      const idx = parseInt(finalOp, 10);
+                      if (!isNaN(idx) && idx >= 0) {
+                          while (arr.length <= idx) arr.push(undefined);
+                          arr[idx] = transferredValue;
                       }
                   }
-              } else {
-                  transferParent[lastPart] = transferredValue;
               }
               
               let wasDeleted = false;
@@ -1754,112 +1899,156 @@ module.exports = {
           }
       }
       
+      
+      
       if (Array.isArray(values.cases1)) {
+          const parsePath = (path) =>
+              path.split(".").map((seg) => {
+                  const key = seg.match(/^[^\[]+/)?.[0] ?? "";
+                  const ops = [];
+                  const re = /\[([^\]]+)\]/g;
+                  let m;
+                  while ((m = re.exec(seg))) ops.push(m[1]);
+                  return {
+                      key,
+                      ops
+                  };
+              });
+          
           for (const dataCase of values.cases1) {
               if (dataCase.type !== "data") continue;
+              
               const comparison = dataCase.data.comparisonlist?.[0];
               let matchesCriteria = true;
-              
               if (comparison) {
                   const variable = bridge.get(comparison.data.variable);
                   const secondValue = bridge.transf(comparison.data.compareValue);
-                  matchesCriteria = matchesComparator(variable, comparison.data.comparator, secondValue);
+                  matchesCriteria = matchesComparator(
+                      variable,
+                      comparison.data.comparator,
+                      secondValue
+                  );
               }
-              if (matchesCriteria == true) {
-                  const path = bridge.transf(dataCase.data.path);
-                  const pathParts = path.split(".");
-                  let current = data;
+              if (matchesCriteria !== true) continue;
+              
+              const path = bridge.transf(dataCase.data.path);
+              const segments = parsePath(path);
+              
+              let current = data;
+              
+              for (let i = 0; i < segments.length - 1; i++) {
+                  const seg = segments[i];
                   
-                  for (let i = 0; i < pathParts.length - 1; i++) {
-                      const part = pathParts[i];
-                      
-                      if (
-                          /\[\d+\]$/.test(part) ||
-                          part.endsWith("[N]") ||
-                          part.endsWith("[^]")
-                      ) {
-                          const arrayKeyMatch = part.match(/^(.+)\[(\d+|N|\^)\]$/);
-                          if (!arrayKeyMatch) break;
-                          
-                          const arrayKey = arrayKeyMatch[1];
-                          const indexOrSymbol = arrayKeyMatch[2];
-                          
-                          if (!Array.isArray(current[arrayKey])) {
-                              current = undefined;
-                              break;
-                          }
-                          
-                          const array = current[arrayKey];
-                          let index;
-                          
-                          if (indexOrSymbol === "N") {
-                              index = array.length - 1;
-                          } else if (indexOrSymbol === "^") {
-                              index = 0;
-                          } else {
-                              index = parseInt(indexOrSymbol, 10);
-                              if (isNaN(index) || index >= array.length) {
-                                  current = undefined;
-                                  break;
-                              }
-                          }
-                          
-                          current = array[index];
+                  if (seg.ops.length === 0) {
+                      if (current && Object.prototype.hasOwnProperty.call(current, seg.key)) {
+                          current = current[seg.key];
                       } else {
-                          if (!current[part]) {
-                              current = undefined;
-                              break;
-                          }
-                          current = current[part];
+                          current = undefined;
+                          break;
                       }
-                  }
-                  
-                  if (!current) {
                       continue;
                   }
                   
-                  const lastPart = pathParts[pathParts.length - 1];
-                  const lastPartMatch = lastPart.match(/^(.+)\[(\d+|N|\^)\]$/);
+                  if (!current || !Array.isArray(current[seg.key])) {
+                      current = undefined;
+                      break;
+                  }
+                  let arr = current[seg.key];
                   
-                  let deletedValue = undefined;
-                  
-                  if (lastPartMatch) {
-                      const arrayKey = lastPartMatch[1];
-                      const indexOrSymbol = lastPartMatch[2];
+                  for (let k = 0; k < seg.ops.length; k++) {
+                      const op = seg.ops[k];
+                      const hasNextOp = k < seg.ops.length - 1;
                       
-                      if (!Array.isArray(current[arrayKey])) {
-                          continue;
+                      let idx;
+                      if (op === "N" || op === "^") {
+                          if (arr.length === 0) {
+                              current = undefined;
+                              break;
+                          }
+                          idx = arr.length - 1;
+                      } else {
+                          idx = parseInt(op, 10);
+                          if (isNaN(idx) || idx < 0 || idx >= arr.length) {
+                              current = undefined;
+                              break;
+                          }
                       }
                       
-                      const array = current[arrayKey];
-                      
-                      if (indexOrSymbol === "N" || indexOrSymbol === "^") {
-                          if (array.length > 0) {
-                              if (indexOrSymbol === "N") {
-                                  deletedValue = array[array.length - 1];
-                                  array.pop();
-                              } else {
-                                  deletedValue = array[0];
-                                  array.shift();
-                              }
+                      const elem = arr[idx];
+                      if (hasNextOp) {
+                          if (!Array.isArray(elem)) {
+                              current = undefined;
+                              break;
                           }
+                          arr = elem;
                       } else {
-                          const index = parseInt(indexOrSymbol, 10);
-                          if (!isNaN(index) && index < array.length) {
-                              deletedValue = array[index];
-                              array.splice(index, 1);
+                          current = elem;
+                      }
+                  }
+                  
+                  if (current === undefined) break;
+              }
+              
+              if (!current) continue;
+              
+              const last = segments[segments.length - 1];
+              let deletedValue = undefined;
+              
+              if (last.ops.length === 0) {
+                  if (Object.prototype.hasOwnProperty.call(current, last.key)) {
+                      deletedValue = current[last.key];
+                      delete current[last.key];
+                  }
+              } else {
+                  if (!Array.isArray(current[last.key])) continue;
+                  let arr = current[last.key];
+                  
+                  for (let k = 0; k < last.ops.length - 1; k++) {
+                      const op = last.ops[k];
+                      let idx;
+                      
+                      if (op === "N" || op === "^") {
+                          if (arr.length === 0) {
+                              arr = undefined;
+                              break;
                           }
+                          idx = arr.length - 1;
+                      } else {
+                          idx = parseInt(op, 10);
+                          if (isNaN(idx) || idx < 0 || idx >= arr.length) {
+                              arr = undefined;
+                              break;
+                          }
+                      }
+                      
+                      const elem = arr[idx];
+                      if (!Array.isArray(elem)) {
+                          arr = undefined;
+                          break;
+                      }
+                      arr = elem;
+                  }
+                  
+                  if (!arr) continue;
+                  
+                  const finalOp = last.ops[last.ops.length - 1];
+                  
+                  if (finalOp === "N" || finalOp === "^") {
+                      if (arr.length > 0) {
+                          deletedValue = arr[arr.length - 1];
+                          arr.pop();
                       }
                   } else {
-                      if (current.hasOwnProperty(lastPart)) {
-                          deletedValue = current[lastPart];
-                          delete current[lastPart];
+                      const idx = parseInt(finalOp, 10);
+                      if (!isNaN(idx) && idx >= 0 && idx < arr.length) {
+                          deletedValue = arr[idx];
+                          arr.splice(idx, 1);
                       }
                   }
-                  
-                  if (typeof client?.emitDataChange === "function" && deletedValue !== undefined) {
-                      client.emitDataChange(path, undefined, deletedValue, "delete");
-                  }
+              }
+              
+              if (typeof client?.emitDataChange === "function" && deletedValue !== undefined) {
+                  client.emitDataChange(path, undefined, deletedValue, "delete");
               }
           }
       }
