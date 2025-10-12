@@ -1794,6 +1794,14 @@
         "data.json": "16c4283c24011f6dd0ca4120afc85968",
         "main.js": "4941eaaea3330e8b85c0ef1895b8e544"
       }
+    },
+    "commandExIm": {
+      "name": "Command Export Import",
+      "author": "Acedia",
+      "files": {
+        "data.json": "3a0d36e215690110aab7037a0f49aad1",
+        "main.js": "957097a73ce0be15880c7574a681032d"
+      }
     }
   },
   "Events": {
