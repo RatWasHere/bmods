@@ -1,5 +1,3 @@
-modVersion = "v1.0.5";
-
 module.exports = {
   data: {
     name: "Play Music",
@@ -8,7 +6,7 @@ module.exports = {
   info: {
     source: "https://github.com/ratWasHere/bmods",
     creator: "TheMonDon",
-    donate: "https://cisn.xyz/donate",
+    donate: "https://cisn.xyz/Donate",
   },
   modules: [
     "discord-player",
@@ -61,11 +59,6 @@ module.exports = {
       storeActionsAs: "ifErrorActions",
       name: "If Error",
     },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
-    },
   ],
   subtitle: (data, constants) => {
     return `Play: ${data.query}`;
@@ -80,10 +73,10 @@ module.exports = {
         requestedBy: message.author?.id || message.user?.id,
         nodeOptions: {
           metadata: { channel: message.channel.id },
-          leaveOnEnd: !!bridge.transf(values.leaveOnEnd.value),
-          leaveOnEmpty: !!bridge.transf(values.leaveOnEmpty.value),
-          leaveOnStop: !!bridge.transf(values.leaveOnStop.value),
-          selfDeaf: !!bridge.transf(values.selfDeaf.value),
+          leaveOnEnd: values.leaveOnEnd,
+          leaveOnEmpty: values.leaveOnEmpty,
+          leaveOnStop: values.leaveOnStop,
+          selfDeaf: values.selfDeaf,
         },
       });
 
@@ -97,7 +90,7 @@ module.exports = {
   startup: async (bridge, client) => {
     // discord.js is required for discord-player, but it is not used as the client at all.
     try {
-      await client.getMods().require("discord.js", "14.17.3");
+      await client.getMods().require("discord.js", "14.22.0");
       const { Player, createOceanicCompat } = await client
         .getMods()
         .require("discord-player", "7.2.0-dev.2");
@@ -108,7 +101,7 @@ module.exports = {
       await client.getMods().require("bgutils-js");
       const { YoutubeiExtractor } = await client
         .getMods()
-        .require("discord-player-youtubei", "1.4.3");
+        .require("discord-player-youtubei", "latest");
 
       client.player = new Player(createOceanicCompat(client));
 

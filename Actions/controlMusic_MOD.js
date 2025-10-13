@@ -1,5 +1,3 @@
-modVersion = "v1.0.5";
-
 module.exports = {
   data: {
     name: "Control Music",
@@ -8,7 +6,7 @@ module.exports = {
   info: {
     source: "https://github.com/ratWasHere/bmods",
     creator: "TheMonDon",
-    donate: "https://cisn.xyz/donate",
+    donate: "https://cisn.xyz/Donate",
   },
   modules: ["discord-player"],
   UI: [
@@ -31,11 +29,6 @@ module.exports = {
           placeholder: "Song Number",
         },
       },
-    },
-    "-",
-    {
-      element: "text",
-      text: modVersion,
     },
   ],
   subtitle: (values, constants, thisAction) => {

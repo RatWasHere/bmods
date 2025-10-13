@@ -1,7 +1,7 @@
 const jsonData = require('../data.json');
 const commands = jsonData.commands;
 const txtCmdPrefix = jsonData.prefix;
-modVersion = "s.v1.0"
+modVersion = "v1.0.0"
 
 module.exports = {
   data: {

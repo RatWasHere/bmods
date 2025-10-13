@@ -7,6 +7,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "TheMonDon",
+    donate: "https://cisn.xyz/Donate",
   },
   UI: [
     {
@@ -166,7 +167,7 @@ module.exports = {
         bridge.store(values.store, buffer);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Canvas Draw Text Error:", error);
       });
   },
 };

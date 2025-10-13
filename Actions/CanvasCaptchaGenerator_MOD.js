@@ -166,7 +166,7 @@ module.exports = {
       bridge.store(values.canvas, buffer);
       bridge.store(values.value, text);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Canvas Captcha Generator Error:", error);
     }
   },
 };

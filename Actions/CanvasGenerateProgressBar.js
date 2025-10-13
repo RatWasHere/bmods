@@ -7,6 +7,7 @@ module.exports = {
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "TheMonDon",
+    donate: "https://cisn.xyz/Donate",
   },
   UI: [
     {
@@ -105,8 +106,7 @@ module.exports = {
       const buffer = canvas.toBuffer();
       bridge.store(values.store, buffer);
     } catch (error) {
-      console.error("Error:", error);
-      throw error;
+      console.error("Canvas Generate Progress Bar Error:", error);
     }
   },
 };

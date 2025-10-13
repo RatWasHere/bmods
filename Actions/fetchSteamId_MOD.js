@@ -1,4 +1,4 @@
-modVersion = "s.v1.0"
+modVersion = "v1.2.0"
 module.exports = {
   data: {
     name: "Fetch Steam Profile Info",
@@ -32,7 +32,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "profileSummary",
-      name: "Store Steam Profile Summary As",
+      name: "Store Steam Profile Summary As (JSON Object)",
     },
     {
       element: "text",
@@ -62,27 +62,52 @@ module.exports = {
     if (/^\d+$/.test(identifier) == true && identifier != undefined){
       steamId = identifier
     } else if (/^\d+$/.test(identifier) == false && identifier != undefined){
-      const vanityQuery = await fetch(`https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${identifier}`)
-      console.log(await vanityQuery)
-      const vanityResponse = await vanityQuery.json()
-        if (vanityResponse.response.success == 1) {
-            steamId = vanityResponse.response.steamid; // Resolved Steam ID
+      let vanityQuery = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${identifier}`.replaceAll(" ", "")
+      const vanityResponse = await fetch(vanityQuery, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "User-Agent": "Other"
+        }})
+      if (!vanityResponse.ok || !vanityResponse.headers.get("content-type").includes(`application/json`)){
+        let vanityErrorText = await vanityResponse.text()
+        console.error(`HTTP Error! ${vanityErrorText}`)
+        steamId = undefined
+      } else if (vanityResponse.headers.get("content-type").includes(`application/json`)){
+        const vanityData = await vanityResponse.json()
+        if (vanityData.response.success == 1) {
+            steamId = vanityData.response.steamid
         } else {
             console.error("Failed To Resolve Vanity To Steam ID");
             steamId = undefined
         }
+      }  
     } else {steamId = undefined}
     bridge.store(values.steamId, steamId)
 
+    await new Promise(resolve => setTimeout(resolve, 500))
+
     let profileObject
-    if (steamId != undefined && values.profileSummary){
-      const profileObjectQuery = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`)
-      const profileObjectResponse = await profileObjectQuery.json()
-      if (profileObjectResponse.response.players.length > 0) {
-        profileObject = profileObjectResponse.response.players[0]
-      } else {
-        console.error("Failed To Fetch Profile Information")
+    if (steamId != undefined && values.profileSummary?.value !== ""){
+      let summaryQuery = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${steamApiKey}&steamids=${steamId}`.replaceAll(" ", "")
+      const summaryResponse = await fetch(summaryQuery, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "User-Agent": "Other"
+        }})
+      if (!summaryResponse.ok || !summaryResponse.headers.get("content-type").includes(`application/json`)){
+        let summaryErrorText = await summaryResponse.text()
+        console.error(`HTTP Error! ${summaryErrorText}`)
         profileObject = undefined
+      } else if (summaryResponse.headers.get("content-type").includes(`application/json`)){
+        const summary = await summaryResponse.json()
+        if (summary.response.players.length > 0) {
+          profileObject = summary.response.players[0]
+        } else {
+          console.error("Failed To Fetch Profile Information")
+          profileObject = undefined
+        }
       }
     } else {profileObject = undefined}
     bridge.store(values.profileSummary, profileObject)

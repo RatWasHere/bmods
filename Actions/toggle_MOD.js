@@ -1,4 +1,4 @@
-modVersion = "s.v2.0"
+modVersion = "v2.0.0"
 module.exports = {
   data: {
     name: "Toggle Actions"

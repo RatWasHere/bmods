@@ -1,4 +1,3 @@
-modVersion = "v1.0";
 module.exports = {
   name: "Music Tracks Added",
   nameSchemes: ["Store Queue As", "Store Tracks As"],

@@ -1,4 +1,4 @@
-modVersion = "s.v1.0 | aceqol"
+modVersion = "v1.0.2 | AceQOLs"
 module.exports = {
   data: {
     name: "Multiple Comparisons",
@@ -30,7 +30,7 @@ module.exports = {
         comparison: {
           data: {},
           name: "Comparison",
-          preview: "`${option.data.comparator} ${option.data.value}`",
+          preview: "`${option.data.comparator||''} ${option.data.value||''}`",
           UI: [
             {
               element: "dropdown",

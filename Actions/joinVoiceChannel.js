@@ -1,4 +1,4 @@
-modVersion = "s.v1.2 | AceFix"
+modVersion = "v1.2.0 | AceFix"
 module.exports = {
   category: "Channels",
   data: {

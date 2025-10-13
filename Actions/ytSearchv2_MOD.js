@@ -1,4 +1,4 @@
-modVersion = "s.v1.5"
+modVersion = "v1.5.0"
 module.exports={
   data: {
     name: "YouTube Video Search v2"

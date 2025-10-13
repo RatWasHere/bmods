@@ -1,4 +1,4 @@
-modVersion = "s.v1.2"
+modVersion = "v1.2.0"
 module.exports = {
   data:{
     name: "RCON MultiCommander",

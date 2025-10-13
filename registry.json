@@ -8,7 +8,7 @@
       "creator": "Rat"
     },
     "CanvasCaptchaGenerator_MOD.js": {
-      "md5": "b889f22df422766a8180b0fa5de7e6a5",
+      "md5": "07221e1a71369a0b6b84f6ba870b6c0b",
       "name": "Canvas Captcha Generator",
       "modules": [
         "canvas"
@@ -17,7 +17,7 @@
       "creator": "lik_rus"
     },
     "CanvasCreateBackground_MOD.js": {
-      "md5": "b06ec68524f0ab7e3874147e66f66eed",
+      "md5": "bf149ac6c3abfeae2c3380c86211eb6b",
       "name": "Canvas Create Background",
       "modules": [
         "canvas"
@@ -26,7 +26,7 @@
       "creator": "TheMonDon , lik_rus"
     },
     "CanvasCreateImage_MOD.js": {
-      "md5": "456a851e4bbb9130b495f9b4b5d4aad6",
+      "md5": "9bf346464d1b64304405b044da095280",
       "name": "Canvas Create Image",
       "modules": [
         "canvas"
@@ -34,8 +34,17 @@
       "category": "Canvas Images",
       "creator": "TheMonDon , lik_rus"
     },
+    "CanvasCreateProgressCircle_MOD.js": {
+      "md5": "3da587e9e6cc4529e2eec13e604ee25d",
+      "name": "Canvas Create Progress Circle",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "TheMonDon"
+    },
     "CanvasDrawImage_MOD.js": {
-      "md5": "da5337b8b225ac0000dfa865d56c5806",
+      "md5": "eb0345287d21445455100014e2271001",
       "name": "Canvas Draw Image on Image",
       "modules": [
         "canvas"
@@ -44,7 +53,7 @@
       "creator": "TheMonDon"
     },
     "CanvasDrawText_MOD.js": {
-      "md5": "797adf6eccaa88dd3030246580b6ccb7",
+      "md5": "bea22e24d8ae74d74c8d70c5121dbbc4",
       "name": "Canvas Draw Text on Image",
       "modules": [
         "canvas"
@@ -53,7 +62,7 @@
       "creator": "TheMonDon"
     },
     "CanvasEditImageBorder_MOD.js": {
-      "md5": "44a7a78d3791abf699e98030ab2264af",
+      "md5": "9cc31e0587fd5cb8eeca1a54a2fb46b6",
       "name": "Canvas Edit Image Border",
       "modules": [
         "canvas"
@@ -61,14 +70,62 @@
       "category": "Canvas Images",
       "creator": "TheMonDon"
     },
+    "CanvasGame2048Generator_MOD.js": {
+      "md5": "c7db64f16d56245548f6c925149f1dc7",
+      "name": "Canvas Game 2048 Generator",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "lik_rus"
+    },
+    "CanvasGamecheckersGenerator_MOD.js": {
+      "md5": "5ab9f5e26f9f17d2d020944952c90597",
+      "name": "Canvas Game Сheckers Generator",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "lik_rus"
+    },
+    "CanvasGamesnakeGenerator_MOD.js": {
+      "md5": "1e250647501e17639cdc7b9ee99210a9",
+      "name": "Canvas Game Snake Generator",
+      "modules": [
+        "canvas"
+      ],
+      "category": "Canvas Images",
+      "creator": "lik_rus"
+    },
     "CanvasImageFilter_MOD.js": {
-      "md5": "a3f5caaa7211a526d943bd26eb5383b3",
+      "md5": "f3004e640ae3d07eee44058560df6d81",
       "name": "Canvas Image Filter",
       "modules": [
         "canvas"
       ],
       "category": "Canvas Images",
       "creator": "TheMonDon"
+    },
+    "CensorlyAI_MOD.js": {
+      "md5": "46e0bf6396bfb773cad2c88d32a4de39",
+      "name": "Censorly AI",
+      "description": "Use an AI to check the text for bad words.",
+      "modules": [],
+      "category": "AI",
+      "creator": "LikRus"
+    },
+    "accessObject_MOD.js": {
+      "md5": "82efd008cd9214eee8f6649c8b4b1ec2",
+      "name": "Access JSON Object",
+      "modules": [],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
+    "addUserToGuild_MOD.js": {
+      "md5": "6d0dccf97c0ab0ad32766c3afdbe69f4",
+      "name": "Add User to Guild",
+      "modules": [],
+      "category": "OAuth"
     },
     "animeSearch_MOD.js": {
       "md5": "04d0d982fa2fc7d1f152b2cb40615ddc",
@@ -87,7 +144,7 @@
       "creator": "qschnitzel"
     },
     "askGemini_MOD.js": {
-      "md5": "b9da0f2b240e31844d0564e658f78ba9",
+      "md5": "8a4369861da35724ecb00cfe0b67a60b",
       "name": "Ask Gemini",
       "description": "Use Google Gemini AI to generate a response based on a prompt.",
       "modules": [
@@ -97,11 +154,21 @@
       "creator": "qschnitzel"
     },
     "betterMultiCompare_MOD.js": {
-      "md5": "0c10a283ce697e867f508e888cdd063a",
+      "md5": "9a7ee89c35b5ab1afdb84035802aad46",
       "name": "Better Multiple Comparisons",
       "modules": [],
       "category": "Conditions",
       "creator": "Acedia QOLs"
+    },
+    "bingTranslate_MOD.js": {
+      "md5": "d5ec1b3431cabe4ea7dc204b9612c592",
+      "name": "Bing Translate",
+      "description": "Action to translate text using the Bing Api",
+      "modules": [
+        "bing-translate-api"
+      ],
+      "category": "Text",
+      "creator": "LikRus"
     },
     "bulkBanMembers_MOD.js": {
       "md5": "650861f67958ac903b18c26392a3bea7",
@@ -138,6 +205,14 @@
       "category": "Gift Keys",
       "creator": "candiedapple"
     },
+    "checkIfAttachmentImageIsValid_MOD.js": {
+      "md5": "4c3172b8ea7dbf767b8b9f101b1a761c",
+      "name": "Check If Image Is Valid",
+      "description": "This mod verifies the integrity of attachment image files, checking their signature headers and comparing them to the standard. If signature headers are okay returns true, else returns false. Feel free to edit :)",
+      "modules": [],
+      "category": "Images",
+      "creator": "Maco"
+    },
     "checkIfFolderExists_MOD.js": {
       "md5": "d7f0187e925264418d8ad57040059ae6",
       "name": "Check If Folder Exists",
@@ -146,7 +221,7 @@
       "creator": "nitiqt"
     },
     "checkIfText_MOD.js": {
-      "md5": "b5d216a6cf1ffa9b836d6839f4deeb38",
+      "md5": "4591087c520cb2406b238f28d5d923f8",
       "name": "Check If Text",
       "modules": [],
       "category": "Text",
@@ -166,7 +241,7 @@
       "creator": "LikRus"
     },
     "checkcustomdata_MOD.js": {
-      "md5": "e7052a81ea845386e6f7f05dd69aad29",
+      "md5": "0b7d645f0074675893032e108867f39b",
       "name": "Check Custom Data",
       "description": "Allows you to check custom json files!",
       "modules": [],
@@ -180,6 +255,15 @@
       "category": "Files",
       "creator": "Rat"
     },
+    "controlLavalinkMusic_MOD.js": {
+      "md5": "f29a2c457a69b387d97bac93582df934",
+      "name": "Control Lavalink Music",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
     "controlMemberMultiDatas_MOD.js": {
       "md5": "d191019cb44c10bfd49db0d0df173586",
       "name": "Control Member Multi Datas",
@@ -188,7 +272,7 @@
       "creator": "nitiqt"
     },
     "controlMusic_MOD.js": {
-      "md5": "d949da67e95174c2a0e4c48173a50e2c",
+      "md5": "0fdcb5cd92a2ae4c80672bed4ce47f35",
       "name": "Control Music",
       "modules": [
         "discord-player"
@@ -197,7 +281,7 @@
       "creator": "TheMonDon"
     },
     "controlcustomdata_MOD.js": {
-      "md5": "2383f253cd39fa31256739b3a0299a6a",
+      "md5": "914d2dfbf3d7f4200aae34a49edaf3c5",
       "name": "Control Custom Data",
       "description": "Allows you to create custom json files!",
       "modules": [],
@@ -218,6 +302,44 @@
       "category": "Files",
       "creator": "nitiqt"
     },
+    "createJsonFile_MOD.js": {
+      "md5": "0cce8d0a439ca7c9721991f5b3d4ec41",
+      "name": "Create JSON File",
+      "modules": [
+        "node:path",
+        "node:fs"
+      ],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
+    "createModularSelectMenuchannel_MOD.js": {
+      "md5": "93b1f5de43ea3411d78e02e038e0090b",
+      "name": "Create Modular Select Menu Channel",
+      "modules": [],
+      "category": "Modularity",
+      "creator": "lik_rus"
+    },
+    "createModularSelectMenuroles_MOD.js": {
+      "md5": "e280260ee0bf91385653bd14002af122",
+      "name": "Create Modular Select Menu Roles",
+      "modules": [],
+      "category": "Modularity",
+      "creator": "lik_rus"
+    },
+    "createModularSelectMenuuser_MOD.js": {
+      "md5": "6c45cb3da57dc161a29228d7fafe6eaa",
+      "name": "Create Modular Select Menu User",
+      "modules": [],
+      "category": "Modularity",
+      "creator": "lik_rus"
+    },
+    "createObject_MOD.js": {
+      "md5": "9262bf12087c2001b49be852c31233ff",
+      "name": "Create JSON Object",
+      "modules": [],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
     "createSelfContainedAnchor_MOD.js": {
       "md5": "eb3a294999cf1d05498c0afd7351fe7e",
       "name": "Create Self-Contained Anchor",
@@ -232,8 +354,62 @@
       "category": "Channels",
       "creator": "nitiqt"
     },
+    "createWebApi_MOD.js": {
+      "md5": "f3356172956e0f2ffe277e5e11f3eb7f",
+      "name": "Create Web API",
+      "modules": [
+        "node:http",
+        "node:url",
+        "node:fs",
+        "node:path"
+      ],
+      "category": "Utilities",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleChnDatas_MOD.js": {
+      "md5": "f5f2521ba2ba08e395255c13fc038cd1",
+      "name": "Control Multiple Channel Datas",
+      "modules": [],
+      "category": "Channel Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleGldDatas_MOD.js": {
+      "md5": "aca805fa0d35c5c3330fd6ec39d12670",
+      "name": "Control Multiple Server Datas",
+      "modules": [],
+      "category": "Server Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleMbrDatas_MOD.js": {
+      "md5": "bf149f7e820920ac897c178c6f53dc1f",
+      "name": "Control Multiple Member Datas",
+      "modules": [],
+      "category": "Member Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleMsgDatas_MOD.js": {
+      "md5": "59e352c045542aa3a3e416ee98dc1ae3",
+      "name": "Control Multiple Message Datas",
+      "modules": [],
+      "category": "Message Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleRleDatas_MOD.js": {
+      "md5": "a26602374451bc1a2ab8ba47511f79fa",
+      "name": "Control Multiple Role Datas",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
+    "ctrlMultipleUsrDatas_MOD.js": {
+      "md5": "3d609ad4a412a475d547d0952a161875",
+      "name": "Control Multiple User Datas",
+      "modules": [],
+      "category": "User Data",
+      "creator": "Acedia"
+    },
     "customdatatop_MOD.js": {
-      "md5": "dbeea38445470839603dbef3ecdfff7c",
+      "md5": "7dcc4036712bb64dafe4c46e607adb4f",
       "name": "Custom Data Top",
       "description": "Allows you to create a leaderboard from custom json files!",
       "modules": [],
@@ -241,7 +417,7 @@
       "creator": "LikRus"
     },
     "dateTimeConversions_MOD.js": {
-      "md5": "e0977aef2356c088b6ba7c9cb867c973",
+      "md5": "862dc6bc3de7788dcfc07a70a09c3c4c",
       "name": "Date Time Conversions",
       "modules": [
         "luxon"
@@ -255,6 +431,16 @@
       "modules": [],
       "category": "Files",
       "creator": "nitiqt"
+    },
+    "deleteFromGitHub_MOD.js": {
+      "md5": "c9f36ece187429aea47f2e1e41e41a50",
+      "name": "Delete File From GitHub",
+      "modules": [
+        "node:fs",
+        "node:path"
+      ],
+      "category": "WebAPIs",
+      "creator": "Acedia"
     },
     "deleteScheduledEvent_MOD.js": {
       "md5": "5cb81e108d18995459a4490216678779",
@@ -271,7 +457,7 @@
       "creator": "candiedapple"
     },
     "downloadMusic_MOD.js": {
-      "md5": "56389cc823ea69a3cde70ed421a60fa5",
+      "md5": "e35d0506747b725a1b2ff292b2f35201",
       "name": "Download Music File",
       "modules": [
         "fs",
@@ -304,24 +490,38 @@
       "creator": "candiedapple"
     },
     "extractSteamSummary_MOD.js": {
-      "md5": "abd74562319d5860d43ac2712389abc7",
+      "md5": "fddb245aa99cd8747eabd8685ec8f95c",
       "name": "Extract Steam Summary",
       "modules": [],
       "category": "Steam",
       "creator": "Acedia"
     },
     "fetchSteamId_MOD.js": {
-      "md5": "a66b763eef47cbbeb05c9253e63137fd",
+      "md5": "248336f96bd51159b332c96ade9270f8",
       "name": "Fetch Steam Profile Info",
       "modules": [],
       "category": "WebAPIs",
       "creator": "Acedia QOLs"
     },
+    "filterList_MOD.js": {
+      "md5": "87aec99bfb24942e2bdd3a67adf6de22",
+      "name": "Filter List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "Acedia"
+    },
     "findChannel_MOD.js": {
-      "md5": "6cb84790b39ad5477fc6e99a71c3465b",
+      "md5": "7d692b624ed1a2156264bdc6df942416",
       "name": "Find Channel PLUS",
       "modules": [],
       "category": "Channels",
+      "creator": "LikRus"
+    },
+    "findRole_MOD.js": {
+      "md5": "c0545c6fedc3c732133001aab1333f26",
+      "name": "Find Role PLUS",
+      "modules": [],
+      "category": "Roles",
       "creator": "LikRus"
     },
     "findmatchesInlist_MOD.js": {
@@ -365,6 +565,21 @@
       "category": "Images",
       "creator": "candiedapple"
     },
+    "generateRandomWord_MOD.js": {
+      "md5": "1d8d4a007d48fd66528122caf67a3a43",
+      "name": "Generate Random Word(s)",
+      "modules": []
+    },
+    "generateRankCard_MOD.js": {
+      "md5": "d743b3d570d2956d425d869bd05a099c",
+      "name": "Generate Rank Card",
+      "modules": [
+        "canvacord",
+        "canvas"
+      ],
+      "category": "Images",
+      "creator": "TheMonDon"
+    },
     "generateRankLevelCard_MOD.js": {
       "md5": "5eaa78aa4d30101294b4707c774c71e1",
       "name": "Generate Rank/Level Card",
@@ -401,25 +616,53 @@
       "category": "Canvafy Cards",
       "creator": "candiedapple"
     },
+    "getAllChannelMentions_MOD.js": {
+      "md5": "50ac50422e77165c20b460c998bf9140",
+      "name": "Get All Mentioned Channels In Message",
+      "modules": [],
+      "category": "Messages",
+      "creator": "Acedia"
+    },
     "getAllGlobalData_MOD.js": {
-      "md5": "55c5b14b1290a23ad19cf5ad38b6a9fe",
+      "md5": "d6dcc31470bdce5d0cd646239af04fe3",
       "name": "Get All Global Data",
       "modules": [],
       "category": "Global Data",
       "creator": "Acedia"
     },
+    "getAllMentions_MOD.js": {
+      "md5": "40b0253cfd616949b0206319a6273bc1",
+      "name": "Get All Mentioned In Message",
+      "modules": [],
+      "category": "Messages",
+      "creator": "Acedia"
+    },
+    "getAllRoleMentions_MOD.js": {
+      "md5": "fb7c432e5a0cc9caf280dca08fcc984d",
+      "name": "Get All Mentioned Roles In Message",
+      "modules": [],
+      "category": "Messages",
+      "creator": "Acedia"
+    },
     "getAllSlashCommands_MOD.js": {
-      "md5": "400cff3118bbe882176ec315563be1fb",
+      "md5": "d8fe5c5b2c20b5fe4d6908269d55ac4a",
       "name": "Get All Slash Command Names",
       "modules": [],
       "category": "Bot",
       "creator": "Acedia"
     },
     "getAllTextCommands_MOD.js": {
-      "md5": "1bf3ad4ad4ebdb3326a83a00c64beede",
+      "md5": "4d6aa05980a46b93dbf0fb4b1eb4df21",
       "name": "Get All Text Command Names",
       "modules": [],
       "category": "Bot",
+      "creator": "Acedia"
+    },
+    "getAllUserMentions_MOD.js": {
+      "md5": "d576e18691cac416776c0b68c733e7e8",
+      "name": "Get All Mentioned Users In Message",
+      "modules": [],
+      "category": "Messages",
       "creator": "Acedia"
     },
     "getAxiosResultFromWebAPI_MOD.js": {
@@ -433,14 +676,21 @@
       "creator": "candiedapple"
     },
     "getChannelMentions_MOD.js": {
-      "md5": "1b7ed32fcce285a1ef1334f6cfba892c",
+      "md5": "f802e6737b7169a5bb54d346a1bc041b",
       "name": "Get Channel Mentions In List",
       "modules": [],
       "category": "Shortcuts",
       "creator": "Acedia QOLs"
     },
+    "getChannelThreads_MOD.js": {
+      "md5": "82742af7bfb786b31846d193327d14c5",
+      "name": "Get Channel Threads",
+      "modules": [],
+      "category": "Channels",
+      "creator": "Acedia"
+    },
     "getColorName_MOD.js": {
-      "md5": "53004e4ed1eacdccbf24f1773fee1052",
+      "md5": "071b5f03d1d52a4aa4c2f6bd3155a931",
       "name": "Get Color Name",
       "modules": [
         "color-name-list",
@@ -450,13 +700,12 @@
       "creator": "TheMonDon"
     },
     "getCommandAliases_MOD.js": {
-      "md5": "dc70997ff3c4bf4c127c66fc411d765e",
+      "md5": "fafa5ed3b587e2dee3b2a01aa1d12d6f",
       "modules": [],
-      "category": "Bot",
       "creator": "Acedia"
     },
     "getCommandInfo_MOD.js": {
-      "md5": "4d79603519efffd1004596fc4ac2d44d",
+      "md5": "8ba0b99ababc9ff7ee1064e16ef14694",
       "name": "Get Command Info",
       "modules": [],
       "category": "Bot",
@@ -517,6 +766,33 @@
       "category": "Media",
       "creator": "lik_rus"
     },
+    "getLavalinkPlayerInfo_MOD.js": {
+      "md5": "3b632e56ea96b0c0c1c190d0fea7804c",
+      "name": "Get Lavalink Player Info",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
+    "getLavalinkQueueInfo_MOD.js": {
+      "md5": "55a1b15cfce2d4218815bc7fbc147ed9",
+      "name": "Get Lavalink Queue Info",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
+    "getLavalinkResultInfo_MOD.js": {
+      "md5": "1d3ff757ea78f20d54e516c2d1bf9fe7",
+      "name": "Get Lavalink Result Info",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
     "getListElementPosition_MOD.js": {
       "md5": "c690b7cdb491003cfa7903a66c1591d7",
       "name": "Get List Element Position",
@@ -525,7 +801,7 @@
       "creator": "candiedapple"
     },
     "getLyrics_MOD.js": {
-      "md5": "18920712b75f13f2c2b96b5fa3c3ddde",
+      "md5": "4db2591a62bddc897062b3ca4c49e0ed",
       "name": "Get Lyrics",
       "modules": [
         "discord-player"
@@ -555,14 +831,14 @@
       "creator": "Nitiqt"
     },
     "getMentions_MOD.js": {
-      "md5": "3797dbaff048cd653dd3438cd52fd52e",
+      "md5": "e051d50664051bf7360c6a4cc43fec50",
       "name": "Get User Mentions In List",
       "modules": [],
       "category": "Shortcuts",
       "creator": "Acedia QOLs"
     },
     "getMessageWebhook_MOD.js": {
-      "md5": "c99a433cbfb799d2b9769d0dfe0ed2dc",
+      "md5": "e16f3b422a9fb4a4b001ef8efc6df8a8",
       "name": "Get Message Webhook",
       "modules": [],
       "category": "Messages",
@@ -575,6 +851,48 @@
       "modules": [],
       "category": "Game",
       "creator": "qschnitzel"
+    },
+    "getMultipleChnDatas_MOD.js": {
+      "md5": "77dc844533e88c25f03af4e86b44de36",
+      "name": "Get Multiple Channel Datas",
+      "modules": [],
+      "category": "Channel Data",
+      "creator": "Acedia"
+    },
+    "getMultipleGldDatas_MOD.js": {
+      "md5": "5e1575df6eb931266084bb650b1f9973",
+      "name": "Get Multiple Server Datas",
+      "modules": [],
+      "category": "Server Data",
+      "creator": "Acedia"
+    },
+    "getMultipleMbrDatas_MOD.js": {
+      "md5": "cb7cb4df8e65382052b702eb39da5e27",
+      "name": "Get Multiple Member Datas",
+      "modules": [],
+      "category": "Member Data",
+      "creator": "Acedia"
+    },
+    "getMultipleMsgDatas_MOD.js": {
+      "md5": "adeac4f31c0c54aa3befa2ab429582d9",
+      "name": "Get Multiple Message Datas",
+      "modules": [],
+      "category": "Message Data",
+      "creator": "Acedia"
+    },
+    "getMultipleRleDatas_MOD.js": {
+      "md5": "10481496576f0c7d2584a16fa6b18df9",
+      "name": "Get Multiple Role Datas",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
+    "getMultipleUsrDatas_MOD.js": {
+      "md5": "c6692c27e93d85133581c870318657d1",
+      "name": "Get Multiple User Datas",
+      "modules": [],
+      "category": "User Data",
+      "creator": "Acedia"
     },
     "getRankInRobloxGroup_MOD.js": {
       "md5": "eef78a0ae67b63e0652baee052cd374d",
@@ -601,8 +919,22 @@
       "category": "Variables",
       "creator": "candiedapple"
     },
+    "getRoleDataData_MOD.js": {
+      "md5": "bd7382eb0b007437de377265e4fd0535",
+      "name": "Get All Roles Data Data",
+      "modules": [],
+      "category": "Role Data",
+      "creator": "Acedia"
+    },
+    "getRoleInfo_MOD.js": {
+      "md5": "32954e57649c5b3d7bdf85a568540be5",
+      "name": "Get Role Info PLUS",
+      "modules": [],
+      "category": "Roles",
+      "creator": "LikRus"
+    },
     "getRoleMentions_MOD.js": {
-      "md5": "f39f8e0879c475cde34604ee94175a9c",
+      "md5": "b0a7656d7868ed2db138d4759f760097",
       "name": "Get Role Mentions In List",
       "modules": [],
       "category": "Shortcuts",
@@ -621,6 +953,20 @@
       "modules": [],
       "category": "Scheduled Events",
       "creator": "nitiqt"
+    },
+    "getServerPrefix_MOD.js": {
+      "md5": "e09ddcb334f8f71b407da53bd39eed37",
+      "name": "Get Server Prefix",
+      "modules": [],
+      "category": "Server Management",
+      "creator": "TheMonDon"
+    },
+    "getSftpFile_MOD.js": {
+      "md5": "f7cc16c1f76f0caafbc1658bf775e9ad",
+      "name": "Get SFTP File",
+      "modules": [],
+      "category": "Files",
+      "creator": "TheMonDon"
     },
     "getTagsFromDanbooruPost_MOD.js": {
       "md5": "39cd8dba8f08b50add67dc94bdbb438c",
@@ -646,7 +992,7 @@
       "creator": "lik_rus"
     },
     "getWeatherInfo_MOD.js": {
-      "md5": "80746ec1290520d63ebd4b0585486959",
+      "md5": "34c3892422cf387f5c14a37c716ac790",
       "name": "Get Weather Info",
       "modules": [
         "weather-js"
@@ -686,13 +1032,21 @@
       "creator": "default.io"
     },
     "hashbrowns_MOD.js": {
-      "md5": "0a701f27cdbd8d5c7d2df337c6d36c74",
+      "md5": "46e6c168521f87de9352c048f1425c64",
       "name": "Hash Text",
       "modules": [
         "node:crypto"
       ],
       "category": "Encrypt",
       "creator": "Acedia"
+    },
+    "htmlToPdf_MOD.js": {
+      "md5": "31d540c2e76b189205949aff356061de",
+      "name": "Html To Pdf",
+      "description": "This mod converts HTML files into PDF using puppeteer, please provide a path to an existing HTML file and a path to where the generated PDF will be created.",
+      "modules": [],
+      "category": "File",
+      "creator": "Maco"
     },
     "insultGenerator_MOD.js": {
       "md5": "87b944cd675d499495a29daae48e1fb0",
@@ -711,49 +1065,63 @@
       "creator": "candiedapple"
     },
     "killBotProcess_MOD.js": {
-      "md5": "af697534da38ad28eda2dd424f6f9dc9",
+      "md5": "5f66adc2b5ecf501b3a3b69f6ac5b555",
       "name": "Kill Bot Process",
       "modules": [],
       "category": "Control",
       "creator": "Acedia"
     },
-    "loadMemberMultipleData_MOD.js": {
-      "md5": "87a9e14bd29038acee587ef1011e96ca",
-      "name": "Get Member Multiple Datas",
+    "lavalinkConnection_MOD.js": {
+      "md5": "cbb7584937a079f9fba418ed1846f0a5",
+      "name": "Lavalink Connection",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
+    "limitTextLength_MOD.js": {
+      "md5": "85ea7e1b009f3c6eba13906999219d61",
+      "name": "Limit Text Length",
+      "description": "Limit the length of a text input to a specified number of characters.",
       "modules": [],
-      "category": "Member Data",
+      "category": "Text",
+      "creator": "qschnitzel"
+    },
+    "loadMemberMultipleData_MOD.js": {
+      "md5": "05f5aa691241e8111383305c0e02e18a",
+      "modules": [],
       "creator": "Acedia"
     },
     "loadMultipleChannelData_MOD.js": {
-      "md5": "53b64671de38249f0b898f6f8fd97fc0",
-      "name": "Get Channel Multiple Datas",
+      "md5": "d790760d02819c6d21fff278efb8bf4b",
       "modules": [],
-      "category": "Channel Data",
       "creator": "Acedia"
     },
     "loadMultipleGlobalData_MOD.js": {
-      "md5": "5f8e99b1535a3d936bfca778ab60eaed",
+      "md5": "a26b525d96617b1f9c475dc8f8e1efa7",
       "name": "Get Multiple Global Datas",
       "modules": [],
       "category": "Global Data",
       "creator": "Acedia"
     },
     "loadMultipleGuildData_MOD.js": {
-      "md5": "988ce46855a94afa64e6eb1feb6c7a8b",
-      "name": "Get Multiple Server Datas",
+      "md5": "275cf23cda5c4d876a9ceef991c4c7ca",
       "modules": [],
-      "category": "Server Data",
+      "creator": "Acedia"
+    },
+    "loadRoleMultipleData_MOD.js": {
+      "md5": "2420b2ed662aceeca95f17eebd981d3a",
+      "modules": [],
       "creator": "Acedia"
     },
     "loadUserMultipleData_MOD.js": {
-      "md5": "3bf63983114e3ac6ac8f4171242866ce",
-      "name": "Get User Multiple Datas",
+      "md5": "68a7c1a4b6cd721c1881ee688174e575",
       "modules": [],
-      "category": "User Data",
       "creator": "Acedia"
     },
     "loopMusic_MOD.js": {
-      "md5": "63406b4a89bd25ea96a1210a936353f3",
+      "md5": "33d7b6b9bab2f20eb03f6b285fe828de",
       "name": "Loop Music",
       "modules": [
         "discord-player"
@@ -762,11 +1130,11 @@
       "creator": "TheMonDon"
     },
     "loopThruNumbers_MOD.js": {
-      "md5": "263cb0ca9aa014ccc76604bc4090bcd6",
+      "md5": "05130cbb8f8c4e811d1e7a9bb84b9161",
       "name": "Loop Through Numbers",
       "modules": [],
       "category": "Loops",
-      "creator": "Acedia QOLs"
+      "creator": "Acedia"
     },
     "makecom_MOD.js": {
       "md5": "db7850f2a2f6f3e065024f3619767236",
@@ -774,6 +1142,23 @@
       "modules": [],
       "category": "API",
       "creator": "Made with <3 by @lucxanul"
+    },
+    "modifyJsonFile_MOD.js": {
+      "md5": "99cea4cfac2d2b7188bff5e2536965af",
+      "name": "Modify JSON File",
+      "modules": [
+        "node:path",
+        "node:fs"
+      ],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
+    "modifyObject_MOD.js": {
+      "md5": "512a1f36013d0ce3dc0514febafbb6d7",
+      "name": "Modify JSON Object",
+      "modules": [],
+      "category": "JSON",
+      "creator": "Acedia"
     },
     "mongodbOperations_MOD.js": {
       "md5": "ec04b1fcae67b06b42967aa2b2822e58",
@@ -784,6 +1169,16 @@
       "category": "Global Data",
       "creator": "candiedapple"
     },
+    "multiModifyJsonFile_MOD.js": {
+      "md5": "c2729233eeeaae540f34d3464264b4f4",
+      "name": "Multi Modify JSON File",
+      "modules": [
+        "node:path",
+        "node:fs"
+      ],
+      "category": "JSON",
+      "creator": "Acedia"
+    },
     "multicheckIfMemberHasRole_MOD.js": {
       "md5": "826898159b88446584f0ca9b576d00a8",
       "name": "Multi Check If Member Has Role",
@@ -791,15 +1186,29 @@
       "category": "Members",
       "creator": "LikRus"
     },
+    "multicreateListElement_MOD.js": {
+      "md5": "fcfc20c4338a46073862815e7d942a53",
+      "name": "Multi Create List Element",
+      "modules": [],
+      "category": "Lists",
+      "creator": "LikRus"
+    },
+    "multipleCalculations_MOD.js": {
+      "md5": "53221c2a803ce2f9ccd7687850e42d0b",
+      "name": "Multiple Calculations",
+      "modules": [],
+      "category": "Numbers",
+      "creator": "Acedia"
+    },
     "multipleRegexComparisons_MOD.js": {
-      "md5": "5893a0a91db4023ae316ac5b621ea5f1",
+      "md5": "27328873cd64ca6adc840b43b44a2ed1",
       "name": "Multiple Regex Comparisons",
       "modules": [],
       "category": "Control",
       "creator": "Acedia"
     },
     "multipleReplacements_MOD.js": {
-      "md5": "abd6416463dbd3ec81629c08914caf4f",
+      "md5": "905eabd1edb58a2019722cec8af67942",
       "name": "Multiple Replacements",
       "modules": [],
       "category": "Text",
@@ -821,6 +1230,16 @@
       "category": "Global Data",
       "creator": "candiedapple"
     },
+    "nationalToday_MOD.js": {
+      "md5": "fd1f9dc4e704841197f12b9be468375b",
+      "name": "National Today",
+      "description": "Get todays holidays using nationaltoday.com",
+      "modules": [
+        "jsdom"
+      ],
+      "category": "API",
+      "creator": "qschnitzel"
+    },
     "numberClamp_MOD.js": {
       "md5": "9f6309b7804813b3f732839d2dc0533d",
       "name": "Number Clamp",
@@ -829,7 +1248,7 @@
       "creator": "Acedia"
     },
     "numberConversions_MOD.js": {
-      "md5": "926c8cf034526add7a5273d544271033",
+      "md5": "27e27da5f4f637da7efc868f808cd6e3",
       "name": "Number Conversions",
       "modules": [
         "mathjs"
@@ -838,14 +1257,14 @@
       "creator": "Acedia"
     },
     "numberRange_MOD.js": {
-      "md5": "b52c66ab0f9759e1ae127fb4fa1b3ec1",
+      "md5": "7b3e9d7fa60335529f14b56b76fd94ca",
       "name": "Check If Number Is In Range",
       "modules": [],
       "category": "Numbers",
       "creator": "Acedia QOLs"
     },
     "objectConversions_MOD.js": {
-      "md5": "17094c2f88d7d26e671c3250d01377e6",
+      "md5": "b66641b8c7cc926b22a6d9a299a57c5b",
       "name": "Object Conversions",
       "modules": [],
       "category": "JSON",
@@ -859,7 +1278,7 @@
       "creator": "LikRus"
     },
     "playBinaryVar_MOD.js": {
-      "md5": "8cb710b59ae13492aacc0267ac45634b",
+      "md5": "37386c669fa219545b75ec6761ecf2a9",
       "name": "Play Binary Variable",
       "modules": [
         "fs",
@@ -870,8 +1289,17 @@
       "category": "Music",
       "creator": "Acedia"
     },
+    "playLavalinkMusic_MOD.js": {
+      "md5": "548f38a514a8b2028c33be960fb2f54d",
+      "name": "Play Lavalink Music",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "TheMonDon"
+    },
     "playMusic_MOD.js": {
-      "md5": "9f6bb15cf511a9504f8e759da66abf69",
+      "md5": "faf256e0fdee6bf7803f266fa57f6e47",
       "name": "Play Music",
       "modules": [
         "discord-player",
@@ -882,7 +1310,7 @@
       "creator": "TheMonDon"
     },
     "postgresConnection_MOD.js": {
-      "md5": "c478702125d1fe1abe4bacf50fb42a5d",
+      "md5": "e6255c398b9c13d3b5a056ab9c3c50b2",
       "name": "PostGres Connection",
       "modules": [
         "pg"
@@ -891,7 +1319,7 @@
       "creator": "TheMonDon"
     },
     "postgresQuery_MOD.js": {
-      "md5": "92aeee2d0f6d5343030ea785b43fa944",
+      "md5": "f096024dbc9e1b4ec4e59f18f28ac8ec",
       "name": "PostGres Query",
       "modules": [],
       "category": "Global Data",
@@ -921,6 +1349,12 @@
       "category": "API",
       "creator": "qschnitzel"
     },
+    "pushLinkedRolesMetadata_MOD.js": {
+      "md5": "15189d2d8e0d83b45531aec36b81ec8c",
+      "name": "Push Linked Roles Metadata",
+      "modules": [],
+      "category": "Linked Roles"
+    },
     "pushover_MOD.js": {
       "md5": "8dca1d765ab156c731e23e707d27c3c6",
       "name": "Pushover API",
@@ -929,7 +1363,7 @@
       "creator": "Made with <3 by @lucxanul"
     },
     "randomChance_MOD.js": {
-      "md5": "c6ed87b624789ffe6775590c3d3fcb21",
+      "md5": "ec2c904786a68f760c03d73a970c407b",
       "name": "Random Chance",
       "modules": [],
       "category": "Numbers",
@@ -958,7 +1392,7 @@
       "creator": "nitiqt"
     },
     "rconCommanderMulti_MOD.js": {
-      "md5": "c1d0a9712015142383578ebccfbdaab8",
+      "md5": "314c157290afc0394a5ee6ae492a7ca6",
       "name": "Extended RCON MultiCommander",
       "modules": [
         "rcon"
@@ -967,7 +1401,7 @@
       "creator": "Acedia"
     },
     "rconCommander_MOD.js": {
-      "md5": "6e065b07296a59456a95709aec002f39",
+      "md5": "923803117d891d54de78ad72699dbc91",
       "name": "Extended RCON Commander",
       "modules": [
         "rcon"
@@ -976,7 +1410,7 @@
       "creator": "Acedia"
     },
     "rconLegacyCommanderMulti_MOD.js": {
-      "md5": "919c6861214464ddca11a6bbd73ceb88",
+      "md5": "67b575b3da3818b42ce52c80b4368d4a",
       "name": "RCON MultiCommander",
       "modules": [
         "mbr-rcon"
@@ -985,7 +1419,7 @@
       "creator": "Acedia"
     },
     "rconLegacyCommander_MOD.js": {
-      "md5": "b1a8135260853d846436548f6c944a54",
+      "md5": "c98d6db9de036e620492baaacfb3d101",
       "name": "RCON Commander",
       "modules": [
         "mbr-rcon"
@@ -994,12 +1428,22 @@
       "creator": "Acedia"
     },
     "rconListener_MOD.js": {
-      "md5": "428da038213395df9188b1f46ac6c3c6",
+      "md5": "5d1767ea38514510d0ca101c76c4db78",
       "name": "RCON Listener",
       "modules": [
         "rcon"
       ],
       "category": "RCON",
+      "creator": "Acedia"
+    },
+    "readJsonFile_MOD.js": {
+      "md5": "12ac9037de943b06514fea9ca1e48300",
+      "name": "Read JSON File",
+      "modules": [
+        "node:path",
+        "node:fs"
+      ],
+      "category": "JSON",
       "creator": "Acedia"
     },
     "recognizeTextFromImage_MOD.js": {
@@ -1010,6 +1454,13 @@
       ],
       "category": "Images",
       "creator": "candiedapple"
+    },
+    "reduceDuplicatesInList_MOD.js": {
+      "md5": "97994e45422e96ac1f5615a281596f52",
+      "name": "Reduce Duplicates In List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "Acedia"
     },
     "robloxRanking_MOD.js": {
       "md5": "16a3ff50fc1880e4b557d7608f8237dc",
@@ -1026,8 +1477,34 @@
       "modules": [],
       "category": "Numbers"
     },
+    "runJsFile_MOD.js": {
+      "md5": "90d4c5c156544431818ddb10ab4cec82",
+      "name": "Run Js File",
+      "description": "Using this action, you can play the code from the files.",
+      "modules": [
+        "node:path"
+      ],
+      "category": "Control",
+      "creator": "LikRus"
+    },
+    "samTTS_MOD.js": {
+      "md5": "f18ea4772a14ce24f2caa1f9dd07ae1b",
+      "name": "SAM TTS",
+      "description": "Create Text-To-Speech audio with SAM TTS",
+      "modules": [],
+      "category": "TTS",
+      "creator": "qschnitzel"
+    },
+    "searchLyrics_MOD.js": {
+      "md5": "ef2d6e59e78e7072f138e03a892c305a",
+      "name": "Search Lyrics",
+      "description": "Use lrclib.net to search for lyrics of a song.",
+      "modules": [],
+      "category": "API",
+      "creator": "qschnitzel"
+    },
     "searchMusic_MOD.js": {
-      "md5": "0acf9e95b560881904ffc5a21ad8fa9b",
+      "md5": "8e3250a5851623e8963f7bd5375751db",
       "name": "Search Music",
       "modules": [
         "discord-player"
@@ -1069,8 +1546,42 @@
       "category": "Game",
       "creator": "candiedapple"
     },
+    "sendSftpFile_MOD.js": {
+      "md5": "5d68689f9d9333044a0348346df07d76",
+      "name": "Send SFTP File",
+      "modules": [],
+      "category": "Files",
+      "creator": "TheMonDon"
+    },
+    "serverPrefixInject_MOD.js": {
+      "md5": "3f1e28f27cee7f1a5a86ae2015941c6e",
+      "name": "Server Prefix Injection",
+      "modules": [],
+      "category": "Server Management",
+      "creator": "TheMonDon"
+    },
+    "setLinkedRolesMetadata_MOD.js": {
+      "md5": "82c12c713a5ddc4c71f084b50b2bbe35",
+      "name": "Set Linked Roles Metadata",
+      "modules": [],
+      "category": "Linked Roles"
+    },
+    "setServerPrefix_MOD.js": {
+      "md5": "4030d99a3e63a87f39e66a71188785f8",
+      "name": "Set Server Prefix",
+      "modules": [],
+      "category": "Server Management",
+      "creator": "TheMonDon"
+    },
+    "setTrackedTimeRestriction_MOD.js": {
+      "md5": "7a9331dfd3fd5ffc7ba6d52341af2f10",
+      "name": "Set Tracked Time Restriction",
+      "modules": [],
+      "category": "Control",
+      "creator": "Acedia"
+    },
     "sliceList_MOD.js": {
-      "md5": "ef740ee7fe4121d707bb5a7a1a16b750",
+      "md5": "c16d95e82dbaecceffd8ec8a2f4a4d3c",
       "name": "Slice List",
       "modules": [],
       "category": "Lists",
@@ -1093,6 +1604,17 @@
       "category": "Images",
       "creator": "qschnitzel"
     },
+    "startOAuthAuthorizationServer_MOD.js": {
+      "md5": "0094d283eceb3112261241e2dae133ab",
+      "name": "Start OAuth Authorization Server",
+      "modules": [
+        "express",
+        "passport-discord-auth",
+        "passport",
+        "express-session"
+      ],
+      "category": "OAuth"
+    },
     "startRssFeed_MOD.js": {
       "md5": "e37342f0e4029fbe01c44a8e0d1927c6",
       "name": "Start RSS Feed",
@@ -1102,8 +1624,23 @@
       "category": "RSS",
       "creator": "candiedapple"
     },
+    "statusPage_MOD.js": {
+      "md5": "0a2f39a01b0a092ea2ba4025dcca4c0a",
+      "name": "Create Status Page",
+      "modules": [
+        "node:http",
+        "node:os",
+        "node:fs",
+        "node:path",
+        "node:url",
+        "node:https",
+        "node:crypto"
+      ],
+      "category": "Utilities",
+      "creator": "Acedia & qizzle"
+    },
     "storePlaylistInfo_MOD.js": {
-      "md5": "f351dd1f0dc4e8c23e31b517b4c388d5",
+      "md5": "fe53b590217317bd73935700bfcbb8c4",
       "name": "Store Playlist Info",
       "modules": [
         "discord-player"
@@ -1112,7 +1649,7 @@
       "creator": "TheMonDon"
     },
     "storeQueueInfo_MOD.js": {
-      "md5": "00ce80b1e5655a0af880835f21b3c995",
+      "md5": "2466ba87a3b36d212b0b41fdb7188159",
       "name": "Store Queue Info",
       "modules": [
         "discord-player"
@@ -1121,7 +1658,7 @@
       "creator": "TheMonDon"
     },
     "storeTrackInfo_MOD.js": {
-      "md5": "e8eef0ea5497c4238ea9427186efb408",
+      "md5": "6badb2e99d1042c6dac1a46284dec688",
       "name": "Store Track Info",
       "modules": [
         "discord-player"
@@ -1130,7 +1667,7 @@
       "creator": "TheMonDon"
     },
     "storecustomdata_MOD.js": {
-      "md5": "5c29e043aa241dfc705d6dbc2d9542fb",
+      "md5": "73b66cb96abb9992cc81654fad7d53ce",
       "name": "Store Custom Data",
       "description": "Allows you to get information from custom json files!",
       "modules": [],
@@ -1138,7 +1675,7 @@
       "creator": "LikRus"
     },
     "stringLimiter_MOD.js": {
-      "md5": "ea1d6724589116cb3c6725728f114917",
+      "md5": "85cc4a2e456c40242cb34fca983ae0ad",
       "name": "String Limiter",
       "modules": [],
       "category": "Text",
@@ -1152,21 +1689,21 @@
       "creator": "Made with <3 by Lucxanul"
     },
     "textConversions_MOD.js": {
-      "md5": "f32b3b5ab03234ede27862e3dbf227df",
+      "md5": "6d587c58efd915b0e868b855aeb1fb47",
       "name": "Text Conversions",
       "modules": [],
       "category": "Text",
       "creator": "Acedia"
     },
     "textExtractions_MOD.js": {
-      "md5": "195e3634bfc37677c12aa47dd9275220",
+      "md5": "6b0c2afcd4f9f4e797aa7940aa7b18ed",
       "name": "Extract From Text",
       "modules": [],
       "category": "Text",
       "creator": "Acedia"
     },
     "tiktokTTS_MOD.js": {
-      "md5": "d55d95671028f3a0c109199a169f5575",
+      "md5": "84234de9e5abe67a983646d084dcf276",
       "name": "Tiktok TTS",
       "description": "Create Text-To-Speech audio using Tiktok's TTS.",
       "modules": [],
@@ -1174,25 +1711,35 @@
       "creator": "qschnitzel"
     },
     "timeConversions_MOD.js": {
-      "md5": "b539013c5183946f547132b341990c35",
+      "md5": "539f451a767202606307b34b5a9f4d20",
       "name": "Time Conversions",
       "modules": [],
       "category": "Time",
       "creator": "Acedia"
     },
     "timestampConversions_MOD.js": {
-      "md5": "7ae15e8ef3acae9a368514efa3379d60",
+      "md5": "6882d749a2b9a63b4a52287323d43da2",
       "name": "Timestamp Conversions",
       "modules": [],
       "category": "Time",
       "creator": "Acedia"
     },
     "toggle_MOD.js": {
-      "md5": "752bd5e34dab56e93d492ace21bb0fcd",
+      "md5": "e3c12ea5e007be895acf3241253ced34",
       "name": "Toggle Actions",
       "modules": [],
       "category": "Control",
       "creator": "Acedia QOLs"
+    },
+    "uploadToGitHub_MOD.js": {
+      "md5": "e752884c15fc63d314f6aa24807bd658",
+      "name": "Upload File To GitHub",
+      "modules": [
+        "node:fs",
+        "node:path"
+      ],
+      "category": "WebAPIs",
+      "creator": "Acedia"
     },
     "urlShortener_MOD.js": {
       "md5": "34f4766c6599fb38b849651eb8ad4b21",
@@ -1216,17 +1763,18 @@
       "creator": "candiedapple"
     },
     "wget_MOD.js": {
-      "md5": "9ce190e9014aa40c8abe4254cd216fd8",
+      "md5": "479b17951c0f62ff430f0ae640462a3e",
       "name": "wget Download",
       "modules": [
         "wget-improved",
-        "fs",
-        "path"
+        "node:fs",
+        "node:path"
       ],
+      "category": "WebAPIs",
       "creator": "Acedia"
     },
     "ytSearchv2_MOD.js": {
-      "md5": "66d6d0f58df04d53c4f217ca860c60f8",
+      "md5": "541b9ca0a01322276dd1bc1981d00e66",
       "name": "YouTube Video Search v2",
       "modules": [
         "yt-search",
@@ -1237,13 +1785,70 @@
       "creator": "Acedia QOLs"
     }
   },
-  "Automations": {},
+  "Automations": {
+    "GetFilePath": {
+      "name": "Get File Path",
+      "author": "LikRus",
+      "description": "Copying the file path to the clipboard.",
+      "files": {
+        "data.json": "16c4283c24011f6dd0ca4120afc85968",
+        "main.js": "4941eaaea3330e8b85c0ef1895b8e544"
+      }
+    },
+    "commandExIm": {
+      "name": "Command Export Import",
+      "author": "Acedia",
+      "files": {
+        "data.json": "3a0d36e215690110aab7037a0f49aad1",
+        "main.js": "957097a73ce0be15880c7574a681032d"
+      }
+    }
+  },
   "Events": {
+    "DataPathChanged_MOD.js": {
+      "md5": "ba9ebf1b9518461bb40c642d41e09c18",
+      "name": "Data Path Changed (Custom Data)",
+      "nameSchemes": [
+        "Store Path As (String)",
+        "Store Value As (String or object)",
+        "Store Old Value As (String or object)",
+        "Store Change Type As (String)"
+      ],
+      "description": "The event that is triggered when the json files are modified using Custom Data!",
+      "modules": [],
+      "creator": "LikRus"
+    },
     "audit_log_created_MOD.js": {
       "md5": "6559563f4b2ff640ce597aafa1efee05",
       "name": "Audit Log Created",
       "nameSchemes": [
         "Store AuditLog As"
+      ],
+      "modules": []
+    },
+    "lavalink_queue_end_MOD.js": {
+      "md5": "733c90f6b02400a620adfca4f3371af9",
+      "name": "Lavalink Queue End",
+      "nameSchemes": [
+        "Store Player As"
+      ],
+      "modules": []
+    },
+    "lavalink_track_end_MOD.js": {
+      "md5": "69fdec52319ce48d00c4d3d6a73e3928",
+      "name": "Lavalink Track End",
+      "nameSchemes": [
+        "Store Player As",
+        "Store Track As"
+      ],
+      "modules": []
+    },
+    "lavalink_track_start_MOD.js": {
+      "md5": "3666c764e31386780fb337d3dff8e8be",
+      "name": "Lavalink Track Start",
+      "nameSchemes": [
+        "Store Player As",
+        "Store Track As"
       ],
       "modules": []
     },
@@ -1268,6 +1873,14 @@
       ],
       "modules": [],
       "creator": "nitiqt"
+    },
+    "oauthSuccess_MOD.js": {
+      "md5": "7a0deb95f502d6025a28319ac03d4f67",
+      "name": "OAuth Success",
+      "nameSchemes": [
+        "Store User As"
+      ],
+      "modules": []
     },
     "queue_start_MOD.js": {
       "md5": "e862fee8d10a1f768165d2447f394f53",

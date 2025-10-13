@@ -1,4 +1,4 @@
-modVersion = "s.v2.0 | AceFix"
+modVersion = "v2.1.0 | AceFix"
 module.exports = {
   data: {
     name: "Create File",
@@ -9,7 +9,7 @@ module.exports = {
     creator: "Acedia Fixes",
     donate: "https://ko-fi.com/slothyacedia"
   },
-  modules: ["node:path"],
+  modules: ["node:path", "node:fs"],
   UI: [
     {
       element: "input",
@@ -32,13 +32,13 @@ module.exports = {
     return `Path: ${data.path} - Content: ${data.content}`
   },
   compatibility: ["Any"],
-  run(values, message, client, bridge) {
+  async run(values, message, client, bridge) {
     for (const moduleName of this.modules){
       await client.getMods().require(moduleName)
     }
     
     const path = require("node:path")
-    const fs = bridge.fs;
+    const fs = require("node:fs")
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
     filePath = bridge.transf(values.path)

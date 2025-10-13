@@ -544,33 +544,53 @@ function displayTab(tabName, registry) {
   const fragment = document.createDocumentFragment();
 
   if (tabName === "installed") {
-    Object.entries(tabData).forEach(([type, mods]) => {
-      Object.entries(mods).forEach(([modKey, modValue]) => {
-        const isOutdatedMod = isOutdated(modKey, type, registry);
-        // Pass the correct type to createCard
-        const card = createCard(modKey, modValue, type, true, isOutdatedMod);
-        fragment.appendChild(card);
+      const sortedMods = [];
+
+      Object.entries(tabData).forEach(([type, mods]) => {
+          Object.entries(mods).forEach(([modKey, modValue]) => {
+              const isOutdatedMod = isOutdated(modKey, type, registry);
+              sortedMods.push({
+                  modKey,
+                  modValue,
+                  type,
+                  isOutdatedMod,
+              });
+          });
       });
-    });
+
+      sortedMods.sort((a, b) => {
+          if (a.isOutdatedMod && !b.isOutdatedMod) return -1;
+          if (!a.isOutdatedMod && b.isOutdatedMod) return 1;
+          return 0;
+      });
+
+      sortedMods.forEach(({
+          modKey,
+          modValue,
+          type,
+          isOutdatedMod
+      }) => {
+          const card = createCard(modKey, modValue, type, true, isOutdatedMod);
+          fragment.appendChild(card);
+      });
   } else {
-    // Regular tabs display
-    Object.entries(tabData).forEach(([key, value]) => {
-      const isInstalledMod = isInstalled(key, tabName);
-      const isOutdatedMod = isOutdated(key, tabName, registry);
-      const card = createCard(
-        key,
-        value,
-        tabName,
-        isInstalledMod,
-        isOutdatedMod
-      );
-      fragment.appendChild(card);
-    });
+      Object.entries(tabData).forEach(([key, value]) => {
+          const isInstalledMod = isInstalled(key, tabName);
+          const isOutdatedMod = isOutdated(key, tabName, registry);
+          const card = createCard(
+              key,
+              value,
+              tabName,
+              isInstalledMod,
+              isOutdatedMod
+          );
+          fragment.appendChild(card);
+      });
   }
 
   content.appendChild(fragment);
   content.scrollTop = scrollPosition;
-}
+  }
 
 /**
  * Initializes the mod manager UI, sets up tab switching and search.
