@@ -187,70 +187,7 @@ async function installTranslation(mod, registry) {
 }
 
 /**
- * Recursively downloads all files/folders from a GitHub repo path using the REST API.
- * Uses process.env.GITHUB_TOKEN if available to increase rate limits.
- * @param {string} owner - GitHub owner (e.g. "RatWasHere")
- * @param {string} repo - GitHub repo (e.g. "bmods")
- * @param {string} repoPath - Path inside the repo (e.g. "Automations/commandExIm")
- * @param {string} destDir - Local destination directory to write files into
- */
-async function downloadGithubFolderRecursive(owner, repo, repoPath, destDir) {
-  const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents`;
-  const headers = {
-    Accept: "application/vnd.github.v3+json",
-  };
-  if (process.env.GITHUB_TOKEN) {
-    headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
-  }
-
-  async function processPath(currentRepoPath, currentDest) {
-    const url = `${apiBase}/${encodeURIComponent(currentRepoPath)}?ref=master`;
-    const res = await fetch(url, { headers });
-    if (!res.ok) {
-      throw new Error(`GitHub API failed ${res.status} ${res.statusText} for ${url}`);
-    }
-    const items = await res.json();
-    if (!Array.isArray(items)) {
-      if (items.type === "file" && items.download_url) {
-        const fileResp = await fetch(items.download_url);
-        if (!fileResp.ok) throw new Error(`Failed to download file: ${items.download_url}`);
-        const content = await fileResp.text();
-        fs.writeFileSync(path.join(currentDest, items.name), content, "utf-8");
-      }
-      return;
-    }
-
-    for (const item of items) {
-      if (item.type === "file") {
-        try {
-          const fileResp = await fetch(item.download_url);
-          if (!fileResp.ok) {
-            console.error(`Failed to download ${item.download_url}: ${fileResp.status}`);
-            continue;
-          }
-          const content = await fileResp.text();
-          fs.writeFileSync(path.join(currentDest, item.name), content, "utf-8");
-        } catch (err) {
-          console.error(`Error downloading file ${item.path}:`, err);
-        }
-      } else if (item.type === "dir") {
-        const subDir = path.join(currentDest, item.name);
-        if (!fs.existsSync(subDir)) fs.mkdirSync(subDir, { recursive: true });
-        await processPath(item.path, subDir);
-      } else {
-        console.warn(`Skipping unsupported item type ${item.type} at ${item.path}`);
-      }
-    }
-  }
-
-  if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
-  await processPath(repoPath, destDir);
-}
-
-/**
  * Installs an automation by creating/writing automation files or folder.
- * If 'mod' denotes a folder (no dot in name), it downloads the whole folder recursively.
- * Falls back to fetching index.js and config.json if GitHub API fails.
  * @param {string} mod - The automation key (file or directory).
  * @param {Object} registry - The full registry object.
  * @returns {Promise<Object>} An empty object.
@@ -265,22 +202,19 @@ async function installAutomation(mod, registry) {
       if (!fs.existsSync(automationDir)) {
         fs.mkdirSync(automationDir, { recursive: true });
       }
-
-      try {
-        await downloadGithubFolderRecursive("RatWasHere", "bmods", `Automations/${automationName}`, automationDir);
-        return {};
-      } catch (err) {
-        console.warn(`GitHub API download failed for Automations/${automationName}:`, err);
-        const commonFiles = ["index.js", "config.json"];
-        for (const file of commonFiles) {
-          const fileUrl = `${BASE_DOWNLOAD_URL}/Automations/${automationName}/${file}`;
-          const fileContent = await fetchFileContent(fileUrl);
-          if (fileContent) {
-            fs.writeFileSync(path.join(automationDir, file), fileContent, "utf-8");
-          }
+      const commonFiles = ["index.js", "config.json"];
+      for (const file of commonFiles) {
+        const fileUrl = `${BASE_DOWNLOAD_URL}/Automations/${automationName}/${file}`;
+        const fileContent = await fetchFileContent(fileUrl);
+        if (fileContent) {
+          fs.writeFileSync(
+            path.join(automationDir, file),
+            fileContent,
+            "utf-8"
+          );
         }
-        return {};
       }
+      return {};
     } else {
       const fileUrl = `${BASE_DOWNLOAD_URL}/Automations/${mod}`;
       const fileContent = await fetchFileContent(fileUrl);
@@ -294,7 +228,6 @@ async function installAutomation(mod, registry) {
     throw error;
   }
 }
-
 
 /**
  * Installs a mod by determining type, fetching files, and saving them.
