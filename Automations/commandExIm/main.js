@@ -9,7 +9,7 @@ module.exports = {
     const botData = require(dataJSONPath);
     const commands = botData.commands;
     let downloadsDir = path.join(os.homedir(), "Downloads");
-    let automationDataJSONPath = path.join(process.cwd(), "Automations", "commandExIn", "preferences.json");
+    let automationDataJSONPath = path.join(process.cwd(), "Automations", "commandExIm", "preferences.json");
     if (!fs.existsSync(automationDataJSONPath)) {
       fs.mkdirSync(path.dirname(automationDataJSONPath), { recursive: true });
       let defaultDataStructure = {
@@ -22,6 +22,12 @@ module.exports = {
     if (automationPreferances.export !== "" && automationPreferances.export !== "undefined") {
       downloadsDir = automationPreferances.export;
     }
+
+    const titleCase = (string) =>
+      string
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
 
     const commandTypes = {
       textCommand: "Text Cmd",
@@ -114,7 +120,7 @@ module.exports = {
       });
 
       options.showInterface(exportUI, defaultData).then((resultData) => {
-        if (resultData.exportPath !== path.join(os.homedir(), "Downloads")) {
+        if (resultData.exportPath !== automationPreferances.export) {
           automationPreferances.export = path.normalize(resultData.exportPath);
           fs.writeFileSync(automationDataJSONPath, JSON.stringify(automationPreferances, null, 2));
         }
@@ -127,7 +133,7 @@ module.exports = {
           fs.mkdirSync(downloadsDir, { recursive: true });
         }
 
-        if (selectedIds.length === 0) return options.result(`⚠️ No Commands Were Selected For Export`);
+        if (selectedIds.length === 0) return options.result(titleCase(`⚠️ No Commands Were Selected For Export`));
 
         for (const id of selectedIds) {
           const selectedData = resultData[id][0].data;
@@ -138,7 +144,7 @@ module.exports = {
           exportedCount++;
         }
 
-        options.result(`✅ Exported ${exportedCount} command(s) to ${downloadsDir}`);
+        options.result(titleCase(`✅ Exported ${exportedCount} Command(s) To ${downloadsDir}`));
       });
     }
 
@@ -199,7 +205,7 @@ module.exports = {
         try {
           rawCommandJson = fs.readFileSync(fileLocation, "utf8");
         } catch {
-          options.burstInform({ element: "text", text: `⚠️ Could Not Read File ${fileLocation}` });
+          options.burstInform({ element: "text", text: titleCase(`⚠️ Could Not Read File ${fileLocation}`) });
           return false;
         }
 
@@ -207,14 +213,26 @@ module.exports = {
         try {
           commandJson = JSON.parse(rawCommandJson);
         } catch {
-          options.burstInform({ element: "text", text: `⚠️ ${fileLocation} Contains Invalid JSON` });
+          options.burstInform({ element: "text", text: titleCase(`⚠️ ${fileLocation} Contains Invalid JSON`) });
+          return false;
+        }
+
+        if (
+          commandJson.name &&
+          commandJson.type &&
+          commandJson.trigger &&
+          commandJson.actions &&
+          commandJson.customId
+        ) {
+        } else {
+          options.burstInform({ element: "text", text: titleCase(`⚠️ Command Validation Failed`) });
           return false;
         }
 
         if (Array.isArray(commandJson)) commands.push(...commandJson);
         else commands.push(commandJson);
 
-        options.burstInform({ element: "text", text: `✅ Imported ${fileLocation}` });
+        options.burstInform({ element: "text", text: titleCase(`✅ Imported ${fileLocation}`) });
         return true;
       };
 
@@ -228,7 +246,7 @@ module.exports = {
           const projectDir = botData.prjSrc;
           const backupPath = path.join(projectDir, "backup_data.json");
           fs.writeFileSync(backupPath, JSON.stringify(botData, null, 2), "utf8");
-          options.burstInform({ element: "text", text: `✅ Backup Saved To ${backupPath}` });
+          options.burstInform({ element: "text", text: titleCase(`✅ Backup Saved To ${backupPath}`) });
         }
 
         // Validate target path
@@ -236,7 +254,7 @@ module.exports = {
         try {
           stats = fs.statSync(resultDataPath);
         } catch {
-          return options.result(`⚠️ Path ${resultDataPath} Doesn't Exist`);
+          return options.result(titleCase(`⚠️ Path ${resultDataPath} Doesn't Exist`));
         }
 
         // Merge based on type
@@ -250,14 +268,14 @@ module.exports = {
         } else if (stats.isFile()) {
           if (readAndPush(resultDataPath)) commandsMerged++;
         } else {
-          return options.result(`⚠️ ${resultDataPath} Is Neither A File Nor A Folder`);
+          return options.result(titleCase(`⚠️ ${resultDataPath} Is Neither A File Nor A Folder`));
         }
 
         // Save merged data
         botData.commands = commands;
         fs.writeFileSync(dataJSONPath, JSON.stringify(botData, null, 2), "utf8");
 
-        options.result(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`);
+        options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`));
         setTimeout(() => location.reload(), 1000);
       });
     }
