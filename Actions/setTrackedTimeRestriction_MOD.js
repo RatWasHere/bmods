@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 
 module.exports = {
   data: {
@@ -32,6 +32,7 @@ module.exports = {
       choices: {
         user: {name: "User", field: false},
         member: {name: "Member", field: false},
+        channel: {name: "Channel", field: false},
         role: {name: "Role", field: false},
         server: {name: "Server", field: false},
         global: {name: "Global", field: false},
@@ -39,24 +40,9 @@ module.exports = {
     },
     "_",
     {
-      element: "user",
+      element: "",
       storeAs: "user",
       name: "User To Restrict",
-    },
-    {
-      element: "user",
-      storeAs: "member",
-      name: "Member To Restrict",
-    },
-    {
-      element: "role",
-      storeAs: "role",
-      name: "Role To Restrict",
-    },
-    {
-      element: "guild",
-      storeAs: "server",
-      name: "Server To Restrict",
     },
     "-",
     {
@@ -93,47 +79,36 @@ module.exports = {
     function reflem(skipAnimation){
       let targetType = values.data.target.type
 
-      switch (targetType){
-        case "user": {
-          values.UI[4].element = "user"
-          values.UI[5].element = ""
-          values.UI[6].element = ""
-          values.UI[7].element = ""
-          break
-        }
-
-        case "member": {
-          values.UI[4].element = ""
-          values.UI[5].element = "member"
-          values.UI[6].element = ""
-          values.UI[7].element = ""
-          break
-        }
-
-        case "role": {
-          values.UI[4].element = ""
-          values.UI[5].element = ""
-          values.UI[6].element = "role"
-          values.UI[7].element = ""
-          break
-        }
-
-        case "server": {
-          values.UI[4].element = ""
-          values.UI[5].element = ""
-          values.UI[6].element = ""
-          values.UI[7].element = "guild"
-          break
-        }
-
-        case "global": {
-          values.UI[4].element = ""
-          values.UI[5].element = ""
-          values.UI[6].element = ""
-          values.UI[7].element = ""
-          break
-        }
+      let elementMap = {
+        user: {
+          element: "user",
+          storeAs: "user",
+          name: "User To Restrict",
+        },
+        member: {
+          element: "member",
+          storeAs: "member",
+          name: "Member To Restrict",
+        },
+        role: {
+          element: "role",
+          storeAs: "role",
+          name: "Role To Restrict",
+        },
+        server: {
+          element: "guild",
+          storeAs: "server",
+          name: "Server To Restrict"
+        },
+        channel: {
+          element: "channelInput",
+          storeAs: "channel",
+          name: "Channel To Restrict"
+        },
+        global: "_"
       }
+
+      values.UI[4] = elementMap[targetType]
 
       setTimeout(()=>{
         values.updateUI()
@@ -251,6 +226,12 @@ module.exports = {
       case "server":{
         let server = await bridge.getGuild(values.server)
         targetId = server.id
+        break
+      }
+
+      case "channel":{
+        let channel = await bridge.getChannel(values.channel)
+        targetId = channel.id
         break
       }
 
