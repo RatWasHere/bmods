@@ -1773,6 +1773,12 @@
       "category": "WebAPIs",
       "creator": "Acedia"
     },
+    "wordPhraseCheck_MOD.js": {
+      "md5": "5dda4cee69c6f89f65fc06d230a6fe6f",
+      "modules": [],
+      "category": "Text",
+      "creator": "Acedia"
+    },
     "ytSearchv2_MOD.js": {
       "md5": "541b9ca0a01322276dd1bc1981d00e66",
       "name": "YouTube Video Search v2",
