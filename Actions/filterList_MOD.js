@@ -40,6 +40,7 @@ module.exports = {
         numbers: {name: "Are Numbers", field: false},
       }
     },
+    "_",
     {
       element: "toggle",
       storeAs: "caseSens",
