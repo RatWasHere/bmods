@@ -1,4 +1,4 @@
-modVersion = "v1.2.0";
+modVersion = "v1.2.1";
 module.exports = {
   run: async (options) => {
     const fs = require("node:fs");
@@ -108,7 +108,7 @@ module.exports = {
         element: "html",
         html: `
           <button
-            style="width: 95%; margin-left: auto; margin-right: auto"
+            style="width: var(--width-in-editor); margin-left: auto; margin-right: auto"
             class="hoverablez flexbox"
             onclick="
               let inputPath = awaitIPCResponse({channel: 'saveDialog'}, 'saveDialogResult').then(path => {
@@ -188,6 +188,9 @@ module.exports = {
       let botData = JSON.parse(fs.readFileSync(dataJSONPath));
       let commands = botData.commands;
       let defaultImportFolderPath = path.join(process.cwd(), "Automations", "commandExIm", "ImportCache");
+      if (!fs.existsSync(defaultImportFolderPath)){
+        fs.mkdirSync(defaultImportFolderPath, {recursive:true})
+      }
       let defaultData = { path: defaultImportFolderPath, generateBackup: true };
 
       let importUI = [
@@ -196,20 +199,42 @@ module.exports = {
           html: `
             <div
             id="dropArea"
-            style="width: 93%; margin-left: auto; margin-right: auto; padding: 20px;border: 2px dashed #555;border-radius: 6px;text-align: center;"
-            class="hoverablez flexbox"
+            style="width: var(--width-in-editor);
+            height: 60px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px dashed #555;
+            border-radius: 6px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition:
+            border-color 0.2s;
+            box-sizing: border-box"
+            class="hoverablez noanims"
             ondragover="event.preventDefault(); this.style.borderColor='#00b4d8';"
             ondragleave="this.style.borderColor='#555';"
             ondrop="
               event.preventDefault();
               this.style.borderColor='#555';
               let files = event.dataTransfer.files;
-              for (let file of files){
-                if (!file.name.toLowerCase().endsWith('.json')){
-                  continue
-                }
+              let dropArea = this
+              let dropText = dropArea.querySelector('#dropText')
+              let consoleArea = document.getElementById('console')
 
-                if (file.type !== 'application/json'){
+              function logToConsole(msg, color){
+                let line = document.createElement('div')
+                line.style.color = color
+                line.textContent = msg
+                consoleArea.appendChild(line)
+                consoleArea.scrollTop = consoleArea.scrollHeight
+              }
+
+              for (let file of files){
+
+                if (!file.name.toLowerCase().endsWith('.json')){
+                  logToConsole('Invalid File (Non-JSON): ' + file.name, '#ff0000')
                   continue
                 }
 
@@ -219,23 +244,20 @@ module.exports = {
                     if (commandJSON.name && commandJSON.type && commandJSON.trigger && commandJSON.actions && commandJSON.customId){
                       const fs = require('fs')
                       const path = require('path')
-                      let automationDir = path.join(process.cwd(), 'Automations', 'commandExIm')
-                      let tempImportDir = path.join(automationDir, 'importCache')
-                      if (!fs.existsSync(tempImportDir)){
-                        fs.mkdirSync(tempImportDir, {recursive:true})
-                      }
+                      let tempImportDir = path.join(process.cwd(), 'Automations', 'commandExIm', 'importCache')
                       let fileName = (commandJSON.name + '_' + commandJSON.type + Date.now()).replace(/[^\\w\\-]+/g, '_') + '.json'
                       let importFilePath = path.join(tempImportDir, fileName)
                       console.log(importFilePath)
                       fs.writeFileSync(importFilePath, JSON.stringify(commandJSON, null, 2))
-                    }
-                  } catch (err) {
-                  }
+                      logToConsole('File Cached For Import: ' + file.name, '#00ff00')
+                    } else {
+                      throw new error('Content Not Valid JSON')}
+                  } catch (err) {logToConsole('Invalid File (Invalid JSON): ' + file.name, '#ff0000')}
                 })
               }
             "
           >
-            Drop JSON File(s) Here
+            <span id="dropText">Drop JSON File(s) Here</span>
           </div>
             `,
         },
@@ -245,6 +267,28 @@ module.exports = {
           storeAs: "generateBackup",
           name: "Generate Backup?",
         },
+        "_",
+        {
+          element: "html",
+          html:`
+          <div
+            id="console"
+            class="noanims hoverablez"
+            style="width: var(--width-in-editor);
+            height: 150px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 6px;
+            font-size: 16px;
+            overflow-y: auto;
+            padding: 4px;
+            box-sizing: border-box;
+            border: 1px solid #555;"
+          >
+            <div style='color:#979797;'>Logs</div>
+          </div>
+          `
+        }
       ];
 
       options.showInterface(importUI, defaultData).then((resultData) => {
@@ -286,7 +330,10 @@ module.exports = {
         try {
           options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`));
         } catch (err) {}
-        setTimeout(() => location.reload(), 1000);
+
+        if(commandsMerged > 0){
+          setTimeout(() => location.reload(), 1000);
+        }
       });
     }
   },
