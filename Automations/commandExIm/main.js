@@ -5,9 +5,7 @@ module.exports = {
     const path = require("node:path");
     const os = require("node:os");
 
-    const dataJSONPath = path.join(process.cwd(), "AppData", "data.json");
-    const botData = require(dataJSONPath);
-    const commands = botData.commands;
+    let dataJSONPath = path.join(process.cwd(), "AppData", "data.json");
     let downloadsDir = path.join(os.homedir(), "Downloads");
     let automationDataJSONPath = path.join(process.cwd(), "Automations", "commandExIm", "preferences.json");
     if (!fs.existsSync(automationDataJSONPath)) {
@@ -23,13 +21,39 @@ module.exports = {
       downloadsDir = automationPreferances.export;
     }
 
-    const titleCase = (string) =>
-      string
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+    let titleCase = (string) => string.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
-    const commandTypes = {
+    let readAndPush = (fileLocation) => {
+      let rawCommandJson;
+      try {
+        rawCommandJson = fs.readFileSync(fileLocation, "utf8");
+      } catch {
+        options.burstInform({ element: "text", text: titleCase(`⚠️ Could Not Read File ${fileLocation}`) });
+        return false;
+      }
+
+      let commandJson;
+      try {
+        commandJson = JSON.parse(rawCommandJson);
+      } catch {
+        options.burstInform({ element: "text", text: titleCase(`⚠️ ${fileLocation} Contains Invalid JSON`) });
+        return false;
+      }
+
+      if (commandJson.name && commandJson.type && commandJson.trigger && commandJson.actions && commandJson.customId) {
+      } else {
+        options.burstInform({ element: "text", text: titleCase(`⚠️ Command Validation Failed`) });
+        return false;
+      }
+
+      if (Array.isArray(commandJson)) commands.push(...commandJson);
+      else commands.push(commandJson);
+
+      options.burstInform({ element: "text", text: titleCase(`✅ Imported ${fileLocation}`) });
+      return true;
+    };
+
+    let commandTypes = {
       textCommand: "Text Cmd",
       slashCommand: "Slash Cmd",
       anyMessage: "Any Message",
@@ -39,7 +63,7 @@ module.exports = {
       event: "Event",
     };
 
-    const data = await options.showInterface([
+    let data = await options.showInterface([
       {
         element: "typedDropdown",
         storeAs: "action",
@@ -60,6 +84,9 @@ module.exports = {
     // EXPORT SECTION
     // =========================
     if (data.action.type === "export") {
+      let botData = JSON.parse(fs.readFileSync(dataJSONPath));
+      let commands = botData.commands;
+
       let defaultData = {
         exportPath: downloadsDir,
       };
@@ -128,17 +155,17 @@ module.exports = {
         let exportedCount = 0;
         downloadsDir = path.normalize(resultData.exportPath);
         delete resultData["exportPath"];
-        const selectedIds = Object.keys(resultData).filter((k) => resultData[k]?.length);
+        let selectedIds = Object.keys(resultData).filter((k) => resultData[k]?.length);
         if (!fs.existsSync(downloadsDir)) {
           fs.mkdirSync(downloadsDir, { recursive: true });
         }
 
         if (selectedIds.length === 0) return options.result(titleCase(`⚠️ No Commands Were Selected For Export`));
 
-        for (const id of selectedIds) {
-          const selectedData = resultData[id][0].data;
-          const fileName = (selectedData.name || "Unnamed_Command").replace(/[^\w\-]+/g, "_");
-          const exportPath = path.join(downloadsDir, `${fileName}.json`);
+        for (let id of selectedIds) {
+          let selectedData = resultData[id][0].data;
+          let fileName = (selectedData.name || "Unnamed_Command").replace(/[^\w\-]+/g, "_");
+          let exportPath = path.join(downloadsDir, `${fileName}.json`);
 
           fs.writeFileSync(exportPath, JSON.stringify(selectedData.data, null, 2));
           exportedCount++;
@@ -152,6 +179,8 @@ module.exports = {
     // IMPORT SECTION
     // =========================
     else if (data.action.type === "import") {
+      let botData = JSON.parse(fs.readFileSync(dataJSONPath));
+      let commands = botData.commands;
       let defaultData = { path: "", generateBackup: true };
 
       let importUI = [
@@ -161,36 +190,6 @@ module.exports = {
           name: "Path Of File / Folder",
           placeholder: "C:\\Path\\To\\file.json | C:\\Path\\To\\JSONfolder",
         },
-        // "_",
-        // {
-        //   element: "html",
-        //   html: `
-        //     <div
-        //     id="dropArea"
-        //     style="width: fit-content; margin-left: auto; margin-right: auto; padding: 20px;border: 2px dashed #555;border-radius: 6px;text-align: center;"
-        //     class="hoverablez flexbox"
-        //     ondragover="event.preventDefault(); this.style.borderColor='#00b4d8';"
-        //     ondragleave="this.style.borderColor='#555';"
-        //     ondrop="
-        //       event.preventDefault();
-        //       this.style.borderColor='#555';
-        //       const file = event.dataTransfer.files[0];
-        //       console.log(file)
-        //       if (!file || !file.path) return;
-        //       const filePath = file.path;
-        //       if (!filePath.endsWith('.json') && !file.type && !file.isDirectory) {
-        //         alert('Only JSON Files Or Folders Are Allowed.');
-        //         return;
-        //       }
-        //       const inputArea = document.getElementById('path');
-        //       inputArea.value = filePath;
-        //       inputArea.focus();
-        //     "
-        //   >
-        //     Drop a JSON file or folder here
-        //   </div>
-        //     `,
-        // },
         "-",
         {
           element: "toggle",
@@ -199,57 +198,18 @@ module.exports = {
         },
       ];
 
-      // Helper to read and merge one file
-      const readAndPush = (fileLocation) => {
-        let rawCommandJson;
-        try {
-          rawCommandJson = fs.readFileSync(fileLocation, "utf8");
-        } catch {
-          options.burstInform({ element: "text", text: titleCase(`⚠️ Could Not Read File ${fileLocation}`) });
-          return false;
-        }
-
-        let commandJson;
-        try {
-          commandJson = JSON.parse(rawCommandJson);
-        } catch {
-          options.burstInform({ element: "text", text: titleCase(`⚠️ ${fileLocation} Contains Invalid JSON`) });
-          return false;
-        }
-
-        if (
-          commandJson.name &&
-          commandJson.type &&
-          commandJson.trigger &&
-          commandJson.actions &&
-          commandJson.customId
-        ) {
-        } else {
-          options.burstInform({ element: "text", text: titleCase(`⚠️ Command Validation Failed`) });
-          return false;
-        }
-
-        if (Array.isArray(commandJson)) commands.push(...commandJson);
-        else commands.push(commandJson);
-
-        options.burstInform({ element: "text", text: titleCase(`✅ Imported ${fileLocation}`) });
-        return true;
-      };
-
       options.showInterface(importUI, defaultData).then((resultData) => {
-        const resultDataPath = resultData.path.replaceAll(`"`, "").replaceAll(`'`, "");
-        const generateBackup = resultData.generateBackup;
+        let resultDataPath = resultData.path.replaceAll(`"`, "").replaceAll(`'`, "");
+        let generateBackup = resultData.generateBackup;
         let commandsMerged = 0;
 
-        // Backup first if requested
         if (generateBackup) {
-          const projectDir = botData.prjSrc;
-          const backupPath = path.join(projectDir, "backup_data.json");
+          let projectDir = botData.prjSrc;
+          let backupPath = path.join(projectDir, "backup_data.json");
           fs.writeFileSync(backupPath, JSON.stringify(botData, null, 2), "utf8");
           options.burstInform({ element: "text", text: titleCase(`✅ Backup Saved To ${backupPath}`) });
         }
 
-        // Validate target path
         let stats;
         try {
           stats = fs.statSync(resultDataPath);
@@ -257,12 +217,11 @@ module.exports = {
           return options.result(titleCase(`⚠️ Path ${resultDataPath} Doesn't Exist`));
         }
 
-        // Merge based on type
         if (stats.isDirectory()) {
-          const files = fs.readdirSync(resultDataPath);
-          for (const file of files) {
+          let files = fs.readdirSync(resultDataPath);
+          for (let file of files) {
             if (path.extname(file).toLowerCase() !== ".json") continue;
-            const fileLocation = path.join(resultDataPath, file);
+            let fileLocation = path.join(resultDataPath, file);
             if (readAndPush(fileLocation)) commandsMerged++;
           }
         } else if (stats.isFile()) {
@@ -271,7 +230,6 @@ module.exports = {
           return options.result(titleCase(`⚠️ ${resultDataPath} Is Neither A File Nor A Folder`));
         }
 
-        // Save merged data
         botData.commands = commands;
         fs.writeFileSync(dataJSONPath, JSON.stringify(botData, null, 2), "utf8");
 
