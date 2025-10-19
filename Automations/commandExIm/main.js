@@ -21,37 +21,11 @@ module.exports = {
       downloadsDir = automationPreferances.export;
     }
 
-    let titleCase = (string) => string.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-
-    let readAndPush = (fileLocation) => {
-      let rawCommandJson;
-      try {
-        rawCommandJson = fs.readFileSync(fileLocation, "utf8");
-      } catch {
-        options.burstInform({ element: "text", text: titleCase(`⚠️ Could Not Read File ${fileLocation}`) });
-        return false;
-      }
-
-      let commandJson;
-      try {
-        commandJson = JSON.parse(rawCommandJson);
-      } catch {
-        options.burstInform({ element: "text", text: titleCase(`⚠️ ${fileLocation} Contains Invalid JSON`) });
-        return false;
-      }
-
-      if (commandJson.name && commandJson.type && commandJson.trigger && commandJson.actions && commandJson.customId) {
-      } else {
-        options.burstInform({ element: "text", text: titleCase(`⚠️ Command Validation Failed`) });
-        return false;
-      }
-
-      if (Array.isArray(commandJson)) commands.push(...commandJson);
-      else commands.push(commandJson);
-
-      options.burstInform({ element: "text", text: titleCase(`✅ Imported ${fileLocation}`) });
-      return true;
-    };
+    let titleCase = (string) =>
+      string
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
 
     let commandTypes = {
       textCommand: "Text Cmd",
@@ -61,6 +35,36 @@ module.exports = {
       message: "Message Cmd",
       user: "User Cmd",
       event: "Event",
+    };
+
+    let readAndPush = (fileLocation, commands) => {
+      let rawCommandJson;
+      try {
+        rawCommandJson = fs.readFileSync(fileLocation, "utf8");
+      } catch {
+        // options.burstInform({ element: "text", text: titleCase(`⚠️ Could Not Read File ${fileLocation}`) });
+        return false;
+      }
+
+      let commandJson;
+      try {
+        commandJson = JSON.parse(rawCommandJson);
+      } catch {
+        // options.burstInform({ element: "text", text: titleCase(`⚠️ ${fileLocation} Contains Invalid JSON`) });
+        return false;
+      }
+
+      if (commandJson.name && commandJson.type && commandJson.trigger && commandJson.actions && commandJson.customId) {
+      } else {
+        // options.burstInform({ element: "text", text: titleCase(`⚠️ Command Validation Failed`) });
+        return false;
+      }
+
+      if (Array.isArray(commandJson)) commands.push(...commandJson);
+      else commands.push(commandJson);
+
+      // options.burstInform({ element: "text", text: titleCase(`✅ Imported ${fileLocation}`) });
+      return true;
     };
 
     let data = await options.showInterface([
@@ -171,7 +175,9 @@ module.exports = {
           exportedCount++;
         }
 
-        options.result(titleCase(`✅ Exported ${exportedCount} Command(s) To ${downloadsDir}`));
+        try {
+          options.result(titleCase(`✅ Exported ${exportedCount} Command(s) To ${downloadsDir}`));
+        } catch (err) {}
       });
     }
 
@@ -181,14 +187,57 @@ module.exports = {
     else if (data.action.type === "import") {
       let botData = JSON.parse(fs.readFileSync(dataJSONPath));
       let commands = botData.commands;
-      let defaultData = { path: "", generateBackup: true };
+      let defaultImportFolderPath = path.join(process.cwd(), "Automations", "commandExIm", "ImportCache");
+      let defaultData = { path: defaultImportFolderPath, generateBackup: true };
 
       let importUI = [
         {
-          element: "input",
-          storeAs: "path",
-          name: "Path Of File / Folder",
-          placeholder: "C:\\Path\\To\\file.json | C:\\Path\\To\\JSONfolder",
+          element: "html",
+          html: `
+            <div
+            id="dropArea"
+            style="width: fit-content; margin-left: auto; margin-right: auto; padding: 20px;border: 2px dashed #555;border-radius: 6px;text-align: center;"
+            class="hoverablez flexbox"
+            ondragover="event.preventDefault(); this.style.borderColor='#00b4d8';"
+            ondragleave="this.style.borderColor='#555';"
+            ondrop="
+              event.preventDefault();
+              this.style.borderColor='#555';
+              let files = event.dataTransfer.files;
+              for (let file of files){
+                if (!file.name.toLowerCase().endsWith('.json')){
+                  continue
+                }
+
+                if (file.type !== 'application/json'){
+                  continue
+                }
+
+                file.text().then(fileContent => {
+                  try {
+                    commandJSON = JSON.parse(fileContent)
+                    if (commandJSON.name && commandJSON.type && commandJSON.trigger && commandJSON.actions && commandJSON.customId){
+                      const fs = require('fs')
+                      const path = require('path')
+                      let automationDir = path.join(process.cwd(), 'Automations', 'commandExIm')
+                      let tempImportDir = path.join(automationDir, 'importCache')
+                      if (!fs.existsSync(tempImportDir)){
+                        fs.mkdirSync(tempImportDir, {recursive:true})
+                      }
+                      let fileName = (commandJSON.name + '_' + commandJSON.type + Date.now()).replace(/[^\\w\\-]+/g, '_') + '.json'
+                      let importFilePath = path.join(tempImportDir, fileName)
+                      console.log(importFilePath)
+                      fs.writeFileSync(importFilePath, JSON.stringify(commandJSON, null, 2))
+                    }
+                  } catch (err) {
+                  }
+                })
+              }
+            "
+          >
+            Drop JSON File(s) Here
+          </div>
+            `,
         },
         "-",
         {
@@ -207,7 +256,7 @@ module.exports = {
           let projectDir = botData.prjSrc;
           let backupPath = path.join(projectDir, "backup_data.json");
           fs.writeFileSync(backupPath, JSON.stringify(botData, null, 2), "utf8");
-          options.burstInform({ element: "text", text: titleCase(`✅ Backup Saved To ${backupPath}`) });
+          // options.burstInform({ element: "text", text: titleCase(`✅ Backup Saved To ${backupPath}`) });
         }
 
         let stats;
@@ -222,18 +271,21 @@ module.exports = {
           for (let file of files) {
             if (path.extname(file).toLowerCase() !== ".json") continue;
             let fileLocation = path.join(resultDataPath, file);
-            if (readAndPush(fileLocation)) commandsMerged++;
+            if (readAndPush(fileLocation, commands)) commandsMerged++;
           }
         } else if (stats.isFile()) {
-          if (readAndPush(resultDataPath)) commandsMerged++;
+          if (readAndPush(resultDataPath, commands)) commandsMerged++;
         } else {
           return options.result(titleCase(`⚠️ ${resultDataPath} Is Neither A File Nor A Folder`));
         }
 
         botData.commands = commands;
         fs.writeFileSync(dataJSONPath, JSON.stringify(botData, null, 2), "utf8");
+        fs.rm(defaultImportFolderPath, { recursive: true, force: true });
 
-        options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`));
+        try {
+          options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`));
+        } catch (err) {}
         setTimeout(() => location.reload(), 1000);
       });
     }
