@@ -1,4 +1,4 @@
-modVersion = "v1.1.0"
+modVersion = "v1.2.0"
 
 module.exports = {
   data: {
@@ -50,6 +50,7 @@ module.exports = {
       storeAs: "timeTillExpiry",
       name: "If Ongoing, Store Remaining Time In Milliseconds As"
     },
+    "_",
     {
       element: "case",
       name: "If Time Restriction Is Ongoing",
@@ -148,9 +149,22 @@ module.exports = {
       return bridge.data.IO.restrictions.cache
     }
 
+    let pendingWrite = false
+
     let writeRestrictions = (data) => {
       bridge.data.IO.restrictions.cache = JSON.parse(JSON.stringify(data))
-      altFs.writeFileSync(restrictionsFilePath, JSON.stringify(data, null, 2))
+      if (pendingWrite == false){
+        pendingWrite = true
+        setTimeout(()=>{
+          try {
+            altFs.writeFileSync(restrictionsFilePath, JSON.stringify(bridge.data.IO.restrictions.cache, null, 2))
+          } catch (err){
+
+          } finally {
+            pendingWrite = false
+          }
+        },500)
+      }
     }
 
     bridge.data.IO.restrictions = {
@@ -241,7 +255,7 @@ module.exports = {
       }
     }
 
-    let restrictionId = `${targetType}${targetId}-${commandId}`
+    let restrictionId = `command-${targetType}${targetId}-${commandId}`
 
     async function notOngoing(){
       let expireTimestamp = Number(currentTime) + Number(timeUnits[values.time.type] * bridge.transf(values.time.value))
