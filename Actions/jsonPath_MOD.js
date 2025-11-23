@@ -1,9 +1,9 @@
 module.exports = {
   modules: ["jsonpath"],
   data: {
-    name: "Json Path",
+    name: "JSON Path",
   },
-  category: "Json",
+  category: "JSON",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "candiedapple",
