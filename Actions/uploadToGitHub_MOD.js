@@ -2,7 +2,7 @@ modVersion = "v1.0.1"
 module.exports = {
   data: {
     name: "Upload File To GitHub",
-    branch: "main"
+    branch: "main",
   },
   aliases: [],
   modules: ["node:fs", "node:path"],
@@ -16,7 +16,7 @@ module.exports = {
     {
       element: "input",
       storeAs: "owner",
-      name: "Repository Owner"
+      name: "Repository Owner",
     },
     {
       element: "input",
@@ -32,13 +32,13 @@ module.exports = {
       element: "input",
       storeAs: "remotePath",
       name: "File Path On GitHub",
-      placeholder: "path/to/file.ext"
+      placeholder: "path/to/file.ext",
     },
     {
       element: "input",
       storeAs: "token",
       name: "GitHub User Token",
-      placeholder: "https://github.com/settings/tokens"
+      placeholder: "https://github.com/settings/tokens",
     },
     "-",
     {
@@ -46,8 +46,8 @@ module.exports = {
       storeAs: "upload",
       name: "Upload Type",
       choices: {
-        file: {name: "File", field: true, placeholder: "path/to/file.ext"},
-        content: {name: "Content", field: true, placeholder: "Content"},
+        file: { name: "File", field: true, placeholder: "path/to/file.ext" },
+        content: { name: "Content", field: true, placeholder: "Content" },
       },
     },
     "-",
@@ -59,18 +59,20 @@ module.exports = {
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Upload Content (${values.upload.value}) To GitHub`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
@@ -84,11 +86,11 @@ module.exports = {
     let remotePath = bridge.transf(values.remotePath).trim()
     let token = bridge.transf(values.token).trim()
 
-    if (!owner || !repo || !branch || !remotePath || !token){
+    if (!owner || !repo || !branch || !remotePath || !token) {
       return bridge.store(values.resp, `Missing Fields!`)
     }
 
-    if (remotePath.startsWith("/")){
+    if (remotePath.startsWith("/")) {
       remotePath = remotePath.slice(1)
     }
     remotePath = remotePath.replaceAll("..", ".")
@@ -96,18 +98,20 @@ module.exports = {
     let apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${remotePath}`
 
     let content
-    if (uploadType == "file"){
+    if (uploadType == "file") {
       let relativePath = path.normalize(bridge.transf(values.upload.value))
 
       const botData = require("../data.json")
       const workingDir = path.normalize(process.cwd())
       let projectFolder
-      if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
+      if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
         projectFolder = botData.prjSrc
-      } else {projectFolder = workingDir}
+      } else {
+        projectFolder = workingDir
+      }
 
       let fullPath = path.join(projectFolder, relativePath)
-      if(fs.existsSync(fullPath)){
+      if (fs.existsSync(fullPath)) {
         content = fs.readFileSync(fullPath)
       } else {
         return `"${fullPath}" Does Not Exist!`
@@ -123,11 +127,11 @@ module.exports = {
       const checkResponse = await fetch(`${apiUrl}?ref=${branch}`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          Accept: "application/vnd.github+json"
-        }
+          Accept: "application/vnd.github+json",
+        },
       })
 
-      if (checkResponse.ok){
+      if (checkResponse.ok) {
         const existing = await checkResponse.json()
         sha = existing.sha
       }
@@ -137,18 +141,18 @@ module.exports = {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/vnd.github+json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           message: `Upload ${remotePath} via Bot`,
           content: contentEncoded,
           branch,
-          ...(sha ? {sha} : {})
-        })
+          ...(sha ? { sha } : {}),
+        }),
       })
 
       const result = await uploadResponse.json()
-      if (!uploadResponse.ok){
+      if (!uploadResponse.ok) {
         bridge.store(values.resp, `GitHub Error: ${result.message}`)
         return
       }
@@ -157,5 +161,5 @@ module.exports = {
     } catch (error) {
       bridge.store(values.resp, `Upload Failed: ${error.message}`)
     }
-  }
+  },
 }

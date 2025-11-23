@@ -1,7 +1,7 @@
 modVersion = "v1.0.2"
 module.exports = {
   data: {
-    name: "Read JSON File"
+    name: "Read JSON File",
   },
   aliases: ["Get JSON File"],
   modules: ["node:path", "node:fs"],
@@ -16,7 +16,7 @@ module.exports = {
       element: "input",
       storeAs: "pathToJson",
       name: "Path To JSON File",
-      placeholder: "path/to/file.json"
+      placeholder: "path/to/file.json",
     },
     {
       element: "input",
@@ -33,18 +33,20 @@ module.exports = {
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Store ${values.pathToJson} As JSON Object`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
@@ -54,14 +56,16 @@ module.exports = {
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
     let projectFolder
-    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
       projectFolder = botData.prjSrc
-    } else {projectFolder = workingDir}
+    } else {
+      projectFolder = workingDir
+    }
 
     let pathToJson = path.normalize(bridge.transf(values.pathToJson))
 
     let fullPath = path.join(path.normalize(projectFolder), pathToJson)
-    if (!fs.existsSync(fullPath)){
+    if (!fs.existsSync(fullPath)) {
       return console.error(`File ${fullPath} Doesn't Exist!`)
     }
 
@@ -69,42 +73,42 @@ module.exports = {
     let jsonObject
     try {
       jsonObject = JSON.parse(originalFileContent)
-    } catch (err){
+    } catch (err) {
       return console.error(`Invalid Original JSON Content: ${err.message}`)
       jsonObject = {}
     }
 
     let finalResult = jsonObject
-    if (values.pathToElement){
+    if (values.pathToElement) {
       let elementPath = bridge.transf(values.pathToElement).trim()
       elementPath = elementPath.replaceAll("..", ".")
-      if (elementPath.startsWith(`.`)){
+      if (elementPath.startsWith(`.`)) {
         elementPath = elementPath.slice(1)
       }
 
-      if (
-        elementPath === "" ||
-        elementPath.includes("..") ||
-        elementPath.startsWith(".") ||
-        elementPath.endsWith(".")
-      ){
+      if (elementPath === "" || elementPath.includes("..") || elementPath.startsWith(".") || elementPath.endsWith(".")) {
         console.error(`Invalid path: "${elementPath}"`)
         return
       }
 
-      try{
-        const keys = elementPath.replace(/\[(\d+)\]/g, `.$1`).split(`.`).filter(Boolean)
+      try {
+        const keys = elementPath
+          .replace(/\[(\d+)\]/g, `.$1`)
+          .split(`.`)
+          .filter(Boolean)
 
-        for (const key of keys){
-        if (finalResult && Object.prototype.hasOwnProperty.call(finalResult, key)){
-          finalResult = finalResult[key]
-        } else {finalResult = undefined}
-      }
-      }catch(err){
+        for (const key of keys) {
+          if (finalResult && Object.prototype.hasOwnProperty.call(finalResult, key)) {
+            finalResult = finalResult[key]
+          } else {
+            finalResult = undefined
+          }
+        }
+      } catch (err) {
         return console.error(`Failed To Parse Path "${elementPath}": ${err.message}`)
       }
     }
 
     bridge.store(values.jsonObject, finalResult)
-  }
+  },
 }

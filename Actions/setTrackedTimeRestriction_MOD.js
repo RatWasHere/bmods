@@ -2,7 +2,7 @@ modVersion = "v1.2.0"
 
 module.exports = {
   data: {
-    name: "Set Tracked Time Restriction"
+    name: "Set Tracked Time Restriction",
   },
   aliases: ["Set Cooldown", "Cooldown", "Command Cooldown"],
   modules: [],
@@ -18,10 +18,10 @@ module.exports = {
       storeAs: "time",
       name: "Restriction Cooldown",
       choices: {
-        seconds: {name: "Seconds", field: true, placeholder: "Cooldown In Seconds"},
-        minutes: {name: "Minutes", field: true, placeholder: "Cooldown In Minutes"},
-        hours: {name: "Hours", field: true, placeholder: "Cooldown In Hours"},
-        days: {name: "Days", field: true, placeholder: "Cooldown In Days"},
+        seconds: { name: "Seconds", field: true, placeholder: "Cooldown In Seconds" },
+        minutes: { name: "Minutes", field: true, placeholder: "Cooldown In Minutes" },
+        hours: { name: "Hours", field: true, placeholder: "Cooldown In Hours" },
+        days: { name: "Days", field: true, placeholder: "Cooldown In Days" },
       },
     },
     "-",
@@ -30,12 +30,12 @@ module.exports = {
       storeAs: "target",
       name: "Target",
       choices: {
-        user: {name: "User", field: false},
-        member: {name: "Member", field: false},
-        channel: {name: "Channel", field: false},
-        role: {name: "Role", field: false},
-        server: {name: "Server", field: false},
-        global: {name: "Global", field: false},
+        user: { name: "User", field: false },
+        member: { name: "Member", field: false },
+        channel: { name: "Channel", field: false },
+        role: { name: "Role", field: false },
+        server: { name: "Server", field: false },
+        global: { name: "Global", field: false },
       },
     },
     "_",
@@ -48,7 +48,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "timeTillExpiry",
-      name: "If Ongoing, Store Remaining Time In Milliseconds As"
+      name: "If Ongoing, Store Remaining Time In Milliseconds As",
     },
     "_",
     {
@@ -61,23 +61,28 @@ module.exports = {
       element: "case",
       name: "If Time Restriction Is Not Ongoing",
       storeAs: "ifNotOngoing",
-      storeActionsAs: "ifNotOngoingActions"
+      storeActionsAs: "ifNotOngoingActions",
     },
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     let subtitle = `Restrict Command For ${values.target.type} For ${values.time.value} ${values.time.type}`
-    const titleCase = string => string.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+    const titleCase = (string) =>
+      string
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
     return titleCase(subtitle)
   },
 
-  script: (values) =>{
-    function reflem(skipAnimation){
+  script: (values) => {
+    function reflem(skipAnimation) {
       let targetType = values.data.target.type
 
       let elementMap = {
@@ -99,47 +104,50 @@ module.exports = {
         server: {
           element: "guild",
           storeAs: "server",
-          name: "Server To Restrict"
+          name: "Server To Restrict",
         },
         channel: {
           element: "channelInput",
           storeAs: "channel",
-          name: "Channel To Restrict"
+          name: "Channel To Restrict",
         },
-        global: "_"
+        global: "_",
       }
 
       values.UI[4] = elementMap[targetType]
 
-      setTimeout(()=>{
-        values.updateUI()
-      }, skipAnimation?1: values.commonAnimation*100)
+      setTimeout(
+        () => {
+          values.updateUI()
+        },
+        skipAnimation ? 1 : values.commonAnimation * 100
+      )
     }
 
     reflem(true)
 
-    values.events.on("change", ()=>{
+    values.events.on("change", () => {
       reflem()
     })
   },
 
-  startup: (bridge) =>{
+  startup: (bridge) => {
     const altPath = require("node:path")
     const altFs = require("node:fs")
 
-    const botData = require("../data.json");
-    const workingDir = altPath.normalize(process.cwd());
-    let projectFolder;
+    const botData = require("../data.json")
+    const workingDir = altPath.normalize(process.cwd())
+    let projectFolder
     if (workingDir.includes(altPath.join("common", "Bot Maker For Discord"))) {
-      projectFolder = botData.prjSrc;
+      projectFolder = botData.prjSrc
     } else {
-      projectFolder = workingDir;
+      projectFolder = workingDir
     }
 
     let restrictionsFilePath = altPath.join(projectFolder, "aceModsJSON", "restrictions.json")
 
-    if (!altFs.existsSync(restrictionsFilePath)){
-      altFs.mkdirSync(altPath.dirname(restrictionsFilePath), {recursive: true})
+    if (!altFs.existsSync(restrictionsFilePath)) {
+      altFs.mkdirSync(altPath.dirname(restrictionsFilePath), { recursive: true })
       altFs.writeFileSync(restrictionsFilePath, "{}")
     }
 
@@ -153,44 +161,43 @@ module.exports = {
 
     let writeRestrictions = (data) => {
       bridge.data.IO.restrictions.cache = JSON.parse(JSON.stringify(data))
-      if (pendingWrite == false){
+      if (pendingWrite == false) {
         pendingWrite = true
-        setTimeout(()=>{
+        setTimeout(() => {
           try {
             altFs.writeFileSync(restrictionsFilePath, JSON.stringify(bridge.data.IO.restrictions.cache, null, 2))
-          } catch (err){
-
+          } catch (err) {
           } finally {
             pendingWrite = false
           }
-        },500)
+        }, 500)
       }
     }
 
     bridge.data.IO.restrictions = {
       get: getRestrictions,
       write: writeRestrictions,
-      cache
+      cache,
     }
   },
 
-  init: (values, bridge) =>{
-    if (!bridge.data.IO.restrictions.intervalSet){
+  init: (values, bridge) => {
+    if (!bridge.data.IO.restrictions.intervalSet) {
       bridge.data.IO.restrictions.intervalSet = true
-      setInterval(async ()=>{
+      setInterval(async () => {
         let restrictions = bridge.data.IO.restrictions.get()
         let currentTime = Date.now()
         let updates = false
 
-        for (let restriction in restrictions){
+        for (let restriction in restrictions) {
           let expirationTime = restrictions[restriction].expiresAt
-          if (expirationTime < currentTime){
+          if (expirationTime < currentTime) {
             delete restrictions[restriction]
             updates = true
           }
         }
 
-        if (updates == true){
+        if (updates == true) {
           bridge.data.IO.restrictions.write(restrictions)
         }
       }, 1000)
@@ -199,8 +206,9 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
@@ -210,7 +218,7 @@ module.exports = {
       hours: 1000 * 60 * 60,
       days: 1000 * 60 * 60 * 24,
     }
-    
+
     let restrictionData = bridge.data.IO.restrictions.get() || {}
     let currentTime = Date.now()
     let targetType = values.target.type
@@ -218,38 +226,38 @@ module.exports = {
 
     let targetId
 
-    switch(targetType){
-      case "user":{
+    switch (targetType) {
+      case "user": {
         let user = await bridge.getUser(values.user)
         targetId = user.id
         break
       }
 
-      case "member":{
+      case "member": {
         let user = await bridge.getUser(values.member)
         targetId = `${user.member.guild.id}${user.id}`
         break
       }
 
-      case "role":{
+      case "role": {
         let role = await bridge.getRole(values.role)
         targetId = role.id
         break
       }
 
-      case "server":{
+      case "server": {
         let server = await bridge.getGuild(values.server)
         targetId = server.id
         break
       }
 
-      case "channel":{
+      case "channel": {
         let channel = await bridge.getChannel(values.channel)
         targetId = channel.id
         break
       }
 
-      default:{
+      default: {
         targetId = "GLOBAL"
         break
       }
@@ -257,18 +265,18 @@ module.exports = {
 
     let restrictionId = `command-${targetType}${targetId}-${commandId}`
 
-    async function notOngoing(){
+    async function notOngoing() {
       let expireTimestamp = Number(currentTime) + Number(timeUnits[values.time.type] * bridge.transf(values.time.value))
       restrictionData[restrictionId] = {
-        expiresAt: expireTimestamp
+        expiresAt: expireTimestamp,
       }
       bridge.data.IO.restrictions.write(restrictionData)
       await bridge.call(values.ifNotOngoing, values.ifNotOngoingActions)
     }
 
-    if (restrictionData[restrictionId]){
+    if (restrictionData[restrictionId]) {
       let timeTillExpiry = Number(restrictionData[restrictionId].expiresAt) - Number(currentTime)
-      if (timeTillExpiry > 0){
+      if (timeTillExpiry > 0) {
         bridge.store(values.timeTillExpiry, timeTillExpiry)
         await bridge.call(values.ifOngoing, values.ifOngoingActions)
       } else {
@@ -277,5 +285,5 @@ module.exports = {
     } else {
       notOngoing()
     }
-  }
+  },
 }

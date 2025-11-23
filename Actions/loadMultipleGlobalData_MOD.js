@@ -5,13 +5,13 @@ module.exports = {
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
-    donate: "https://ko-fi.com/slothyacedia"
+    donate: "https://ko-fi.com/slothyacedia",
   },
   UI: [
     {
-        element: "input",
-        storeAs: "label",
-        name: "Label (optional)"
+      element: "input",
+      storeAs: "label",
+      name: "Label (optional)",
     },
     "-",
     {
@@ -42,7 +42,7 @@ module.exports = {
             {
               element: "store",
               storeAs: "store",
-              name: "Store As"
+              name: "Store As",
             },
           ],
         },
@@ -51,35 +51,35 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
   subtitle: (values) => {
-    return `Label: ${values.label}, Retrieve ${values.retrievelist.length} global datas.`;
+    return `Label: ${values.label}, Retrieve ${values.retrievelist.length} global datas.`
   },
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    let storedData = bridge.data.IO.get();
-    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : "";
+    let storedData = bridge.data.IO.get()
+    let defaultVal = values.defaultval ? bridge.transf(values.defaultval) : ""
 
     for (let item of values.retrievelist) {
-      let listData = defaultVal;
+      let listData = defaultVal
 
-      const dataName = item.data.dataname;
-      const storeLocation = item.data.store;
+      const dataName = item.data.dataname
+      const storeLocation = item.data.store
 
       try {
-        const transformedDataName = bridge.transf(dataName);
+        const transformedDataName = bridge.transf(dataName)
 
         if (storedData.lists && storedData.lists[transformedDataName]) {
-          listData = storedData.lists[transformedDataName];
+          listData = storedData.lists[transformedDataName]
         }
       } catch (error) {
-        storedData.lists = {};
-        bridge.data.IO.write(storedData);
+        storedData.lists = {}
+        bridge.data.IO.write(storedData)
       }
 
-      bridge.store(storeLocation, listData);
+      bridge.store(storeLocation, listData)
     }
   },
-};
+}

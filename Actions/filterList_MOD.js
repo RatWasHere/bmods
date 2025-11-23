@@ -1,7 +1,7 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Filter List"
+    name: "Filter List",
   },
   aliases: [],
   modules: [],
@@ -23,8 +23,8 @@ module.exports = {
       storeAs: "filterType",
       name: "Filter Type",
       choices: {
-        for: {name: "Filter For Elements", field:false},
-        out: {name: "Filter Out Elements", field:false},
+        for: { name: "Filter For Elements", field: false },
+        out: { name: "Filter Out Elements", field: false },
       },
     },
     {
@@ -32,13 +32,13 @@ module.exports = {
       storeAs: "filter",
       name: "Filter For Elements That",
       choices: {
-        startsWith: {name: "Starts With", field: true},
-        endsWith: {name: "Ends With", field: true},
-        includes: {name: "Includes", field: true},
-        equals: {name: "Equals", field: true},
-        strings: {name: "Are Strings", field: false},
-        numbers: {name: "Are Numbers", field: false},
-      }
+        startsWith: { name: "Starts With", field: true },
+        endsWith: { name: "Ends With", field: true },
+        includes: { name: "Includes", field: true },
+        equals: { name: "Equals", field: true },
+        strings: { name: "Are Strings", field: false },
+        numbers: { name: "Are Numbers", field: false },
+      },
     },
     "_",
     {
@@ -50,16 +50,17 @@ module.exports = {
     {
       element: "store",
       storeAs: "modifiedList",
-      name: "Store Filtered List As"
+      name: "Store Filtered List As",
     },
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     let filterType = values.filterType.type === "for" ? "For" : "Out"
     let filter = values.filter.type
     let filterValue = values.filter.value
@@ -76,13 +77,13 @@ module.exports = {
     let subtitle = `Filter ${filterType} Elements That ${phrases[filter]} From List ${values.list.type}(${values.list.value})`
 
     return subtitle
-    },
+  },
 
-  script: (values) =>{
-    function reflem(skipAnimation){
+  script: (values) => {
+    function reflem(skipAnimation) {
       let filterType = values.data.filterType.type
 
-      switch (filterType){
+      switch (filterType) {
         case "for": {
           values.UI[3].name = "Filter For Elements That"
           break
@@ -94,25 +95,29 @@ module.exports = {
         }
       }
 
-      setTimeout(()=>{
-        values.updateUI()
-      }, skipAnimation?1: values.commonAnimation*100)
+      setTimeout(
+        () => {
+          values.updateUI()
+        },
+        skipAnimation ? 1 : values.commonAnimation * 100
+      )
     }
 
     reflem(true)
 
-    values.events.on("change", ()=>{
+    values.events.on("change", () => {
       reflem()
     })
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
-    
+
     let list = bridge.get(values.list)
 
     let filterType = bridge.transf(values.filterType.type)
@@ -120,41 +125,41 @@ module.exports = {
     let filterValue = bridge.transf(values.filter.value)
     let caseSens = values.caseSens
 
-    const normalize = el => (typeof el === "string" && caseSens === false) ? el.toLowerCase() : el
+    const normalize = (el) => (typeof el === "string" && caseSens === false ? el.toLowerCase() : el)
 
     let testFunction
 
-    switch(filter){
-      case "startsWith":{
-        testFunction = el => normalize(el).startsWith(normalize(filterValue))
+    switch (filter) {
+      case "startsWith": {
+        testFunction = (el) => normalize(el).startsWith(normalize(filterValue))
         break
       }
 
-      case "endsWith":{
-        testFunction = el => normalize(el).endsWith(normalize(filterValue))
+      case "endsWith": {
+        testFunction = (el) => normalize(el).endsWith(normalize(filterValue))
         break
       }
 
-      case "includes":{
-        testFunction = el => normalize(el).includes(normalize(filterValue))
+      case "includes": {
+        testFunction = (el) => normalize(el).includes(normalize(filterValue))
         break
       }
 
-      case "equals":{
-        testFunction = el => normalize(el) == normalize(filterValue)
+      case "equals": {
+        testFunction = (el) => normalize(el) == normalize(filterValue)
         break
       }
 
-      case "strings":{
-        testFunction = el => (typeof el === "string" && isNaN(Number(el)))
+      case "strings": {
+        testFunction = (el) => typeof el === "string" && isNaN(Number(el))
         break
       }
 
-      case "numbers":{
-        testFunction = el => {
-          if (typeof el === "number" && !isNaN(el)){
+      case "numbers": {
+        testFunction = (el) => {
+          if (typeof el === "number" && !isNaN(el)) {
             return true
-          } else if (typeof el === "string" && el.trim() !== "" && !isNaN(Number(el))){
+          } else if (typeof el === "string" && el.trim() !== "" && !isNaN(Number(el))) {
             return true
           } else {
             return false
@@ -164,11 +169,11 @@ module.exports = {
       }
     }
 
-    let filteredList = list.filter(el => {
+    let filteredList = list.filter((el) => {
       let matchResult = testFunction(el)
       return filterType === "for" ? matchResult : !matchResult
     })
 
     bridge.store(values.modifiedList, filteredList)
-  }
+  },
 }

@@ -1,34 +1,34 @@
 modVersion = "v1.0.0"
 module.exports = {
-    data: {
-        name: "Kill Bot Process",
+  data: {
+    name: "Kill Bot Process",
+  },
+  aliases: ["Stop Bot"],
+  category: "Control",
+  info: {
+    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
+    creator: "Acedia",
+    donate: "https://ko-fi.com/slothyacedia",
+  },
+
+  UI: [
+    {
+      element: "text",
+      text: "Kills the bot's process, effectively turning the bot off",
     },
-    aliases: ["Stop Bot"],
-    category: "Control",
-    info:{
-        source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
-        creator: "Acedia",
-        donate: "https://ko-fi.com/slothyacedia"
+    {
+      element: "text",
+      text: modVersion,
     },
+  ],
 
-    UI: [
-        {
-            element: "text",
-            text: "Kills the bot's process, effectively turning the bot off",
-        },
-        {
-          element: "text",
-          text: modVersion,
-        }
-    ],
+  subtitle: (data) => {
+    return `Kills the bot process, nothing below this action will run`
+  },
 
-    subtitle: (data) => {
-        return `Kills the bot process, nothing below this action will run`;
-    },
+  compatibility: [`Any`],
 
-    compatibility: [`Any`],
-
-    async run(){
-        process.exit(0);
-    }
+  async run() {
+    process.exit(0)
+  },
 }

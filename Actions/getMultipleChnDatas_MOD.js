@@ -18,7 +18,7 @@ module.exports = {
         data: "datas",
       },
       max: 1000,
-      UItypes:{
+      UItypes: {
         data: {
           data: {},
           name: "Data Name:",
@@ -43,8 +43,8 @@ module.exports = {
             {
               element: "store",
               storeAs: "store",
-              name: "Store Value As"
-            }
+              name: "Store Value As",
+            },
           ],
         },
       },
@@ -52,7 +52,7 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (values, constants) => {
@@ -61,8 +61,8 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run (values, message, client, bridge) {
-    let storedData = bridge.data.IO.get();
+  async run(values, message, client, bridge) {
+    let storedData = bridge.data.IO.get()
     let dataType = "channels"
 
     for (let retrieve of values.retrieveList) {
@@ -74,11 +74,11 @@ module.exports = {
       let currentData = defaultVal
       let dataName = bridge.transf(retrieveData.dataName)
 
-      if (storedData[dataType][id][dataName]){
+      if (storedData[dataType][id][dataName]) {
         currentData = storedData[dataType][id][dataName]
       }
 
       bridge.store(retrieveData.store, currentData)
     }
-  }
+  },
 }

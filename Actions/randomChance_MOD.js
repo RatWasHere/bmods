@@ -1,7 +1,7 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Random Chance"
+    name: "Random Chance",
   },
   aliases: [],
   modules: [],
@@ -17,7 +17,7 @@ module.exports = {
       storeAs: "possibilities",
       name: "Possibilities",
       types: {
-        possibilities: "possibilities"
+        possibilities: "possibilities",
       },
       max: 1000,
       UItypes: {
@@ -34,7 +34,7 @@ module.exports = {
             {
               element: "input",
               storeAs: "chanceLabel",
-              name: "Label"
+              name: "Label",
             },
             {
               element: "actions",
@@ -47,56 +47,59 @@ module.exports = {
     },
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Random Chance Between ${values.possibilities.length} Possibilities.`
   },
 
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    const possibilities = values.possibilities.map(p => {
-      const parsed = parseFloat(p.data?.chance);
-      return {
-        ...p,
-        data: {
-          ...p.data,
-          chance: isNaN(parsed) ? 0 : parsed,
-          actions: Array.isArray(p.data?.actions) ? p.data.actions : []
+    const possibilities = values.possibilities
+      .map((p) => {
+        const parsed = parseFloat(p.data?.chance)
+        return {
+          ...p,
+          data: {
+            ...p.data,
+            chance: isNaN(parsed) ? 0 : parsed,
+            actions: Array.isArray(p.data?.actions) ? p.data.actions : [],
+          },
         }
-      };
-    }).filter(p => p.data.chance > 0);
-  
+      })
+      .filter((p) => p.data.chance > 0)
+
     if (possibilities.length === 0) {
-      return console.error(`Fill Up Possibilities First!`);
+      return console.error(`Fill Up Possibilities First!`)
     }
-  
+
     const totalChance = possibilities.reduce((acc, p) => acc + p.data.chance, 0)
     if (totalChance <= 0) return console.error(`All chances are zero.`)
-  
+
     // Normalize chances so they add to 100
-    const normalized = possibilities.map(p => ({
+    const normalized = possibilities.map((p) => ({
       ...p,
       data: {
         ...p.data,
-        normalizedChance: (p.data.chance / totalChance) * 100
-      }
-    }));
-  
+        normalizedChance: (p.data.chance / totalChance) * 100,
+      },
+    }))
+
     const rand = Math.random() * 100
-  
-    let cumulative = 0;
+
+    let cumulative = 0
     for (const p of normalized) {
       cumulative += p.data.normalizedChance
       if (rand < cumulative) {
         if (p.data.actions.length > 0) {
-          bridge.runner(p.data.actions, message, client, bridge.variables);
+          bridge.runner(p.data.actions, message, client, bridge.variables)
         }
-        break;
+        break
       }
     }
-  }
+  },
 }

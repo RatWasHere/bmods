@@ -2,7 +2,7 @@ modVersion = "v1.0.0"
 module.exports = {
   data: {
     name: "Delete File From GitHub",
-    branch: "main"
+    branch: "main",
   },
   aliases: [],
   modules: ["node:fs", "node:path"],
@@ -16,7 +16,7 @@ module.exports = {
     {
       element: "input",
       storeAs: "owner",
-      name: "Repository Owner"
+      name: "Repository Owner",
     },
     {
       element: "input",
@@ -32,13 +32,13 @@ module.exports = {
       element: "input",
       storeAs: "remotePath",
       name: "File Path On GitHub",
-      placeholder: "path/to/file.ext"
+      placeholder: "path/to/file.ext",
     },
     {
       element: "input",
       storeAs: "token",
       name: "GitHub User Token",
-      placeholder: "https://github.com/settings/tokens"
+      placeholder: "https://github.com/settings/tokens",
     },
     "-",
     {
@@ -49,18 +49,20 @@ module.exports = {
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Delete Content (${values.remotePath}) From GitHub`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
@@ -73,27 +75,27 @@ module.exports = {
     let remotePath = bridge.transf(values.remotePath).trim()
     let token = bridge.transf(values.token).trim()
 
-    if (!owner || !repo || !branch || !remotePath || !token){
+    if (!owner || !repo || !branch || !remotePath || !token) {
       return bridge.store(values.resp, `Missing Fields!`)
     }
 
-    if (remotePath.startsWith("/")){
+    if (remotePath.startsWith("/")) {
       remotePath = remotePath.slice(1)
     }
     remotePath = remotePath.replaceAll("..", ".")
 
     let apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${remotePath}`
 
-    try{
-      const lookupResponse = await fetch(`${apiUrl}?ref=${branch}`,{
-        headers:{
+    try {
+      const lookupResponse = await fetch(`${apiUrl}?ref=${branch}`, {
+        headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/vnd.github+json",
-        }
+        },
       })
 
       let lookupResult = await lookupResponse.json()
-      if (!lookupResponse.ok){
+      if (!lookupResponse.ok) {
         return bridge.store(values.resp, `File Lookup Failed: ${lookupResult.message}`)
       }
 
@@ -104,24 +106,24 @@ module.exports = {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/vnd.github+json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           message: `Delete ${remotePath} via Bot`,
           branch,
-          sha
-        })
+          sha,
+        }),
       })
 
       let deleteResult = await deleteResponse.json()
-      if(!deleteResponse.ok){
+      if (!deleteResponse.ok) {
         bridge.store(values.resp, `GitHub Error: ${deleteResult.message}`)
         return
       }
 
       bridge.store(values.resp, `Delete Success: ${remotePath}`)
-    } catch (error){
+    } catch (error) {
       bridge.store(values.resp, `Delete Failed: ${error.message}`)
     }
-  }
+  },
 }

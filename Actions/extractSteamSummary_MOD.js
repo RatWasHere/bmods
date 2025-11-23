@@ -1,7 +1,7 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Extract Steam Summary"
+    name: "Extract Steam Summary",
   },
   aliases: [],
   modules: [],
@@ -111,7 +111,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "currentGameId",
-      name: "Store Current Playing Game ID As"
+      name: "Store Current Playing Game ID As",
     },
     {
       element: "store",
@@ -124,19 +124,18 @@ module.exports = {
     },
   ],
 
-  subtitle: (values) =>{
+  subtitle: (values) => {
     return `Extract Steam Summary Of ${values.steamSummary.type}(${values.steamSummary.value})`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){
+  async run(values, message, client, bridge) {
     let steamSummary = bridge.get(values.steamSummary)
 
-    if (typeof steamSummary == "object" && steamSummary?.steamid != undefined){
-
+    if (typeof steamSummary == "object" && steamSummary?.steamid != undefined) {
       bridge.store(values.steamId, steamSummary.steamid || "Unknown")
-      
+
       const communityVisibilityStates = {
         1: "Private",
         2: "Friends Only",
@@ -147,7 +146,7 @@ module.exports = {
 
       const profileStates = {
         0: "Profile Not Configured",
-        1: "Profile Configured"
+        1: "Profile Configured",
       }
       bridge.store(values.profileState, profileStates[steamSummary.profilestate] || "Unknown")
 
@@ -188,7 +187,7 @@ module.exports = {
         base: steamSummary.avatar || "Unknown",
         medium: steamSummary.avatarmedium || "Unknown",
         full: steamSummary.avatarfull || "Unknown",
-        hash: steamSummary.avatarhash || "Unknown"
+        hash: steamSummary.avatarhash || "Unknown",
       }
       bridge.store(values.steamAvatar, avatarObj)
 
@@ -199,7 +198,7 @@ module.exports = {
         0: "Public",
         1: "Friends Only",
         2: "Private",
-        3: "Blocked"
+        3: "Blocked",
       }
       bridge.store(values.commentPermission, commentPermissionStates[steamSummary.commentpermission] || "Unknown")
 
@@ -212,5 +211,5 @@ module.exports = {
       bridge.store(values.currentGameId, steamSummary.gameid || "Unknown")
       bridge.store(values.currentGameServerIp, steamSummary.gameserverip || "Unknown")
     }
-  }
+  },
 }

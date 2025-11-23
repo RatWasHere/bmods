@@ -39,56 +39,60 @@ module.exports = {
     {
       element: "toggle",
       storeAs: "logging",
-      name: "Log Debug Statements"
+      name: "Log Debug Statements",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
   subtitle: (data, constants) => {
-    return `File: ${data.path} - ${data.queuing}`;
+    return `File: ${data.path} - ${data.queuing}`
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    for (const moduleName of this.modules){
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
-    const fs = require("fs");
-    const ffmpeg = require("ffmpeg");
+    const fs = require("fs")
+    const ffmpeg = require("ffmpeg")
     const path = require("node:path")
-    const {createAudioResource} = require("@discordjs/voice");
-    const {Readable} = require("stream")
+    const { createAudioResource } = require("@discordjs/voice")
+    const { Readable } = require("stream")
     let projectFolder
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
-    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
       projectFolder = botData.prjSrc
-    } else {projectFolder = workingDir}
+    } else {
+      projectFolder = workingDir
+    }
 
     let relativePath = bridge.transf(values.path)
 
     let fullPath = path.join(projectFolder, relativePath)
 
     let audioBuffer = fs.readFileSync(fullPath)
-    if(values.logging == true){console.log("Instance Of Buffer: ",audioBuffer instanceof Buffer)}
-    
-    if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object"){
+    if (values.logging == true) {
+      console.log("Instance Of Buffer: ", audioBuffer instanceof Buffer)
+    }
+
+    if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object") {
       let audioStream = Readable.from(audioBuffer)
       let audio = createAudioResource(audioStream)
 
       let utilities = bridge.getGlobal({
         class: "voice",
         name: bridge.guild.id,
-      });
+      })
 
       let pathMatch = fullPath.match(/[^\\/]+(?=\.[^\\/]+$)/)
-      let fileName = pathMatch ? pathMatch[0]: "Unknown File"
+      let fileName = pathMatch ? pathMatch[0] : "Unknown File"
 
       switch (values.queuing) {
         case `Don't Queue, Just Play`:
-          utilities.player.play(audio);
+          utilities.player.play(audio)
           utilities.nowPlaying = {
             file: bridge.transf(values.path),
             name: fileName,
@@ -96,9 +100,9 @@ module.exports = {
             url: "",
             src: "Local",
             audio: audio,
-          };
-          client.emit('trackStart', bridge.guild, utilities.channel, utilities.nowPlaying);
-          break;
+          }
+          client.emit("trackStart", bridge.guild, utilities.channel, utilities.nowPlaying)
+          break
 
         case `At End Of Queue`:
           utilities.addToQueue(utilities.queue.length, {
@@ -108,8 +112,8 @@ module.exports = {
             url: "",
             src: "Local",
             audio: audio,
-          });
-          break;
+          })
+          break
 
         case `At Start Of Queue`:
           utilities.addToQueue(0, {
@@ -119,8 +123,8 @@ module.exports = {
             url: "",
             src: "Local",
             audio: audio,
-          });
-          break;
+          })
+          break
 
         case `At Custom Position`:
           utilities.addToQueue(Number(bridge.transf(values.queuePosition)), {
@@ -130,12 +134,11 @@ module.exports = {
             url: "",
             src: "Local",
             audio: audio,
-          });
-          break;
+          })
+          break
       }
-    }
-    else{
+    } else {
       console.log(`An Error Occured After Reading The File And Can't Be Played.`)
     }
   },
-};
+}

@@ -14,7 +14,7 @@ module.exports = {
     {
       element: "variable",
       storeAs: "bufferVar",
-      name: "Buffer Variable (Gotten From The File Output Of Download Music File)"
+      name: "Buffer Variable (Gotten From The File Output Of Download Music File)",
     },
     {
       element: "input",
@@ -41,48 +41,47 @@ module.exports = {
     {
       element: "toggle",
       storeAs: "logging",
-      name: "Log Debug Statements"
+      name: "Log Debug Statements",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
   subtitle: (values, constants) => {
-    return `File: ${constants.variable(values.bufferVar)} - ${values.queuing}`;
+    return `File: ${constants.variable(values.bufferVar)} - ${values.queuing}`
   },
   compatibility: ["Any"],
   async run(values, message, client, bridge) {
-    for (const moduleName of this.modules){
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
     const fs = require("fs")
     const ffmpeg = require("ffmpeg")
-    const {Readable} = require("stream")
+    const { Readable } = require("stream")
     const { createAudioResource } = require("@discordjs/voice")
 
     let audioBuffer = bridge.get(values.bufferVar)
     let songName = bridge.transf(values.songName)
 
-    if (values.logging == true){
-      console.log("Instance Of Buffer:",audioBuffer instanceof Buffer)
-      console.log("Type Of:",typeof audioBuffer)
+    if (values.logging == true) {
+      console.log("Instance Of Buffer:", audioBuffer instanceof Buffer)
+      console.log("Type Of:", typeof audioBuffer)
     }
 
-    if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object"){
+    if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object") {
       let audioStream = Readable.from(audioBuffer)
       let audio = createAudioResource(audioStream)
-    
 
       let utilities = bridge.getGlobal({
         class: "voice",
         name: bridge.guild.id,
-      });
+      })
 
       switch (values.queuing) {
         case `Don't Queue, Just Play`:
-          utilities.player.play(audio);
+          utilities.player.play(audio)
           utilities.nowPlaying = {
             file: "Binary Stream",
             name: songName,
@@ -90,9 +89,9 @@ module.exports = {
             url: "",
             src: "Local",
             audio: audio,
-          };
-          client.emit('trackStart', bridge.guild, utilities.channel, utilities.nowPlaying);
-          break;
+          }
+          client.emit("trackStart", bridge.guild, utilities.channel, utilities.nowPlaying)
+          break
 
         case `At End Of Queue`:
           utilities.addToQueue(utilities.queue.length, {
@@ -102,8 +101,8 @@ module.exports = {
             url: "",
             src: "Local",
             audio: audio,
-          });
-          break;
+          })
+          break
 
         case `At Start Of Queue`:
           utilities.addToQueue(0, {
@@ -113,8 +112,8 @@ module.exports = {
             url: "",
             src: "Local",
             audio: audio,
-          });
-          break;
+          })
+          break
 
         case `At Custom Position`:
           utilities.addToQueue(Number(bridge.transf(values.queuePosition)), {
@@ -124,13 +123,11 @@ module.exports = {
             url: "",
             src: "Local",
             audio: audio,
-          });
-          break;
+          })
+          break
       }
-    }
-
-    else{
+    } else {
       console.log(`Variable Is Not A Instance Of Buffer And Can't Be Played.`)
     }
   },
-};
+}

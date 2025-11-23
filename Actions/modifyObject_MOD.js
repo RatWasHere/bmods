@@ -11,7 +11,7 @@ module.exports = {
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  UI: [,
+  UI: [
     {
       element: "variable",
       storeAs: "original",

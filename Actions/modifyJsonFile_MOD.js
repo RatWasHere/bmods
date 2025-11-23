@@ -1,7 +1,7 @@
 modVersion = "v1.0.5"
 module.exports = {
   data: {
-    name: "Modify JSON File"
+    name: "Modify JSON File",
   },
   aliases: ["Edit JSON File"],
   modules: ["node:path", "node:fs"],
@@ -16,15 +16,15 @@ module.exports = {
       element: "input",
       storeAs: "pathToJson",
       name: "Path To JSON File",
-      placeholder: "path/to/file.json"
+      placeholder: "path/to/file.json",
     },
     {
       element: "typedDropdown",
       storeAs: "jsonAction",
       name: "Action",
       choices: {
-        create: {name: "Create/Replace Element", field: true, placeholder: "path.to.element"},
-        delete: {name: "Delete Element", field: true, placeholder: "path.to.element"},
+        create: { name: "Create/Replace Element", field: true, placeholder: "path.to.element" },
+        delete: { name: "Delete Element", field: true, placeholder: "path.to.element" },
       },
     },
     {
@@ -73,11 +73,11 @@ module.exports = {
         >
           <btext id="buttonText"> Validate JSON </btext>
         </button>
-      `
+      `,
     },
     {
       element: "text",
-      text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`
+      text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`,
     },
     "-",
     {
@@ -88,22 +88,23 @@ module.exports = {
     {
       element: "store",
       storeAs: "modifiedJson",
-      name: "Store Modified JSON As"
+      name: "Store Modified JSON As",
     },
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Modify Contents Of ${values.pathToJson}`
   },
 
-  script: (values) =>{
-    function refelm(skipAnimation){
-      if (values.data.jsonAction.type == "create"){
+  script: (values) => {
+    function refelm(skipAnimation) {
+      if (values.data.jsonAction.type == "create") {
         values.UI[2].element = "largeInput"
         values.UI[3].element = "-"
         values.UI[4].element = "html"
@@ -115,35 +116,41 @@ module.exports = {
         values.UI[5].element = ""
       }
 
-      setTimeout(()=>{
-        values.updateUI()
-      },skipAnimation?1:values.commonAnimation*100)
+      setTimeout(
+        () => {
+          values.updateUI()
+        },
+        skipAnimation ? 1 : values.commonAnimation * 100
+      )
     }
 
     refelm(true)
 
-    values.events.on("change", ()=>{
+    values.events.on("change", () => {
       refelm()
     })
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
     const path = require("node:path")
     const fs = require("node:fs")
-    
+
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
     let projectFolder
-    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
       projectFolder = botData.prjSrc
-    } else {projectFolder = workingDir}
-    
+    } else {
+      projectFolder = workingDir
+    }
+
     let pathToJson = path.normalize(bridge.transf(values.pathToJson))
 
     let fullPath = path.join(path.normalize(projectFolder), pathToJson)
@@ -154,17 +161,16 @@ module.exports = {
       path.normalize("AppData/Toolkit/storedData.json"),
       path.normalize("AppData/data.json"),
       path.normalize("vars.json"),
-      path.normalize("schedules")
+      path.normalize("schedules"),
     ]
-    if (forbiddenFiles.some(fp => fullPath.endsWith(fp))){
+    if (forbiddenFiles.some((fp) => fullPath.endsWith(fp))) {
       return console.error(`Essential Files Are Not To Be Messed With!!`)
     }
-    
-    if (!fs.existsSync(fullPath)){
-      if (values.createIfMissing === true){
 
+    if (!fs.existsSync(fullPath)) {
+      if (values.createIfMissing === true) {
         let dirName = path.dirname(fullPath)
-        if (!fs.existsSync(dirName)){
+        if (!fs.existsSync(dirName)) {
           fs.mkdirSync(dirName, { recursive: true })
         }
 
@@ -193,14 +199,14 @@ module.exports = {
     const sanitizeArrays = (str) => {
       return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
         const sanitized = inner
-          .split(',')
-          .map(el => {
+          .split(",")
+          .map((el) => {
             el = el.trim()
-            if (el === '') return null
-            return '"' + el.replace(/^["']|["']$/g, '').replace(/"/g, '\\"') + '"'
+            if (el === "") return null
+            return '"' + el.replace(/^["']|["']$/g, "").replace(/"/g, '\\"') + '"'
           })
-          .filter(el => el !== null)
-          .join(', ')
+          .filter((el) => el !== null)
+          .join(", ")
         return `[${sanitized}]`
       })
     }
@@ -208,7 +214,7 @@ module.exports = {
     try {
       jsonObject = JSON.parse(originalFileContent)
       isJson = true
-    } catch (err){
+    } catch (err) {
       console.error(`Invalid Original JSON Content: ${err.message}`)
       jsonObject = originalFileContent
       isJson = false
@@ -219,10 +225,9 @@ module.exports = {
     let objectPath = bridge.transf(values.jsonAction.value).trim()
     let rawContent = bridge.transf(values.content)
 
-
     rawContent = sanitizeArrays(rawContent)
     if (!/^\s*(\[|\{)/.test(rawContent)) {
-      rawContent = `"${rawContent.replace(/^["']|["']$/g, '').replace(/"/g, '\\"')}"`
+      rawContent = `"${rawContent.replace(/^["']|["']$/g, "").replace(/"/g, '\\"')}"`
     }
 
     objectPath = objectPath.replaceAll("..", ".")
@@ -230,12 +235,9 @@ module.exports = {
       objectPath = objectPath.slice(1)
     }
 
-    if (
-      objectPath === "" ||
-      objectPath.includes("..") ||
-      objectPath.startsWith(".") ||
-      objectPath.endsWith(".")
-    ) {return console.error(`Invalid path: "${bridge.transf(values.jsonAction.values)}"`)}
+    if (objectPath === "" || objectPath.includes("..") || objectPath.startsWith(".") || objectPath.endsWith(".")) {
+      return console.error(`Invalid path: "${bridge.transf(values.jsonAction.values)}"`)
+    }
 
     const keys = objectPath.split(".")
     const lastKey = keys.pop()
@@ -257,14 +259,14 @@ module.exports = {
       }
     }
 
-    if (jsonObject && isJson == true){
-      switch(actionType){
-        case "create":{
+    if (jsonObject && isJson == true) {
+      switch (actionType) {
+        case "create": {
           target[lastKey] = parsedContent
           break
         }
 
-        case "delete":{
+        case "delete": {
           delete target[lastKey]
           cleanEmpty(jsonObject, keys)
           break
@@ -273,11 +275,13 @@ module.exports = {
     }
 
     let finalContent
-    if (values.prettyPrint === true){
+    if (values.prettyPrint === true) {
       finalContent = JSON.stringify(jsonObject, null, 2)
-    } else {finalContent = JSON.stringify(jsonObject, null)}
+    } else {
+      finalContent = JSON.stringify(jsonObject, null)
+    }
 
     fs.writeFileSync(fullPath, finalContent)
     bridge.store(values.modifiedJson, jsonObject)
-  }
+  },
 }

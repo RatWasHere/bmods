@@ -2,7 +2,7 @@ modVersion = "v1.0.4"
 
 module.exports = {
   data: {
-    name: "Create JSON File"
+    name: "Create JSON File",
   },
   aliases: [],
   modules: ["node:path", "node:fs"],
@@ -17,7 +17,7 @@ module.exports = {
       element: "input",
       storeAs: "jsonFilePath",
       name: "File Path",
-      placeholder: "path/to/file.json"
+      placeholder: "path/to/file.json",
     },
     {
       element: "largeInput",
@@ -65,11 +65,11 @@ module.exports = {
         >
           <btext id="buttonText"> Validate JSON </btext>
         </button>
-      `
+      `,
     },
     {
       element: "text",
-      text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`
+      text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`,
     },
     "-",
     {
@@ -80,18 +80,20 @@ module.exports = {
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Create JSON File In ${values.jsonFilePath}`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
@@ -103,23 +105,25 @@ module.exports = {
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
     let projectFolder
-    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
       projectFolder = botData.prjSrc
-    } else {projectFolder = workingDir}
+    } else {
+      projectFolder = workingDir
+    }
 
-    let fullPath = path.join(path.normalize(projectFolder),destination)
+    let fullPath = path.join(path.normalize(projectFolder), destination)
     const forbiddenFiles = [
       path.normalize("AppData/Toolkit/storedData.json"),
       path.normalize("AppData/data.json"),
       path.normalize("vars.json"),
-      path.normalize("schedules")
+      path.normalize("schedules"),
     ]
-    if (forbiddenFiles.some(fp => fullPath.endsWith(fp))){
+    if (forbiddenFiles.some((fp) => fullPath.endsWith(fp))) {
       return console.error(`Essential Files Are Not To Be Messed With!!`)
     }
     let dirName = path.dirname(fullPath)
 
-    if (!fs.existsSync(dirName)){
+    if (!fs.existsSync(dirName)) {
       fs.mkdirSync(dirName, { recursive: true })
     }
 
@@ -130,34 +134,36 @@ module.exports = {
     const sanitizeArrays = (str) => {
       return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
         const sanitized = inner
-          .split(',')
-          .map(el => {
+          .split(",")
+          .map((el) => {
             el = el.trim()
-            if (el === '') return null
-            return '"' + el.replace(/^["']|["']$/g, '').replace(/"/g, '\\"') + '"'
+            if (el === "") return null
+            return '"' + el.replace(/^["']|["']$/g, "").replace(/"/g, '\\"') + '"'
           })
-          .filter(el => el !== null)
-          .join(', ')
+          .filter((el) => el !== null)
+          .join(", ")
         return `[${sanitized}]`
       })
     }
 
     jsonString = sanitizeArrays(jsonString)
     if (!/^\s*(\[|\{)/.test(jsonString)) {
-      jsonString = `"${jsonString.replace(/^["']|["']$/g, '').replace(/"/g, '\\"')}"`
+      jsonString = `"${jsonString.replace(/^["']|["']$/g, "").replace(/"/g, '\\"')}"`
     }
     let jsonObject
 
     try {
       jsonObject = JSON.parse(jsonString)
-    } catch (error){
+    } catch (error) {
       return console.error(`Invalid JSON Content: ${error.message}`)
     }
-    
+
     let finalContent
-    if (values.prettyPrint === true){
+    if (values.prettyPrint === true) {
       finalContent = JSON.stringify(jsonObject, null, 2)
-    } else {finalContent = JSON.stringify(jsonObject, null)}
+    } else {
+      finalContent = JSON.stringify(jsonObject, null)
+    }
     fs.writeFileSync(fullPath, finalContent)
-  }
+  },
 }

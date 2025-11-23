@@ -49,108 +49,108 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   compatibility: ["Any"],
   subtitle: (values, constants) => {
     return `${values.get} - Store As: ${constants.variable(values.store)}`
   },
-  
+
   /**
    * @param {oceanic.Client} client
    * @returns {*}
    */
   async run(values, message, client, bridge) {
-    const botData = require("../data.json");
-    const oceanic = require("oceanic.js");
-    let output;
+    const botData = require("../data.json")
+    const oceanic = require("oceanic.js")
+    let output
 
     switch (values.get) {
       case "Name":
-        output = botData.name;
-        break;
+        output = botData.name
+        break
       case "Servers":
-        output = client.guilds.map((guild, index) => guild);
+        output = client.guilds.map((guild, index) => guild)
         break
       case "Client ID":
-        output = client.application.id;
-        break;
+        output = client.application.id
+        break
       case "Avatar URL":
-        output = await (await client.rest.users.get(client.application.id)).avatarURL();
-        break;
+        output = await (await client.rest.users.get(client.application.id)).avatarURL()
+        break
       case "Prefix":
-        output = botData.prefix;
-        break;
+        output = botData.prefix
+        break
       case "Directory":
-        output = process.cwd();
-        break;
+        output = process.cwd()
+        break
       case "Token":
-        output = botData.btk;
-        break;
+        output = botData.btk
+        break
       case "Gateway Ping":
-        output = client.shards.first().latency;
-        break;
+        output = client.shards.first().latency
+        break
       case "REST Ping":
-        output = client.rest.handler.latencyRef.latency;
-        break;
+        output = client.rest.handler.latencyRef.latency
+        break
       case "Total Amount of Guilds":
-        output = client.guilds.size;
-        break;
+        output = client.guilds.size
+        break
       case "Total Amount of Channels":
-        output = Object.keys(client.channelGuildMap).length;
-        break;
+        output = Object.keys(client.channelGuildMap).length
+        break
       case "Total Amount of Commands/Events":
-        output = botData.commands.length;
-        break;
+        output = botData.commands.length
+        break
       case "Total Amount of Users":
-        output = client.users.size;
-        break;
+        output = client.users.size
+        break
       case "Guilds Objects":
-        output = client.guilds;
-        break;
+        output = client.guilds
+        break
       case "Oceanic Version":
-        output = oceanic.Constants.VERSION;
-        break;
+        output = oceanic.Constants.VERSION
+        break
       case "NodeJS Version":
-        output = process.versions.node;
-        break;
+        output = process.versions.node
+        break
       case "Uptime in Days":
-        output = Math.floor((process.uptime() % 31536000) / 86400);
-        break;
+        output = Math.floor((process.uptime() % 31536000) / 86400)
+        break
       case "Uptime in Hours":
-        output = Math.floor((process.uptime() % 86400) / 3600);
-        break;
+        output = Math.floor((process.uptime() % 86400) / 3600)
+        break
       case "Uptime in Minutes":
-        output = Math.floor((process.uptime() % 3600) / 60);
-        break;
+        output = Math.floor((process.uptime() % 3600) / 60)
+        break
       case "Uptime in Seconds":
-        output = Math.round(process.uptime() % 60);
-        break;
+        output = Math.round(process.uptime() % 60)
+        break
       case "Normalized Uptime Timestamp":
-        output = Math.floor(Date.now() / 1000) - Math.floor(process.uptime());
-        break;
+        output = Math.floor(Date.now() / 1000) - Math.floor(process.uptime())
+        break
       case "Uptime Timestamp":
-        output = Math.floor(Date.now()) - Math.floor(process.uptime()*1000);
-        break;
+        output = Math.floor(Date.now()) - Math.floor(process.uptime() * 1000)
+        break
       case "Operating System": {
         if (process.platform) {
-          const platform = process.platform;
-          if (platform === "win32") output = "Windows";
-          else if (platform === "aix") output = "Aix";
-          else if (platform === "linux") output = "Linux";
-          else if (platform === "darwin") output = "Darwin";
-          else if (platform === "openbsd") output = "OpenBSD";
-          else if (platform === "sunos") output = "Solaris";
-          else if (platform === "freebsd") output = "FreeBSD";
+          const platform = process.platform
+          if (platform === "win32") output = "Windows"
+          else if (platform === "aix") output = "Aix"
+          else if (platform === "linux") output = "Linux"
+          else if (platform === "darwin") output = "Darwin"
+          else if (platform === "openbsd") output = "OpenBSD"
+          else if (platform === "sunos") output = "Solaris"
+          else if (platform === "freebsd") output = "FreeBSD"
         }
-        break;
+        break
       }
       case "Memory Usage in MB":
-        output = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
-        break;
+        output = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
+        break
     }
 
-    bridge.store(values.store, output);
+    bridge.store(values.store, output)
   },
-};
+}

@@ -1,7 +1,7 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Create JSON Object"
+    name: "Create JSON Object",
   },
   aliases: [],
   modules: [],
@@ -58,33 +58,35 @@ module.exports = {
         >
           <btext id="buttonText"> Validate JSON </btext>
         </button>
-      `
+      `,
     },
     {
       element: "text",
-      text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`
+      text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`,
     },
     "-",
     {
       element: "store",
       storeAs: "object",
-      name: "Store JSON As"
+      name: "Store JSON As",
     },
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Create JSON Object ${values.object.type}(${values.object.value})`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
@@ -92,30 +94,30 @@ module.exports = {
     const sanitizeArrays = (str) => {
       return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
         const sanitized = inner
-          .split(',')
-          .map(el => {
+          .split(",")
+          .map((el) => {
             el = el.trim()
-            if (el === '') return null
-            return '"' + el.replace(/^["']|["']$/g, '').replace(/"/g, '\\"') + '"'
+            if (el === "") return null
+            return '"' + el.replace(/^["']|["']$/g, "").replace(/"/g, '\\"') + '"'
           })
-          .filter(el => el !== null)
-          .join(', ')
+          .filter((el) => el !== null)
+          .join(", ")
         return `[${sanitized}]`
       })
     }
 
     jsonString = sanitizeArrays(jsonString)
     if (!/^\s*(\[|\{)/.test(jsonString)) {
-      jsonString = `"${jsonString.replace(/^["']|["']$/g, '').replace(/"/g, '\\"')}"`
+      jsonString = `"${jsonString.replace(/^["']|["']$/g, "").replace(/"/g, '\\"')}"`
     }
     let jsonObject
 
     try {
       jsonObject = JSON.parse(jsonString)
-    } catch (error){
+    } catch (error) {
       return console.error(`Invalid JSON Content: ${error.message}`)
     }
 
     bridge.store(values.object, jsonObject)
-  }
+  },
 }

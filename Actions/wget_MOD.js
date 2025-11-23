@@ -1,7 +1,7 @@
 modVersion = "v1.0.4"
 module.exports = {
   data: {
-    name: "wget Download"
+    name: "wget Download",
   },
   aliases: ["Download File"],
   modules: ["wget-improved", "node:fs", "node:path"],
@@ -21,7 +21,7 @@ module.exports = {
       element: "input",
       storeAs: "filePath",
       name: "File Path",
-      placeholder: "example/file.xyz"
+      placeholder: "example/file.xyz",
     },
     {
       element: "store",
@@ -37,29 +37,31 @@ module.exports = {
     {
       element: "toggleGroup",
       storeAs: ["deleteAfter", "logging"],
-      nameSchemes: ["Delete File After?", "Print Logs?"]
+      nameSchemes: ["Delete File After?", "Print Logs?"],
     },
     "-",
     {
       element: "condition",
       storeAs: "onError",
       storeActionsAs: "onErrorActions",
-      name: "On Error"
+      name: "On Error",
     },
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Download ${values.dlLink || "Nothing"} To ${values.filePath || "The Void"}`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
@@ -73,33 +75,37 @@ module.exports = {
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
     let projectFolder
-    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))){
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
       projectFolder = botData.prjSrc
-    } else {projectFolder = workingDir}
+    } else {
+      projectFolder = workingDir
+    }
 
     let filePath = path.join(projectFolder, relativePath)
     let fileDir = path.dirname(filePath)
-    if (fs.existsSync(fileDir) == false){fs.mkdirSync(fileDir, {recursive: true})}
-    
+    if (fs.existsSync(fileDir) == false) {
+      fs.mkdirSync(fileDir, { recursive: true })
+    }
+
     await new Promise((resolve, reject) => {
       let download = wget.download(dlLink, filePath, options)
 
-      download.on("error", function(err){
-        if (values.logging){
+      download.on("error", function (err) {
+        if (values.logging) {
           console.log(err)
         }
         bridge.call(values.onError, values.onErrorActions)
         return resolve(err)
       })
 
-      download.on("start", function(fileSize){
-        if(values.logging){
+      download.on("start", function (fileSize) {
+        if (values.logging) {
           console.log(`Download Starting...`)
         }
       })
 
-      download.on("end", function(output){
-        if (values.logging){
+      download.on("end", function (output) {
+        if (values.logging) {
           console.log(`File Download From ${dlLink} Completed, ${output} ${filePath}`)
         }
         let fileSize = fs.statSync(filePath).size
@@ -110,11 +116,11 @@ module.exports = {
       })
     })
 
-    if (values.deleteAfter == true){
+    if (values.deleteAfter == true) {
       fs.unlinkSync(filePath)
-      if(values.logging){
+      if (values.logging) {
         console.log(`${filePath} Deleted`)
       }
     }
-  }
+  },
 }

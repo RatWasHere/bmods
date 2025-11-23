@@ -1,7 +1,7 @@
 modVersion = "v1.1.0"
 module.exports = {
   data: {
-    name: "Get All Mentioned In Message"
+    name: "Get All Mentioned In Message",
   },
   aliases: [],
   modules: [],
@@ -21,32 +21,34 @@ module.exports = {
     {
       element: "store",
       storeAs: "users",
-      name: "Store Mentioned Users As"
+      name: "Store Mentioned Users As",
     },
     {
       element: "store",
       storeAs: "roles",
-      name: "Store Mentioned Roles As"
+      name: "Store Mentioned Roles As",
     },
     {
       element: "store",
       storeAs: "channels",
-      name: "Store Mentioned Channels As"
+      name: "Store Mentioned Channels As",
     },
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Get All Mentions In ${constants.message(values.message)}`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
     let msg = await bridge.getMessage(values.message)
     let userMentions = msg.mentions.users
     let roleMentions = msg.mentions.roles
@@ -56,21 +58,23 @@ module.exports = {
     let fullRoleMentions
     let fullChannelMentions
 
-    if(values.users.value !== ""){
-      fullUserMentions = await Promise.all(userMentions.map(async user => {
-        user.member = await bridge.guild.members.get(user.id)
-        return user
-      }))
+    if (values.users.value !== "") {
+      fullUserMentions = await Promise.all(
+        userMentions.map(async (user) => {
+          user.member = await bridge.guild.members.get(user.id)
+          return user
+        })
+      )
     }
-    
-    if(values.roles.value !== ""){
-      fullRoleMentions = roleMentions.map(role =>{
+
+    if (values.roles.value !== "") {
+      fullRoleMentions = roleMentions.map((role) => {
         return bridge.guild.roles.get(role)
       })
     }
 
-    if(values.channel.value !== ""){
-      fullChannelMentions = channelMentions.map(channel =>{
+    if (values.channel.value !== "") {
+      fullChannelMentions = channelMentions.map((channel) => {
         return client.getChannel(channel)
       })
     }
@@ -78,5 +82,5 @@ module.exports = {
     bridge.store(values.users, fullUserMentions)
     bridge.store(values.roles, fullRoleMentions)
     bridge.store(values.channel, fullChannelMentions)
-  }
+  },
 }

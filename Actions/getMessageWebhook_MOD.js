@@ -1,7 +1,7 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Get Message Webhook"
+    name: "Get Message Webhook",
   },
   aliases: [],
   modules: [],
@@ -15,7 +15,7 @@ module.exports = {
     {
       element: "message",
       name: "Message",
-      storeAs: "message"
+      storeAs: "message",
     },
     {
       element: "store",
@@ -24,27 +24,29 @@ module.exports = {
     },
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Get Webhook ID Of ${constants.message(values.message)}`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
     /**
      * @type {Message}
      */
     let msg = await bridge.getMessage(values.message)
 
-    if (msg.webhookID? true : false == true){
+    if (msg.webhookID ? true : false == true) {
       bridge.store(values.webhookId, msg.webhookID)
     } else {
       console.warn(`${msg} has no webhook property`)
       bridge.store(values.webhookId, undefined)
     }
-  }
+  },
 }

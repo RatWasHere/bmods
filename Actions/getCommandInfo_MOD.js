@@ -1,6 +1,6 @@
-const jsonData = require('../data.json');
-const commands = jsonData.commands;
-const txtCmdPrefix = jsonData.prefix;
+const jsonData = require("../data.json")
+const commands = jsonData.commands
+const txtCmdPrefix = jsonData.prefix
 modVersion = "v1.0.0"
 
 module.exports = {
@@ -19,39 +19,37 @@ module.exports = {
       storeAs: "commandId",
       name: "Command",
       choices: (() => {
-        let result = {};
+        let result = {}
 
-        result['IdSearch'] = { name: `(unknown) Custom Id`, field: true };
+        result["IdSearch"] = { name: `(unknown) Custom Id`, field: true }
 
-        commands.forEach(command => {
-
-          let cmdtrigger;
+        commands.forEach((command) => {
+          let cmdtrigger
           switch (command.trigger) {
             case "textCommand":
-              cmdtrigger = "Text Command";
-              break;
+              cmdtrigger = "Text Command"
+              break
             case "slashCommand":
-              cmdtrigger = "Slash Command";
-              break;
+              cmdtrigger = "Slash Command"
+              break
             case "messageContent":
-              cmdtrigger = "Message Content";
-              break;
+              cmdtrigger = "Message Content"
+              break
             case "message":
-              cmdtrigger = "Message Menu";
-              break;
+              cmdtrigger = "Message Menu"
+              break
             case "user":
-              cmdtrigger = "User Menu";
-              break;
+              cmdtrigger = "User Menu"
+              break
             case "event":
-              cmdtrigger = "Event";
-              break;
+              cmdtrigger = "Event"
+              break
           }
-          
-          result[command.customId] = { name: `(${cmdtrigger}) ${command.name} - ${command.customId}` || `<i>[No Name]</i>` , field: false }
-        
-        });
-        return result;
-      })()
+
+          result[command.customId] = { name: `(${cmdtrigger}) ${command.name} - ${command.customId}` || `<i>[No Name]</i>`, field: false }
+        })
+        return result
+      })(),
     },
     "-",
     {
@@ -72,7 +70,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "cmdalis",
-      name: "Command Aliases List"
+      name: "Command Aliases List",
     },
     {
       element: "store",
@@ -97,7 +95,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "cmdpram",
-      name: "Command Parameters List"
+      name: "Command Parameters List",
     },
     {
       element: "store",
@@ -112,22 +110,20 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (actionData) => {
-    let foundCommand;
+    let foundCommand
     for (let cmd in commands) {
-      let command = commands[cmd];
+      let command = commands[cmd]
 
-      if (actionData.commandId.type === 'IdSearch' && actionData.commandId.value.length > 0 && command.customId == actionData.commandId.value) {
-        foundCommand = command;
-        break;
-      }
-
-      else if (command.customId == actionData.commandId.type) {
-        foundCommand = command;
-        break;
+      if (actionData.commandId.type === "IdSearch" && actionData.commandId.value.length > 0 && command.customId == actionData.commandId.value) {
+        foundCommand = command
+        break
+      } else if (command.customId == actionData.commandId.type) {
+        foundCommand = command
+        break
       }
     }
 
@@ -140,105 +136,127 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run (values, message, client, bridge) {
+  async run(values, message, client, bridge) {
     commandId = bridge.transf(values.commandId.type)
-    if (commandId === 'IdSearch' && bridge.transf(values.commandId.value).length > 0) {
+    if (commandId === "IdSearch" && bridge.transf(values.commandId.value).length > 0) {
       commandcId = bridge.transf(values.commandId.value)
-    } else { commandcId = bridge.transf(values.commandId.type) }
-
-    let command = commands.find(cmd => cmd.customId == commandcId);
-    if (!command) {
-      const reply = [];
-      reply.push(`Command with matching customId not found!`);
-      bridge.store(values.cmdname, reply);
-      bridge.store(values.cmdtype, reply);
-      bridge.store(values.cmdtrig, reply);
-      bridge.store(values.cmdalis, reply);
-      bridge.store(values.cmdactn, reply);
-      bridge.store(values.cmdcuid, reply);
-      bridge.store(values.cmdbund, reply);
-      bridge.store(values.cmdperm, reply);
-      bridge.store(values.cmdpram, reply);
-      bridge.store(values.cmddesc, reply);
-      bridge.store(values.cmdfldr, reply);
+    } else {
+      commandcId = bridge.transf(values.commandId.type)
     }
 
-    else {
-      const commandname = [];
-      const commandtype = [];
-      const commandtrigger = [];
-      const commandaliases = [];
-      const commandactions = [];
-      const commandcustomid = [];
-      const commandboundary = [];
-      const commandpermissions = [];
-      const commandparameters = [];
-      const commanddescription = [];
-      const commandfolder = [];
+    let command = commands.find((cmd) => cmd.customId == commandcId)
+    if (!command) {
+      const reply = []
+      reply.push(`Command with matching customId not found!`)
+      bridge.store(values.cmdname, reply)
+      bridge.store(values.cmdtype, reply)
+      bridge.store(values.cmdtrig, reply)
+      bridge.store(values.cmdalis, reply)
+      bridge.store(values.cmdactn, reply)
+      bridge.store(values.cmdcuid, reply)
+      bridge.store(values.cmdbund, reply)
+      bridge.store(values.cmdperm, reply)
+      bridge.store(values.cmdpram, reply)
+      bridge.store(values.cmddesc, reply)
+      bridge.store(values.cmdfldr, reply)
+    } else {
+      const commandname = []
+      const commandtype = []
+      const commandtrigger = []
+      const commandaliases = []
+      const commandactions = []
+      const commandcustomid = []
+      const commandboundary = []
+      const commandpermissions = []
+      const commandparameters = []
+      const commanddescription = []
+      const commandfolder = []
 
       if (command.name) {
-        commandname.push(command.name);
-      } else {commandname.push(`No Name`);}
+        commandname.push(command.name)
+      } else {
+        commandname.push(`No Name`)
+      }
 
       if (command.type) {
-        commandtype.push(command.type);
-      } else {commandtype.push(`No Type`);}
+        commandtype.push(command.type)
+      } else {
+        commandtype.push(`No Type`)
+      }
 
       if (command.trigger) {
-        commandtrigger.push(command.trigger);
-      } else {commandtrigger.push(`No Trigger`);}
+        commandtrigger.push(command.trigger)
+      } else {
+        commandtrigger.push(`No Trigger`)
+      }
 
       if (command.aliases && command.aliases.length > 0) {
-        command.aliases.forEach(alias => {
-          commandaliases.push(alias);
+        command.aliases.forEach((alias) => {
+          commandaliases.push(alias)
         })
-      } else {commandaliases.push(`No Aliases`);}
+      } else {
+        commandaliases.push(`No Aliases`)
+      }
 
       if (command.actions && command.actions.length > 0) {
-        command.actions.forEach(action => {
-          commandactions.push(action.name);
+        command.actions.forEach((action) => {
+          commandactions.push(action.name)
         })
-      } else {commandactions.push(`No Actions`);}
+      } else {
+        commandactions.push(`No Actions`)
+      }
 
       if (command.customId) {
-        commandcustomid.push(command.customId);
-      } else {commandcustomid.push(`No CustomId`);}
+        commandcustomid.push(command.customId)
+      } else {
+        commandcustomid.push(`No CustomId`)
+      }
 
-      if (command.boundary && command.boundary.worksIn){
-        commandboundary.push(command.boundary.worksIn);
-      } else {commandboundary.push(`No Boundary Stated`);}
+      if (command.boundary && command.boundary.worksIn) {
+        commandboundary.push(command.boundary.worksIn)
+      } else {
+        commandboundary.push(`No Boundary Stated`)
+      }
 
-      if (command.boundary && command.boundary.limits && command.boundary.limits.length > 0){
-        command.boundary.limits.forEach(limit => {
+      if (command.boundary && command.boundary.limits && command.boundary.limits.length > 0) {
+        command.boundary.limits.forEach((limit) => {
           commandpermissions.push(limit)
         })
-      } else {commandpermissions.push(`No Permissions Required`);}
+      } else {
+        commandpermissions.push(`No Permissions Required`)
+      }
 
-      if (command.parameters && command.parameters.length > 0){
-        command.parameters.forEach(parameter => {
-          commandparameters.push(parameter.name);
+      if (command.parameters && command.parameters.length > 0) {
+        command.parameters.forEach((parameter) => {
+          commandparameters.push(parameter.name)
         })
-      } else{commandparameters.push(`No Parameters`);}
+      } else {
+        commandparameters.push(`No Parameters`)
+      }
 
       if (command.description) {
-        commanddescription.push(command.description);
-      } else {commanddescription.push(`No Description`);}
+        commanddescription.push(command.description)
+      } else {
+        commanddescription.push(`No Description`)
+      }
 
       if (command.folder) {
-        commandfolder.push(command.folder);
-      } else {commandfolder.push(`No Folder`);}
+        commandfolder.push(command.folder)
+      } else {
+        commandfolder.push(`No Folder`)
+      }
 
-      bridge.store(values.cmdname, commandname);
-      bridge.store(values.cmdtype, commandtype);
-      bridge.store(values.cmdtrig, commandtrigger);
-      bridge.store(values.cmdalis, commandaliases);
-      bridge.store(values.cmdactn, commandactions);
-      bridge.store(values.cmdcuid, commandcustomid);
-      bridge.store(values.cmdbund, commandboundary);
-      bridge.store(values.cmdperm, commandpermissions);
-      bridge.store(values.cmdpram, commandparameters);
-      bridge.store(values.cmddesc, commanddescription);
-      bridge.store(values.cmdfldr, commandfolder);
+      bridge.store(values.cmdname, commandname)
+      bridge.store(values.cmdtype, commandtype)
+      bridge.store(values.cmdtrig, commandtrigger)
+      bridge.store(values.cmdalis, commandaliases)
+      bridge.store(values.cmdactn, commandactions)
+      bridge.store(values.cmdcuid, commandcustomid)
+      bridge.store(values.cmdbund, commandboundary)
+      bridge.store(values.cmdperm, commandpermissions)
+      bridge.store(values.cmdpram, commandparameters)
+      bridge.store(values.cmddesc, commanddescription)
+      bridge.store(values.cmdfldr, commandfolder)
     }
-  }
+  },
 }

@@ -1,7 +1,7 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Date Time Conversions"
+    name: "Date Time Conversions",
   },
   aliases: [],
   modules: ["luxon"],
@@ -16,21 +16,21 @@ module.exports = {
       element: "input",
       storeAs: "timeInput",
       name: "Time Input",
-      placeholder: "YYYY-MM-DD hh:mm:ss" // ISO 8601-ish
+      placeholder: "YYYY-MM-DD hh:mm:ss", // ISO 8601-ish
     },
     {
       element: "typedDropdown",
       storeAs: "timezone",
       name: "Timezone",
-      choices: (()=>{
+      choices: (() => {
         let timezones = {}
-        timezones["custom"] = {name: "IANA Timezone", field: true, placeholder: "e.g: Asia/Singapore"}
+        timezones["custom"] = { name: "IANA Timezone", field: true, placeholder: "e.g: Asia/Singapore" }
         let supportedTimezones = Intl.supportedValuesOf("timeZone")
-        supportedTimezones.forEach(timezone => {
-          timezones[timezone] = {name: `${timezone}`, field: false}
+        supportedTimezones.forEach((timezone) => {
+          timezones[timezone] = { name: `${timezone}`, field: false }
         })
         return timezones
-      })()
+      })(),
     },
     "-",
     {
@@ -38,8 +38,8 @@ module.exports = {
       storeAs: "unit",
       name: "Timestamp Units",
       choices: {
-        ms: {name: "Timestamp (13 Digit)", field: false},
-        sec: {name: "Normalised Timestamp (10 Digit)", field: false}
+        ms: { name: "Timestamp (13 Digit)", field: false },
+        sec: { name: "Normalised Timestamp (10 Digit)", field: false },
       },
       help: {
         title: "Which Unit To Choose?",
@@ -50,9 +50,9 @@ module.exports = {
             Normalised Timestamps Are Based On The Seconds Time Scale And Are 10 Digits Long.<br><br>
             Unnormalised Timestamps On The Other Hand, Is Based On The Milliseconds Time Scale. Meaning Its More Accurate.<br><br>
             Usually, A Normalised Timestamp Is Plenty For Normal Use But Some Actions May Ask For A Unnormalised Timestamp Instead.
-            <div>`
-          }
-        ]
+            <div>`,
+          },
+        ],
       },
     },
     {
@@ -63,13 +63,14 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     let unit = values.unit.type
     let unitText
-    switch(unit){
+    switch (unit) {
       case "ms":
         unitText = "Milliseconds Timestamp (13 Digits)"
         break
@@ -83,8 +84,9 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
@@ -92,7 +94,7 @@ module.exports = {
     let timeInput = bridge.transf(values.timeInput)
     let timezone = bridge.transf(values.timezone.type)
     let outputUnit = bridge.transf(values.unit.type)
-    if (timezone === "custom"){
+    if (timezone === "custom") {
       timezone = bridge.transf(values.timezone.value)
     }
     let dateTime = DateTime.fromFormat(timeInput, "yyyy-MM-dd HH:mm:ss", { zone: timezone })
@@ -101,11 +103,11 @@ module.exports = {
       return bridge.store(values.timestamp, undefined)
     }
     let timestamp
-    if (outputUnit == "ms"){
+    if (outputUnit == "ms") {
       timestamp = dateTime.toMillis()
-    } else if (outputUnit == "sec"){
+    } else if (outputUnit == "sec") {
       timestamp = dateTime.toSeconds()
     }
     bridge.store(values.timestamp, timestamp)
-  }
+  },
 }

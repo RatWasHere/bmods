@@ -1,9 +1,9 @@
 modVersion = "v1.2.0"
 module.exports = {
-  data:{
+  data: {
     name: "RCON Commander",
   },
-  aliases:["Send RCON Command"],
+  aliases: ["Send RCON Command"],
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
@@ -31,7 +31,7 @@ module.exports = {
       element: "input",
       storeAs: "timeout",
       name: "Timeout After",
-      placeholder: "In Seconds, Defaults To 5s"
+      placeholder: "In Seconds, Defaults To 5s",
     },
     {
       element: "largeInput",
@@ -47,19 +47,19 @@ module.exports = {
     {
       element: "actions",
       storeAs: "actions",
-      name: "On Response, Run"
+      name: "On Response, Run",
     },
     {
       element: "toggle",
       storeAs: "logging",
       name: "Log To Console For Debugging?",
       true: "Yes",
-      false: "No"
+      false: "No",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (values) => {
@@ -68,15 +68,15 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run(values, interaction, client, bridge){
-    for (const moduleName of this.modules){
+  async run(values, interaction, client, bridge) {
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
     const Rcon = require("mbr-rcon")
-    const timeout = bridge.transf(values.timeout) ? Number(bridge.transf(values.timeout))*1000 : 5000
+    const timeout = bridge.transf(values.timeout) ? Number(bridge.transf(values.timeout)) * 1000 : 5000
     const logging = values.logging
 
-    try{
+    try {
       await Promise.race([
         new Promise((resolve, reject) => {
           const ipAddr = bridge.transf(values.ipAddress)
@@ -92,49 +92,62 @@ module.exports = {
 
           const rcon = new Rcon(config)
 
-          const rconServer = rcon.connect({
-            onSuccess: () => {
-              if (logging == true){console.log(`Connection to ${ipAddr}:${ipPort} established.`)}
-            },
-            onError: (error) => {
-              if (logging == true){console.log(`Connection error: ${error}`)}
-              bridge.store(values.rconResponse, `Connection Error: Server Offline.`)
-              reject(error)
-            }
-          }).auth({
-            onSuccess: () => {
-              if (logging == true){
-                console.log(`Authenticated.`)
-                console.log(`Sending command: ${rconCm}`)
-              }
-            },
-            onError: (error) => {
-              if (logging == true){console.log(`Authentication error: ${error}`)}
-              bridge.store(values.rconResponse, `Authentication Error: Wrong Password.`)
-              reject(error)
-            }
-          }).send(rconCm, {
-            onSuccess: (response) => {
-              if (logging == true){console.log(`Server response: ${response}`)}
-              rconServer.close()
-              bridge.store(values.rconResponse, response)
-              resolve(response)
-              bridge.runner(values.actions)
-              
-            },
-            onError: (error) => {
-              if (logging == true){console.log(`Command error: ${error}`)}
-              bridge.store(values.rconResponse, `Command Error: Execution Error.`)
-              reject(error)
-            }
-          })
+          const rconServer = rcon
+            .connect({
+              onSuccess: () => {
+                if (logging == true) {
+                  console.log(`Connection to ${ipAddr}:${ipPort} established.`)
+                }
+              },
+              onError: (error) => {
+                if (logging == true) {
+                  console.log(`Connection error: ${error}`)
+                }
+                bridge.store(values.rconResponse, `Connection Error: Server Offline.`)
+                reject(error)
+              },
+            })
+            .auth({
+              onSuccess: () => {
+                if (logging == true) {
+                  console.log(`Authenticated.`)
+                  console.log(`Sending command: ${rconCm}`)
+                }
+              },
+              onError: (error) => {
+                if (logging == true) {
+                  console.log(`Authentication error: ${error}`)
+                }
+                bridge.store(values.rconResponse, `Authentication Error: Wrong Password.`)
+                reject(error)
+              },
+            })
+            .send(rconCm, {
+              onSuccess: (response) => {
+                if (logging == true) {
+                  console.log(`Server response: ${response}`)
+                }
+                rconServer.close()
+                bridge.store(values.rconResponse, response)
+                resolve(response)
+                bridge.runner(values.actions)
+              },
+              onError: (error) => {
+                if (logging == true) {
+                  console.log(`Command error: ${error}`)
+                }
+                bridge.store(values.rconResponse, `Command Error: Execution Error.`)
+                reject(error)
+              },
+            })
         }),
-        new Promise((_, reject) => setTimeout(()=> reject(new Error(`Server Took Too Long!`)), timeout))
+        new Promise((_, reject) => setTimeout(() => reject(new Error(`Server Took Too Long!`)), timeout)),
       ])
-    }
-    catch(error){
-      if (logging == true){console.log(`Command error: ${error}`)}
+    } catch (error) {
+      if (logging == true) {
+        console.log(`Command error: ${error}`)
+      }
       bridge.store(values.rconResponse, `RCON Error: ${error.message}`)
     }
-  }
+  },
 }

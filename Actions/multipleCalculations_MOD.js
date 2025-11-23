@@ -1,7 +1,7 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Multiple Calculations"
+    name: "Multiple Calculations",
   },
   aliases: [],
   modules: [],
@@ -36,21 +36,21 @@ module.exports = {
               storeAs: "operation",
               name: "Operation",
               choices: [
-                {name: "Addition"},
-                {name: "Subtraction"},
-                {name: "Multiplication"},
-                {name: "Division"},
-                {name: "Percentage Of Number"},
-                {name: "Number Increased By Percentage"},
-                {name: "Number Decreased By Percentage"},
-                {name: "Raised By (Exponents)"},
-                {name: "Raised By (Roots)"},
-              ]
+                { name: "Addition" },
+                { name: "Subtraction" },
+                { name: "Multiplication" },
+                { name: "Division" },
+                { name: "Percentage Of Number" },
+                { name: "Number Increased By Percentage" },
+                { name: "Number Decreased By Percentage" },
+                { name: "Raised By (Exponents)" },
+                { name: "Raised By (Roots)" },
+              ],
             },
             {
               element: "largeInput",
               storeAs: "number",
-              name: "Number"
+              name: "Number",
             },
           ],
         },
@@ -64,75 +64,77 @@ module.exports = {
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Do ${values.operations.length} Operations To ${values.starting}`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
     let startingNumber = Number(bridge.transf(values.starting))
     let result = startingNumber
-    for (let operation of values.operations){
+    for (let operation of values.operations) {
       let operationData = operation.data
       let operationType = bridge.transf(operationData.operation)
       let operationNumber = Number(bridge.transf(operationData.number))
-      switch (operationType){
-        case "Addition":{
+      switch (operationType) {
+        case "Addition": {
           result = result + operationNumber
           break
         }
 
-        case "Subtraction":{
+        case "Subtraction": {
           result = result - operationNumber
           break
         }
 
-        case "Multiplication":{
+        case "Multiplication": {
           result = result * operationNumber
           break
         }
 
-        case "Division":{
+        case "Division": {
           result = result / operationNumber
           break
         }
 
-        case "Number Increased By Percentage":{
+        case "Number Increased By Percentage": {
           result = result * (1 + operationNumber / 100)
           break
         }
 
-        case "Number Decreased By Percentage":{
+        case "Number Decreased By Percentage": {
           result = result * (1 - operationNumber / 100)
           break
         }
 
-        case "Raised By (Exponents)":{
+        case "Raised By (Exponents)": {
           result = Math.pow(result, operationNumber)
           break
         }
 
-        case "Raised By (Roots)":{
-          result = Math.pow(result, 1/operationNumber)
+        case "Raised By (Roots)": {
+          result = Math.pow(result, 1 / operationNumber)
           break
         }
 
-        case "Percentage Of Number":{
-          result = (operationNumber/100) * result
+        case "Percentage Of Number": {
+          result = (operationNumber / 100) * result
           break
         }
       }
     }
 
     bridge.store(values.final, result)
-  }
+  },
 }

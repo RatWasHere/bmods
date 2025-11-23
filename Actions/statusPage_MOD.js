@@ -1,4 +1,4 @@
-modVersion = "v3.0.4";
+modVersion = "v3.0.4"
 
 module.exports = {
   data: {
@@ -101,7 +101,7 @@ module.exports = {
 
   subtitle: (values, constants, thisAction) => {
     // To use thisAction, constants must also be present
-    return `Create Status Page View On ${values.host}:${values.port}`;
+    return `Create Status Page View On ${values.host}:${values.port}`
   },
 
   compatibility: ["Any"],
@@ -109,54 +109,54 @@ module.exports = {
   async run(values, message, client, bridge) {
     // This is the exact order of things required, other orders will brick
     for (const moduleName of this.modules) {
-      await client.getMods().require(moduleName);
+      await client.getMods().require(moduleName)
     }
 
     // Modules
-    const http = require("node:http");
-    const https = require("node:https");
-    const os = require("node:os");
-    const path = require("node:path");
-    const fs = require("node:fs");
-    const crypto = require("node:crypto");
-    const oceanic = require("oceanic.js");
+    const http = require("node:http")
+    const https = require("node:https")
+    const os = require("node:os")
+    const path = require("node:path")
+    const fs = require("node:fs")
+    const crypto = require("node:crypto")
+    const oceanic = require("oceanic.js")
 
     // Service
-    const host = bridge.transf(values.host) || "localhost";
-    const port = parseInt(bridge.transf(values.port), 10) || 3000;
+    const host = bridge.transf(values.host) || "localhost"
+    const port = parseInt(bridge.transf(values.port), 10) || 3000
 
     // Credentials
-    const username = bridge.transf(values.username) || "user";
-    const password = bridge.transf(values.password) || "password";
-    const loginSystem = bridge.transf(values.loginSystem.type) || "basic";
+    const username = bridge.transf(values.username) || "user"
+    const password = bridge.transf(values.password) || "password"
+    const loginSystem = bridge.transf(values.loginSystem.type) || "basic"
 
     // Configs
-    const graphHistoryCount = parseInt(bridge.transf(values.graphHistoryCount)) || 60;
-    const logsHistoryCount = parseInt(bridge.transf(values.consoleHistoryCount)) || 100;
-    const interval = parseFloat(bridge.transf(values.interval)) * 1000 || 2500;
-    const theme = bridge.transf(values.theme) || "default";
+    const graphHistoryCount = parseInt(bridge.transf(values.graphHistoryCount)) || 60
+    const logsHistoryCount = parseInt(bridge.transf(values.consoleHistoryCount)) || 100
+    const interval = parseFloat(bridge.transf(values.interval)) * 1000 || 2500
+    const theme = bridge.transf(values.theme) || "default"
 
     // Data Fetching
-    const botData = require("../data.json");
-    const appName = botData.name || "NodeJS";
-    const workingDir = path.normalize(process.cwd());
-    const botStartTimestamp = new Date();
+    const botData = require("../data.json")
+    const appName = botData.name || "NodeJS"
+    const workingDir = path.normalize(process.cwd())
+    const botStartTimestamp = new Date()
 
     // Directory Definitions
-    let workingPath;
+    let workingPath
     if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
-      workingPath = botData.prjSrc;
+      workingPath = botData.prjSrc
     } else {
-      workingPath = workingDir;
+      workingPath = workingDir
     }
 
-    let htmlFilePath = path.join(workingPath, "statusPage", "themes", theme, "index.html");
-    let icoFilePath = path.join(workingPath, "statusPage", "themes", theme, "bmd.ico");
-    let cssFilePath = path.join(workingPath, "statusPage", "themes", theme, "style.css");
-    let loginHtmlFilePath = path.join(workingPath, "statusPage", "login.html");
-    let statusPageThemeDir = path.join(workingPath, "statusPage", "themes", theme);
+    let htmlFilePath = path.join(workingPath, "statusPage", "themes", theme, "index.html")
+    let icoFilePath = path.join(workingPath, "statusPage", "themes", theme, "bmd.ico")
+    let cssFilePath = path.join(workingPath, "statusPage", "themes", theme, "style.css")
+    let loginHtmlFilePath = path.join(workingPath, "statusPage", "login.html")
+    let statusPageThemeDir = path.join(workingPath, "statusPage", "themes", theme)
     if (!fs.existsSync(statusPageThemeDir)) {
-      fs.mkdirSync(statusPageThemeDir, { recursive: true });
+      fs.mkdirSync(statusPageThemeDir, { recursive: true })
     }
 
     // Getting Files From GitHub If They Dont Exist
@@ -176,133 +176,129 @@ module.exports = {
         path: cssFilePath,
         name: `style.css`,
       },
-    };
+    }
 
     if (loginSystem === "token") {
       siteFiles["login"] = {
         github: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/core/login.html`,
         path: loginHtmlFilePath,
         name: `login.html`,
-      };
+      }
     }
 
     for (let coreKey in siteFiles) {
-      const file = siteFiles[coreKey];
+      const file = siteFiles[coreKey]
 
       if (!fs.existsSync(file.path)) {
-        console.log(`[Status Page] Missing "${file.name}" in ${file.path}, downloading from GitHub.`);
+        console.log(`[Status Page] Missing "${file.name}" in ${file.path}, downloading from GitHub.`)
 
         try {
           await new Promise((resolve, reject) => {
             https
               .get(file.github, (response) => {
                 if (response.statusCode !== 200) {
-                  reject(
-                    new Error(
-                      `[Status Page] Failed to download "${file.name}" from GitHub. Status Code: ${response.statusCode}`
-                    )
-                  );
-                  return;
+                  reject(new Error(`[Status Page] Failed to download "${file.name}" from GitHub. Status Code: ${response.statusCode}`))
+                  return
                 }
 
-                const chunks = [];
+                const chunks = []
 
-                response.on("data", (chunk) => chunks.push(chunk));
+                response.on("data", (chunk) => chunks.push(chunk))
 
                 response.on("end", () => {
                   try {
-                    const data = Buffer.concat(chunks);
-                    fs.writeFileSync(file.path, data); // No encoding specified so it works for binary too
-                    console.log(`[Status Page] "${file.name}" downloaded from ${file.github}.`);
-                    resolve();
+                    const data = Buffer.concat(chunks)
+                    fs.writeFileSync(file.path, data) // No encoding specified so it works for binary too
+                    console.log(`[Status Page] "${file.name}" downloaded from ${file.github}.`)
+                    resolve()
                   } catch (err) {
-                    reject(err);
+                    reject(err)
                   }
-                });
+                })
               })
               .on("error", (err) => {
-                reject(err);
-              });
-          });
+                reject(err)
+              })
+          })
         } catch (err) {
-          console.error(`[Status Page] Error while downloading "${file.name}" from GitHub:`, err);
+          console.error(`[Status Page] Error while downloading "${file.name}" from GitHub:`, err)
         }
       }
     }
 
     // Cpu Usage
-    let lastCpuUsage = process.cpuUsage();
-    let lastCpuTime = process.hrtime();
+    let lastCpuUsage = process.cpuUsage()
+    let lastCpuTime = process.hrtime()
     function getProcessCpuPercent() {
-      const currentCpu = process.cpuUsage(lastCpuUsage);
-      const currentTime = process.hrtime(lastCpuTime);
-      lastCpuUsage = process.cpuUsage();
-      lastCpuTime = process.hrtime();
-      const elapsedMicroSeconds = currentTime[0] * 1e6 + currentTime[1] / 1000;
-      const totalCpuUsage = currentCpu.user + currentCpu.system;
-      return ((totalCpuUsage / elapsedMicroSeconds) * 100).toFixed(2);
+      const currentCpu = process.cpuUsage(lastCpuUsage)
+      const currentTime = process.hrtime(lastCpuTime)
+      lastCpuUsage = process.cpuUsage()
+      lastCpuTime = process.hrtime()
+      const elapsedMicroSeconds = currentTime[0] * 1e6 + currentTime[1] / 1000
+      const totalCpuUsage = currentCpu.user + currentCpu.system
+      return ((totalCpuUsage / elapsedMicroSeconds) * 100).toFixed(2)
     }
 
     // Ram Usage
     function getProcessRamMb() {
-      return (process.memoryUsage().heapUsed / (1024 * 1024)).toFixed(2);
+      return (process.memoryUsage().heapUsed / (1024 * 1024)).toFixed(2)
     }
 
     // Commands
-    let slashCommands = [];
-    let textCommands = [];
-    let msgCommands = [];
-    let userCommands = [];
-    let events = [];
-    let msgContentCommands = [];
-    let anyMessageCommands = [];
-    const commands = botData.commands;
+    let slashCommands = []
+    let textCommands = []
+    let msgCommands = []
+    let userCommands = []
+    let events = []
+    let msgContentCommands = []
+    let anyMessageCommands = []
+    const commands = botData.commands
     commands.forEach((command) => {
       switch (command.trigger) {
         case "slashCommand":
-          slashCommands.push(command.customId);
-          break;
+          slashCommands.push(command.customId)
+          break
 
         case "textCommand":
-          textCommands.push(command.customId);
-          break;
+          textCommands.push(command.customId)
+          break
 
         case "event":
-          events.push(command.customId);
-          break;
+          events.push(command.customId)
+          break
 
         case "message":
-          msgCommands.push(command.customId);
-          break;
+          msgCommands.push(command.customId)
+          break
 
         case "user":
-          userCommands.push(command.customId);
-          break;
+          userCommands.push(command.customId)
+          break
 
         case "msgContent":
-          msgContentCommands.push(command.customId);
-          break;
+          msgContentCommands.push(command.customId)
+          break
 
         case "anyMessage":
-          anyMessageCommands.push(command.customId);
+          anyMessageCommands.push(command.customId)
       }
-    });
+    })
 
     // Version Contants
-    const nodeJsVer = process.versions.node;
-    const ocncJsVer = oceanic.Constants.VERSION;
+    const nodeJsVer = process.versions.node
+    const ocncJsVer = oceanic.Constants.VERSION
     const statusPageVer = this.modVersion
 
     // Creating Data For Graphs
-    let dataHistory = [];
+    let dataHistory = []
     function updateStats() {
-      let cpuUsagePercent = getProcessCpuPercent();
-      let ramUsageMb = getProcessRamMb();
-      let timestamp = new Date();
-      let guildCount = client.guilds.size;
-      let userCount = client.users.size;
+      let cpuUsagePercent = getProcessCpuPercent()
+      let ramUsageMb = getProcessRamMb()
+      let timestamp = new Date()
+      let guildCount = client.guilds.size
+      let userCount = client.users.size
       if (dataHistory.length >= graphHistoryCount) {
-        dataHistory.shift();
+        dataHistory.shift()
       }
       dataHistory.push({
         timestamp,
@@ -312,91 +308,86 @@ module.exports = {
           guild: guildCount,
           users: userCount,
         },
-      });
+      })
     }
 
     // Logging System
-    let logHistory = [];
+    let logHistory = []
 
     function createLogs(logHistory, maxLength = logsHistoryCount) {
       const consoleMethods = {
         error: console.error,
         warn: console.warn,
         log: console.log,
-      };
+      }
 
       Object.entries(consoleMethods).forEach(([type, originalFn]) => {
         console[type] = (...args) => {
           const fullMsg = args
             .map((arg) => {
               if (arg instanceof Error) {
-                return arg.stack;
+                return arg.stack
               }
               if (typeof arg === "object") {
-                return JSON.stringify(arg, null, 2);
+                return JSON.stringify(arg, null, 2)
               }
-              return String(arg);
+              return String(arg)
             })
-            .join(" ");
+            .join(" ")
 
           logHistory.push({
             msg: fullMsg,
             timestamp: new Date(),
             type,
-          });
+          })
 
           if (logHistory.length > maxLength) {
-            logHistory.shift();
+            logHistory.shift()
           }
 
-          originalFn(...args);
-        };
-      });
+          originalFn(...args)
+        }
+      })
     }
-    createLogs(logHistory, logsHistoryCount);
+    createLogs(logHistory, logsHistoryCount)
 
-    setInterval(updateStats, interval);
-    updateStats();
+    setInterval(updateStats, interval)
+    updateStats()
 
     // Basic Authorization Method
     function checkBasic(request) {
       if (!password) {
-        return true;
+        return true
       }
-      let auth = request.headers.authorization;
+      let auth = request.headers.authorization
       if (!auth || !auth.startsWith("Basic ")) {
-        return false;
+        return false
       }
-      let [loginUsername, loginPassword] = Buffer.from(auth.split(" ")[1], "base64").toString().split(":");
+      let [loginUsername, loginPassword] = Buffer.from(auth.split(" ")[1], "base64").toString().split(":")
 
-      if (
-        typeof loginUsername === "string" &&
-        typeof loginPassword === "string" &&
-        loginUsername === username &&
-        loginPassword === password
-      ) {
-        return true;
+      if (typeof loginUsername === "string" && typeof loginPassword === "string" && loginUsername === username && loginPassword === password) {
+        return true
       } else {
-        return false;
+        return false
       }
     }
 
     // Token Authorization Method
-    let activeTokens = [];
+    let activeTokens = []
     function checkToken(request) {
-      let cookieHeader = request.headers.cookie || "";
+      let cookieHeader = request.headers.cookie || ""
       let cookies = Object.fromEntries(
         cookieHeader.split(";").map((cookie) => {
-          let [key, value] = cookie.trim().split("=");
-          return [key, value];
+          let [key, value] = cookie.trim().split("=")
+          return [key, value]
         })
-      );
+      )
 
-      let token = cookies.spToken;
+      let token = cookies.spToken
       if (activeTokens.includes(token) === true) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
     }
 
@@ -405,151 +396,151 @@ module.exports = {
       switch (loginSystem) {
         case "basic": {
           if (checkBasic(request)) {
-            return true;
+            return true
           } else {
             response.writeHead(401, {
               "www-authenticate": `Basic realm="Status Page"`,
-            });
-            response.end("Unauthorized");
+            })
+            response.end("Unauthorized")
           }
-          break;
+          break
         }
 
         case "token": {
           if (checkToken(request)) {
-            return true;
+            return true
           } else {
-            let urlComponents = new URL(request.url, `http://${request.headers.host}`);
+            let urlComponents = new URL(request.url, `http://${request.headers.host}`)
             response.writeHead(301, {
               location: `/login?redirect=${encodeURIComponent(urlComponents.pathname)}`,
-            });
-            response.end();
+            })
+            response.end()
           }
-          break;
+          break
         }
       }
     }
 
     // Checking For Missing Files
-    let missingSiteFiles = [];
+    let missingSiteFiles = []
     for (let key in siteFiles) {
-      const file = siteFiles[key];
+      const file = siteFiles[key]
       if (!fs.existsSync(file.path)) {
-        missingSiteFiles.push(file.name);
+        missingSiteFiles.push(file.name)
       }
     }
     if (missingSiteFiles.length > 0) {
-      return console.error(`[Status Page] Files (${missingSiteFiles.join(", ")}) Are Missing To Serve The Page!`);
+      return console.error(`[Status Page] Files (${missingSiteFiles.join(", ")}) Are Missing To Serve The Page!`)
     }
 
     const server = http.createServer((request, response) => {
-      let baseUrl = new URL(request.url, `http://${request.headers.host}`);
-      let endPoint = baseUrl.pathname;
+      let baseUrl = new URL(request.url, `http://${request.headers.host}`)
+      let endPoint = baseUrl.pathname
 
       switch (endPoint) {
         case "/favicon.ico": {
           if (fs.existsSync(icoFilePath)) {
             response.writeHead(200, {
               "content-type": "image/x-icon",
-            });
-            fs.createReadStream(icoFilePath).pipe(response);
+            })
+            fs.createReadStream(icoFilePath).pipe(response)
           } else {
-            response.writeHead(404);
-            response.end("Favicon Not Found!");
+            response.writeHead(404)
+            response.end("Favicon Not Found!")
           }
-          break;
+          break
         }
 
         case "/style.css": {
           if (fs.existsSync(cssFilePath)) {
             response.writeHead(200, {
               "content-type": "text/css",
-            });
-            fs.createReadStream(cssFilePath).pipe(response);
+            })
+            fs.createReadStream(cssFilePath).pipe(response)
           } else {
-            response.writeHead(404);
-            response.end("Style.css Not Found!");
+            response.writeHead(404)
+            response.end("Style.css Not Found!")
           }
-          break;
+          break
         }
 
         case "/": {
-          response.writeHead(301, { location: "/monitor" });
-          response.end();
-          break;
+          response.writeHead(301, { location: "/monitor" })
+          response.end()
+          break
         }
 
         case "/login": {
-          let redirectPath = baseUrl.searchParams.get("redirect") || `/monitor`;
+          let redirectPath = baseUrl.searchParams.get("redirect") || `/monitor`
           if (!redirectPath.startsWith("/")) {
-            redirectPath = `/${redirectPath}`;
+            redirectPath = `/${redirectPath}`
           }
           if (redirectPath.startsWith("//")) {
-            redirectPath = `/monitor`;
+            redirectPath = `/monitor`
           }
 
           if (loginSystem === "token" && request.method === "GET") {
             if (checkToken(request)) {
-              response.writeHead(301, { location: redirectPath });
-              response.end();
+              response.writeHead(301, { location: redirectPath })
+              response.end()
             } else {
               response.writeHead(200, {
                 "content-type": "text/html",
-              });
+              })
               fs.createReadStream(loginHtmlFilePath, {
                 encoding: "utf-8",
-              }).pipe(response);
+              }).pipe(response)
             }
           } else if (loginSystem === "token" && request.method === "POST") {
-            let postBody = "";
-            request.on("data", (dataChunk) => (postBody += dataChunk));
+            let postBody = ""
+            request.on("data", (dataChunk) => (postBody += dataChunk))
             request.on("end", () => {
-              postBody = JSON.parse(postBody);
-              let loginUsername = postBody.username;
-              let loginPassword = postBody.password;
-              let successRedirect = postBody.redirect || redirectPath;
+              postBody = JSON.parse(postBody)
+              let loginUsername = postBody.username
+              let loginPassword = postBody.password
+              let successRedirect = postBody.redirect || redirectPath
               if (
                 typeof loginUsername === "string" &&
                 typeof loginPassword === "string" &&
                 loginUsername === username &&
                 loginPassword === password
               ) {
-                const newToken = crypto.randomBytes(32).toString("hex");
-                activeTokens.push(newToken);
+                const newToken = crypto.randomBytes(32).toString("hex")
+                activeTokens.push(newToken)
                 response.writeHead(200, {
                   "content-type": "application/json",
                   "set-cookie": `spToken=${newToken}; HttpOnly; Path=/; SameSite=Lax`,
-                });
-                response.end(JSON.stringify({ success: true, redirect: successRedirect }, null, 2));
+                })
+                response.end(JSON.stringify({ success: true, redirect: successRedirect }, null, 2))
               } else {
                 response.writeHead(401, {
                   "content-type": "application/json",
-                });
-                response.end(JSON.stringify({ success: false, error: "Invalid Login" }, null, 2));
+                })
+                response.end(JSON.stringify({ success: false, error: "Invalid Login" }, null, 2))
               }
-            });
+            })
           } else if (loginSystem === "basic") {
-            response.writeHead(301, { location: redirectPath });
-            response.end();
+            response.writeHead(301, { location: redirectPath })
+            response.end()
           }
-          break;
+          break
         }
 
         case "/monitor": {
           if (checkAuthenticated(request, response) == true) {
             response.writeHead(200, {
               "content-type": "text/html",
-            });
-            fs.createReadStream(htmlFilePath, { encoding: "utf-8" }).pipe(response);
+            })
+            fs.createReadStream(htmlFilePath, { encoding: "utf-8" }).pipe(response)
           }
-          break;
+          break
         }
 
         case "/raw": {
           if (checkAuthenticated(request, response) == true) {
             response.writeHead(200, {
               "content-type": "application/json",
-            });
+            })
             response.end(
               JSON.stringify(
                 {
@@ -571,27 +562,27 @@ module.exports = {
                   versions: {
                     node: nodeJsVer,
                     oceanic: ocncJsVer,
-                    statusPage: statusPageVer
+                    statusPage: statusPageVer,
                   },
                 },
                 null,
                 2
               )
-            );
+            )
           }
-          break;
+          break
         }
 
         default: {
-          response.writeHead(404);
-          response.end("Page Not Found!");
-          break;
+          response.writeHead(404)
+          response.end("Page Not Found!")
+          break
         }
       }
-    });
+    })
 
     server.listen(port, host, () => {
-      console.log(`[Status Page] Status Page Available At "http://${host}:${port}/monitor"`);
-    });
+      console.log(`[Status Page] Status Page Available At "http://${host}:${port}/monitor"`)
+    })
   },
-};
+}

@@ -4,9 +4,9 @@ module.exports = {
     name: "Get Channel Mentions In List",
   },
   info: {
-  source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
-  creator: "Acedia QOLs",
-  donate: "https://ko-fi.com/slothyacedia",
+    source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
+    creator: "Acedia QOLs",
+    donate: "https://ko-fi.com/slothyacedia",
   },
   category: "Shortcuts",
   modules: [],
@@ -21,9 +21,9 @@ module.exports = {
       element: "typedDropdown",
       storeAs: "style",
       name: "Output Style",
-      choices:{
-        list: {name: "List", field: false},
-        text: {name: "Text", field: true, placeholder: "Delimiter"},
+      choices: {
+        list: { name: "List", field: false },
+        text: { name: "Text", field: true, placeholder: "Delimiter" },
       },
     },
     {
@@ -34,20 +34,20 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (values, constants) => {
     return `Get Mentions Of ${constants.variable(values.channelsList)}`
   },
 
-  async run(values, message, client, bridge){
+  async run(values, message, client, bridge) {
     let channelList = bridge.get(values.channelsList)
 
     let filteredList = []
 
-    channelList = channelList.forEach(channel =>{
-      if (channel.type != 4){
+    channelList = channelList.forEach((channel) => {
+      if (channel.type != 4) {
         filteredList.push(`<#${channel.id}>`)
       }
     })
@@ -55,11 +55,12 @@ module.exports = {
     let styleType = bridge.transf(values.style.type)
     let delimiter = bridge.transf(values.style.value)
     let mentionList
-    if (styleType == "text"){
+    if (styleType == "text") {
       mentionList = filteredList.join(delimiter)
-    } else {mentionList = filteredList}
+    } else {
+      mentionList = filteredList
+    }
 
     bridge.store(values.result, mentionList)
-  }
+  },
 }
-

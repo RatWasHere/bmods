@@ -2,7 +2,7 @@ modVersion = "v2.2.1"
 module.exports = {
   data: {
     name: "Time Conversions",
-    "inputUnit":{
+    inputUnit: {
       type: "custom",
       value: "",
     },
@@ -26,36 +26,36 @@ module.exports = {
       storeAs: "inputUnit",
       name: "Time Input Unit",
       choices: {
-        ms: {name: "Milliseconds", field: false},
-        sec: {name: "Seconds", field: false},
-        min: {name: "Minutes", field: false},
-        hour: {name: "Hours", field: false},
-        day: {name: "Days", field: false},
-        week: {name: "Weeks", field: false},
-        month: {name: "Months", field: false},
-        years: {name: "Years", field: false},
-        custom: {name: "Parse Time (Custom)", field: false}
-      }
+        ms: { name: "Milliseconds", field: false },
+        sec: { name: "Seconds", field: false },
+        min: { name: "Minutes", field: false },
+        hour: { name: "Hours", field: false },
+        day: { name: "Days", field: false },
+        week: { name: "Weeks", field: false },
+        month: { name: "Months", field: false },
+        years: { name: "Years", field: false },
+        custom: { name: "Parse Time (Custom)", field: false },
+      },
     },
     {
       element: "typedDropdown",
       storeAs: "outputUnit",
       name: "Output As",
       choices: {
-        ms: {name: "Milliseconds", field: false},
-        sec: {name: "Seconds", field: false},
-        min: {name: "Minutes", field: false},
-        hour: {name: "Hours", field: false},
-        day: {name: "Days", field: false},
-        week: {name: "Weeks", field: false},
-        month: {name: "Months", field: false},
-        years: {name: "Years", field: false},
-        custom: {name: "Custom", field: true}
-      }
+        ms: { name: "Milliseconds", field: false },
+        sec: { name: "Seconds", field: false },
+        min: { name: "Minutes", field: false },
+        hour: { name: "Hours", field: false },
+        day: { name: "Days", field: false },
+        week: { name: "Weeks", field: false },
+        month: { name: "Months", field: false },
+        years: { name: "Years", field: false },
+        custom: { name: "Custom", field: true },
+      },
     },
     {
       element: "",
-      text: `<div style="font-size:20px">Syntax</div>`
+      text: `<div style="font-size:20px">Syntax</div>`,
     },
     {
       element: "",
@@ -68,23 +68,23 @@ module.exports = {
         <span>Minutes: <code>MM</code></span><br>
         <span>Seconds: <code>SS</code></span><br>
         <span>Milliseconds: <code>MS</code></span><br>
-      </div>`
+      </div>`,
     },
     "-",
     {
       element: "store",
       storeAs: "convertedTime",
-      name: "Store As"
+      name: "Store As",
     },
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  script: (values)=>{
-    function refelm(skipAnimation){
-      if (values.data.outputUnit.type == "custom"){
+  script: (values) => {
+    function refelm(skipAnimation) {
+      if (values.data.outputUnit.type == "custom") {
         values.UI[3].element = "text"
         values.UI[4].element = "text"
       } else {
@@ -92,25 +92,28 @@ module.exports = {
         values.UI[4].element = ""
       }
 
-      setTimeout(()=>{
-        values.updateUI()
-      },skipAnimation?1:values.commonAnimation*100)
+      setTimeout(
+        () => {
+          values.updateUI()
+        },
+        skipAnimation ? 1 : values.commonAnimation * 100
+      )
     }
     refelm(true)
 
-    values.events.on("change", ()=>{
+    values.events.on("change", () => {
       refelm()
     })
   },
 
-  subtitle: (values, constants, thisAction)=>{
+  subtitle: (values, constants, thisAction) => {
     let inputUnits = values.inputUnit.type
     let outputUnits = values.outputUnit.type
 
     let inputType = thisAction.UI.find((e) => e.element == "typedDropdown").choices[values.inputUnit.type].name
 
     let outputType
-    switch (outputUnits){
+    switch (outputUnits) {
       default:
         outputType = thisAction.UI.find((e) => e.element == "typedDropdown").choices[values.outputUnit.type].name
         break
@@ -125,65 +128,65 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){
+  async run(values, message, client, bridge) {
     let timeInput = bridge.transf(values.timeInput)
     let inputUnitType = bridge.transf(values.inputUnit.type)
     let outputUnitType = bridge.transf(values.outputUnit.type)
     let resultOutput
     let msTimeBase
 
-    if (inputUnitType !== "custom"){
+    if (inputUnitType !== "custom") {
       timeInput = parseFloat(timeInput)
-      if (isNaN(timeInput)){
+      if (isNaN(timeInput)) {
         console.error(`The given time input is not a number!`)
         bridge.store(values.convertedTime, undefined)
         return
       }
     }
 
-    switch (inputUnitType){
+    switch (inputUnitType) {
       case "ms":
         msTimeBase = parseFloat(timeInput)
         break
 
       case "sec":
-        msTimeBase = parseFloat(timeInput)*1000
+        msTimeBase = parseFloat(timeInput) * 1000
         break
 
       case "min":
-        msTimeBase = parseFloat(timeInput)*(1000*60)
+        msTimeBase = parseFloat(timeInput) * (1000 * 60)
         break
 
       case "hour":
-        msTimeBase = parseFloat(timeInput)*(1000*60*60)
+        msTimeBase = parseFloat(timeInput) * (1000 * 60 * 60)
         break
 
       case "day":
-        msTimeBase = parseFloat(timeInput)*(1000*60*60*24)
+        msTimeBase = parseFloat(timeInput) * (1000 * 60 * 60 * 24)
         break
 
       case "week":
-        msTimeBase = parseFloat(timeInput)*(1000*60*60*24*7)
+        msTimeBase = parseFloat(timeInput) * (1000 * 60 * 60 * 24 * 7)
         break
 
       case "month":
-        msTimeBase = parseFloat(timeInput)*(1000*60*60*24*30.44)
+        msTimeBase = parseFloat(timeInput) * (1000 * 60 * 60 * 24 * 30.44)
         break
 
       case "years":
-        msTimeBase = parseFloat(timeInput)*(1000*60*60*24*365.25)
+        msTimeBase = parseFloat(timeInput) * (1000 * 60 * 60 * 24 * 365.25)
         break
 
       case "custom":
         const extractions = {
-          year: {regex: /(\d+(?:\.\d+)?) ?(years?\b|yrs?\b|yy?\b)/gi, toMilli: 365.25 * 24 * 60 * 60 * 1000},
-          month: {regex: /(\d+(?:\.\d+)?) ?(mo(nths?)?\b|mths?\b)/gi, toMilli: 30.44 * 24 * 60 * 60 * 1000},
-          week: {regex: /(\d+(?:\.\d+)?) ?(weeks?\b|wks?\b|w\b)/gi, toMilli: 7 * 24 * 60 * 60 * 1000},
-          day: {regex: /(\d+(?:\.\d+)?) ?(days?\b|dd?\b)/gi, toMilli: 24 * 60 * 60 * 1000},
-          hour: {regex: /(\d+(?:\.\d+)?) ?(hours?\b|hrs?\b|hh?\b)/gi, toMilli: 60 * 60 * 1000},
-          minute: {regex: /(\d+(?:\.\d+)?) ?(minutes?\b|mins?\b|mm?\b)/gi, toMilli: 60 * 1000},
-          second: {regex: /(\d+(?:\.\d+)?) ?(seconds?\b|secs?\b|ss?\b)/gi, toMilli: 1000},
-          millisecond: {regex: /(\d+(?:\.\d+)?) ?(milliseconds?\b|ms\b)/gi, toMilli: 1},
+          year: { regex: /(\d+(?:\.\d+)?) ?(years?\b|yrs?\b|yy?\b)/gi, toMilli: 365.25 * 24 * 60 * 60 * 1000 },
+          month: { regex: /(\d+(?:\.\d+)?) ?(mo(nths?)?\b|mths?\b)/gi, toMilli: 30.44 * 24 * 60 * 60 * 1000 },
+          week: { regex: /(\d+(?:\.\d+)?) ?(weeks?\b|wks?\b|w\b)/gi, toMilli: 7 * 24 * 60 * 60 * 1000 },
+          day: { regex: /(\d+(?:\.\d+)?) ?(days?\b|dd?\b)/gi, toMilli: 24 * 60 * 60 * 1000 },
+          hour: { regex: /(\d+(?:\.\d+)?) ?(hours?\b|hrs?\b|hh?\b)/gi, toMilli: 60 * 60 * 1000 },
+          minute: { regex: /(\d+(?:\.\d+)?) ?(minutes?\b|mins?\b|mm?\b)/gi, toMilli: 60 * 1000 },
+          second: { regex: /(\d+(?:\.\d+)?) ?(seconds?\b|secs?\b|ss?\b)/gi, toMilli: 1000 },
+          millisecond: { regex: /(\d+(?:\.\d+)?) ?(milliseconds?\b|ms\b)/gi, toMilli: 1 },
         }
 
         let extractedValues = {}
@@ -201,7 +204,7 @@ module.exports = {
 
         msTimeBase = 0
         for (let unit in extractedValues) {
-          msTimeBase += extractedValues[unit] * extractions[unit].toMilli;
+          msTimeBase += extractedValues[unit] * extractions[unit].toMilli
         }
         parseFloat(msTimeBase)
         break
@@ -209,101 +212,103 @@ module.exports = {
 
     msTimeBase = Number(msTimeBase)
 
-    switch (outputUnitType){
+    switch (outputUnitType) {
       case "ms":
         resultOutput = msTimeBase
         break
 
       case "sec":
-        resultOutput = msTimeBase/1000
+        resultOutput = msTimeBase / 1000
         break
 
       case "min":
-        resultOutput = msTimeBase/(1000*60)
+        resultOutput = msTimeBase / (1000 * 60)
         break
 
       case "hour":
-        resultOutput = msTimeBase/(1000*60*60)
+        resultOutput = msTimeBase / (1000 * 60 * 60)
         break
 
       case "day":
-        resultOutput = msTimeBase/(1000*60*60*24)
+        resultOutput = msTimeBase / (1000 * 60 * 60 * 24)
         break
 
       case "week":
-        resultOutput = msTimeBase/(1000*60*60*24*7)
+        resultOutput = msTimeBase / (1000 * 60 * 60 * 24 * 7)
         break
 
       case "month":
-        resultOutput = msTimeBase/(1000*60*60*24*30.44)
+        resultOutput = msTimeBase / (1000 * 60 * 60 * 24 * 30.44)
         break
 
       case "years":
-        resultOutput = msTimeBase/(1000*60*60*24*365.25)
+        resultOutput = msTimeBase / (1000 * 60 * 60 * 24 * 365.25)
         break
 
       case "custom":
         let format = bridge.transf(values.outputUnit.value)
 
-        let years = Math.floor(msTimeBase/(1000*60*60*24*365.25))
-        msTimeBase %= (1000*60*60*24*365.25)
+        let years = Math.floor(msTimeBase / (1000 * 60 * 60 * 24 * 365.25))
+        msTimeBase %= 1000 * 60 * 60 * 24 * 365.25
 
-        let months = Math.floor(msTimeBase/(1000*60*60*24*30.44))
-        msTimeBase %= (1000*60*60*24*30.44)
+        let months = Math.floor(msTimeBase / (1000 * 60 * 60 * 24 * 30.44))
+        msTimeBase %= 1000 * 60 * 60 * 24 * 30.44
 
-        let weeks = Math.floor(msTimeBase/(1000*60*60*24*7))
-        msTimeBase %= (1000*60*60*24*7)
+        let weeks = Math.floor(msTimeBase / (1000 * 60 * 60 * 24 * 7))
+        msTimeBase %= 1000 * 60 * 60 * 24 * 7
 
-        let days = Math.floor(msTimeBase/(1000*60*60*24))
-        msTimeBase %= (1000*60*60*24)
+        let days = Math.floor(msTimeBase / (1000 * 60 * 60 * 24))
+        msTimeBase %= 1000 * 60 * 60 * 24
 
-        let hours = Math.floor(msTimeBase/(1000*60*60))
-        msTimeBase %= (1000*60*60)
+        let hours = Math.floor(msTimeBase / (1000 * 60 * 60))
+        msTimeBase %= 1000 * 60 * 60
 
-        let minutes = Math.floor(msTimeBase/(1000*60))
-        msTimeBase %= (1000*60)
+        let minutes = Math.floor(msTimeBase / (1000 * 60))
+        msTimeBase %= 1000 * 60
 
-        let seconds = Math.floor(msTimeBase/1000)
-        msTimeBase %= (1000)
+        let seconds = Math.floor(msTimeBase / 1000)
+        msTimeBase %= 1000
 
-        let milliseconds = msTimeBase%1000
+        let milliseconds = msTimeBase % 1000
 
-        if (!format.includes("YY")){
-          months += years*(365.25/30.44)
+        if (!format.includes("YY")) {
+          months += years * (365.25 / 30.44)
           years = 0
         }
-        if (!format.includes("MO")){
-          weeks += months*(30.44/7)
-          months =0
+        if (!format.includes("MO")) {
+          weeks += months * (30.44 / 7)
+          months = 0
         }
-        if (!format.includes("WK")){
-          days += weeks*7
+        if (!format.includes("WK")) {
+          days += weeks * 7
           weeks = 0
         }
-        if (!format.includes("DD")){
-          hours += days*24
+        if (!format.includes("DD")) {
+          hours += days * 24
           days = 0
         }
-        if (!format.includes("HH")){
-          minutes += hours*60
+        if (!format.includes("HH")) {
+          minutes += hours * 60
           hours = 0
         }
-        if (!format.includes("MM")){
-          seconds += minutes*60
+        if (!format.includes("MM")) {
+          seconds += minutes * 60
           hours = 0
         }
-        if (!format.includes("SS")){
-          milliseconds += seconds*1000
+        if (!format.includes("SS")) {
+          milliseconds += seconds * 1000
           seconds = 0
         }
-        if (!format.includes("MS") && 
-        !format.includes("SS") && 
-        !format.includes("MM") && 
-        !format.includes("HH") && 
-        !format.includes("DD") && 
-        !format.includes("WK") && 
-        !format.includes("MO") && 
-        !format.includes("YY")){
+        if (
+          !format.includes("MS") &&
+          !format.includes("SS") &&
+          !format.includes("MM") &&
+          !format.includes("HH") &&
+          !format.includes("DD") &&
+          !format.includes("WK") &&
+          !format.includes("MO") &&
+          !format.includes("YY")
+        ) {
           console.error(`There is no format provided!`)
           resultOutput = undefined
           return
@@ -317,12 +322,12 @@ module.exports = {
           HH: String(hours).padStart(2, "0"),
           MM: String(minutes).padStart(2, "0"),
           SS: String(seconds).padStart(2, "0"),
-          MS: String(milliseconds).padStart(3, "0")
+          MS: String(milliseconds).padStart(3, "0"),
         }
 
-        resultOutput = format.replace(/YY|MO|WK|DD|HH|MM|SS|MS/g, (match)=> components[match] || match)
+        resultOutput = format.replace(/YY|MO|WK|DD|HH|MM|SS|MS/g, (match) => components[match] || match)
         break
     }
     bridge.store(values.convertedTime, resultOutput)
-  }
+  },
 }

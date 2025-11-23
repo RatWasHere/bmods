@@ -8,7 +8,7 @@ module.exports = {
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
-    donate: "https://ko-fi.com/slothyacedia"
+    donate: "https://ko-fi.com/slothyacedia",
   },
 
   UI: [
@@ -58,37 +58,35 @@ module.exports = {
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
   subtitle: (data) => {
-    return `Compare ${data.input} To ${data.cases.length} Regex Terms`;
+    return `Compare ${data.input} To ${data.cases.length} Regex Terms`
   },
 
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
-    let firstValue = bridge.transf(values.input);
-    let matchesCriteria = false;
-    let comparison = null;
+    let firstValue = bridge.transf(values.input)
+    let matchesCriteria = false
+    let comparison = null
 
     for (let c in values.cases) {
-      comparison = values.cases[c].data;
-      let secondValue = bridge.transf(comparison.value);
+      comparison = values.cases[c].data
+      let secondValue = bridge.transf(comparison.value)
 
-      matchesCriteria = Boolean(
-        firstValue.match(new RegExp("^" + secondValue + "$", "i"))
-      );
+      matchesCriteria = Boolean(firstValue.match(new RegExp("^" + secondValue + "$", "i")))
 
       if (matchesCriteria) {
-        break;
+        break
       }
     }
 
     if (matchesCriteria) {
-      await bridge.call(comparison.true, comparison.trueActions);
+      await bridge.call(comparison.true, comparison.trueActions)
     } else {
-      await bridge.call(comparison.false, comparison.falseActions);
+      await bridge.call(comparison.false, comparison.falseActions)
     }
   },
-};
+}

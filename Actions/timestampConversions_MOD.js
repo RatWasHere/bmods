@@ -22,35 +22,35 @@ module.exports = {
       storeAs: "format",
       name: "Format As",
       choices: {
-        default: {name: "Default", field: false},
-        shortTime: {name: "Short Time", field: false},
-        longTime: {name: "Long Time", field: false},
-        shortDate: {name: "Short Date", field: false},
-        longDate: {name: "Long Date", field: false},
-        shortDateTime: {name: "Short Date / Time", field: false},
-        longDateTime: {name: "Long Date / Time", field: false},
-        relative: {name: "Relative Time", field: false},
-        custom: {name: "Custom", field: true}
-      }
+        default: { name: "Default", field: false },
+        shortTime: { name: "Short Time", field: false },
+        longTime: { name: "Long Time", field: false },
+        shortDate: { name: "Short Date", field: false },
+        longDate: { name: "Long Date", field: false },
+        shortDateTime: { name: "Short Date / Time", field: false },
+        longDateTime: { name: "Long Date / Time", field: false },
+        relative: { name: "Relative Time", field: false },
+        custom: { name: "Custom", field: true },
+      },
     },
     {
       element: "",
       storeAs: "timezone",
       name: "Timezone",
-      choices: (()=>{
+      choices: (() => {
         let timezones = {}
-        timezones["custom"] = {name: "IANA Timezone", field: true, placeholder: "e.g: Asia/Singapore"}
+        timezones["custom"] = { name: "IANA Timezone", field: true, placeholder: "e.g: Asia/Singapore" }
         let supportedTimezones = Intl.supportedValuesOf("timeZone")
-        supportedTimezones.forEach(timezone => {
-          timezones[timezone] = {name: `${timezone}`, field: false}
+        supportedTimezones.forEach((timezone) => {
+          timezones[timezone] = { name: `${timezone}`, field: false }
         })
         return timezones
-      })()
+      })(),
     },
     "-",
     {
       element: "text",
-      text: ""
+      text: "",
     },
     {
       element: "text",
@@ -60,22 +60,22 @@ module.exports = {
     {
       element: "store",
       storeAs: "store",
-      name: "Store Output As"
+      name: "Store Output As",
     },
     {
       element: "text",
       text: modVersion,
-    }
+    },
   ],
 
-  script: (values)=>{
-    function refElm(skipAnimation){
+  script: (values) => {
+    function refElm(skipAnimation) {
       let type = values.data.format.type
       let fmtEx
       let header
       let timezoneSelector
 
-      switch(type){
+      switch (type) {
         default:
           header = `<div style="font-size:20px">Example Output</div>`
           fmtEx = `<div style="text-align:left">
@@ -146,20 +146,26 @@ module.exports = {
           break
       }
 
-      if (type == "custom"){values.UI[2].element="typedDropdown"}
-      else {values.UI[2].element=""}
-      
+      if (type == "custom") {
+        values.UI[2].element = "typedDropdown"
+      } else {
+        values.UI[2].element = ""
+      }
+
       values.UI[4].text = header
       values.UI[5].text = fmtEx
 
-      setTimeout(()=>{
-        values.updateUI()
-      }, skipAnimation?1: values.commonAnimation*100)
+      setTimeout(
+        () => {
+          values.updateUI()
+        },
+        skipAnimation ? 1 : values.commonAnimation * 100
+      )
     }
 
     refElm(true)
 
-    values.events.on("change", ()=>{
+    values.events.on("change", () => {
       refElm()
     })
   },
@@ -167,7 +173,7 @@ module.exports = {
   subtitle: (values) => {
     let type = values.format.type
     let timestamp = values.timestamp
-    switch (type){
+    switch (type) {
       case "default":
         return `Convert ${timestamp} To Default Format`
         break
@@ -202,7 +208,7 @@ module.exports = {
 
       case "custom":
         let tz = values.timezone.type
-        if (tz == "custom"){
+        if (tz == "custom") {
           tz = values.timezone.value
         }
         return `Convert ${timestamp} To ${values.format.value} Format, Timezone Of ${tz}`
@@ -212,16 +218,16 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){
+  async run(values, message, client, bridge) {
     let tstmp = bridge.transf(values.timestamp)
     let format = bridge.transf(values.format.type)
     let output
 
-    if (tstmp.length == 13){
-      tstmp = Math.floor(tstmp/1000)
+    if (tstmp.length == 13) {
+      tstmp = Math.floor(tstmp / 1000)
     }
 
-    switch (format){
+    switch (format) {
       case "default":
         output = `<t:${tstmp}>`
         break
@@ -256,9 +262,9 @@ module.exports = {
 
       case "custom":
         cstmFormat = bridge.transf(values.format.value)
-        let date = new Date(tstmp*1000)
+        let date = new Date(tstmp * 1000)
         let timeZone = bridge.transf(values.timezone.type)
-        if (timeZone == "custom"){
+        if (timeZone == "custom") {
           timeZone = bridge.transf(values.timezone.value) || undefined
         }
         locale = "en-US"
@@ -275,9 +281,9 @@ module.exports = {
           mm: new Intl.DateTimeFormat(locale, { minute: "2-digit", timeZone }).format(date).slice(0, 2).padStart(2, "0"), // Minutes (00-59)
           ss: new Intl.DateTimeFormat(locale, { second: "2-digit", timeZone }).format(date).slice(0, 2).padStart(2, "0"), // Seconds (00-59)
         }
-        output = cstmFormat.replace(/YYYY|YY|Month|MMM|MM|DD|Day|ddd|hh|mm|ss/g,(match) => components[match] || match)
+        output = cstmFormat.replace(/YYYY|YY|Month|MMM|MM|DD|Day|ddd|hh|mm|ss/g, (match) => components[match] || match)
     }
 
     bridge.store(values.store, output)
-  }
+  },
 }
