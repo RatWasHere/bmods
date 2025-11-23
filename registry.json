@@ -1056,12 +1056,12 @@
       "creator": "tao"
     },
     "jsonPath_MOD.js": {
-      "md5": "074ea954068a267a7fc04dbaaa7a09dd",
-      "name": "Json Path",
+      "md5": "0d1cbfae68eae965d23bb80b0f5f5eaf",
+      "name": "JSON Path",
       "modules": [
         "jsonpath"
       ],
-      "category": "Json",
+      "category": "JSON",
       "creator": "candiedapple"
     },
     "killBotProcess_MOD.js": {
