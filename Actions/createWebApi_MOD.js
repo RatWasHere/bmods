@@ -50,7 +50,7 @@ module.exports = {
     ],
   },
   aliases: [],
-  modules: ["node:fs", "node:path", "node:https", "node:error", "express"],
+  modules: ["node:fs", "node:path", "node:https", "express"],
   category: "Utilities",
   info: {
     source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
@@ -199,8 +199,7 @@ module.exports = {
               name: "Respond Code",
               choices: {
                 200: { name: "200 OK" },
-                301: { name: "301 Redirect", field: true, placeholder: "Redirect URL" },
-                302: { name: "302 Redirect", field: true, placeholder: "Redirect URL" },
+                302: { name: "302 Redirect" },
               },
             },
             "_",
@@ -208,6 +207,9 @@ module.exports = {
               element: "variable",
               storeAs: "respondWith",
               name: "Respond With",
+              also: {
+                string: "Text / Redirect URL",
+              },
             },
           ],
         },
@@ -348,10 +350,13 @@ module.exports = {
           await bridge.runner(endpointData.actions, message, client, bridge.variables)
 
           let respondWith = bridge.get(endpointData.respondWith)
-          let code = endpointData.respondCode || "200"
+          let code = endpointData.respondCode.type || "200"
 
           if (code === "301" || code === "302") {
-            let target = respondWith?.toString?.() ?? "/"
+            let target = bridge
+              .transf(endpointData.respondWith.value)
+              .replace(/^\/+/, "/")
+              .replace(/\/{2,}/g, "/")
             return response.redirect(parseInt(code), target)
           }
 
