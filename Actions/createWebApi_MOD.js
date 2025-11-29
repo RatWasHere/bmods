@@ -353,10 +353,12 @@ module.exports = {
           let code = endpointData.respondCode.type || "200"
 
           if (code === "301" || code === "302") {
-            let target = bridge
-              .transf(endpointData.respondWith.value)
-              .replace(/^\/+/, "/")
-              .replace(/\/{2,}/g, "/")
+            let target
+            if (endpointData.respondWith.type == "string") {
+              target = bridge.transf(endpointData.respondWith.value)
+            } else {
+              target = bridge.get(endpointData.respondWith)
+            }
             return response.redirect(parseInt(code), target)
           }
 
