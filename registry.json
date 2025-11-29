@@ -355,13 +355,14 @@
       "creator": "nitiqt"
     },
     "createWebApi_MOD.js": {
-      "md5": "a68211fd07557b6b90a7cf1f59791185",
+      "md5": "62d338abf79815d98867d32d1f1e7a3b",
       "name": "Create Web API",
       "modules": [
-        "node:http",
-        "node:url",
         "node:fs",
-        "node:path"
+        "node:path",
+        "node:https",
+        "node:error",
+        "express"
       ],
       "category": "Utilities",
       "creator": "Acedia"
