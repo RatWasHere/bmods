@@ -6,7 +6,7 @@ module.exports = {
   aliases: ["Send RCON Command v2"],
   category: "RCON",
   info: {
-    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
+    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },

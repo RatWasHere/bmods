@@ -1,13 +1,13 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Modify JSON Object"
+    name: "Modify JSON Object",
   },
   aliases: ["Modify Object"],
   modules: [],
   category: "JSON",
   info: {
-    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
+    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -22,7 +22,7 @@ module.exports = {
       storeAs: "modifications",
       name: "Modifications",
       types: {
-        modifications: "modifications"
+        modifications: "modifications",
       },
       max: 1000,
       UItypes: {
@@ -36,15 +36,15 @@ module.exports = {
               storeAs: "jsonAction",
               name: "Action",
               choices: {
-                create: {name: "Create/Replace Element", field: true, placeholder: "path.to.element"},
-                delete: {name: "Delete Element", field: true, placeholder: "path.to.element"},
+                create: { name: "Create/Replace Element", field: true, placeholder: "path.to.element" },
+                delete: { name: "Delete Element", field: true, placeholder: "path.to.element" },
               },
             },
             "-",
             {
               element: "largeInput",
               storeAs: "content",
-              name: "Content | Only Applicable If Creating/Replacing An Element"
+              name: "Content | Only Applicable If Creating/Replacing An Element",
             },
             "-",
             {
@@ -87,44 +87,46 @@ module.exports = {
                 >
                   <btext id="buttonText"> Validate JSON </btext>
                 </button>
-              `
+              `,
             },
             {
               element: "text",
-              text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`
+              text: `Wrap your variables with double quotes ("), i.e "\${tempVars('varName')}".`,
             },
-          ]
-        }
-      }
+          ],
+        },
+      },
     },
     "-",
     {
       element: "store",
       storeAs: "modified",
-      name: "Store Modified JSON As"
+      name: "Store Modified JSON As",
     },
     "-",
     {
       element: "text",
-      text: modVersion
-    }
+      text: modVersion,
+    },
   ],
 
-  subtitle: (values, constants, thisAction) =>{ // To use thisAction, constants must also be present
+  subtitle: (values, constants, thisAction) => {
+    // To use thisAction, constants must also be present
     return `Make ${values.modifications.length} Modifications To JSON Object ${values.original.type}(${values.original.value})`
   },
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge){ // This is the exact order of things required, other orders will brick
-    for (const moduleName of this.modules){
+  async run(values, message, client, bridge) {
+    // This is the exact order of things required, other orders will brick
+    for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
 
     let original = bridge.get(values.original)
 
-    function isJSON(testObject){
-      return (testObject != undefined && typeof testObject === "object" && testObject.constructor === Object)
+    function isJSON(testObject) {
+      return testObject != undefined && typeof testObject === "object" && testObject.constructor === Object
     }
 
     function cleanEmpty(obj, keys) {
@@ -142,26 +144,26 @@ module.exports = {
     const sanitizeArrays = (str) => {
       return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
         const sanitized = inner
-          .split(',')
-          .map(el => {
+          .split(",")
+          .map((el) => {
             el = el.trim()
-            if (el === '') return null
-            return '"' + el.replace(/^["']|["']$/g, '').replace(/"/g, '\\"') + '"'
+            if (el === "") return null
+            return '"' + el.replace(/^["']|["']$/g, "").replace(/"/g, '\\"') + '"'
           })
-          .filter(el => el !== null)
-          .join(', ')
+          .filter((el) => el !== null)
+          .join(", ")
         return `[${sanitized}]`
       })
     }
 
-    if (isJSON(original) !== true){
+    if (isJSON(original) !== true) {
       bridge.store(values.modified, original)
       console.error(`Value ${original} Is Not A Valid JSON`)
       return
     }
 
     let originalClone = JSON.parse(JSON.stringify(original))
-    for (let modification of values.modifications){
+    for (let modification of values.modifications) {
       let modificationData = modification.data
 
       let actionType = bridge.transf(modificationData.jsonAction.type)
@@ -173,19 +175,16 @@ module.exports = {
         objectPath = objectPath.slice(1)
       }
 
-      if (
-        objectPath === "" ||
-        objectPath.includes("..") ||
-        objectPath.startsWith(".") ||
-        objectPath.endsWith(".")
-      ){return console.error(`Invalid path: "${bridge.transf(values.jsonAction.values)}"`)}
+      if (objectPath === "" || objectPath.includes("..") || objectPath.startsWith(".") || objectPath.endsWith(".")) {
+        return console.error(`Invalid path: "${bridge.transf(values.jsonAction.values)}"`)
+      }
 
       let keys = objectPath.split(".")
       let lastKey = keys.pop()
       let target = originalClone
 
-      for (const key of keys){
-        if (typeof target[key] !== "object" || target[key] === null){
+      for (const key of keys) {
+        if (typeof target[key] !== "object" || target[key] === null) {
           target[key] = {}
         }
         target = target[key]
@@ -195,10 +194,10 @@ module.exports = {
 
       rawContent = sanitizeArrays(rawContent)
       if (!/^\s*(\[|\{)/.test(rawContent)) {
-        rawContent = `"${rawContent.replace(/^["']|["']$/g, '').replace(/"/g, '\\"')}"`
+        rawContent = `"${rawContent.replace(/^["']|["']$/g, "").replace(/"/g, '\\"')}"`
       }
 
-      if (actionType !== "delete"){
+      if (actionType !== "delete") {
         try {
           parsedContent = JSON.parse(rawContent)
         } catch (err) {
@@ -206,14 +205,14 @@ module.exports = {
         }
       }
 
-      if (original && isJSON(original)){
-        switch (actionType){
-          case "create":{
+      if (original && isJSON(original)) {
+        switch (actionType) {
+          case "create": {
             target[lastKey] = parsedContent
             break
           }
 
-          case "delete":{
+          case "delete": {
             delete target[lastKey]
             cleanEmpty(originalClone, keys)
             break
@@ -223,5 +222,5 @@ module.exports = {
     }
 
     bridge.store(values.modified, originalClone)
-  }
+  },
 }

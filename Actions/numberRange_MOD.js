@@ -7,7 +7,7 @@ module.exports = {
   modules: [],
   category: "Numbers",
   info: {
-    source: "https://github.com/slothyace/bmods-acedia/tree/main/QOLs",
+    source: "https://github.com/slothyace/bmods-ace/tree/main/QOLs",
     creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },

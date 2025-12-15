@@ -5,7 +5,7 @@ module.exports = {
   },
   aliases: ["Convert Text", "Base64 Decode", "Base64 Encode", "Binary Encode", "Binary Decode", "URL Encode", "URL Decode", "Uppercase", "Lowercase"],
   info: {
-    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
+    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },

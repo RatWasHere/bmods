@@ -9,7 +9,7 @@ module.exports = {
   },
   aliases: ["Encrypt Text"],
   info: {
-    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
+    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },

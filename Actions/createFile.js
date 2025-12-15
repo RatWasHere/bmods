@@ -5,7 +5,7 @@ module.exports = {
   },
   category: "Files",
   info: {
-    source: "https://github.com/slothyace/bmods-acedia/tree/main/Fixes",
+    source: "https://github.com/slothyace/bmods-ace/tree/main/Fixes",
     creator: "Acedia Fixes",
     donate: "https://ko-fi.com/slothyacedia",
   },

@@ -1,4 +1,4 @@
-modVersion = "v1.2.0"
+modVersion = "v1.2.2"
 
 module.exports = {
   data: {
@@ -8,7 +8,7 @@ module.exports = {
   modules: [],
   category: "Control",
   info: {
-    source: "https://github.com/slothyace/bmods-acedia/tree/main/Actions",
+    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -131,27 +131,29 @@ module.exports = {
     })
   },
 
-  startup: (bridge) => {
-    const altPath = require("node:path")
-    const altFs = require("node:fs")
+  startup: (bridge) => {},
+
+  init: (values, bridge) => {
+    const path = require("node:path")
+    const fs = require("node:fs")
 
     const botData = require("../data.json")
-    const workingDir = altPath.normalize(process.cwd())
+    const workingDir = path.normalize(process.cwd())
     let projectFolder
-    if (workingDir.includes(altPath.join("common", "Bot Maker For Discord"))) {
+    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
       projectFolder = botData.prjSrc
     } else {
       projectFolder = workingDir
     }
 
-    let restrictionsFilePath = altPath.join(projectFolder, "aceModsJSON", "restrictions.json")
+    let restrictionsFilePath = path.join(projectFolder, "aceModsJSON", "restrictions.json")
 
-    if (!altFs.existsSync(restrictionsFilePath)) {
-      altFs.mkdirSync(altPath.dirname(restrictionsFilePath), { recursive: true })
-      altFs.writeFileSync(restrictionsFilePath, "{}")
+    if (!fs.existsSync(restrictionsFilePath)) {
+      fs.mkdirSync(path.dirname(restrictionsFilePath), { recursive: true })
+      fs.writeFileSync(restrictionsFilePath, "{}")
     }
 
-    var cache = JSON.parse(altFs.readFileSync(restrictionsFilePath, "utf-8"))
+    var cache = JSON.parse(fs.readFileSync(restrictionsFilePath, "utf-8"))
 
     let getRestrictions = () => {
       return bridge.data.IO.restrictions.cache
@@ -165,7 +167,7 @@ module.exports = {
         pendingWrite = true
         setTimeout(() => {
           try {
-            altFs.writeFileSync(restrictionsFilePath, JSON.stringify(bridge.data.IO.restrictions.cache, null, 2))
+            fs.writeFileSync(restrictionsFilePath, JSON.stringify(bridge.data.IO.restrictions.cache, null, 2))
           } catch (err) {
           } finally {
             pendingWrite = false
@@ -179,9 +181,7 @@ module.exports = {
       write: writeRestrictions,
       cache,
     }
-  },
 
-  init: (values, bridge) => {
     if (!bridge.data.IO.restrictions.intervalSet) {
       bridge.data.IO.restrictions.intervalSet = true
       setInterval(async () => {
