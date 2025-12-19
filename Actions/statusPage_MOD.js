@@ -1,13 +1,14 @@
-modVersion = "v4.0.2"
+modVersion = "v4.1.2"
 module.exports = {
   data: {
     name: "Start Status Page",
     host: "localhost",
     port: "3000",
-    historyCount_graph: 60,
-    historyCount_console: 1000,
-    updateInterval: 2.5,
+    historyCountgraph: "60",
+    historyCountconsole: "1000",
+    updateInterval: "2.5",
     theme: "default",
+    autoUpdateFiles: true,
   },
   aliases: ["Status Page"],
   modules: ["node:fs", "node:path", "node:https", "node:crypto", "express", "cookie-parser"],
@@ -45,10 +46,11 @@ module.exports = {
     "-",
     {
       element: "inputGroup",
-      storeAs: ["historyCount_graph", "historyCount_console"],
+      storeAs: ["historyCountgraph", "historyCountconsole"],
       nameSchemes: ["History Count - Graph", "History Count - Console"],
-      placeholder: [60, 1000],
+      placeholder: ["60", "1000"],
     },
+    "_",
     {
       element: "input",
       storeAs: "interval",
@@ -79,6 +81,12 @@ module.exports = {
       },
     },
     "_",
+    {
+      element: "toggle",
+      storeAs: "autoUpdateFiles",
+      name: "Check For Lastest Versions Of Files?",
+    },
+    "-",
     {
       element: "menu",
       storeAs: "https",
@@ -195,8 +203,8 @@ module.exports = {
     let password = bridge.transf(values.password) || "password"
     let loginSystem = bridge.transf(values.loginSystem.type) || "basic"
 
-    let historyCount_graph = parseInt(bridge.transf(values.historyCount_graph), 10) || 60
-    let historyCount_console = parseInt(bridge.transf(values.historyCount_console), 10) || 1000
+    let historyCount_graph = parseInt(bridge.transf(values.historyCountgraph), 10) || 60
+    let historyCount_console = parseInt(bridge.transf(values.historyCountconsole), 10) || 1000
     let interval = parseFloat(bridge.transf(values.interval)) * 1000 || 2500
     let theme = bridge.transf(values.theme) || "default"
 
@@ -256,36 +264,38 @@ module.exports = {
     for (let entry in siteFiles) {
       file = siteFiles[entry]
       if (fs.existsSync(file.path)) {
-        let fileHash = crypto.createHash("md5").update(fs.readFileSync(file.path)).digest("hex")
-        switch (file.type) {
-          case "theme": {
-            if (fileHash !== fileHashes.themes[theme][file.name]) {
-              console.log(`[Status Page] ${file.name} Is Outdated, Redownloading...`)
-              try {
-                let newFileRaw = await fetch(file.source)
-                let newFileBuffer = Buffer.from(await newFileRaw.arrayBuffer())
-                fs.writeFileSync(file.path, newFileBuffer)
-                console.log(`[Status Page] ${file.name} Has Been Redownloaded.`)
-              } catch (err) {
-                console.log(`[Status Page] Something Went Wrong Trying To Redownload ${file.name}`)
+        if (values.autoUpdateFiles == true) {
+          let fileHash = crypto.createHash("md5").update(fs.readFileSync(file.path)).digest("hex")
+          switch (file.type) {
+            case "theme": {
+              if (fileHash !== fileHashes.themes[theme][file.name]) {
+                console.log(`[Status Page] ${file.name} Is Outdated, Redownloading...`)
+                try {
+                  let newFileRaw = await fetch(file.source)
+                  let newFileBuffer = Buffer.from(await newFileRaw.arrayBuffer())
+                  fs.writeFileSync(file.path, newFileBuffer)
+                  console.log(`[Status Page] ${file.name} Has Been Redownloaded.`)
+                } catch (err) {
+                  console.log(`[Status Page] Something Went Wrong Trying To Redownload ${file.name}`)
+                }
               }
+              break
             }
-            break
-          }
 
-          case "core": {
-            if (fileHash !== fileHashes.core[file.name]) {
-              console.log(`[Status Page] ${file.name} Is Outdated, Redownloading...`)
-              try {
-                let newFileRaw = await fetch(file.source)
-                let newFileBuffer = Buffer.from(await newFileRaw.arrayBuffer())
-                fs.writeFileSync(file.path, newFileBuffer)
-                console.log(`[Status Page] ${file.name} Has Been Redownloaded.`)
-              } catch (err) {
-                console.log(`[Status Page] Something Went Wrong Trying To Redownload ${file.name}`)
+            case "core": {
+              if (fileHash !== fileHashes.core[file.name]) {
+                console.log(`[Status Page] ${file.name} Is Outdated, Redownloading...`)
+                try {
+                  let newFileRaw = await fetch(file.source)
+                  let newFileBuffer = Buffer.from(await newFileRaw.arrayBuffer())
+                  fs.writeFileSync(file.path, newFileBuffer)
+                  console.log(`[Status Page] ${file.name} Has Been Redownloaded.`)
+                } catch (err) {
+                  console.log(`[Status Page] Something Went Wrong Trying To Redownload ${file.name}`)
+                }
               }
+              break
             }
-            break
           }
         }
       } else {
