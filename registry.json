@@ -1801,7 +1801,8 @@
       "creator": "Acedia"
     },
     "wordPhraseCheck_MOD.js": {
-      "md5": "47918c4ed88972b5dd4392de648bbf5c",
+      "md5": "91464f31f3dbde41cc464d11d3000ce2",
+      "name": "Check Text For Word",
       "modules": [],
       "category": "Text",
       "creator": "Acedia"
