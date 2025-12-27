@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.1"
 const titleCase = (string) =>
   string
     .split(" ")
@@ -7,7 +7,7 @@ const titleCase = (string) =>
 
 module.exports = {
   data: {
-    name: titleCase("Check Text For Word"),
+    name: "Check Text For Word",
   },
   aliases: ["Check For Word", "Check For Phrase", "Check If Text Includes Word", "Check If Text Includes List Of Words"],
   modules: [],
@@ -146,7 +146,7 @@ module.exports = {
         break
       }
 
-      case "import": {
+      case "importList": {
         wordList = bridge.get(values.wordListVar)
         break
       }
