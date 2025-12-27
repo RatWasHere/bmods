@@ -1,9 +1,20 @@
-modVersion = "v1.0.1"
+modVersion = "v2.0.1"
 const titleCase = (string) =>
   string
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
+
+const indexByStoreAs = (values, storeAs) => {
+  if (typeof storeAs != "string") {
+    return console.log("Not String")
+  }
+  let index = values.UI.findIndex((element) => element.storeAs == storeAs)
+  if (index == -1) {
+    return console.log("Index Not Found")
+  }
+  return index
+}
 
 module.exports = {
   data: {
@@ -30,7 +41,7 @@ module.exports = {
       name: "List Type",
       choices: {
         define: { name: "Define New List", field: false },
-        importList: { name: "Import From Variable", field: false },
+        import: { name: "Import From Variable", field: false },
       },
     },
     "_",
@@ -38,6 +49,17 @@ module.exports = {
       element: "variable",
       storeAs: "wordList",
       name: "Word List",
+    },
+    "_",
+    {
+      element: "typedDropdown",
+      storeAs: "inclusionType",
+      name: "Inclusion Type",
+      choices: {
+        startsWith: { name: "Starts With" },
+        endsWith: { name: "Ends With" },
+        includes: { name: "Includes" },
+      },
     },
     "_",
     {
@@ -67,7 +89,7 @@ module.exports = {
 
   subtitle: (values, constants, thisAction) => {
     // To use thisAction, constants must also be present
-    return titleCase(`Check If Text Includes List Of Words`)
+    return titleCase(`Check If Text Includes List Of Words Or Phrases`)
   },
 
   compatibility: ["Any"],
@@ -102,14 +124,33 @@ module.exports = {
           },
         },
 
-        importList: {
+        import: {
           element: "variable",
-          storeAs: "wordListVar",
+          storeAs: "wordList",
           name: "Word List",
         },
       }
 
-      values.UI[4] = elementMap[listType]
+      values.UI[indexByStoreAs(values, "wordList") || indexByStoreAs(values, "wordListMenu")] = elementMap[listType]
+
+      let inclusionType = values.data.inclusionType.type
+      let phraseMap = {
+        startsWith: {
+          ifIncludes: "If Text Starts With",
+          ifNotIncludes: "If Text Doesn't Start With",
+        },
+        endsWith: {
+          ifIncludes: "If Text Ends With",
+          ifNotIncludes: "If Text Doesn't End With",
+        },
+        includes: {
+          ifIncludes: "If Text Includes",
+          ifNotIncludes: "If Text Doesn't Include",
+        },
+      }
+
+      values.UI[indexByStoreAs(values, "ifIncludes")].name = phraseMap[inclusionType].ifIncludes
+      values.UI[indexByStoreAs(values, "ifNotIncludes")].name = phraseMap[inclusionType].ifNotIncludes
 
       setTimeout(
         () => {
@@ -146,8 +187,9 @@ module.exports = {
         break
       }
 
-      case "importList": {
-        wordList = bridge.get(values.wordListVar)
+      case "importList":
+      case "import": {
+        wordList = bridge.get(values.wordList)
         break
       }
     }
@@ -157,6 +199,7 @@ module.exports = {
     }
 
     let includesWords = false
+    let inclusionType = bridge.transf(values.inclusionType.type) || "includes"
     let caseSens = values.caseSens
 
     if (caseSens == false) {
@@ -168,7 +211,7 @@ module.exports = {
         word = word.toLowerCase()
       }
 
-      if (sourceText.includes(word)) {
+      if (sourceText[inclusionType](word)) {
         includesWords = true
         break
       }
