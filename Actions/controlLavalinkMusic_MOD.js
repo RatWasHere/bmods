@@ -56,130 +56,128 @@ module.exports = {
 
   script: (values) => {
     function refreshElements() {
-      type = values.data.musicAction.type;
+      type = values.data.musicAction.type
       switch (type) {
         case "repeatMode":
-          values.UI[1].element = "typedDropdown";
-          break;
+          values.UI[1].element = "typedDropdown"
+          break
 
         default:
-          values.UI[1].element = " ";
-          break;
+          values.UI[1].element = " "
+          break
       }
 
       setTimeout(() => {
-        values.updateUI();
-      }, values.commonAnimation * 100);
+        values.updateUI()
+      }, values.commonAnimation * 100)
     }
 
-    refreshElements();
+    refreshElements()
 
     values.events.on("change", () => {
-      refreshElements();
-    });
+      refreshElements()
+    })
   },
 
   subtitle: (values, constants, thisAction) => {
-    return `Control Music - ${
-      thisAction.UI.find((e) => e.element == "typedDropdown").choices[
-        values.musicAction.type
-      ].name
-    }`;
+    return `Control Music - ${thisAction.UI.find((e) => e.element == "typedDropdown").choices[values.musicAction.type].name}`
   },
 
   async run(values, message, client, bridge) {
-    const player = client.lavalink.getPlayer(bridge.guild.id);
+    const player = client.lavalink.getPlayer(bridge.guild.id)
 
     if (!player) {
-      return console.error("Player not found in Control Lavalink Music");
+      return console.error("Player not found in Control Lavalink Music")
     }
 
     switch (values.musicAction.type) {
       case "stopPlaying": {
-        await player.destroy();
-        break;
+        await player.destroy()
+        break
       }
 
       case "pauseMusic": {
-        await player.pause();
-        break;
+        await player.pause()
+        break
       }
 
       case "resumeMusic": {
-        await player.resume();
-        break;
+        await player.resume()
+        break
       }
 
       case "skipSong": {
-        await player.skip();
-        break;
+        await player.skip()
+        break
       }
 
       case "playPreviousSong": {
-        const previousTrack = await player.queue.shiftPrevious();
+        const previousTrack = await player.queue.shiftPrevious()
         if (!previousTrack) {
-          break;
+          break
         }
 
-        await player.play({ clientTrack: previousTrack });
-        break;
+        await player.play({ clientTrack: previousTrack })
+        break
       }
 
       case "clearQueue": {
-        await player.queue.tracks.splice(0);
-        break;
+        await player.queue.tracks.splice(0)
+        break
       }
 
       case "shuffleQueue": {
-        await player.queue.shuffle();
-        break;
+        await player.queue.shuffle()
+        break
       }
 
       case "volume": {
-        await player.setVolume(Number(bridge.transf(values.musicAction.value)));
-        break;
+        await player.setVolume(Number(bridge.transf(values.musicAction.value)))
+        break
       }
 
       case "skipTo": {
-        const trackNumber = Number(bridge.transf(values.musicAction.value)) - 1;
+        const trackNumber = Number(bridge.transf(values.musicAction.value)) - 1
+        console.log(trackNumber)
+        console.log(player.queue[trackNumber])
 
-        if (!player.queue[index]) {
-          break;
+        if (!player.queue.tracks[trackNumber]) {
+          break
         }
 
-        await player.queue.splice(0, trackNumber);
-        await player.skip();
-        break;
+        await player.queue.splice(0, trackNumber)
+        await player.skip()
+        break
       }
 
       case "removeTrack": {
-        const ql = player.queue.tracks.length;
-        const trackNumber = Number(bridge.transf(values.musicAction.value)) - 1;
+        const ql = player.queue.tracks.length
+        const trackNumber = Number(bridge.transf(values.musicAction.value)) - 1
 
-        if (trackNumber < 0 || trackNumber >= ql || !player.queue[index]) {
-          break;
+        if (trackNumber < 0 || trackNumber >= ql || !player.queue.tracks[trackNumber]) {
+          break
         }
 
-        await player.queue.remove(trackNumber);
-        break;
+        await player.queue.remove(trackNumber)
+        break
       }
 
       case "repeatMode": {
         switch (values.repeatMode.type) {
           case "off": {
-            await player.setRepeatMode("off");
-            break;
+            await player.setRepeatMode("off")
+            break
           }
           case "track": {
-            await player.setRepeatMode("track");
-            break;
+            await player.setRepeatMode("track")
+            break
           }
           case "queue": {
-            await player.setRepeatMode("queue");
-            break;
+            await player.setRepeatMode("queue")
+            break
           }
         }
       }
     }
   },
-};
+}
