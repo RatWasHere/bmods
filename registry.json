@@ -256,7 +256,7 @@
       "creator": "Rat"
     },
     "controlLavalinkMusic_MOD.js": {
-      "md5": "f29a2c457a69b387d97bac93582df934",
+      "md5": "27330a482206ddbd6c81fc525ee1c6fb",
       "name": "Control Lavalink Music",
       "modules": [
         "lavalink-client"
@@ -448,6 +448,15 @@
       "modules": [],
       "category": "Scheduled Events",
       "creator": "nitiqt"
+    },
+    "dotenv_MOD.js": {
+      "md5": "1d4ee0cb4ea1612de34918b02752d78a",
+      "name": "dotenv",
+      "modules": [
+        "dotenv"
+      ],
+      "category": "dotenv",
+      "creator": "Acedia"
     },
     "downloadFile_MOD.js": {
       "md5": "102cebdcac4fb2f4826170c58858ba5f",
@@ -1310,6 +1319,15 @@
       "category": "Music",
       "creator": "Acedia"
     },
+    "playLavalinkMusicByObject_MOD.js": {
+      "md5": "f33f90c43ad6762a775fcbeae9135b2b",
+      "name": "Play Lavalink Music Via Track Object",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "Acedia"
+    },
     "playLavalinkMusic_MOD.js": {
       "md5": "548f38a514a8b2028c33be960fb2f54d",
       "name": "Play Lavalink Music",
@@ -1515,6 +1533,15 @@
       "modules": [],
       "category": "TTS",
       "creator": "qschnitzel"
+    },
+    "searchLavalinkMusic_MOD.js": {
+      "md5": "bc476fd0afd04d5b5390ab2fe686b5f5",
+      "name": "Search Lavalink Music",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "Acedia"
     },
     "searchLyrics_MOD.js": {
       "md5": "ef2d6e59e78e7072f138e03a892c305a",
