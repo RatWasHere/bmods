@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.2"
 module.exports = {
   data: {
     name: "Get JSON From WebAPI v2",
@@ -108,10 +108,11 @@ module.exports = {
     if (!response.ok) {
       console.log(`Fetch Error: [${response.status}] ${url}: ${response.statusText}`)
     } else {
+      let responseText = await response.text()
       try {
-        responseResult = await response.json()
+        responseResult = JSON.parse(responseText)
       } catch {
-        responseResult = await response.text()
+        responseResult = responseText
       }
     }
 

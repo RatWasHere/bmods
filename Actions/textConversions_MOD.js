@@ -1,4 +1,4 @@
-modVersion = "v1.0.1"
+modVersion = "v1.0.3"
 module.exports = {
   data: {
     name: "Text Conversions",
@@ -33,6 +33,8 @@ module.exports = {
         BinDecode: { name: "Binary Decode", field: false },
         AllLower: { name: "All Lower Case", field: false },
         AllUpper: { name: "All Upper Case", field: false },
+        titleCase: { name: "Title Case", field: false },
+        retardCase: { name: "Mocking Case", field: false },
       },
     },
     "-",
@@ -111,6 +113,20 @@ module.exports = {
 
       case "AllUpper":
         convertedTxt = toConv.toUpperCase()
+        break
+
+      case "titleCase":
+        convertedTxt = toConv
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .join(" ")
+        break
+
+      case "retardCase":
+        convertedTxt = toConv
+          .split("")
+          .map((char, index) => (index % 2 ? char.toUpperCase() : char.toLowerCase()))
+          .join("")
         break
     }
 
