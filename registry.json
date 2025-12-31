@@ -450,7 +450,7 @@
       "creator": "nitiqt"
     },
     "dotenv_MOD.js": {
-      "md5": "1d4ee0cb4ea1612de34918b02752d78a",
+      "md5": "c3df68fb8629a1650fbd5ca8f237fbe2",
       "name": "dotenv",
       "modules": [
         "dotenv"
@@ -765,7 +765,7 @@
       "creator": "Rat"
     },
     "getJSONFromWebAPIv2_MOD.js": {
-      "md5": "b1eeca142b9f6dd917fc282f990a987a",
+      "md5": "8d75305adcc2512d142f9b99aad17459",
       "name": "Get JSON From WebAPI v2",
       "modules": [],
       "category": "WebAPIs",
@@ -1743,7 +1743,7 @@
       "creator": "Made with <3 by Lucxanul"
     },
     "textConversions_MOD.js": {
-      "md5": "2335792af62b05ef0c36ab13f166ebeb",
+      "md5": "456a372643829dcc4b1ddecf33355eff",
       "name": "Text Conversions",
       "modules": [],
       "category": "Text",
