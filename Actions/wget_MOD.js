@@ -1,4 +1,4 @@
-modVersion = "v1.0.4"
+modVersion = "v1.1.4"
 module.exports = {
   data: {
     name: "wget Download",
@@ -17,6 +17,32 @@ module.exports = {
       storeAs: "dlLink",
       name: "Resource URL",
     },
+    {
+      element: "menu",
+      storeAs: "requestHeaders",
+      name: "Request Headers",
+      max: 100,
+      types: { headers: "headers" },
+      UItypes: {
+        headers: {
+          data: {},
+          name: "Header",
+          UI: [
+            {
+              element: "input",
+              storeAs: "key",
+              name: "Header Key",
+            },
+            {
+              element: "input",
+              storeAs: "value",
+              name: "Header Value",
+            },
+          ],
+        },
+      },
+    },
+    "-",
     {
       element: "input",
       storeAs: "filePath",
@@ -86,6 +112,13 @@ module.exports = {
     if (fs.existsSync(fileDir) == false) {
       fs.mkdirSync(fileDir, { recursive: true })
     }
+
+    let headers = {}
+    for (let header of values.requestHeaders) {
+      let headerData = header.data
+      headers[bridge.transf(headerData.key)] = bridge.transf(headerData.value)
+    }
+    options.headers = headers
 
     await new Promise((resolve, reject) => {
       let download = wget.download(dlLink, filePath, options)

@@ -1,4 +1,4 @@
-modVersion = "v1.2.1"
+modVersion = "v1.2.2"
 module.exports = {
   run: async (options) => {
     const fs = require("node:fs")
@@ -7,6 +7,7 @@ module.exports = {
 
     let dataJSONPath = path.join(process.cwd(), "AppData", "data.json")
     let downloadsDir = path.join(os.homedir(), "Downloads")
+    let defaultDownloadsDir = downloadsDir
     let automationDataJSONPath = path.join(process.cwd(), "Automations", "commandExIm", "preferences.json")
     if (!fs.existsSync(automationDataJSONPath)) {
       fs.mkdirSync(path.dirname(automationDataJSONPath), { recursive: true })
@@ -19,6 +20,9 @@ module.exports = {
     let automationPreferances = JSON.parse(fs.readFileSync(automationDataJSONPath))
     if (automationPreferances.export !== "" && automationPreferances.export !== "undefined") {
       downloadsDir = automationPreferances.export
+    }
+    if (!fs.existsSync(downloadsDir)) {
+      downloadsDir = defaultDownloadsDir
     }
 
     let titleCase = (string) =>
@@ -169,7 +173,7 @@ module.exports = {
         downloadsDir = path.normalize(resultData.exportPath)
         delete resultData["exportPath"]
         let selectedIds = Object.keys(resultData).filter((k) => resultData[k]?.length)
-        if (!fs.existsSync(downloadsDir)) {
+        if (!fs.existsSync(downloadsDir) && selectedIds.length > 0) {
           fs.mkdirSync(downloadsDir, { recursive: true })
         }
 
