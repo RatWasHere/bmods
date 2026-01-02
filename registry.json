@@ -295,6 +295,13 @@
       "category": "Lists",
       "creator": "LikRus"
     },
+    "countRepeatedListElements_MOD.js": {
+      "md5": "1292cae4857f7dfabf3cf0efbc9eb9d5",
+      "name": "Count Repeated List Elements",
+      "modules": [],
+      "category": "Lists",
+      "creator": "Acedia"
+    },
     "createFolder_MOD.js": {
       "md5": "533d8877630922c8b3a59145c5810796",
       "name": "Create Folder",
@@ -1622,7 +1629,7 @@
       "creator": "TheMonDon"
     },
     "setTrackedTimeRestriction_MOD.js": {
-      "md5": "cced498e113e2ae3b8944dd87143c8b2",
+      "md5": "fa683e2d1e404ff5b5b683dbec2abb48",
       "name": "Set Tracked Time Restriction",
       "modules": [],
       "category": "Control",
@@ -1817,7 +1824,7 @@
       "creator": "candiedapple"
     },
     "wget_MOD.js": {
-      "md5": "410e1dc734a2dfee961a0dd681e90eb2",
+      "md5": "aa6c06bf585092da1cde67cc88748193",
       "name": "wget Download",
       "modules": [
         "wget-improved",
@@ -1861,7 +1868,7 @@
       "author": "Acedia",
       "files": {
         "data.json": "1c02e739262f14ed13f5a17566488cd3",
-        "main.js": "c19bc105aebbd910a8945ba8948c3874",
+        "main.js": "7315443402e94a2e46dbcefa99394f19",
         "startup.js": "d177790ae73f2ab2fb17197b3864fc75",
         "startup_info.json": "f00aec4bef3d34f6dde5277e0130aafe"
       }
