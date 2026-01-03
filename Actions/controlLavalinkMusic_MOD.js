@@ -107,7 +107,11 @@ module.exports = {
       }
 
       case "skipSong": {
-        await player.skip()
+        if (player.queue.tracks.length == 0) {
+          await player.destroy()
+        } else {
+          await player.skip()
+        }
         break
       }
 
@@ -138,8 +142,6 @@ module.exports = {
 
       case "skipTo": {
         const trackNumber = Number(bridge.transf(values.musicAction.value)) - 1
-        console.log(trackNumber)
-        console.log(player.queue[trackNumber])
 
         if (!player.queue.tracks[trackNumber]) {
           break
