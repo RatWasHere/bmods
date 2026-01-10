@@ -2,7 +2,7 @@ module.exports = {
   data: {
     name: "URL Shortener",
   },
-  category: "Link Shortener",
+  category: "Misc",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "Rat",
