@@ -373,6 +373,13 @@
       "category": "Utilities",
       "creator": "Acedia"
     },
+    "crosscheckList_MOD.js": {
+      "md5": "63d7fe3daa85c9cf3614dfe743cdc4fe",
+      "name": "Cross-check List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "Acedia"
+    },
     "ctrlMultipleChnDatas_MOD.js": {
       "md5": "641790c1d8898d6a7a0a572e0b2976e8",
       "name": "Control Multiple Channel Datas",
@@ -430,6 +437,13 @@
         "luxon"
       ],
       "category": "Time",
+      "creator": "Acedia"
+    },
+    "deduplicateList_MOD.js": {
+      "md5": "6175adab4ee72d3e5d26e1cab2ae42ee",
+      "name": "Deduplicate List",
+      "modules": [],
+      "category": "Lists",
       "creator": "Acedia"
     },
     "deleteFolder_MOD.js": {
@@ -536,6 +550,13 @@
     "findElementByAttribute_MOD.js": {
       "md5": "0768d32487a725125ae12e711366decb",
       "name": "Find Data Element By Attribute",
+      "modules": [],
+      "category": "Data",
+      "creator": "Acedia"
+    },
+    "findElementByMultiAttribute_MOD.js": {
+      "md5": "eca5ad5232b1cb133d4eb4c0e3ad946c",
+      "name": "Find Data Element By Multiple Attributes",
       "modules": [],
       "category": "Data",
       "creator": "Acedia"
@@ -1195,6 +1216,51 @@
       "name": "Modify JSON Object",
       "modules": [],
       "category": "JSON",
+      "creator": "Acedia"
+    },
+    "mongoConnect_MOD.js": {
+      "md5": "090ed6e335f9d6e9ab194e02e6ecc5f3",
+      "name": "MongoDB Connect",
+      "modules": [
+        "mongodb"
+      ],
+      "category": "MongoDB",
+      "creator": "Acedia"
+    },
+    "mongoDelete_MOD.js": {
+      "md5": "0219fa7204c4689c9f5a1380df6cbd43",
+      "name": "MongoDB Delete Document",
+      "modules": [
+        "mongodb"
+      ],
+      "category": "MongoDB",
+      "creator": "Acedia"
+    },
+    "mongoInfo_MOD.js": {
+      "md5": "b65a587d6a89397c2ceffbb482bb341e",
+      "name": "MongoDB Get Collection Info",
+      "modules": [
+        "mongodb"
+      ],
+      "category": "MongoDB",
+      "creator": "Acedia"
+    },
+    "mongoInsert_MOD.js": {
+      "md5": "d20ebd3277080b8529db72dda32d555e",
+      "name": "MongoDB Insert Document",
+      "modules": [
+        "mongodb"
+      ],
+      "category": "MongoDB",
+      "creator": "Acedia"
+    },
+    "mongoQuery_MOD.js": {
+      "md5": "8f08a9d0df9b4ba3fbd9b14a3cce2bb7",
+      "name": "MongoDB Query Collection",
+      "modules": [
+        "mongodb"
+      ],
+      "category": "MongoDB",
       "creator": "Acedia"
     },
     "mongodbOperations_MOD.js": {
