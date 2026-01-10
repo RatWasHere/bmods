@@ -4,9 +4,9 @@
 
 module.exports = {
   data: {
-    name: "Html To Pdf",
+    name: "HTML To PDF",
   },
-  category: "File",
+  category: "Files",
   info: {
     source: "Uses html-pdf-node",
     creator: "Maco",
