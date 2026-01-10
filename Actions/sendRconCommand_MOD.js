@@ -9,7 +9,7 @@ module.exports = {
   data: {
     name: "Send RCON Command",
   },
-  category: "Game",
+  category: "RCON",
   info: {
     source: "https://github.com/RatWasHere/bmods/tree/master/Actions",
     creator: "candiedapple",
@@ -115,4 +115,5 @@ module.exports = {
     });
   },
 };
+
 
