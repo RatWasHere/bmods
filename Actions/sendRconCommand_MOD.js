@@ -7,7 +7,7 @@
 module.exports = {
   modules: ["mbr-rcon"],
   data: {
-    name: "Send Rcon Command",
+    name: "Send RCON Command",
   },
   category: "Game",
   info: {
@@ -115,3 +115,4 @@ module.exports = {
     });
   },
 };
+
