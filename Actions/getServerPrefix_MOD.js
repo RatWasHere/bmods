@@ -4,7 +4,7 @@ module.exports = {
   data: {
     name: "Get Server Prefix",
   },
-  category: "Server Management",
+  category: "Servers",
   info: {
     source: "https://github.com/ratWasHere/bmods",
     creator: "TheMonDon",
@@ -72,3 +72,4 @@ module.exports = {
     }
   },
 };
+
