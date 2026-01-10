@@ -8,7 +8,7 @@ module.exports = {
     creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  category: "Shortcuts",
+  category: "Channels",
   modules: [],
   UI: [
     {
@@ -64,3 +64,4 @@ module.exports = {
     bridge.store(values.result, mentionList)
   },
 }
+
