@@ -2,7 +2,7 @@ module.exports = {
   data: {
     name: "Send multiple RCON",
   },
-  category: "Game",
+  category: "RCON",
   info: {
     source: "https://github.com/slothyace/BCS/tree/main/Mods",
     creator: "Acedia",
