@@ -213,6 +213,13 @@
       "category": "Images",
       "creator": "Maco"
     },
+    "checkIfDataElementExists_MOD.js": {
+      "md5": "31f4ef53d2b6589dd613aa433f1a7aca",
+      "name": "Check If Data Element Exists",
+      "modules": [],
+      "category": "Data",
+      "creator": "Acedia"
+    },
     "checkIfFolderExists_MOD.js": {
       "md5": "d7f0187e925264418d8ad57040059ae6",
       "name": "Check If Folder Exists",
@@ -362,7 +369,7 @@
       "creator": "nitiqt"
     },
     "createWebApi_MOD.js": {
-      "md5": "b8c4e68a77a3f9fafe25933bd63d2586",
+      "md5": "7a76d4f4ad263af1fc836c9835f881f2",
       "name": "Create Web API",
       "modules": [
         "node:fs",
@@ -370,7 +377,7 @@
         "node:https",
         "express"
       ],
-      "category": "WebAPIs",
+      "category": "Utilities",
       "creator": "Acedia"
     },
     "crosscheckList_MOD.js": {
@@ -548,7 +555,7 @@
       "creator": "LikRus"
     },
     "findElementByAttribute_MOD.js": {
-      "md5": "0768d32487a725125ae12e711366decb",
+      "md5": "7cddaeb6d7f90faddb335fae0b4f4bfc",
       "name": "Find Data Element By Attribute",
       "modules": [],
       "category": "Data",
@@ -721,11 +728,11 @@
       "creator": "candiedapple"
     },
     "getChannelMentions_MOD.js": {
-      "md5": "54fc4238b682e8b484f2f7e7cdc38d48",
+      "md5": "012405336481afc752739ab9e99f908f",
       "name": "Get Channel Mentions In List",
       "modules": [],
       "category": "Channels",
-      "creator": "Acedia QOLs"
+      "creator": "Acedia"
     },
     "getChannelThreads_MOD.js": {
       "md5": "ee14942fda2cc7a487b276d22c5faae3",
@@ -883,11 +890,11 @@
       "creator": "Nitiqt"
     },
     "getMentions_MOD.js": {
-      "md5": "ede63ab5abc8db649adcd1c3df177a58",
+      "md5": "9bbd4ac57445b3ada254c65be4ad352a",
       "name": "Get User Mentions In List",
       "modules": [],
       "category": "Users",
-      "creator": "Acedia QOLs"
+      "creator": "Acedia"
     },
     "getMessageWebhook_MOD.js": {
       "md5": "c83c8add9a920d51a147696190c14a68",
@@ -993,7 +1000,7 @@
       "creator": "LikRus"
     },
     "getRoleMentions_MOD.js": {
-      "md5": "d1a80f5df57e17dacfe881932c7efc8d",
+      "md5": "af0058b88fc291ed663cf87afa818662",
       "name": "Get Role Mentions In List",
       "modules": [],
       "category": "Roles",
@@ -1258,6 +1265,15 @@
     "mongoQuery_MOD.js": {
       "md5": "8f08a9d0df9b4ba3fbd9b14a3cce2bb7",
       "name": "MongoDB Query Collection",
+      "modules": [
+        "mongodb"
+      ],
+      "category": "MongoDB",
+      "creator": "Acedia"
+    },
+    "mongoUpdate_MOD.js": {
+      "md5": "3203ce4089e638e332fd5cdd921b5bff",
+      "name": "MongoDB Update Document",
       "modules": [
         "mongodb"
       ],
@@ -1754,7 +1770,7 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "8fc884c086977cb61ba3107bcc8b610b",
+      "md5": "7d242556b2f3208da3747fcc95a15a40",
       "name": "Start Status Page",
       "modules": [
         "node:fs",
@@ -1764,7 +1780,7 @@
         "express",
         "cookie-parser"
       ],
-      "category": "Bot",
+      "category": "Utilities",
       "creator": "Acedia & qizzle"
     },
     "storePlaylistInfo_MOD.js": {
