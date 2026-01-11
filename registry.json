@@ -362,7 +362,7 @@
       "creator": "nitiqt"
     },
     "createWebApi_MOD.js": {
-      "md5": "1a4f2a7a4bcd08824a7a29feb3490fe7",
+      "md5": "b8c4e68a77a3f9fafe25933bd63d2586",
       "name": "Create Web API",
       "modules": [
         "node:fs",
@@ -487,7 +487,7 @@
       "creator": "candiedapple"
     },
     "downloadMusic_MOD.js": {
-      "md5": "995296fe540dbf71caa713b93024361a",
+      "md5": "ed66355f1ce0ca3f54ebcf7ae14d0fa8",
       "name": "Download Music File",
       "modules": [
         "fs",
@@ -520,7 +520,7 @@
       "creator": "candiedapple"
     },
     "extractSteamSummary_MOD.js": {
-      "md5": "86e43d6e2b3a44b978d8e65986bef7a9",
+      "md5": "ea164641290986ac3539303b04f5450b",
       "name": "Extract Steam Summary",
       "modules": [],
       "category": "Misc",
@@ -721,7 +721,7 @@
       "creator": "candiedapple"
     },
     "getChannelMentions_MOD.js": {
-      "md5": "67d52a41d860e53febb1d91d22190c89",
+      "md5": "54fc4238b682e8b484f2f7e7cdc38d48",
       "name": "Get Channel Mentions In List",
       "modules": [],
       "category": "Channels",
@@ -883,7 +883,7 @@
       "creator": "Nitiqt"
     },
     "getMentions_MOD.js": {
-      "md5": "95cae95d5eceee7b604ac38f9733cf1d",
+      "md5": "ede63ab5abc8db649adcd1c3df177a58",
       "name": "Get User Mentions In List",
       "modules": [],
       "category": "Users",
@@ -993,7 +993,7 @@
       "creator": "LikRus"
     },
     "getRoleMentions_MOD.js": {
-      "md5": "62c7bd29b53f84a3593c24afbe13acdb",
+      "md5": "d1a80f5df57e17dacfe881932c7efc8d",
       "name": "Get Role Mentions In List",
       "modules": [],
       "category": "Roles",
@@ -1014,7 +1014,7 @@
       "creator": "nitiqt"
     },
     "getServerPrefix_MOD.js": {
-      "md5": "b8435dbe152034c3d4b9592d9de00f93",
+      "md5": "dfb953308a4c26993659d3f98047f74f",
       "name": "Get Server Prefix",
       "modules": [],
       "category": "Servers",
@@ -1660,7 +1660,7 @@
       "creator": "Acedia"
     },
     "sendRconCommand_MOD.js": {
-      "md5": "ad66479eaad23f4996d26d57732d642f",
+      "md5": "09d219051cb183160b9f6c0d5096669a",
       "name": "Send RCON Command",
       "modules": [
         "mbr-rcon"
@@ -1689,7 +1689,7 @@
       "category": "Linked Roles"
     },
     "setServerPrefix_MOD.js": {
-      "md5": "93928f31d41035901c67d529762ffee0",
+      "md5": "54aeee51b8d65cb0362444bfe20e86b3",
       "name": "Set Server Prefix",
       "modules": [],
       "category": "Servers",
@@ -1754,7 +1754,7 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "2571c8e0e3758e96ab9540c8e796a0cf",
+      "md5": "8fc884c086977cb61ba3107bcc8b610b",
       "name": "Start Status Page",
       "modules": [
         "node:fs",
