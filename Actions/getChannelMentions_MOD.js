@@ -1,11 +1,11 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "Get Channel Mentions In List",
   },
   info: {
     source: "https://github.com/slothyace/bmods-ace/tree/main/QOLs",
-    creator: "Acedia QOLs",
+    creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
   category: "Channels",
@@ -45,10 +45,15 @@ module.exports = {
     let channelList = bridge.get(values.channelsList)
 
     let filteredList = []
+    let idRegex = /^[0-9]+$/
 
     channelList = channelList.forEach((channel) => {
       if (channel.type != 4) {
-        filteredList.push(`<#${channel.id}>`)
+        if (idRegex.test(channel) == true) {
+          filteredList.push(`<#${channel}>`)
+        } else {
+          filteredList.push(`<#${channel?.id}>`)
+        }
       }
     })
 

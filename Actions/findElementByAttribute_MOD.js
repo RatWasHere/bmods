@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.1"
 module.exports = {
   data: {
     name: "Find Data Element By Attribute",
@@ -34,6 +34,11 @@ module.exports = {
       name: "Must Equal",
     },
     "-",
+    {
+      element: "store",
+      storeAs: "elementIden",
+      name: "Store Data Element Identifier As",
+    },
     {
       element: "store",
       storeAs: "foundElement",
@@ -126,6 +131,7 @@ module.exports = {
 
     let attributeValue = bridge.transf(values.attributeValue).trim()
 
+    let elementIden = undefined
     let foundElement = undefined
 
     if (typeof dataElement !== "object" || Array.isArray(dataElement) || dataElement === null) {
@@ -154,11 +160,13 @@ module.exports = {
 
         if (current == attributeValue) {
           foundElement = element
+          elementIden = key
           break
         }
       }
     }
 
+    bridge.store(values.elementIden, elementIden)
     bridge.store(values.foundElement, foundElement)
   },
 }

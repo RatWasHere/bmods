@@ -1,11 +1,11 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "Get User Mentions In List",
   },
   info: {
     source: "https://github.com/slothyace/bmods-ace/tree/main/QOLs",
-    creator: "Acedia QOLs",
+    creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
   category: "Users",
@@ -44,8 +44,13 @@ module.exports = {
   async run(values, message, client, bridge) {
     let memList = bridge.get(values.membersList)
 
+    let idRegex = /^[0-9]+$/
     memList = memList.map((member) => {
-      return `<@${member.id}>`
+      if (idRegex.test(member) == true) {
+        return `<@${member}>`
+      } else if (member?.id) {
+        return `<@${member.id}>`
+      }
     })
 
     let styleType = bridge.transf(values.style.type)
