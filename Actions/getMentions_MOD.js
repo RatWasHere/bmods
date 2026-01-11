@@ -60,4 +60,3 @@ module.exports = {
     bridge.store(values.result, mentionList)
   },
 }
-
