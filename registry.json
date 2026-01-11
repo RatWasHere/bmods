@@ -128,11 +128,11 @@
       "category": "OAuth"
     },
     "animeSearch_MOD.js": {
-      "md5": "04d0d982fa2fc7d1f152b2cb40615ddc",
+      "md5": "3fe145f95d9827dcd4fab475c2f46b91",
       "name": "Anime Search",
       "description": "Search for an anime and get the best result with more details.",
       "modules": [],
-      "category": "Anime",
+      "category": "Misc",
       "creator": "qschnitzel"
     },
     "askAI_MOD.js": {
@@ -362,7 +362,7 @@
       "creator": "nitiqt"
     },
     "createWebApi_MOD.js": {
-      "md5": "7a76d4f4ad263af1fc836c9835f881f2",
+      "md5": "1a4f2a7a4bcd08824a7a29feb3490fe7",
       "name": "Create Web API",
       "modules": [
         "node:fs",
@@ -370,7 +370,7 @@
         "node:https",
         "express"
       ],
-      "category": "Utilities",
+      "category": "WebAPIs",
       "creator": "Acedia"
     },
     "crosscheckList_MOD.js": {
@@ -487,14 +487,14 @@
       "creator": "candiedapple"
     },
     "downloadMusic_MOD.js": {
-      "md5": "e9937f8b6161cf52deb43eadcc6a642e",
+      "md5": "995296fe540dbf71caa713b93024361a",
       "name": "Download Music File",
       "modules": [
         "fs",
         "path",
         "node:child_process"
       ],
-      "category": "Utilities",
+      "category": "Music",
       "creator": "Acedia"
     },
     "editBot_MOD.js": {
@@ -520,10 +520,10 @@
       "creator": "candiedapple"
     },
     "extractSteamSummary_MOD.js": {
-      "md5": "f5ac54cd074fe41b32c4c40d6edc99ec",
+      "md5": "86e43d6e2b3a44b978d8e65986bef7a9",
       "name": "Extract Steam Summary",
       "modules": [],
-      "category": "Steam",
+      "category": "Misc",
       "creator": "Acedia"
     },
     "fetchSteamId_MOD.js": {
@@ -610,9 +610,10 @@
       "creator": "candiedapple"
     },
     "generateRandomWord_MOD.js": {
-      "md5": "1d8d4a007d48fd66528122caf67a3a43",
+      "md5": "82d1d08ad5ba9eeca9e18c6300427571",
       "name": "Generate Random Word(s)",
-      "modules": []
+      "modules": [],
+      "category": "Text"
     },
     "generateRankCard_MOD.js": {
       "md5": "d743b3d570d2956d425d869bd05a099c",
@@ -720,10 +721,10 @@
       "creator": "candiedapple"
     },
     "getChannelMentions_MOD.js": {
-      "md5": "7e3cc42f13778bd13b0b85cdf0c6c722",
+      "md5": "67d52a41d860e53febb1d91d22190c89",
       "name": "Get Channel Mentions In List",
       "modules": [],
-      "category": "Shortcuts",
+      "category": "Channels",
       "creator": "Acedia QOLs"
     },
     "getChannelThreads_MOD.js": {
@@ -882,10 +883,10 @@
       "creator": "Nitiqt"
     },
     "getMentions_MOD.js": {
-      "md5": "dbf7784118d982acce035f152525a958",
+      "md5": "95cae95d5eceee7b604ac38f9733cf1d",
       "name": "Get User Mentions In List",
       "modules": [],
-      "category": "Shortcuts",
+      "category": "Users",
       "creator": "Acedia QOLs"
     },
     "getMessageWebhook_MOD.js": {
@@ -992,10 +993,10 @@
       "creator": "LikRus"
     },
     "getRoleMentions_MOD.js": {
-      "md5": "96c87634af81e0f4bed1de5dd06cbfa7",
+      "md5": "62c7bd29b53f84a3593c24afbe13acdb",
       "name": "Get Role Mentions In List",
       "modules": [],
-      "category": "Shortcuts",
+      "category": "Roles",
       "creator": "Acedia QOLs"
     },
     "getScheduledEventInfo_MOD.js": {
@@ -1013,10 +1014,10 @@
       "creator": "nitiqt"
     },
     "getServerPrefix_MOD.js": {
-      "md5": "e09ddcb334f8f71b407da53bd39eed37",
+      "md5": "b8435dbe152034c3d4b9592d9de00f93",
       "name": "Get Server Prefix",
       "modules": [],
-      "category": "Server Management",
+      "category": "Servers",
       "creator": "TheMonDon"
     },
     "getSftpFile_MOD.js": {
@@ -1099,11 +1100,11 @@
       "creator": "Acedia"
     },
     "htmlToPdf_MOD.js": {
-      "md5": "31d540c2e76b189205949aff356061de",
-      "name": "Html To Pdf",
+      "md5": "1919ef53d9cbc61e924a26431de91a3d",
+      "name": "HTML To PDF",
       "description": "This mod converts HTML files into PDF using puppeteer, please provide a path to an existing HTML file and a path to where the generated PDF will be created.",
       "modules": [],
-      "category": "File",
+      "category": "Files",
       "creator": "Maco"
     },
     "insultGenerator_MOD.js": {
@@ -1114,7 +1115,7 @@
       "creator": "tao"
     },
     "jsonPath_MOD.js": {
-      "md5": "0d1cbfae68eae965d23bb80b0f5f5eaf",
+      "md5": "ced601f4c8f6234af910c1f4b73cc5dc",
       "name": "JSON Path",
       "modules": [
         "jsonpath"
@@ -1650,21 +1651,21 @@
       "creator": "tao"
     },
     "sendMultipleRCON_MOD.js": {
-      "md5": "fd1def98db6c00d710efc6b486be3077",
+      "md5": "dae3ad951368cc0a1870f931a57160f7",
       "name": "Send multiple RCON",
       "modules": [
         "mbr-rcon"
       ],
-      "category": "Game",
+      "category": "RCON",
       "creator": "Acedia"
     },
     "sendRconCommand_MOD.js": {
-      "md5": "90dda134ce3461cce8e28ac129f1bead",
-      "name": "Send Rcon Command",
+      "md5": "ad66479eaad23f4996d26d57732d642f",
+      "name": "Send RCON Command",
       "modules": [
         "mbr-rcon"
       ],
-      "category": "Game",
+      "category": "RCON",
       "creator": "candiedapple"
     },
     "sendSftpFile_MOD.js": {
@@ -1688,10 +1689,10 @@
       "category": "Linked Roles"
     },
     "setServerPrefix_MOD.js": {
-      "md5": "4030d99a3e63a87f39e66a71188785f8",
+      "md5": "93928f31d41035901c67d529762ffee0",
       "name": "Set Server Prefix",
       "modules": [],
-      "category": "Server Management",
+      "category": "Servers",
       "creator": "TheMonDon"
     },
     "setTrackedTimeRestriction_MOD.js": {
@@ -1753,7 +1754,7 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "7d242556b2f3208da3747fcc95a15a40",
+      "md5": "2571c8e0e3758e96ab9540c8e796a0cf",
       "name": "Start Status Page",
       "modules": [
         "node:fs",
@@ -1763,7 +1764,7 @@
         "express",
         "cookie-parser"
       ],
-      "category": "Utilities",
+      "category": "Bot",
       "creator": "Acedia & qizzle"
     },
     "storePlaylistInfo_MOD.js": {
@@ -1869,10 +1870,10 @@
       "creator": "Acedia"
     },
     "urlShortener_MOD.js": {
-      "md5": "34f4766c6599fb38b849651eb8ad4b21",
+      "md5": "2e93ae31ff098c7134467373ccff3b5f",
       "name": "URL Shortener",
       "modules": [],
-      "category": "Link Shortener",
+      "category": "Misc",
       "creator": "Rat"
     },
     "variablePattern_MOD.js": {
