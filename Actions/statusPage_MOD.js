@@ -12,7 +12,7 @@ module.exports = {
   },
   aliases: ["Status Page"],
   modules: ["node:fs", "node:path", "node:https", "node:crypto", "express", "cookie-parser"],
-  category: "Utilities",
+  category: "Bot",
   modVersion,
   info: {
     source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
@@ -582,3 +582,4 @@ module.exports = {
     }
   },
 }
+

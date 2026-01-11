@@ -2,7 +2,7 @@ module.exports = {
   data: {
     name: "Generate Random Word(s)",
   },
-
+  category: "Text",
   UI: [
     {
       element: "inputGroup",

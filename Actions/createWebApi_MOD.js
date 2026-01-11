@@ -51,7 +51,7 @@ module.exports = {
   },
   aliases: [],
   modules: ["node:fs", "node:path", "node:https", "express"],
-  category: "Utilities",
+  category: "WebAPIs",
   info: {
     source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
     creator: "Acedia",
@@ -447,3 +447,5 @@ module.exports = {
     }
   },
 }
+
+

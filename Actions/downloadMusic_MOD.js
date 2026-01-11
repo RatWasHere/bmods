@@ -13,7 +13,7 @@ module.exports = {
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  category: "Utilities",
+  category: "Music",
   UI: [
     {
       element: "input",
@@ -300,3 +300,4 @@ module.exports = {
     })
   },
 }
+

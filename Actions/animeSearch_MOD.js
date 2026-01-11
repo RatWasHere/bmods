@@ -14,7 +14,7 @@ module.exports = {
     description:
       "Search for an anime and get the best result with more details.",
   },
-  category: "Anime",
+  category: "Misc",
   UI: [
     {
       element: "input",

@@ -5,7 +5,7 @@ module.exports = {
   },
   aliases: [],
   modules: [],
-  category: "Steam",
+  category: "Misc",
   info: {
     source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
     creator: "Acedia",
@@ -213,3 +213,4 @@ module.exports = {
     }
   },
 }
+
