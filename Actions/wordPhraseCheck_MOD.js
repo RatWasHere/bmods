@@ -195,7 +195,7 @@ module.exports = {
     }
 
     if (!Array.isArray(wordList)) {
-      return console.error(titleCase(`please provide a list of words to check for`))
+      return console.error(titleCase(`[${this.data.name}] please provide a list of words to check for`))
     }
 
     let includesWords = false

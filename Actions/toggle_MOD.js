@@ -48,7 +48,7 @@ module.exports = {
         await bridge.runner(values.actions)
         res()
       })
-      promise.catch((err) => console.log(err))
+      promise.catch((err) => console.log(`[${this.data.name}] `, err))
       await promise
     } else {
       // noop

@@ -269,14 +269,14 @@ module.exports = {
           switch (file.type) {
             case "theme": {
               if (fileHash !== fileHashes.themes[theme][file.name]) {
-                console.log(`[Status Page] ${file.name} Is Outdated, Redownloading...`)
+                console.log(`[${this.data.name}] ${file.name} Is Outdated, Redownloading...`)
                 try {
                   let newFileRaw = await fetch(file.source)
                   let newFileBuffer = Buffer.from(await newFileRaw.arrayBuffer())
                   fs.writeFileSync(file.path, newFileBuffer)
-                  console.log(`[Status Page] ${file.name} Has Been Redownloaded.`)
+                  console.log(`[${this.data.name}] ${file.name} Has Been Redownloaded.`)
                 } catch (err) {
-                  console.log(`[Status Page] Something Went Wrong Trying To Redownload ${file.name}`)
+                  console.log(`[${this.data.name}] Something Went Wrong Trying To Redownload ${file.name}`)
                 }
               }
               break
@@ -284,14 +284,14 @@ module.exports = {
 
             case "core": {
               if (fileHash !== fileHashes.core[file.name]) {
-                console.log(`[Status Page] ${file.name} Is Outdated, Redownloading...`)
+                console.log(`[${this.data.name}] ${file.name} Is Outdated, Redownloading...`)
                 try {
                   let newFileRaw = await fetch(file.source)
                   let newFileBuffer = Buffer.from(await newFileRaw.arrayBuffer())
                   fs.writeFileSync(file.path, newFileBuffer)
-                  console.log(`[Status Page] ${file.name} Has Been Redownloaded.`)
+                  console.log(`[${this.data.name}] ${file.name} Has Been Redownloaded.`)
                 } catch (err) {
-                  console.log(`[Status Page] Something Went Wrong Trying To Redownload ${file.name}`)
+                  console.log(`[${this.data.name}] Something Went Wrong Trying To Redownload ${file.name}`)
                 }
               }
               break
@@ -299,14 +299,14 @@ module.exports = {
           }
         }
       } else {
-        console.log(`[Status Page] ${file.name} Missing, Downloading...`)
+        console.log(`[${this.data.name}] ${file.name} Missing, Downloading...`)
         try {
           let newFileRaw = await fetch(file.source)
           let newFileBuffer = Buffer.from(await newFileRaw.arrayBuffer())
           fs.writeFileSync(file.path, newFileBuffer)
-          console.log(`[Status Page] ${file.name} Has Been Downloaded.`)
+          console.log(`[${this.data.name}] ${file.name} Has Been Downloaded.`)
         } catch (err) {
-          console.log(`[Status Page] Something Went Wrong Trying To Download ${file.name}`)
+          console.log(`[${this.data.name}] Something Went Wrong Trying To Download ${file.name}`)
         }
       }
     }
@@ -451,7 +451,7 @@ module.exports = {
     }
 
     if (missingFiles.length > 0) {
-      return console.error(`[Status Page] Files Required To Run The Status Page Are Missing; ${missingFiles.join(", ")}`)
+      return console.error(`[${this.data.name}] Files Required To Run The Status Page Are Missing; ${missingFiles.join(", ")}`)
     }
     setInterval(updateStats, interval)
     updateStats()
@@ -550,7 +550,7 @@ module.exports = {
       const https = require("node:https")
       try {
         if (!values.https[0].data.keyFile || !values.https[0].data.certFile) {
-          throw new Error(`[Status Page] Missing Key Or Cert File`)
+          throw new Error(`[${this.data.name}] Missing Key Or Cert File`)
         }
 
         let keyFile = path.join(projectFolder, bridge.transf(values.https[0].data.keyFile).trim()) || undefined
@@ -565,19 +565,19 @@ module.exports = {
         }
         let options = { key, cert, ca }
         https.createServer(options, app).listen(port, host, () => {
-          console.log(`[Status Page] Upgrade To HTTPS Success`)
-          console.log(`[Status Page] Status Page Available On https://${host}:${port}/statusPage/monitor/view`)
+          console.log(`[${this.data.name}] Upgrade To HTTPS Success`)
+          console.log(`[${this.data.name}] Status Page Available On https://${host}:${port}/statusPage/monitor/view`)
         })
       } catch (err) {
         console.log(err)
-        console.log(`[Status Page] Upgrade To HTTPS Fail, Defaulting To HTTP`)
+        console.log(`[${this.data.name}] Upgrade To HTTPS Fail, Defaulting To HTTP`)
         app.listen(port, host, () => {
-          console.log(`[Status Page] Status Page Available On http://${host}:${port}/statusPage/monitor/view`)
+          console.log(`[${this.data.name}] Status Page Available On http://${host}:${port}/statusPage/monitor/view`)
         })
       }
     } else {
       app.listen(port, host, () => {
-        console.log(`[Status Page] Status Page Available On http://${host}:${port}/statusPage/monitor/view`)
+        console.log(`[${this.data.name}] Status Page Available On http://${host}:${port}/statusPage/monitor/view`)
       })
     }
   },

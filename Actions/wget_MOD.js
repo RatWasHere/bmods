@@ -125,7 +125,7 @@ module.exports = {
 
       download.on("error", function (err) {
         if (values.logging) {
-          console.log(err)
+          console.log(`[${this.data.name}] `, err)
         }
         bridge.call(values.onError, values.onErrorActions)
         return resolve(err)
@@ -133,13 +133,13 @@ module.exports = {
 
       download.on("start", function (fileSize) {
         if (values.logging) {
-          console.log(`Download Starting...`)
+          console.log(`[${this.data.name}] Download Starting...`)
         }
       })
 
       download.on("end", function (output) {
         if (values.logging) {
-          console.log(`File Download From ${dlLink} Completed, ${output} ${filePath}`)
+          console.log(`[${this.data.name}] File Download From ${dlLink} Completed, ${output} ${filePath}`)
         }
         let fileSize = fs.statSync(filePath).size
         let fileRead = fs.readFileSync(filePath)
@@ -152,7 +152,7 @@ module.exports = {
     if (values.deleteAfter == true) {
       fs.unlinkSync(filePath)
       if (values.logging) {
-        console.log(`${filePath} Deleted`)
+        console.log(`[${this.data.name}] ${filePath} Deleted`)
       }
     }
   },

@@ -66,11 +66,11 @@ module.exports = {
     let increment = Math.abs(parseFloat(bridge.transf(values.increment), 10)) || 1
 
     if (isNaN(startNum) || isNaN(endNum) || isNaN(increment)) {
-      throw new Error(`Start At / End At / Increment Is Not A Number!`)
+      throw new Error(`[${this.data.name}] Start At / End At / Increment Is Not A Number!`)
     }
 
     if (startNum > endNum) {
-      throw new Error(`Start At Can't Be Bigger Than End At!`)
+      throw new Error(`[${this.data.name}] Start At Can't Be Bigger Than End At!`)
     }
 
     for (let start = startNum; start <= endNum; start += increment) {

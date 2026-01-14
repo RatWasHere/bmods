@@ -45,7 +45,7 @@ module.exports = {
     if (msg.webhookID ? true : false == true) {
       bridge.store(values.webhookId, msg.webhookID)
     } else {
-      console.warn(`${msg} has no webhook property`)
+      console.warn(`[${this.data.name}] ${msg} has no webhook property`)
       bridge.store(values.webhookId, undefined)
     }
   },

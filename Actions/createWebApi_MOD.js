@@ -319,13 +319,13 @@ module.exports = {
       }
 
       if (values.logSetup) {
-        console.log(`[Create Web API] Register ${method.toUpperCase()} ${routePath}`)
+        console.log(`[${this.data.name}] Register ${method.toUpperCase()} ${routePath}`)
       }
 
       app[method](routePath, async (request, response) => {
         try {
           if (values.logRequests) {
-            console.log(`[Create Web API] Hit ${method.toUpperCase()} ${routePath}`)
+            console.log(`[${this.data.name}] Hit ${method.toUpperCase()} ${routePath}`)
             console.log(
               JSON.stringify(
                 {
@@ -390,7 +390,7 @@ module.exports = {
               return response.status(200).send(String(content))
           }
         } catch (err) {
-          console.error(`[Create Web API] ERROR In Handler For ${routePath}:`, err)
+          console.error(`[${this.data.name}] ERROR In Handler For ${routePath}:`, err)
           return response.status(500).send("Internal Server Error")
         }
       })
@@ -400,14 +400,14 @@ module.exports = {
       let routesFilePath = path.join(projectFolder, "aceModsJSON", "webapiRoutes.json")
       fs.writeFileSync(routesFilePath, JSON.stringify(routeMap, null, 2))
       if (values.logSetup) {
-        console.log(`[Create Web API] webApiRoutes.json Generated.`)
+        console.log(`[${this.data.name}] webApiRoutes.json Generated.`)
       }
     } catch (err) {
-      console.error("[Create Web API] Failed To Write webApiRoutes.json:", err)
+      console.error(`[${this.data.name}] Failed To Write webApiRoutes.json:`, err)
     }
 
     if (conflictWarnings.length > 0) {
-      console.warn("[Create Web API] Duplicate Or Conflicting Routes Detected:")
+      console.warn(`[${this.data.name}] Duplicate Or Conflicting Routes Detected:`)
       for (let warning of conflictWarnings) console.warn("  - " + warning)
     }
 
@@ -430,19 +430,19 @@ module.exports = {
         }
         let options = { key, cert, ca }
         https.createServer(options, app).listen(port, host, () => {
-          console.log(`[Create Web API] Upgrade To HTTPS Success`)
-          console.log(`[Create Web API] Listening On https://${host}:${port}`)
+          console.log(`[${this.data.name}] Upgrade To HTTPS Success`)
+          console.log(`[${this.data.name}] Listening On https://${host}:${port}`)
         })
       } catch (err) {
         console.log(err)
-        console.log(`[Create Web API] Upgrade To HTTPS Fail, Defaulting To HTTP`)
+        console.log(`[${this.data.name}] Upgrade To HTTPS Fail, Defaulting To HTTP`)
         app.listen(port, host, () => {
-          console.log(`[Create Web API] Listening On http://${host}:${port}`)
+          console.log(`[${this.data.name}] Listening On http://${host}:${port}`)
         })
       }
     } else {
       app.listen(port, host, () => {
-        console.log(`[Create Web API] Listening On http://${host}:${port}`)
+        console.log(`[${this.data.name}] Listening On http://${host}:${port}`)
       })
     }
   },

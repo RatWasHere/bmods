@@ -46,7 +46,7 @@ module.exports = {
     let list = bridge.get(values.list)
 
     if (!Array.isArray(list)) {
-      return console.log(`The List Provided Is Not A List!`)
+      return console.log(`[${this.data.name}] The Variable Provided Is Not A List!`)
     }
 
     let deduplicatedList = [...new Set(list)]

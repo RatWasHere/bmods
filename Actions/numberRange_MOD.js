@@ -64,7 +64,7 @@ module.exports = {
         bridge.call(values.false, values.falseActions)
       }
     } else {
-      console.log(`One of the following values is not a number; ${values.inputNum}, ${values.lowerRange}, ${values.upperRange}`)
+      console.log(`[${this.data.name}] One Of The Following Values Is Not A Number; ${values.inputNum}, ${values.lowerRange}, ${values.upperRange}`)
     }
   },
 }

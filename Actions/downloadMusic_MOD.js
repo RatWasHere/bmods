@@ -207,7 +207,7 @@ module.exports = {
       const missingFiles = dependencies.filter((file) => fs.existsSync(path.join(projectPath, file)) == false)
 
       if (missingFiles.length > 0) {
-        console.log("The following required files are missing: ", missingFiles.join(", "))
+        console.log("[${this.data.name}] The following required files are missing: ", missingFiles.join(", "))
         bridge.store(values.finalSource, "Missing Required Files...")
         bridge.store(values.finalFile, "Missing Required Files...")
         bridge.store(values.finalName, "Missing Required Files...")
@@ -248,13 +248,13 @@ module.exports = {
       fcommand = command.replace("<url>", url)
 
       if (values.logging == true) {
-        console.log("Executing Command: ", fcommand)
+        console.log(`[${this.data.name}] Executing Command: `, fcommand)
       }
 
       require("child_process").exec(fcommand, (error, stdout) => {
         if (values.logging == true) {
-          console.log(stdout)
-          console.log(error)
+          console.log(`[${this.data.name}] `, stdout)
+          console.log(`[${this.data.name}] `, error)
         }
         if (stdout.includes("[ExtractAudio] Destination:") && stdout.includes("[download] 100%")) {
           let match = stdout.match(/Destination:\s+(.+)/)
@@ -264,8 +264,8 @@ module.exports = {
             let fileSource = filePath.replace("\\", "\\\\") + "." + format
             let file = bridge.fs.readFileSync(fileSource)
             if (values.logging == true) {
-              console.log(fileName)
-              console.log(fileSource)
+              console.log(`[${this.data.name}] `, fileName)
+              console.log(`[${this.data.name}] `, fileSource)
             }
             bridge.store(values.finalSource, fileSource)
             bridge.store(values.finalFile, file)

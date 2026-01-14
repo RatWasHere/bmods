@@ -60,12 +60,12 @@ module.exports = {
     const trackObject = bridge.get(values.trackObject)
 
     if (!voiceChannel) {
-      console.log("Voice channel not found or not specified.")
+      console.log(`[${this.data.name}] Voice Channel Not Found Or Not Specified.`)
       return bridge.runner(values.ifError, values.ifErrorActions)
     }
 
     if (!client.lavalink.nodeManager.nodes.size) {
-      console.log("No lavalink connection found, please connect first.")
+      console.log(`No Lavalink Connection Found, Please Connect First.`)
       return bridge.runner(values.ifError, values.ifErrorActions)
     }
 
@@ -98,7 +98,7 @@ module.exports = {
         await player.play()
       }
     } catch (error) {
-      console.log("Lavalink Music Error", error)
+      console.log(`[${this.data.name}] Lavalink Music Error`, error)
       bridge.runner(values.ifError, values.ifErrorActions)
     }
   },

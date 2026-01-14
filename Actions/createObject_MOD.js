@@ -115,7 +115,7 @@ module.exports = {
     try {
       jsonObject = JSON.parse(jsonString)
     } catch (error) {
-      return console.error(`Invalid JSON Content: ${error.message}`)
+      return console.error(`[${this.data.name}] Invalid JSON Content: ${error.message}`)
     }
 
     bridge.store(values.object, jsonObject)

@@ -66,8 +66,8 @@ module.exports = {
     let songName = bridge.transf(values.songName)
 
     if (values.logging == true) {
-      console.log("Instance Of Buffer:", audioBuffer instanceof Buffer)
-      console.log("Type Of:", typeof audioBuffer)
+      console.log(`[${this.data.name}] Instance Of Buffer:`, audioBuffer instanceof Buffer)
+      console.log(`[${this.data.name}] Type Of:`, typeof audioBuffer)
     }
 
     if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object") {
@@ -127,7 +127,7 @@ module.exports = {
           break
       }
     } else {
-      console.log(`Variable Is Not A Instance Of Buffer And Can't Be Played.`)
+      console.log(`[${this.data.name}] Variable Is Not A Instance Of Buffer And Can't Be Played.`)
     }
   },
 }

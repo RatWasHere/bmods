@@ -96,12 +96,12 @@ module.exports = {
             .connect({
               onSuccess: () => {
                 if (logging == true) {
-                  console.log(`Connection to ${ipAddr}:${ipPort} established.`)
+                  console.log(`[${this.data.name}] Connection to ${ipAddr}:${ipPort} established.`)
                 }
               },
               onError: (error) => {
                 if (logging == true) {
-                  console.log(`Connection error: ${error}`)
+                  console.log(`[${this.data.name}] Connection error: ${error}`)
                 }
                 bridge.store(values.rconResponse, `Connection Error: Server Offline.`)
                 reject(error)
@@ -110,13 +110,13 @@ module.exports = {
             .auth({
               onSuccess: () => {
                 if (logging == true) {
-                  console.log(`Authenticated.`)
-                  console.log(`Sending command: ${rconCm}`)
+                  console.log(`[${this.data.name}] Authenticated.`)
+                  console.log(`[${this.data.name}] Sending command: ${rconCm}`)
                 }
               },
               onError: (error) => {
                 if (logging == true) {
-                  console.log(`Authentication error: ${error}`)
+                  console.log(`[${this.data.name}] Authentication error: ${error}`)
                 }
                 bridge.store(values.rconResponse, `Authentication Error: Wrong Password.`)
                 reject(error)
@@ -125,7 +125,7 @@ module.exports = {
             .send(rconCm, {
               onSuccess: (response) => {
                 if (logging == true) {
-                  console.log(`Server response: ${response}`)
+                  console.log(`[${this.data.name}] Server response: ${response}`)
                 }
                 rconServer.close()
                 bridge.store(values.rconResponse, response)
@@ -134,7 +134,7 @@ module.exports = {
               },
               onError: (error) => {
                 if (logging == true) {
-                  console.log(`Command error: ${error}`)
+                  console.log(`[${this.data.name}] Command error: ${error}`)
                 }
                 bridge.store(values.rconResponse, `Command Error: Execution Error.`)
                 reject(error)
@@ -145,7 +145,7 @@ module.exports = {
       ])
     } catch (error) {
       if (logging == true) {
-        console.log(`Command error: ${error}`)
+        console.log(`[${this.data.name}] Command error: ${error}`)
       }
       bridge.store(values.rconResponse, `RCON Error: ${error.message}`)
     }

@@ -138,7 +138,7 @@ module.exports = {
     if (inputUnitType !== "custom") {
       timeInput = parseFloat(timeInput)
       if (isNaN(timeInput)) {
-        console.error(`The given time input is not a number!`)
+        console.error(`[${this.data.name}] The Given Time Input Is Not A Number!`)
         bridge.store(values.convertedTime, undefined)
         return
       }
@@ -309,7 +309,7 @@ module.exports = {
           !format.includes("MO") &&
           !format.includes("YY")
         ) {
-          console.error(`There is no format provided!`)
+          console.error(`[${this.data.name}] There Is No Format Provided!`)
           resultOutput = undefined
           return
         }

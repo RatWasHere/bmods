@@ -99,7 +99,7 @@ module.exports = {
     }
     let dateTime = DateTime.fromFormat(timeInput, "yyyy-MM-dd HH:mm:ss", { zone: timezone })
     if (!dateTime.isValid) {
-      console.error(`Invalid Date Time Format Or Timezone`)
+      console.error(`[${this.data.name}] Invalid Date Time Format Or Timezone`)
       return bridge.store(values.timestamp, undefined)
     }
     let timestamp

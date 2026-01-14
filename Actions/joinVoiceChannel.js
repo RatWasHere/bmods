@@ -33,7 +33,7 @@ module.exports = {
         return
       }
     } catch (err) {
-      console.log(err)
+      console.log(`[${this.data.name}] `, err)
     }
 
     let connection = client.joinVoiceChannel({
@@ -75,7 +75,7 @@ module.exports = {
     let voiceStuff = bridge.getGlobal({ name: bridge.guild.id, class: "voice" })
 
     let errorHandler = (error) => {
-      console.log("Error occurred while playing music, skipping forwards.", error)
+      console.log(`[${this.data.name}] Error occurred while playing music, skipping forwards.`, error)
       if (voiceStuff.queue.length != 0) {
         player.play(voiceStuff.queue[0].audio)
 

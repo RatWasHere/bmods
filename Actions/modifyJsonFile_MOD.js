@@ -164,7 +164,7 @@ module.exports = {
       path.normalize("schedules"),
     ]
     if (forbiddenFiles.some((fp) => fullPath.endsWith(fp))) {
-      return console.error(`Essential Files Are Not To Be Messed With!!`)
+      return console.error(`[${this.data.name}] Essential Files Are Not To Be Messed With!!`)
     }
 
     if (!fs.existsSync(fullPath)) {
@@ -176,7 +176,7 @@ module.exports = {
 
         fs.writeFileSync(fullPath, JSON.stringify({}, null))
       } else {
-        return console.error(`File ${fullPath} Doesn't Exist!`)
+        return console.error(`[${this.data.name}] File ${fullPath} Doesn't Exist!`)
       }
     }
 
@@ -215,7 +215,7 @@ module.exports = {
       jsonObject = JSON.parse(originalFileContent)
       isJson = true
     } catch (err) {
-      console.error(`Invalid Original JSON Content: ${err.message}`)
+      console.error(`[${this.data.name}] Invalid Original JSON Content: ${err.message}`)
       jsonObject = originalFileContent
       isJson = false
       return
@@ -230,13 +230,14 @@ module.exports = {
       rawContent = `"${rawContent.replace(/^["']|["']$/g, "").replace(/"/g, '\\"')}"`
     }
 
-    objectPath = objectPath.replaceAll("..", ".")
+    objectPath = objectPath.replaceAll(/\.{2,}/g, ".")
     if (objectPath.startsWith(".")) {
       objectPath = objectPath.slice(1)
     }
 
-    if (objectPath === "" || objectPath.includes("..") || objectPath.startsWith(".") || objectPath.endsWith(".")) {
-      return console.error(`Invalid path: "${bridge.transf(values.jsonAction.values)}"`)
+    let isRoot = objectPath === ""
+    if (!isRoot || objectPath.startsWith(".") || objectPath.endsWith(".")) {
+      return console.error(`[${this.data.name}] Invalid Path: "${bridge.transf(values.jsonAction.values)}"`)
     }
 
     const keys = objectPath.split(".")
@@ -255,7 +256,7 @@ module.exports = {
       try {
         parsedContent = JSON.parse(rawContent)
       } catch (err) {
-        return console.error(`Invalid JSON for content: ${err.message}`)
+        return console.error(`[${this.data.name}] Invalid JSON for content: ${err.message}`)
       }
     }
 

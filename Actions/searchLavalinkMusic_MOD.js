@@ -62,7 +62,7 @@ module.exports = {
     const query = bridge.transf(values.query) || `Rick Astley - Never Gonna Give You Up`
 
     if (!client.lavalink.nodeManager.nodes.size) {
-      console.log("No lavalink connection found, please connect first.")
+      console.log(`[${this.data.name}] No Lavalink Connection Found, Please Connect First.`)
       return bridge.runner(values.ifError, values.ifErrorActions)
     }
 
@@ -86,7 +86,7 @@ module.exports = {
       )
 
       if (!result || !result.tracks || result.tracks.length === 0) {
-        console.log("No tracks found for the query:", query)
+        console.log(`[${this.data.name}] No Tracks Found For The Query:`, query)
         return bridge.runner(values.ifError, values.ifErrorActions)
       }
 
@@ -94,7 +94,7 @@ module.exports = {
       bridge.store(values.storeLoadType, result.loadType)
       bridge.store(values.storeTracks, result.tracks)
     } catch (error) {
-      console.log("Lavalink Music Error", error)
+      console.log(`[${this.data.name}] Lavalink Music Error`, error)
       bridge.runner(values.ifError, values.ifErrorActions)
     }
   },

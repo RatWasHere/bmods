@@ -50,7 +50,7 @@ module.exports = {
     let steamApiKey = bridge.transf(values.steamApiKey)
     let steamProfileLink = bridge.transf(values.steamProfileLink)
     if (steamApiKey == "") {
-      return console.error(`A Steam API Key Is Required!`)
+      return console.error(`[${this.data.name}] A Steam API Key Is Required!`)
     }
 
     const extractionRegex = /(?:https?:\/\/)?(?:steamcommunity\.com\/)?(id|profiles)\/([^/]+)/
@@ -71,14 +71,14 @@ module.exports = {
       })
       if (!vanityResponse.ok || !vanityResponse.headers.get("content-type").includes(`application/json`)) {
         let vanityErrorText = await vanityResponse.text()
-        console.error(`HTTP Error! ${vanityErrorText}`)
+        console.error(`[${this.data.name}] HTTP Error! ${vanityErrorText}`)
         steamId = undefined
       } else if (vanityResponse.headers.get("content-type").includes(`application/json`)) {
         const vanityData = await vanityResponse.json()
         if (vanityData.response.success == 1) {
           steamId = vanityData.response.steamid
         } else {
-          console.error("Failed To Resolve Vanity To Steam ID")
+          console.error(`[${this.data.name}] Failed To Resolve Vanity To Steam ID`)
           steamId = undefined
         }
       }
@@ -101,14 +101,14 @@ module.exports = {
       })
       if (!summaryResponse.ok || !summaryResponse.headers.get("content-type").includes(`application/json`)) {
         let summaryErrorText = await summaryResponse.text()
-        console.error(`HTTP Error! ${summaryErrorText}`)
+        console.error(`[${this.data.name}] HTTP Error! ${summaryErrorText}`)
         profileObject = undefined
       } else if (summaryResponse.headers.get("content-type").includes(`application/json`)) {
         const summary = await summaryResponse.json()
         if (summary.response.players.length > 0) {
           profileObject = summary.response.players[0]
         } else {
-          console.error("Failed To Fetch Profile Information")
+          console.error(`[${this.data.name}] Failed To Fetch Profile Information`)
           profileObject = undefined
         }
       }

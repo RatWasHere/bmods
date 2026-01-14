@@ -93,23 +93,23 @@ module.exports = {
 
     rconServer.on("auth", function () {
       if (logging == true) {
-        console.log(`Connection made with ${ipAddr}:${ipPort}, authentication success.`)
+        console.log(`[${this.data.name}] Connection made with ${ipAddr}:${ipPort}, authentication success.`)
       }
     })
 
     rconServer.on("error", function (err) {
       if (logging == true) {
-        console.log(`Error: ${err}`)
+        console.log(`[${this.data.name}] Error: ${err}`)
       }
       bridge.store(values.serverMessage, `Error: ${err}`)
       if (bridge.transf(values.maintain) == true) {
         if (logging == true) {
-          console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)
+          console.log(`[${this.data.name}] Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)
         }
         rconServer.connect()
       } else if (bridge.transf(values.maintain) == false) {
         if (logging == true) {
-          console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)
+          console.log(`[${this.data.name}] Connection with ${ipAddr}:${ipPort} dropped.`)
         }
         rconServer.disconnect()
       }
@@ -118,12 +118,12 @@ module.exports = {
     rconServer.on("end", function () {
       if (bridge.transf(values.maintain) == true) {
         if (logging == true) {
-          console.log(`Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)
+          console.log(`[${this.data.name}] Connection with ${ipAddr}:${ipPort} dropped, attempting reconnecting.`)
         }
         rconServer.connect()
       } else if (bridge.transf(values.maintain) == false) {
         if (logging == true) {
-          console.log(`Connection with ${ipAddr}:${ipPort} dropped.`)
+          console.log(`[${this.data.name}] Connection with ${ipAddr}:${ipPort} dropped.`)
         }
         rconServer.disconnect()
       }
@@ -131,7 +131,7 @@ module.exports = {
 
     rconServer.on("response", function (str) {
       if (logging == true) {
-        console.log(str)
+        console.log(`[${this.data.name}] `, str)
       }
       bridge.store(values.serverMessage, str)
       bridge.runner(values.toRunAct)
@@ -139,7 +139,7 @@ module.exports = {
 
     rconServer.on("server", function (str) {
       if (logging == true) {
-        console.log(str)
+        console.log(`[${this.data.name}] `, str)
       }
       bridge.store(values.serverMessage, str)
       bridge.runner(values.toRunAct)

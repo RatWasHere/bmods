@@ -58,7 +58,7 @@ module.exports = {
           convertedObj = JSON.stringify(toConv)
         } else {
           convertedObj = toConv
-          console.log(`${toConv} is not a object and can't be stringified!`)
+          console.log(`[${this.data.name}] ${toConv} is not a object and can't be stringified!`)
         }
 
       case "JSONparse":
@@ -67,7 +67,7 @@ module.exports = {
           convertedObj = obj
         } else {
           convertedObj = toConv
-          console.log(`${toConv} is not a valid JSON and has not been turned into a object!`)
+          console.log(`[${this.data.name}] ${toConv} is not a valid JSON and has not been turned into a object!`)
         }
     }
 

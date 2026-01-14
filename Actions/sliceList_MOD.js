@@ -60,13 +60,13 @@ module.exports = {
     if (Array.isArray(initList) && !isNaN(sliceAt) && !isNaN(sliceTill)) {
       result = initList.slice(sliceAt, sliceTill)
     } else if (!Array.isArray(initList) && !isNaN(sliceAt) && !isNaN(sliceTill)) {
-      console.error(`Input is not an list!`)
+      console.error(`[${this.data.name}] Input is not an list!`)
       result = initList
     } else if (Array.isArray(initList) && isNaN(sliceAt) && isNaN(sliceTill)) {
-      console.error(`One of the following is not a number: ${bridge.transf(values.sliceAt)}, ${bridge.transf(values.sliceTill)}`)
+      console.error(`[${this.data.name}] One of the following is not a number: ${bridge.transf(values.sliceAt)}, ${bridge.transf(values.sliceTill)}`)
       result = initList
     } else {
-      console.error(`The list input and slice numbers are wrong!`)
+      console.error(`[${this.data.name}] The list input and slice numbers are wrong!`)
       result = initList
     }
     bridge.store(values.slicedList, result)

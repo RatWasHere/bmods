@@ -279,7 +279,7 @@ module.exports = {
         bridge.store(values.store, `Number Format Not Supported Or Is Too Big.`)
       }
     } catch (error) {
-      console.log(error)
+      console.log(`[${this.data.name}] `, error)
       bridge.store(values.store, error)
     }
   },

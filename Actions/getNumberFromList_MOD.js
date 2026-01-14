@@ -69,7 +69,7 @@ module.exports = {
 
     inputList = inputList.map(Number).filter((number) => !isNaN(number) && isFinite(number))
     if (inputList.length < 1) {
-      console.log(`Filtered List Contains Less Than 1 Element`)
+      console.log(`[${this.data.name}] Filtered List Contains Less Than 1 Element`)
       return
     }
 

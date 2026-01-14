@@ -75,7 +75,7 @@ module.exports = {
 
     let audioBuffer = fs.readFileSync(fullPath)
     if (values.logging == true) {
-      console.log("Instance Of Buffer: ", audioBuffer instanceof Buffer)
+      console.log("[${this.data.name}] Instance Of Buffer: ", audioBuffer instanceof Buffer)
     }
 
     if (audioBuffer instanceof Buffer == true && typeof audioBuffer == "object") {
@@ -138,7 +138,7 @@ module.exports = {
           break
       }
     } else {
-      console.log(`An Error Occured After Reading The File And Can't Be Played.`)
+      console.log(`[${this.data.name}] An Error Occured After Reading The File And Can't Be Played.`)
     }
   },
 }

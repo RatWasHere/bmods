@@ -73,7 +73,7 @@ module.exports = {
     }
 
     if (isJSON(original) !== true) {
-      console.error(`Value ${original} Is Not A Valid JSON`)
+      console.error(`[${this.data.name}] Value ${original} Is Not A Valid JSON`)
       return
     }
 
@@ -82,13 +82,13 @@ module.exports = {
 
       let objectPath = bridge.transf(pathData.elementPath).trim()
 
-      objectPath = objectPath.replaceAll("..", ".")
+      objectPath = objectPath.replaceAll(/\.{2,}/g, ".")
       if (objectPath.startsWith(".")) {
         objectPath = objectPath.slice(1)
       }
 
-      if (objectPath === "" || objectPath.includes("..") || objectPath.startsWith(".") || objectPath.endsWith(".")) {
-        console.error(`Invalid path: "${objectPath}"`)
+      if (objectPath === "" || objectPath.startsWith(".") || objectPath.endsWith(".")) {
+        console.error(`[${this.data.name}] Invalid Path: "${objectPath}"`)
         continue
       }
 

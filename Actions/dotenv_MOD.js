@@ -57,7 +57,7 @@ module.exports = {
     global.dotenv = {
       ...process.env,
     }
-    console.log(`[dotenv] dotenv Initialized.`)
+    console.log(`[${this.data.name}] dotenv Initialized.`)
   },
 
   subtitle: (values, constants, thisAction) => {
@@ -72,6 +72,6 @@ module.exports = {
     for (const moduleName of this.modules) {
       await client.getMods().require(moduleName)
     }
-    console.log(`dotenv Is Automatically Started On Bot Ready!`)
+    console.log(`[${this.data.name}] dotenv Is Automatically Started On Bot Ready!`)
   },
 }

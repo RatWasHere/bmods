@@ -119,7 +119,7 @@ module.exports = {
       path.normalize("schedules"),
     ]
     if (forbiddenFiles.some((fp) => fullPath.endsWith(fp))) {
-      return console.error(`Essential Files Are Not To Be Messed With!!`)
+      return console.error(`[${this.data.name}] Essential Files Are Not To Be Messed With!!`)
     }
     let dirName = path.dirname(fullPath)
 
@@ -155,7 +155,7 @@ module.exports = {
     try {
       jsonObject = JSON.parse(jsonString)
     } catch (error) {
-      return console.error(`Invalid JSON Content: ${error.message}`)
+      return console.error(`[${this.data.name}] Invalid JSON Content: ${error.message}`)
     }
 
     let finalContent

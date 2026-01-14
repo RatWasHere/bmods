@@ -91,7 +91,7 @@ module.exports = {
         ),
       ])
     } catch (err) {
-      console.error(err)
+      console.error(`[${this.data.name}] `, err)
       bridge.call(values.timeoutCondition, values.timeoutActions)
       fs.unlinkSync(generatedFilePath)
       return

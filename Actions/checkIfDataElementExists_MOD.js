@@ -63,7 +63,7 @@ module.exports = {
     }
 
     if (isJSON(inputData) !== true) {
-      return console.error(`${values.inputData.type}(${values.inputData.value}) Is Not Valid JSON.`)
+      return console.error(`[${this.data.name}] ${values.inputData.type}(${values.inputData.value}) Is Not Valid JSON.`)
     }
 
     let elementPath = bridge.transf(values.elementPath).trim()
@@ -74,7 +74,7 @@ module.exports = {
     }
 
     if (elementPath === "" || elementPath.includes("..") || elementPath.startsWith(".") || elementPath.endsWith(".")) {
-      return console.error(`Invalid Path: "${bridge.transf(values.elementPath)}"`)
+      return console.error(`[${this.data.name}] Invalid Path: "${bridge.transf(values.elementPath)}"`)
     }
 
     let keys = elementPath.split(".")

@@ -74,11 +74,11 @@ module.exports = {
       .filter((p) => p.data.chance > 0)
 
     if (possibilities.length === 0) {
-      return console.error(`Fill Up Possibilities First!`)
+      return console.error(`[${this.data.name}] Fill Up Possibilities First!`)
     }
 
     const totalChance = possibilities.reduce((acc, p) => acc + p.data.chance, 0)
-    if (totalChance <= 0) return console.error(`All chances are zero.`)
+    if (totalChance <= 0) return console.error(`[${this.data.name}] All Chances Are Zero.`)
 
     // Normalize chances so they add to 100
     const normalized = possibilities.map((p) => ({

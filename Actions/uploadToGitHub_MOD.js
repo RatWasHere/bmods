@@ -93,7 +93,7 @@ module.exports = {
     if (remotePath.startsWith("/")) {
       remotePath = remotePath.slice(1)
     }
-    remotePath = remotePath.replaceAll("..", ".")
+    remotePath = remotePath.replaceAll(/\.{2,}/g, ".")
 
     let apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${remotePath}`
 

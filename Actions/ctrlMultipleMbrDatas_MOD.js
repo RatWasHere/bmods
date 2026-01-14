@@ -112,7 +112,7 @@ module.exports = {
 
         storedData[dataType][id][dataName] = currentData
       } catch (err) {
-        console.log(err)
+        console.log(`[${this.data.name}] `, err)
         continue
       }
     }

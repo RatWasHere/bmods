@@ -106,7 +106,7 @@ module.exports = {
 
     let responseResult
     if (!response.ok) {
-      console.log(`Fetch Error: [${response.status}] ${url}: ${response.statusText}`)
+      console.log(`[${this.data.name}] Fetch Error: [${response.status}] ${url}: ${response.statusText}`)
     } else {
       let responseText = await response.text()
       try {
