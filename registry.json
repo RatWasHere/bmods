@@ -1209,6 +1209,12 @@
       "category": "API",
       "creator": "Made with <3 by @lucxanul"
     },
+    "modifiedAwaitMessage_MOD.js": {
+      "md5": "71a04ddbd9d269973da9d573b812138c",
+      "name": "Modified Await Message",
+      "modules": [],
+      "category": "Messages"
+    },
     "modifyJsonFile_MOD.js": {
       "md5": "9e72ffdee441d50b5a908e6b98250d21",
       "name": "Modify JSON File",
@@ -1782,6 +1788,13 @@
       ],
       "category": "Utilities",
       "creator": "Acedia & qizzle"
+    },
+    "stopAwaitingMessage_MOD.js": {
+      "md5": "68ede3431c0ea62cb298b7d1a927936a",
+      "name": "Stop Awaiting Message",
+      "modules": [],
+      "category": "Messages",
+      "creator": "Acedia"
     },
     "storePlaylistInfo_MOD.js": {
       "md5": "fe53b590217317bd73935700bfcbb8c4",
