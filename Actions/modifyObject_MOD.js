@@ -206,7 +206,7 @@ module.exports = {
         objectPath = objectPath.slice(1)
       }
 
-      if (objectPath === "" || objectPath.startsWith(".") || objectPath.endsWith(".")) {
+      if (objectPath.startsWith(".") || objectPath.endsWith(".")) {
         return console.error(`[${this.data.name}] Invalid Path: "${bridge.transf(values.jsonAction.values)}"`)
       }
 

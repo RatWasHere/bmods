@@ -120,7 +120,7 @@ module.exports = {
         () => {
           values.updateUI()
         },
-        skipAnimation ? 1 : values.commonAnimation * 100
+        skipAnimation ? 1 : values.commonAnimation * 100,
       )
     }
 
@@ -266,8 +266,7 @@ module.exports = {
       objectPath = objectPath.slice(1)
     }
 
-    let isRoot = objectPath === ""
-    if (!isRoot || objectPath.startsWith(".") || objectPath.endsWith(".")) {
+    if (objectPath.startsWith(".") || objectPath.endsWith(".")) {
       return console.error(`[${this.data.name}] Invalid Path: "${bridge.transf(values.jsonAction.values)}"`)
     }
 

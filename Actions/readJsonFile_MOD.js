@@ -86,7 +86,7 @@ module.exports = {
         elementPath = elementPath.slice(1)
       }
 
-      if (elementPath === "" || elementPath.startsWith(".") || elementPath.endsWith(".")) {
+      if (elementPath.startsWith(".") || elementPath.endsWith(".")) {
         console.error(`[${this.data.name}] Invalid Path: "${elementPath}"`)
         return
       }
