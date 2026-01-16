@@ -1216,7 +1216,7 @@
       "category": "Messages"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "6cfc23465425634963987c148c4188c3",
+      "md5": "61ed9bf30d55d3c3371caca01ae022a4",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
@@ -1226,7 +1226,7 @@
       "creator": "Acedia"
     },
     "modifyObject_MOD.js": {
-      "md5": "5232e6a4f4f448ac57566a8fc33af636",
+      "md5": "fa4605ffb262fe035ec8d448360d3d0b",
       "name": "Modify JSON Object",
       "modules": [],
       "category": "JSON",
@@ -1296,7 +1296,7 @@
       "creator": "candiedapple"
     },
     "multiModifyJsonFile_MOD.js": {
-      "md5": "9fe32d8de91c491b72a086c584322958",
+      "md5": "e0ad7d0a431cf55e97889b3ad057db5a",
       "name": "Multi Modify JSON File",
       "modules": [
         "node:path",
@@ -1572,7 +1572,7 @@
       "creator": "Acedia"
     },
     "readJsonFile_MOD.js": {
-      "md5": "8f80ff850f3fcd2e21bd3bc3336448c6",
+      "md5": "73b6affd20b8af7ca5976493d2dadacf",
       "name": "Read JSON File",
       "modules": [
         "node:path",
