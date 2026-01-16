@@ -317,7 +317,7 @@
       "creator": "nitiqt"
     },
     "createJsonFile_MOD.js": {
-      "md5": "6df7613ca0bff02ed51db3046893dccf",
+      "md5": "941a474e205606f6397e10bf40d860dd",
       "name": "Create JSON File",
       "modules": [
         "node:path",
@@ -348,7 +348,7 @@
       "creator": "lik_rus"
     },
     "createObject_MOD.js": {
-      "md5": "70ca45ddc64deef1b3873fca1f74c7b5",
+      "md5": "80a8e3fa9c5bbf42d3b61f81e3961a88",
       "name": "Create JSON Object",
       "modules": [],
       "category": "JSON",
@@ -1216,7 +1216,7 @@
       "category": "Messages"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "6d42f891635cc10a70ee745c3f74b749",
+      "md5": "6cfc23465425634963987c148c4188c3",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
@@ -1226,7 +1226,7 @@
       "creator": "Acedia"
     },
     "modifyObject_MOD.js": {
-      "md5": "a3d04e45b9b1b74acdcce1e1394c6ded",
+      "md5": "5232e6a4f4f448ac57566a8fc33af636",
       "name": "Modify JSON Object",
       "modules": [],
       "category": "JSON",
