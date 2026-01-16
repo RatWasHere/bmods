@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "Create JSON Object",
@@ -91,22 +91,53 @@ module.exports = {
     }
 
     let jsonString = bridge.transf(values.content)
-    const sanitizeArrays = (str) => {
-      return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
-        const sanitized = inner
-          .split(",")
-          .map((el) => {
-            el = el.trim()
-            if (el === "") return null
-            return '"' + el.replace(/^["']|["']$/g, "").replace(/"/g, '\\"') + '"'
+    function sanitizeInput(input) {
+      const escapeControlChars = (jsonStr) => {
+        return jsonStr.replace(/"(?:\\.|[^"\\])*"/g, (match) => {
+          const inner = match.slice(1, -1)
+          const escaped = inner.replace(/[\u0000-\u001F\\"]/g, (ch) => {
+            switch (ch) {
+              case '"':
+                return '\\"'
+              case "\\":
+                return "\\\\"
+              case "\b":
+                return "\\b"
+              case "\f":
+                return "\\f"
+              case "\n":
+                return "\\n"
+              case "\r":
+                return "\\r"
+              case "\t":
+                return "\\t"
+              default:
+                return "\\u" + ch.charCodeAt(0).toString(16).padStart(4, "0")
+            }
           })
-          .filter((el) => el !== null)
-          .join(", ")
-        return `[${sanitized}]`
-      })
+          return `"${escaped}"`
+        })
+      }
+
+      const sanitizeArrays = (str) => {
+        return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
+          const sanitized = inner
+            .split(",")
+            .map((el) => {
+              el = el.trim()
+              if (el === "") return null
+              return '"' + el.replace(/^["']|["']$/g, "").replace(/"/g, '\\"') + '"'
+            })
+            .filter((el) => el !== null)
+            .join(", ")
+          return `[${sanitized}]`
+        })
+      }
+
+      return escapeControlChars(sanitizeArrays(input))
     }
 
-    jsonString = sanitizeArrays(jsonString)
+    jsonString = sanitizeInput(jsonString)
     if (!/^\s*(\[|\{)/.test(jsonString)) {
       jsonString = `"${jsonString.replace(/^["']|["']$/g, "").replace(/"/g, '\\"')}"`
     }
