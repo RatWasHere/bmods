@@ -142,30 +142,9 @@ module.exports = {
     }
 
     function sanitizeInput(input) {
-      const escapeControlChars = (jsonStr) => {
-        return jsonStr.replace(/"(?:\\.|[^"\\])*"/g, (match) => {
-          const inner = match.slice(1, -1)
-          const escaped = inner.replace(/[\u0000-\u001F\\"]/g, (ch) => {
-            switch (ch) {
-              case '"':
-                return '\\"'
-              case "\\":
-                return "\\\\"
-              case "\b":
-                return "\\b"
-              case "\f":
-                return "\\f"
-              case "\n":
-                return "\\n"
-              case "\r":
-                return "\\r"
-              case "\t":
-                return "\\t"
-              default:
-                return "\\u" + ch.charCodeAt(0).toString(16).padStart(4, "0")
-            }
-          })
-          return `"${escaped}"`
+      const escapeControlChars = (str) => {
+        return str.replace(/"(?:\\.|[^"\\])*"/g, (match) => {
+          return match.replace(/[\u0000-\u001F]/g, (ch) => "\\u" + ch.charCodeAt(0).toString(16).padStart(4, "0"))
         })
       }
 
@@ -223,16 +202,19 @@ module.exports = {
 
       let parsedContent = undefined
 
-      rawContent = sanitizeInput(rawContent)
-      if (!/^\s*(\[|\{)/.test(rawContent)) {
-        rawContent = `"${rawContent.replace(/^["']|["']$/g, "").replace(/"/g, '\\"')}"`
-      }
-
       if (actionType !== "delete") {
         try {
           parsedContent = JSON.parse(rawContent)
-        } catch (err) {
-          return console.error(`[${this.data.name}] Invalid JSON For Content: ${err.message}`)
+        } catch {
+          rawContent = sanitizeInput(rawContent)
+          if (!/^\s*(\[|\{)/.test(rawContent)) {
+            rawContent = `"${rawContent.replace(/^["']|["']$/g, "").replace(/"/g, '\\"')}"`
+          }
+          try {
+            parsedContent = JSON.parse(rawContent)
+          } catch (error) {
+            return console.error(`[${this.data.name}] Invalid JSON Content: ${error.message}`)
+          }
         }
       }
 

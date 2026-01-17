@@ -57,7 +57,7 @@ module.exports = {
     global.dotenv = {
       ...process.env,
     }
-    console.log(`[${this.data.name}] dotenv Initialized.`)
+    console.log(`[dotenv] dotenv Initialized.`)
   },
 
   subtitle: (values, constants, thisAction) => {
