@@ -317,7 +317,7 @@
       "creator": "nitiqt"
     },
     "createJsonFile_MOD.js": {
-      "md5": "941a474e205606f6397e10bf40d860dd",
+      "md5": "b98a24b65a055218be4c63dae2eb9dee",
       "name": "Create JSON File",
       "modules": [
         "node:path",
@@ -348,7 +348,7 @@
       "creator": "lik_rus"
     },
     "createObject_MOD.js": {
-      "md5": "80a8e3fa9c5bbf42d3b61f81e3961a88",
+      "md5": "c5fbdbcc65ece07e8c26d02c28e15414",
       "name": "Create JSON Object",
       "modules": [],
       "category": "JSON",
@@ -478,7 +478,7 @@
       "creator": "nitiqt"
     },
     "dotenv_MOD.js": {
-      "md5": "970eec1dfe9797b636c9d74990d0f375",
+      "md5": "d291e5c105779bc3528c398a14360fd7",
       "name": "dotenv",
       "modules": [
         "dotenv"
@@ -1216,7 +1216,7 @@
       "category": "Messages"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "61ed9bf30d55d3c3371caca01ae022a4",
+      "md5": "69ec1808c804634236ccf9c140010966",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
@@ -1226,7 +1226,7 @@
       "creator": "Acedia"
     },
     "modifyObject_MOD.js": {
-      "md5": "fa4605ffb262fe035ec8d448360d3d0b",
+      "md5": "0476925ce225be59483421dd441847ba",
       "name": "Modify JSON Object",
       "modules": [],
       "category": "JSON",
@@ -1296,7 +1296,7 @@
       "creator": "candiedapple"
     },
     "multiModifyJsonFile_MOD.js": {
-      "md5": "e0ad7d0a431cf55e97889b3ad057db5a",
+      "md5": "40bab47525d232dab263f92c6b3394d2",
       "name": "Multi Modify JSON File",
       "modules": [
         "node:path",
