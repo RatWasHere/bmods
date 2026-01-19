@@ -1,4 +1,4 @@
-modVersion = "v1.2.2"
+modVersion = "v1.2.3"
 module.exports = {
   run: async (options) => {
     const fs = require("node:fs")
@@ -62,7 +62,17 @@ module.exports = {
         return false
       }
 
-      if (commandJson.name && commandJson.type && commandJson.trigger && commandJson.actions && commandJson.customId) {
+      if (
+        commandJson.name &&
+        commandJson.type &&
+        commandJson.trigger &&
+        commandJson.actions &&
+        commandJson.customId &&
+        typeof commandJson.name == "string" &&
+        typeof commandJson.trigger == "string" &&
+        typeof commandJson.type == "string" &&
+        Array.isArray(commandJson.actions)
+      ) {
       } else {
         try {
           options.burstInform({ element: "text", text: titleCase(`⚠️ Command Validation Failed`) })
@@ -266,7 +276,7 @@ module.exports = {
                       logToConsole('File Cached For Import: ' + file.name, '#00ff00')
                     } else {
                       throw new error('Content Not Valid JSON')}
-                  } catch {logToConsole('Invalid File (Invalid JSON): ' + file.name, '#ff0000')}
+                  } catch {logToConsole('Invalid File (Invalid Command Structure): ' + file.name, '#ff0000')}
                 })
               }
             "

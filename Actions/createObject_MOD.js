@@ -1,4 +1,4 @@
-modVersion = "v1.1.0"
+modVersion = "v1.2.0"
 module.exports = {
   data: {
     name: "Create JSON Object",
@@ -92,24 +92,31 @@ module.exports = {
 
     let jsonString = bridge.transf(values.content)
     function sanitizeInput(input) {
-      const escapeControlChars = (str) => {
-        return str.replace(/"(?:\\.|[^"\\])*"/g, (match) => {
-          return match.replace(/[\u0000-\u001F]/g, (ch) => "\\u" + ch.charCodeAt(0).toString(16).padStart(4, "0"))
-        })
-      }
-
       const sanitizeArrays = (str) => {
         return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
           const sanitized = inner
             .split(",")
             .map((el) => {
               el = el.trim()
-              if (el === "") return null
+              if (!el) return null
               return '"' + el.replace(/^["']|["']$/g, "").replace(/"/g, '\\"') + '"'
             })
             .filter((el) => el !== null)
             .join(", ")
           return `[${sanitized}]`
+        })
+      }
+
+      const escapeControlChars = (str) => {
+        return str.replace(/"(?:\\.|[^"\\])*"/g, (match) => {
+          const inner = match.slice(1, -1)
+          const escaped = inner
+            .replace(/\\(?!["\\/bfnrtu])/g, "\\\\") // stray backslashes
+            .replace(/(?<!\\)\n/g, "\\n")
+            .replace(/(?<!\\)\r/g, "\\n")
+            .replace(/(?<!\\)\t/g, "\\t")
+            .replace(/[\u0000-\u001F]/g, (ch) => "\\u" + ch.charCodeAt(0).toString(16).padStart(4, "0"))
+          return `"${escaped}"`
         })
       }
 

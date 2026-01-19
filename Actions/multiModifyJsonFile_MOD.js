@@ -1,4 +1,4 @@
-modVersion = "v1.1.3"
+modVersion = "v1.2.3"
 module.exports = {
   data: {
     name: "Multi Modify JSON File",
@@ -121,32 +121,6 @@ module.exports = {
     return `Make ${values.modifications.length} Edits To ${values.pathToJson}`
   },
 
-  // script: (values) =>{
-  //   function refelm(skipAnimation){
-  //     if (values.data.jsonAction.type == "create"){
-  //       values.UI[2].element = "largeInput"
-  //       values.UI[3].element = "-"
-  //       values.UI[4].element = "html"
-  //       values.UI[5].element = "text"
-  //     } else {
-  //       values.UI[2].element = ""
-  //       values.UI[3].element = ""
-  //       values.UI[4].element = ""
-  //       values.UI[5].element = ""
-  //     }
-
-  //     setTimeout(()=>{
-  //       values.updateUI()
-  //     },skipAnimation?1:values.commonAnimation*100)
-  //   }
-
-  //   refelm(true)
-
-  //   values.events.on("change", ()=>{
-  //     refelm()
-  //   })
-  // },
-
   compatibility: ["Any"],
 
   async run(values, message, client, bridge) {
@@ -216,24 +190,31 @@ module.exports = {
     }
 
     function sanitizeInput(input) {
-      const escapeControlChars = (str) => {
-        return str.replace(/"(?:\\.|[^"\\])*"/g, (match) => {
-          return match.replace(/[\u0000-\u001F]/g, (ch) => "\\u" + ch.charCodeAt(0).toString(16).padStart(4, "0"))
-        })
-      }
-
       const sanitizeArrays = (str) => {
         return str.replace(/\[([^\]]*)\]/g, (match, inner) => {
           const sanitized = inner
             .split(",")
             .map((el) => {
               el = el.trim()
-              if (el === "") return null
+              if (!el) return null
               return '"' + el.replace(/^["']|["']$/g, "").replace(/"/g, '\\"') + '"'
             })
             .filter((el) => el !== null)
             .join(", ")
           return `[${sanitized}]`
+        })
+      }
+
+      const escapeControlChars = (str) => {
+        return str.replace(/"(?:\\.|[^"\\])*"/g, (match) => {
+          const inner = match.slice(1, -1)
+          const escaped = inner
+            .replace(/\\(?!["\\/bfnrtu])/g, "\\\\") // stray backslashes
+            .replace(/(?<!\\)\n/g, "\\n")
+            .replace(/(?<!\\)\r/g, "\\n")
+            .replace(/(?<!\\)\t/g, "\\t")
+            .replace(/[\u0000-\u001F]/g, (ch) => "\\u" + ch.charCodeAt(0).toString(16).padStart(4, "0"))
+          return `"${escaped}"`
         })
       }
 
