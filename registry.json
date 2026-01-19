@@ -317,7 +317,7 @@
       "creator": "nitiqt"
     },
     "createJsonFile_MOD.js": {
-      "md5": "b98a24b65a055218be4c63dae2eb9dee",
+      "md5": "d2f55102c3b894cc6d94ad5f1997d554",
       "name": "Create JSON File",
       "modules": [
         "node:path",
@@ -348,7 +348,7 @@
       "creator": "lik_rus"
     },
     "createObject_MOD.js": {
-      "md5": "c5fbdbcc65ece07e8c26d02c28e15414",
+      "md5": "40368347a133904cf396aa4a3b868b28",
       "name": "Create JSON Object",
       "modules": [],
       "category": "JSON",
@@ -1146,6 +1146,15 @@
       "category": "Lavalink Music",
       "creator": "TheMonDon"
     },
+    "lavalinkMultiConnection_MOD.js": {
+      "md5": "8428395bd297fd5be069392ce5dfe0e5",
+      "name": "Lavalink Multi Connection",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "Acedia"
+    },
     "limitTextLength_MOD.js": {
       "md5": "85ea7e1b009f3c6eba13906999219d61",
       "name": "Limit Text Length",
@@ -1216,7 +1225,7 @@
       "category": "Messages"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "69ec1808c804634236ccf9c140010966",
+      "md5": "2bf95a8cdb054e1a9a180d4f595f4be9",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
@@ -1226,7 +1235,7 @@
       "creator": "Acedia"
     },
     "modifyObject_MOD.js": {
-      "md5": "0476925ce225be59483421dd441847ba",
+      "md5": "08fc97c7f37c80e829424308fd0e4dd0",
       "name": "Modify JSON Object",
       "modules": [],
       "category": "JSON",
@@ -1296,7 +1305,7 @@
       "creator": "candiedapple"
     },
     "multiModifyJsonFile_MOD.js": {
-      "md5": "40bab47525d232dab263f92c6b3394d2",
+      "md5": "3722e4922b473e6f304e0b4784e564c5",
       "name": "Multi Modify JSON File",
       "modules": [
         "node:path",
@@ -1964,7 +1973,7 @@
       "author": "Acedia",
       "files": {
         "data.json": "1c02e739262f14ed13f5a17566488cd3",
-        "main.js": "7315443402e94a2e46dbcefa99394f19",
+        "main.js": "03014e9b91c0cb5271ab1afeb74d7591",
         "startup.js": "d177790ae73f2ab2fb17197b3864fc75",
         "startup_info.json": "f00aec4bef3d34f6dde5277e0130aafe"
       }
