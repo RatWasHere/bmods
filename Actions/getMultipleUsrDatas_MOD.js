@@ -49,6 +49,7 @@ module.exports = {
         },
       },
     },
+    "-",
     {
       element: "text",
       text: modVersion,

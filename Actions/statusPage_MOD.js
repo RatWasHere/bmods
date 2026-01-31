@@ -84,7 +84,7 @@ module.exports = {
     {
       element: "toggle",
       storeAs: "autoUpdateFiles",
-      name: "Check For Lastest Versions Of Files?",
+      name: "Check For Latest Versions Of Files?",
     },
     "-",
     {
@@ -540,8 +540,8 @@ module.exports = {
               },
             },
             null,
-            2
-          )
+            2,
+          ),
         )
       }
     })

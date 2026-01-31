@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "MongoDB Insert Document",
@@ -43,7 +43,8 @@ module.exports = {
         attribute: {
           data: {},
           name: "Attribute",
-          preview: "`${option.data.attributeKey}: ${option.data.attributeValue.type}(${option.data.attributeValue.value})`",
+          preview:
+            "`${option.data.attributeKey}: ${option.data.attributeValue.type}(${option.data.attributeValue.value ? option.data.attributeValue.value : option.data.attributeValue})`",
           UI: [
             {
               element: "input",
@@ -84,7 +85,8 @@ module.exports = {
                 attribute: {
                   data: {},
                   name: "Attribute",
-                  preview: "`${option.data.attributeKey}: ${option.data.attributeValue.type}(${option.data.attributeValue.value})`",
+                  preview:
+                    "`${option.data.attributeKey}: ${option.data.attributeValue.type}(${option.data.attributeValue.value ? option.data.attributeValue.value : option.data.attributeValue})`",
                   UI: [
                     {
                       element: "input",
@@ -159,7 +161,7 @@ module.exports = {
         () => {
           values.updateUI()
         },
-        skipAnimation ? 1 : values.commonAnimation * 100
+        skipAnimation ? 1 : values.commonAnimation * 100,
       )
     }
 
