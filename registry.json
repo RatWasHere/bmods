@@ -1727,7 +1727,7 @@
       "creator": "TheMonDon"
     },
     "setTrackedTimeRestriction_MOD.js": {
-      "md5": "fa683e2d1e404ff5b5b683dbec2abb48",
+      "md5": "ff3ac1a41a99c398c361853711f47cc0",
       "name": "Set Tracked Time Restriction",
       "modules": [],
       "category": "Control",
@@ -1973,7 +1973,7 @@
       "author": "Acedia",
       "files": {
         "data.json": "1c02e739262f14ed13f5a17566488cd3",
-        "main.js": "03014e9b91c0cb5271ab1afeb74d7591",
+        "main.js": "b197711e6cdeb855e7f06559a7b73a39",
         "startup.js": "d177790ae73f2ab2fb17197b3864fc75",
         "startup_info.json": "f00aec4bef3d34f6dde5277e0130aafe"
       }
