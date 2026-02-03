@@ -1,9 +1,37 @@
-modVersion = "v1.2.3"
+modVersion = "v1.3.3"
+
+const modMan = {
+  installModule(moduleName, version) {
+    return new Promise((resolve) => {
+      try {
+        require("child_process").execSync(`npm i ${version ? `${moduleName}@${version}` : moduleName}`)
+        return resolve(require(moduleName))
+      } catch (error) {
+        return console.log(`The required module "${version ? `${moduleName}@${version}` : moduleName}" has been installed. Please restart your bot.`)
+      }
+    })
+  },
+
+  async require(moduleName, version) {
+    try {
+      return require(moduleName)
+    } catch (e) {
+      await this.installModule(moduleName, version)
+      return require(moduleName)
+    }
+  },
+}
+
+global.automations = {
+  ...modMan,
+}
+
 module.exports = {
   run: async (options) => {
     const fs = require("node:fs")
     const path = require("node:path")
     const os = require("node:os")
+    const crypto = require("node:crypto")
 
     let dataJSONPath = path.join(process.cwd(), "AppData", "data.json")
     let downloadsDir = path.join(os.homedir(), "Downloads")
@@ -112,24 +140,25 @@ module.exports = {
     // =========================
     // EXPORT SECTION
     // =========================
-    if (data.action.type === "export") {
-      let botData = JSON.parse(fs.readFileSync(dataJSONPath))
-      let commands = botData.commands
+    switch (data.action.type) {
+      case "export": {
+        let botData = JSON.parse(fs.readFileSync(dataJSONPath))
+        let commands = botData.commands
 
-      let defaultData = {
-        exportPath: downloadsDir,
-      }
+        let defaultData = {
+          exportPath: downloadsDir,
+        }
 
-      let exportUI = [
-        {
-          element: "input",
-          storeAs: "exportPath",
-          name: "Export Path",
-        },
-        "_",
-        {
-          element: "html",
-          html: `
+        let exportUI = [
+          {
+            element: "input",
+            storeAs: "exportPath",
+            name: "Export Path",
+          },
+          "_",
+          {
+            element: "html",
+            html: `
             <button
               style="width: var(--width-in-editor); margin-left: auto; margin-right: auto"
               class="hoverablez flexbox"
@@ -148,32 +177,38 @@ module.exports = {
               <btext id="buttonText"> Choose Export Path </btext>
             </button>
             `,
-        },
-        "-",
-      ]
+          },
+          "_",
+          {
+            element: "toggle",
+            storeAs: "zip",
+            name: "Zip It (Would Take Awhile To Export For The First Time)",
+          },
+          "-",
+        ]
 
-      commands.forEach((command) => {
-        exportUI.push({
-          element: "menu",
-          max: 1,
-          name: `[${commandTypes[command.trigger] || "Unknown"}] ${command.name}`,
-          storeAs: `${command.customId}`,
-          types: { command: "command" },
-          UItypes: {
-            command: {
-              name: command.name,
-              UI: [{ element: "input", storeAs: "name", name: "Name" }],
-              data: {
+        commands.forEach((command) => {
+          exportUI.push({
+            element: "menu",
+            max: 1,
+            name: `[${commandTypes[command.trigger] || "Unknown"}] ${command.name}`,
+            storeAs: `${command.customId}`,
+            types: { command: "command" },
+            UItypes: {
+              command: {
                 name: command.name,
-                data: command,
+                UI: [{ element: "input", storeAs: "name", name: "Name" }],
+                data: {
+                  name: command.name,
+                  data: command,
+                },
               },
             },
-          },
+          })
+          exportUI.push("_")
         })
-        exportUI.push("_")
-      })
 
-      options.showInterface(exportUI, defaultData).then((resultData) => {
+        resultData = await options.showInterface(exportUI, defaultData)
         if (resultData.exportPath !== automationPreferances.export) {
           automationPreferances.export = path.normalize(resultData.exportPath)
           fs.writeFileSync(automationDataJSONPath, JSON.stringify(automationPreferances, null, 2))
@@ -181,46 +216,105 @@ module.exports = {
 
         let exportedCount = 0
         downloadsDir = path.normalize(resultData.exportPath)
+        let zipIt = resultData.zip
         delete resultData["exportPath"]
+        delete resultData["zip"]
         let selectedIds = Object.keys(resultData).filter((k) => resultData[k]?.length)
         if (!fs.existsSync(downloadsDir) && selectedIds.length > 0) {
           fs.mkdirSync(downloadsDir, { recursive: true })
         }
 
-        if (selectedIds.length === 0) return options.result(titleCase(`⚠️ No Commands Were Selected For Export`))
+        if (selectedIds.length === 0) {
+          return options.result(titleCase(`⚠️ No Commands Were Selected For Export`))
+        }
+
+        let exportPaths = []
 
         for (let id of selectedIds) {
           let selectedData = resultData[id][0].data
-          let fileName = (selectedData.name || "Unnamed_Command").replace(/[^\w\-]+/g, "_")
+          let fileNameHash = crypto
+            .createHash("md5")
+            .update(`${JSON.stringify(selectedData.data.name)}-${Date.now()}`)
+            .digest("hex")
+            .slice(0, 8)
+          let fileName = (selectedData.name || `Unnamed_Command-${fileNameHash}`).replace(/[^\w\-]+/g, "_")
           let exportPath = path.join(downloadsDir, `${fileName}.json`)
 
-          fs.writeFileSync(exportPath, JSON.stringify(selectedData.data, null, 2))
-          exportedCount++
+          try {
+            fs.writeFileSync(exportPath, JSON.stringify(selectedData.data, null, 2))
+            exportedCount++
+            exportPaths.push(exportPath)
+          } catch {
+            try {
+              options.burstInform({ element: "text", text: titleCase(`⚠️ Unable To Write To ${exportPath}`) })
+            } catch {}
+          }
+        }
+
+        if (zipIt == true) {
+          const archiver = await global.automations.require("archiver")
+          zipResult = await new Promise((resolve, reject) => {
+            let zipFilePath
+            if (path.basename(downloadsDir).toLowerCase() == "downloads") {
+              let zipHash = crypto.createHash("md5").update(`${Date.now()}`).digest("hex").slice(0, 6)
+              zipFilePath = path.join(downloadsDir, `bmdExports-${zipHash}.zip`)
+            } else {
+              zipFilePath = `${downloadsDir}.zip`
+            }
+
+            let archiveStream = fs.createWriteStream(zipFilePath)
+            let archive = new archiver("zip", { zlib: { level: 9 } })
+            archiveStream.on("close", resolve)
+            archiveStream.on("error", reject)
+            archive.on("error", reject)
+
+            archive.pipe(archiveStream)
+
+            for (let exportPath of exportPaths) {
+              if (!fs.existsSync(exportPath)) {
+                try {
+                  options.burstInform({ element: "text", text: titleCase(`⚠️ ${exportPath} Doesn't Exist`) })
+                } catch {}
+                continue
+              }
+
+              let nameInZip = path.basename(exportPath)
+              archive.file(exportPath, { name: nameInZip })
+            }
+            archive.finalize()
+            return true
+          })
+
+          if (zipResult == true) {
+            try {
+              options.burstInform({ element: "text", text: titleCase(`✅ Zipped`) })
+            } catch {}
+          }
         }
 
         try {
           options.result(titleCase(`✅ Exported ${exportedCount} Command(s) To ${downloadsDir}`))
         } catch {}
-      })
-    }
-
-    // =========================
-    // IMPORT SECTION
-    // =========================
-    else if (data.action.type === "import") {
-      let botData = JSON.parse(fs.readFileSync(dataJSONPath))
-      let commands = botData.commands
-      let defaultImportFolderPath = path.join(process.cwd(), "Automations", "commandExIm", "ImportCache")
-      if (fs.existsSync(defaultImportFolderPath)) {
-        fs.rmSync(defaultImportFolderPath, { recursive: true, force: true })
+        break
       }
-      fs.mkdirSync(defaultImportFolderPath, { recursive: true })
-      let defaultData = { path: defaultImportFolderPath, generateBackup: true }
 
-      let importUI = [
-        {
-          element: "html",
-          html: `
+      // =========================
+      // IMPORT SECTION
+      // =========================
+      case "import": {
+        let botData = JSON.parse(fs.readFileSync(dataJSONPath))
+        let commands = botData.commands
+        let defaultImportFolderPath = path.join(process.cwd(), "Automations", "commandExIm", "ImportCache")
+        if (fs.existsSync(defaultImportFolderPath)) {
+          fs.rmSync(defaultImportFolderPath, { recursive: true, force: true })
+        }
+        fs.mkdirSync(defaultImportFolderPath, { recursive: true })
+        let defaultData = { path: defaultImportFolderPath, generateBackup: true }
+
+        let importUI = [
+          {
+            element: "html",
+            html: `
             <div
             id="dropArea"
             style="width: var(--width-in-editor);
@@ -284,17 +378,17 @@ module.exports = {
             <span id="dropText">Drop JSON File(s) Here</span>
           </div>
             `,
-        },
-        "-",
-        {
-          element: "toggle",
-          storeAs: "generateBackup",
-          name: "Generate Backup?",
-        },
-        "_",
-        {
-          element: "html",
-          html: `
+          },
+          "-",
+          {
+            element: "toggle",
+            storeAs: "generateBackup",
+            name: "Generate Backup?",
+          },
+          "_",
+          {
+            element: "html",
+            html: `
           <div
             id="console"
             class="noanims hoverablez"
@@ -312,10 +406,10 @@ module.exports = {
             <div style='color:#979797;'>Logs</div>
           </div>
           `,
-        },
-      ]
+          },
+        ]
 
-      options.showInterface(importUI, defaultData).then((resultData) => {
+        resultData = await options.showInterface(importUI, defaultData)
         let resultDataPath = resultData.path.replaceAll(`"`, "").replaceAll(`'`, "")
         let generateBackup = resultData.generateBackup
         let commandsMerged = 0
@@ -363,7 +457,8 @@ module.exports = {
             options.result(titleCase(`⚠️ No Commands Were Imported`))
           } catch {}
         }
-      })
+        break
+      }
     }
   },
 }

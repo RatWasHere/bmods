@@ -1,8 +1,9 @@
-modVersion = "v1.2.2"
-
+modVersion = "v1.3.2"
+const crypto = require("node:crypto")
 module.exports = {
   data: {
     name: "Set Tracked Time Restriction",
+    identifier: crypto.randomBytes(8).toString("hex").match(/.{3}/g).join("-").slice(0, 15),
   },
   aliases: ["Set Cooldown", "Cooldown", "Command Cooldown"],
   modules: [],
@@ -43,6 +44,12 @@ module.exports = {
       element: "",
       storeAs: "user",
       name: "User To Restrict",
+    },
+    "_",
+    {
+      element: "input",
+      storeAs: "identifier",
+      name: "Restriction Identifier",
     },
     "-",
     {
@@ -120,7 +127,7 @@ module.exports = {
         () => {
           values.updateUI()
         },
-        skipAnimation ? 1 : values.commonAnimation * 100
+        skipAnimation ? 1 : values.commonAnimation * 100,
       )
     }
 
@@ -220,7 +227,11 @@ module.exports = {
     let restrictionData = bridge.data.IO.restrictions.get() || {}
     let currentTime = Date.now()
     let targetType = values.target.type
-    let commandId = bridge.data.commandID
+    let commandId = bridge.transf(values.identifier)
+
+    if (!commandId || commandId == "") {
+      return console.log(`[${this.data.name}] A Identifier Is Needed`)
+    }
 
     let targetId
 
