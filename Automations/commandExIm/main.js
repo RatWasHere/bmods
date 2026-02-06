@@ -1,4 +1,4 @@
-modVersion = "v1.3.3"
+modVersion = "v1.3.4"
 
 const modMan = {
   installModule(moduleName, version) {
@@ -20,10 +20,6 @@ const modMan = {
       return require(moduleName)
     }
   },
-}
-
-global.automations = {
-  ...modMan,
 }
 
 module.exports = {
@@ -252,7 +248,7 @@ module.exports = {
         }
 
         if (zipIt == true) {
-          const archiver = await global.automations.require("archiver")
+          const archiver = await modMan.require("archiver")
           zipResult = await new Promise((resolve, reject) => {
             let zipFilePath
             if (path.basename(downloadsDir).toLowerCase() == "downloads") {

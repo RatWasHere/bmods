@@ -146,13 +146,16 @@ module.exports = {
           console.log(`[${this.data.name}] Connected To Lavalink Node: ${node.id}`)
         })
         .on(`disconnect`, (node, reason) => {
-          console.warn(`[${this.data.name}] Disconnected From Lavalink Node: ${node.id}, Reason: ${JSON.stringify(reason)}`)
+          console.log(`[${this.data.name}] Disconnected From Lavalink Node: ${node.id}, Reason: ${JSON.stringify(reason)}`)
         })
         .on(`error`, (node, error) => {
-          console.error(`[${this.data.name}] Lavalink Node ${node.id} Error:`, error)
+          console.log(`[${this.data.name}] Lavalink Node ${node.id} Error: ${error}`)
         })
         .on(`reconnecting`, (node) => {
-          console.warn(`[${this.data.name}] Reconnecting To Lavalink Node: ${node.id}`)
+          console.log(`[${this.data.name}] Reconnecting To Lavalink Node: ${node.id}`)
+        })
+        .on(`reconnectinprogress`, (node) => {
+          console.log(`[${this.data.name}] Attemping Reconnection To Lavalink Node: ${node.id}`)
         })
 
       client.on(`packet`, (packet) => {

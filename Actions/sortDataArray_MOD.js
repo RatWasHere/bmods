@@ -1,11 +1,11 @@
 modVersion = "v1.0.0"
 module.exports = {
   data: {
-    name: "Sort Data",
+    name: "Sort Data Array",
   },
-  aliases: ["Sort JSON Data"],
+  aliases: ["Sort JSON Array"],
   modules: [],
-  category: "Data",
+  category: "Lists",
   info: {
     source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
     creator: "Acedia",
@@ -14,8 +14,8 @@ module.exports = {
   UI: [
     {
       element: "variable",
-      storeAs: "inputJSON",
-      name: "Data",
+      storeAs: "dataArray",
+      name: "JSON Data Array",
     },
     "-",
     {
@@ -49,7 +49,7 @@ module.exports = {
     {
       element: "store",
       storeAs: "sorted",
-      name: "Store Sorted Data As",
+      name: "Store Sorted Data Array As",
     },
     "-",
     {
@@ -75,10 +75,6 @@ module.exports = {
       return testObject != undefined && typeof testObject === "object" && testObject.constructor === Object
     }
 
-    let inputJSON = bridge.get(values.inputJSON)
-    if (isJSON(inputJSON) == false) {
-      return `Input Data Is Not Valid JSON`
-    }
     let limit = parseInt(bridge.transf(values.limit))
     let attributePath
     if (values.attribute) {
@@ -91,16 +87,18 @@ module.exports = {
     let sortType = bridge.transf(values.sortType.type)
     let defaultValue = bridge.transf(values.defaultValue)
 
-    let entries = Object.entries(inputJSON)
+    let entries = bridge.get(values.dataArray)
+    if (!entries || !Array.isArray(entries)) {
+      return console.log(`[${this.data.name}] Input Is Not An Array`)
+    }
+
+    if (!entries.every(isJSON)) {
+      return console.log(`[${this.data.name}] One Or More Of The Elements Is Not A JSON Object`)
+    }
+
     entries.sort((a, b) => {
-      let idA = a[0]
-      let idB = b[0]
-
-      let elA = a[1]
-      let elB = b[1]
-
-      let valA = elA
-      let valB = elB
+      let valA = a
+      let valB = b
 
       if (values.attribute) {
         for (let part of attributePathParts) {
@@ -131,7 +129,7 @@ module.exports = {
       entries = entries.slice(0, limit)
     }
 
-    let sortedData = Object.fromEntries(entries)
-    bridge.store(values.sorted, sortedData)
+    // let sortedData = Object.fromEntries(entries)
+    bridge.store(values.sorted, entries)
   },
 }
