@@ -262,6 +262,15 @@
       "category": "Files",
       "creator": "Rat"
     },
+    "controlLavalinkMusic2_MOD.js": {
+      "md5": "5afe4e1b41735396e48197b3d311c84e",
+      "name": "Control Lavalink Music 2",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "Acedia"
+    },
     "controlLavalinkMusic_MOD.js": {
       "md5": "f821d5eef9cadf3d6a8bc909d69001c8",
       "name": "Control Lavalink Music",
@@ -510,6 +519,13 @@
       "modules": [],
       "category": "Bot",
       "creator": "nitiqt"
+    },
+    "editTrackedTimeRestriction_MOD.js": {
+      "md5": "b6800ec4fe20237b4b2436d29a01a2a0",
+      "name": "Edit Tracked Time Restriction",
+      "modules": [],
+      "category": "Control",
+      "creator": "Acedia"
     },
     "elevenlabs_MOD.js": {
       "md5": "0a59581d2687c09878f0096681fb7177",
@@ -1147,7 +1163,7 @@
       "creator": "TheMonDon"
     },
     "lavalinkMultiConnection_MOD.js": {
-      "md5": "8428395bd297fd5be069392ce5dfe0e5",
+      "md5": "90012ddc99429f791c143bc2707c94d7",
       "name": "Lavalink Multi Connection",
       "modules": [
         "lavalink-client"
@@ -1740,11 +1756,25 @@
       "category": "Lists",
       "creator": "Acedia"
     },
+    "sortDataArray_MOD.js": {
+      "md5": "00f20a365ea1075d7839e3938bcf741b",
+      "name": "Sort Data Array",
+      "modules": [],
+      "category": "Lists",
+      "creator": "Acedia"
+    },
     "sortData_MOD.js": {
-      "md5": "f72eabf8fcfbee83ae872be6140e3238",
+      "md5": "8cfbe6d540765be1ac7e711508cecede",
       "name": "Sort Data",
       "modules": [],
       "category": "Data",
+      "creator": "Acedia"
+    },
+    "splitListIntoChunks_MOD.js": {
+      "md5": "0b59f4b8ebb3e559028cfb8569298b3c",
+      "name": "Split List Into Chunks",
+      "modules": [],
+      "category": "Lists",
       "creator": "Acedia"
     },
     "sqliteQuery_MOD.js": {
@@ -1973,9 +2003,19 @@
       "author": "Acedia",
       "files": {
         "data.json": "1c02e739262f14ed13f5a17566488cd3",
-        "main.js": "b197711e6cdeb855e7f06559a7b73a39",
+        "main.js": "795a64c707d83c22eb673ddbe7007e01",
         "startup.js": "d177790ae73f2ab2fb17197b3864fc75",
         "startup_info.json": "f00aec4bef3d34f6dde5277e0130aafe"
+      }
+    },
+    "prepProject": {
+      "name": "Prepare Project",
+      "author": "Acedia",
+      "files": {
+        "data.json": "a17c2d39f0df11353d09ca436240480c",
+        "main.js": "1f6e3558a94cc4a5372a0523a9094ea3",
+        "startup.js": "6fe8b1bfb8ec56b9e14a8d6476ba6f9d",
+        "startup_info.json": "c8801f67b32c43a8f1b5bbb0b99a49c1"
       }
     }
   },
