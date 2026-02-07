@@ -38,7 +38,7 @@ module.exports = {
 
   subtitle: (values, constants, thisAction) => {
     // To use thisAction, constants must also be present
-    return `Split ${values.inputList.type}(${values.inputList.value}) Into ${value.chunkSize} Element Chunks`
+    return `Split ${values.inputList.type}(${values.inputList.value}) Into ${values.chunkSize} Element Chunks`
   },
 
   compatibility: ["Any"],
