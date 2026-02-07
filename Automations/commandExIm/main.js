@@ -1,4 +1,4 @@
-modVersion = "v1.3.4"
+modVersion = "v1.3.5"
 
 const modMan = {
   installModule(moduleName, version) {
@@ -133,9 +133,7 @@ module.exports = {
       },
     ])
 
-    // =========================
-    // EXPORT SECTION
-    // =========================
+    let elementTab = document.getElementById("commandExImQuickAccess")
     switch (data.action.type) {
       case "export": {
         let botData = JSON.parse(fs.readFileSync(dataJSONPath))
@@ -226,6 +224,11 @@ module.exports = {
 
         let exportPaths = []
 
+        if (elementTab) {
+          elementTab.innerHTML = "Export/Import (Exporting...)"
+          await new Promise((resolve) => setTimeout(resolve, 250))
+        }
+
         for (let id of selectedIds) {
           let selectedData = resultData[id][0].data
           let fileNameHash = crypto
@@ -248,6 +251,10 @@ module.exports = {
         }
 
         if (zipIt == true) {
+          if (elementTab) {
+            elementTab.innerHTML = "Export/Import (Zipping...)"
+            await new Promise((resolve) => setTimeout(resolve, 250))
+          }
           const archiver = await modMan.require("archiver")
           zipResult = await new Promise((resolve, reject) => {
             let zipFilePath
@@ -282,21 +289,28 @@ module.exports = {
           })
 
           if (zipResult == true) {
+            if (elementTab) {
+              elementTab.innerHTML = "Export/Import (Zipped)"
+              await new Promise((resolve) => setTimeout(resolve, 250))
+            }
             try {
               options.burstInform({ element: "text", text: titleCase(`✅ Zipped`) })
             } catch {}
           }
         }
 
+        if (elementTab) {
+          elementTab.innerHTML = "Export/Import (Complete)"
+          setTimeout(() => {
+            elementTab.innerHTML = "Export/Import"
+          }, 500)
+        }
         try {
           options.result(titleCase(`✅ Exported ${exportedCount} Command(s) To ${downloadsDir}`))
         } catch {}
         break
       }
 
-      // =========================
-      // IMPORT SECTION
-      // =========================
       case "import": {
         let botData = JSON.parse(fs.readFileSync(dataJSONPath))
         let commands = botData.commands
@@ -411,6 +425,10 @@ module.exports = {
         let commandsMerged = 0
 
         if (generateBackup) {
+          if (elementTab) {
+            elementTab.innerHTML = "Export/Import (Backing Up...)"
+            await new Promise((resolve) => setTimeout(resolve, 250))
+          }
           let projectDir = botData.prjSrc
           let backupPath = path.join(projectDir, "backup_data.json")
           fs.writeFileSync(backupPath, JSON.stringify(botData, null, 2), "utf8")
@@ -424,6 +442,11 @@ module.exports = {
           stats = fs.statSync(resultDataPath)
         } catch {
           return options.result(titleCase(`⚠️ Path ${resultDataPath} Doesn't Exist`))
+        }
+
+        if (elementTab) {
+          elementTab.innerHTML = "Export/Import (Importing...)"
+          await new Promise((resolve) => setTimeout(resolve, 250))
         }
 
         if (stats.isDirectory()) {
@@ -444,11 +467,23 @@ module.exports = {
         fs.rmSync(defaultImportFolderPath, { recursive: true, force: true })
 
         if (commandsMerged > 0) {
+          if (elementTab) {
+            elementTab.innerHTML = "Export/Import (Complete)"
+            setTimeout(() => {
+              elementTab.innerHTML = "Export/Import"
+            }, 500)
+          }
           try {
             options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`))
           } catch {}
           setTimeout(() => location.reload(), 1000)
         } else {
+          if (elementTab) {
+            elementTab.innerHTML = "Export/Import (No Imports)"
+            setTimeout(() => {
+              elementTab.innerHTML = "Export/Import"
+            }, 500)
+          }
           try {
             options.result(titleCase(`⚠️ No Commands Were Imported`))
           } catch {}
