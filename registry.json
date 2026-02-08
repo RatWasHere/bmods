@@ -263,7 +263,7 @@
       "creator": "Rat"
     },
     "controlLavalinkMusic2_MOD.js": {
-      "md5": "5afe4e1b41735396e48197b3d311c84e",
+      "md5": "df1aefbc9e42ad0ae996a0744daf864b",
       "name": "Control Lavalink Music 2",
       "modules": [
         "lavalink-client"
@@ -1163,7 +1163,7 @@
       "creator": "TheMonDon"
     },
     "lavalinkMultiConnection_MOD.js": {
-      "md5": "90012ddc99429f791c143bc2707c94d7",
+      "md5": "e5ad5253e21cb9ebfd318d311331c8fa",
       "name": "Lavalink Multi Connection",
       "modules": [
         "lavalink-client"
@@ -1441,7 +1441,7 @@
       "creator": "Acedia"
     },
     "playLavalinkMusicByObject_MOD.js": {
-      "md5": "59f02916f07cf30658413430b21eabd9",
+      "md5": "28a48c35780749b5a4737647c4634735",
       "name": "Play Lavalink Music Via Track Object",
       "modules": [
         "lavalink-client"
@@ -1656,7 +1656,7 @@
       "creator": "qschnitzel"
     },
     "searchLavalinkMusic_MOD.js": {
-      "md5": "aba888d08d4d752bbb6cf86f8704d236",
+      "md5": "f6e1b2e9b2e0de6ed049e6c8b92a60dd",
       "name": "Search Lavalink Music",
       "modules": [
         "lavalink-client"
