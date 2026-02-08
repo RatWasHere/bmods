@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.1"
 module.exports = {
   data: {
     name: "Search Lavalink Music",
@@ -63,7 +63,26 @@ module.exports = {
 
     if (!client.lavalink.nodeManager.nodes.size) {
       console.log(`[${this.data.name}] No Lavalink Connection Found, Please Connect First.`)
-      return bridge.runner(values.ifError, values.ifErrorActions)
+      await bridge.runner(values.ifError, values.ifErrorActions)
+      return
+    }
+
+    let node
+    if (client.lavalink.bmdManager) {
+      function getHealthyNode(client) {
+        const nodes = [...client.lavalink.bmdManager.states.active.values()].filter((n) => n.connected)
+
+        if (!nodes.length) return null
+
+        return nodes.sort((a, b) => a.stats.playingPlayers - b.stats.playingPlayers)[0]
+      }
+
+      node = getHealthyNode(client)
+      if (!node) {
+        console.log(`[${this.data.name}] No Healthy Lavalink Nodes Found.`)
+        await bridge.runner(values.ifError, values.ifErrorActions)
+        return
+      }
     }
 
     try {
@@ -74,6 +93,7 @@ module.exports = {
           guildId: bridge.guild.id,
           voiceChannelId: voiceChannel.id,
           textChannelId: message.channel.id,
+          node,
         })
       }
 
@@ -82,20 +102,21 @@ module.exports = {
           query,
           source: "ytsearch",
         },
-        message.author || message.user
+        message.author || message.user,
       )
 
       if (!result || !result.tracks || result.tracks.length === 0) {
         console.log(`[${this.data.name}] No Tracks Found For The Query:`, query)
-        return bridge.runner(values.ifError, values.ifErrorActions)
+        await bridge.call(values.ifError, values.ifErrorActions)
+        return
       }
 
       bridge.store(values.store, result)
       bridge.store(values.storeLoadType, result.loadType)
       bridge.store(values.storeTracks, result.tracks)
     } catch (error) {
-      console.log(`[${this.data.name}] Lavalink Music Error`, error)
-      bridge.runner(values.ifError, values.ifErrorActions)
+      console.log(`[${this.data.name}] ${node.id} Lavalink Music Error`, error)
+      await bridge.call(values.ifError, values.ifErrorActions)
     }
   },
 }

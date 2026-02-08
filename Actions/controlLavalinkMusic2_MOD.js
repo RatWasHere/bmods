@@ -32,7 +32,8 @@ module.exports = {
         resume: { name: "Resume Music", field: false },
         stop: { name: "Stop Music Playback", field: false },
         destroy: { name: "Destroy Player", field: false },
-        connect: { name: "Connect Player (Refresh Connection)", field: false },
+        connect: { name: "Connect Player (Same Node)", field: false },
+        connectDifferent: { name: "Connect Player (Change Node)", field: false },
         volume: { name: "Set Volume", field: true },
         skip: { name: "Skip Current Track", field: false },
         skipTo: { name: "Skip To Track #", field: true, placeholder: "#" },
@@ -147,6 +148,14 @@ module.exports = {
       return console.error(`[${this.data.name}] Player Not Found`)
     }
 
+    function getHealthyNode(client) {
+      const nodes = [...client.lavalink.bmdManager.states.active.values()].filter((n) => n.connected)
+
+      if (!nodes.length) return null
+
+      return nodes.sort((a, b) => a.stats.playingPlayers - b.stats.playingPlayers)[0]
+    }
+
     switch (actionType) {
       case "skip": {
         if (player.queue.tracks.length == 0) {
@@ -228,6 +237,27 @@ module.exports = {
 
       case "connect": {
         await player.connect()
+        break
+      }
+
+      case "connectDifferent": {
+        if (client.lavalink.bmdManager) {
+          await player.destroy()
+          let node = getHealthyNode(client)
+          if (!node) {
+            console.log(`[${this.data.name}] No Healthy Lavalink Nodes Found.`)
+            return
+          }
+          player = client.lavalink.createPlayer({
+            guildId: bridge.guild.id,
+            voiceChannelId: voiceChannel.id,
+            textChannelId: message.channel.id,
+            node,
+          })
+          await player.connect()
+        } else {
+          console.log(`[${this.data.name}] Connect Player (Change Node) Is A Option Exclusive To The Lavalink Multi Connection Mod`)
+        }
         break
       }
 
