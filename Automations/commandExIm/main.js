@@ -1,4 +1,4 @@
-modVersion = "v1.3.5"
+modVersion = "v1.4.5"
 
 const modMan = {
   installModule(moduleName, version) {
@@ -139,10 +139,6 @@ module.exports = {
         let botData = JSON.parse(fs.readFileSync(dataJSONPath))
         let commands = botData.commands
 
-        let defaultData = {
-          exportPath: downloadsDir,
-        }
-
         let exportUI = [
           {
             element: "input",
@@ -174,32 +170,47 @@ module.exports = {
           },
           "_",
           {
-            element: "toggle",
-            storeAs: "zip",
-            name: "Zip It (Would Take Awhile To Export For The First Time)",
+            element: "toggleGroup",
+            storeAs: ["zip", "inverse"],
+            nameSchemes: ["Zip It", "Inverse Selection"],
+          },
+          "-",
+          {
+            element: "text",
+            text: `<div style="text-align: center">
+            Enabling "Zip It" Will Make Create A Zip File Of The Exported Commands<br>
+            Enabling "Inverse Selection" Will Export Those Not Selected
+            </div>
+            `,
           },
           "-",
         ]
 
+        let defaultData = {
+          exportPath: downloadsDir,
+        }
+
         commands.forEach((command) => {
-          exportUI.push({
-            element: "menu",
-            max: 1,
-            name: `[${commandTypes[command.trigger] || "Unknown"}] ${command.name}`,
-            storeAs: `${command.customId}`,
-            types: { command: "command" },
-            UItypes: {
-              command: {
-                name: command.name,
-                UI: [{ element: "input", storeAs: "name", name: "Name" }],
-                data: {
+          exportUI.push(
+            {
+              element: "menu",
+              max: 1,
+              name: `[${commandTypes[command.trigger] || "Unknown"}] ${command.name}`,
+              storeAs: `${command.customId}`,
+              types: { command: "command" },
+              UItypes: {
+                command: {
                   name: command.name,
-                  data: command,
+                  UI: [{ element: "input", storeAs: "name", name: "Name" }],
+                  data: {
+                    name: command.name,
+                    data: command,
+                  },
                 },
               },
             },
-          })
-          exportUI.push("_")
+            "_",
+          )
         })
 
         resultData = await options.showInterface(exportUI, defaultData)
@@ -211,9 +222,27 @@ module.exports = {
         let exportedCount = 0
         downloadsDir = path.normalize(resultData.exportPath)
         let zipIt = resultData.zip
+        let inverseSelection = resultData.inverse
         delete resultData["exportPath"]
         delete resultData["zip"]
-        let selectedIds = Object.keys(resultData).filter((k) => resultData[k]?.length)
+        delete resultData["inverse"]
+        let selectedIds = Object.keys(resultData).filter((commandId) => resultData[commandId]?.length > 0)
+        if (inverseSelection == true) {
+          let botData = JSON.parse(fs.readFileSync(dataJSONPath))
+          let commands = botData.commands
+          selectedIds = Object.keys(resultData).filter((commandId) => resultData[commandId]?.length == 0)
+          for (let selectedId of selectedIds) {
+            resultData[selectedId] = [
+              {
+                data: {
+                  data: commands.find((command) => command.customId == selectedId),
+                  name: commands.find((command) => command.customId == selectedId).name,
+                },
+              },
+            ]
+          }
+        }
+
         if (!fs.existsSync(downloadsDir) && selectedIds.length > 0) {
           fs.mkdirSync(downloadsDir, { recursive: true })
         }
@@ -226,7 +255,7 @@ module.exports = {
 
         if (elementTab) {
           elementTab.innerHTML = "Export/Import (Exporting...)"
-          await new Promise((resolve) => setTimeout(resolve, 250))
+          await new Promise((resolve) => setTimeout(resolve, 300))
         }
 
         for (let id of selectedIds) {
@@ -250,10 +279,15 @@ module.exports = {
           }
         }
 
+        if (elementTab) {
+          elementTab.innerHTML = `Export/Import (Exported ${exportedCount} Files)`
+          await new Promise((resolve) => setTimeout(resolve, 300))
+        }
+
         if (zipIt == true) {
           if (elementTab) {
             elementTab.innerHTML = "Export/Import (Zipping...)"
-            await new Promise((resolve) => setTimeout(resolve, 250))
+            await new Promise((resolve) => setTimeout(resolve, 300))
           }
           const archiver = await modMan.require("archiver")
           zipResult = await new Promise((resolve, reject) => {
@@ -291,7 +325,7 @@ module.exports = {
           if (zipResult == true) {
             if (elementTab) {
               elementTab.innerHTML = "Export/Import (Zipped)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 300))
             }
             try {
               options.burstInform({ element: "text", text: titleCase(`✅ Zipped`) })
@@ -303,7 +337,7 @@ module.exports = {
           elementTab.innerHTML = "Export/Import (Complete)"
           setTimeout(() => {
             elementTab.innerHTML = "Export/Import"
-          }, 500)
+          }, 300)
         }
         try {
           options.result(titleCase(`✅ Exported ${exportedCount} Command(s) To ${downloadsDir}`))
@@ -427,7 +461,7 @@ module.exports = {
         if (generateBackup) {
           if (elementTab) {
             elementTab.innerHTML = "Export/Import (Backing Up...)"
-            await new Promise((resolve) => setTimeout(resolve, 250))
+            await new Promise((resolve) => setTimeout(resolve, 300))
           }
           let projectDir = botData.prjSrc
           let backupPath = path.join(projectDir, "backup_data.json")
@@ -446,7 +480,7 @@ module.exports = {
 
         if (elementTab) {
           elementTab.innerHTML = "Export/Import (Importing...)"
-          await new Promise((resolve) => setTimeout(resolve, 250))
+          await new Promise((resolve) => setTimeout(resolve, 300))
         }
 
         if (stats.isDirectory()) {
@@ -468,10 +502,14 @@ module.exports = {
 
         if (commandsMerged > 0) {
           if (elementTab) {
+            elementTab.innerHTML = `Export/Import (${commandsMerged} Files Imported)`
+            await new Promise((resolve) => setTimeout(resolve, 300))
+          }
+          if (elementTab) {
             elementTab.innerHTML = "Export/Import (Complete)"
             setTimeout(() => {
               elementTab.innerHTML = "Export/Import"
-            }, 500)
+            }, 300)
           }
           try {
             options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`))
@@ -482,7 +520,7 @@ module.exports = {
             elementTab.innerHTML = "Export/Import (No Imports)"
             setTimeout(() => {
               elementTab.innerHTML = "Export/Import"
-            }, 500)
+            }, 300)
           }
           try {
             options.result(titleCase(`⚠️ No Commands Were Imported`))
