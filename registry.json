@@ -363,6 +363,13 @@
       "category": "JSON",
       "creator": "Acedia"
     },
+    "createPagesFromList_MOD.js": {
+      "md5": "93b9a3697c0828eda3fdd8274726b763",
+      "name": "Create Pages From List",
+      "modules": [],
+      "category": "Lists",
+      "creator": "fusionist__"
+    },
     "createSelfContainedAnchor_MOD.js": {
       "md5": "eb3a294999cf1d05498c0afd7351fe7e",
       "name": "Create Self-Contained Anchor",
