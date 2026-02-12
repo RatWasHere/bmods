@@ -1509,6 +1509,13 @@
       "category": "API",
       "creator": "qschnitzel"
     },
+    "publishAnnouncementMessage_MOD.js": {
+      "md5": "8a9dd0f37e574a444e0cda49199f1db1",
+      "name": "Publish Announcement Message",
+      "modules": [],
+      "category": "Messages",
+      "creator": "fusionist__"
+    },
     "pushLinkedRolesMetadata_MOD.js": {
       "md5": "15189d2d8e0d83b45531aec36b81ec8c",
       "name": "Push Linked Roles Metadata",
