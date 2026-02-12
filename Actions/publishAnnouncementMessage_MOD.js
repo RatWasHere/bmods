@@ -3,6 +3,9 @@ module.exports = {
   data: {
     name: "Publish Announcement Message"
   },
+  info: {
+    creator: "fusionist__",
+  },
   UI: [
     {
       element: "message",
