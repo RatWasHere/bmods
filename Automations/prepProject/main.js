@@ -57,7 +57,7 @@ module.exports = {
             console.log("Downloading Scripts")
             if (elementTab) {
               elementTab.innerHTML = "Prep (Downloading Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
             let scriptFilePath = path.join(projectFolder, "start.bat")
             let persistScriptFilePath = path.join(projectFolder, "start_persist.bat")
@@ -74,7 +74,7 @@ module.exports = {
             } catch {}
             if (elementTab) {
               elementTab.innerHTML = "Prep (Downloaded Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
           } catch (err) {
             try {
@@ -82,7 +82,7 @@ module.exports = {
             } catch {}
             if (elementTab) {
               elementTab.innerHTML = "Prep (Something Went Wrong...)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
           }
           break
@@ -93,7 +93,7 @@ module.exports = {
             console.log("Downloading Scripts")
             if (elementTab) {
               elementTab.innerHTML = "Prep (Downloading Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
 
             let scriptFilePath = path.join(projectFolder, "start.sh")
@@ -115,7 +115,7 @@ module.exports = {
             } catch {}
             if (elementTab) {
               elementTab.innerHTML = "Prep (Downloaded Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
           } catch (err) {
             try {
@@ -123,7 +123,7 @@ module.exports = {
             } catch {}
             if (elementTab) {
               elementTab.innerHTML = "Prep (Something Went Wrong...)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
           }
           break
@@ -134,7 +134,7 @@ module.exports = {
             console.log("Downloading Scripts")
             if (elementTab) {
               elementTab.innerHTML = "Prep (Downloading Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
 
             let scriptFilePath = path.join(projectFolder, "start.command")
@@ -156,7 +156,7 @@ module.exports = {
             } catch {}
             if (elementTab) {
               elementTab.innerHTML = "Prep (Downloaded Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
           } catch (err) {
             try {
@@ -164,7 +164,7 @@ module.exports = {
             } catch {}
             if (elementTab) {
               elementTab.innerHTML = "Prep (Something Went Wrong...)"
-              await new Promise((resolve) => setTimeout(resolve, 250))
+              await new Promise((resolve) => setTimeout(resolve, 350))
             }
           }
           break
@@ -174,14 +174,14 @@ module.exports = {
 
     if (elementTab) {
       elementTab.innerHTML = "Prep (Checking For storedData.json)"
-      await new Promise((resolve) => setTimeout(resolve, 250))
+      await new Promise((resolve) => setTimeout(resolve, 350))
     }
     let storedDataPath = path.join(projectFolder, "AppData", "Toolkit", "storedData.json")
     if (!fs.existsSync(storedDataPath)) {
       console.log("Creating Default storedData.json")
       if (elementTab) {
         elementTab.innerHTML = "Prep (Writing storedData.json)"
-        await new Promise((resolve) => setTimeout(resolve, 250))
+        await new Promise((resolve) => setTimeout(resolve, 350))
       }
       let defaultStoredData = {
         users: {},
@@ -198,7 +198,7 @@ module.exports = {
     if (initPageData.syncActions == true) {
       if (elementTab) {
         elementTab.innerHTML = "Prep (Syncing Actions)"
-        await new Promise((resolve) => setTimeout(resolve, 250))
+        await new Promise((resolve) => setTimeout(resolve, 350))
       }
       console.log("Syncing Actions")
       let actionsSrc = path.join(currentDir, "AppData", "Actions")
@@ -213,7 +213,7 @@ module.exports = {
     if (initPageData.syncEvents == true) {
       if (elementTab) {
         elementTab.innerHTML = "Prep (Syncing Events)"
-        await new Promise((resolve) => setTimeout(resolve, 250))
+        await new Promise((resolve) => setTimeout(resolve, 350))
       }
       console.log("Syncing Events")
       let eventsSrc = path.join(currentDir, "AppData", "Events")
@@ -224,6 +224,7 @@ module.exports = {
         options.burstInform(`✅ Events Folder Synced`)
       } catch {}
     }
+
     if (elementTab) {
       elementTab.innerHTML = "Prep (Complete)"
       setTimeout(() => {
