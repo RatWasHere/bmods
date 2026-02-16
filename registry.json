@@ -247,6 +247,13 @@
       "category": "Lists",
       "creator": "LikRus"
     },
+    "checkMemberIsInServer_MOD.js": {
+      "md5": "2a7c9442a942a40c014cedb35d42556d",
+      "name": "Check If Member Is In Server",
+      "modules": [],
+      "category": "Members",
+      "creator": "Acedia"
+    },
     "checkcustomdata_MOD.js": {
       "md5": "0b7d645f0074675893032e108867f39b",
       "name": "Check Custom Data",
@@ -589,6 +596,13 @@
       "name": "Find Data Element By Multiple Attributes",
       "modules": [],
       "category": "Data",
+      "creator": "Acedia"
+    },
+    "findListElementByAttribute_MOD.js": {
+      "md5": "f90610712853d52a795968d933bc0cef",
+      "name": "Find List Element By Attribute",
+      "modules": [],
+      "category": "Lists",
       "creator": "Acedia"
     },
     "findRole_MOD.js": {
@@ -1921,7 +1935,7 @@
       "creator": "qschnitzel"
     },
     "timeConversions_MOD.js": {
-      "md5": "729ad63487e80509da091d3150738a2e",
+      "md5": "34757358c21d3ae40354ac2795a9b766",
       "name": "Time Conversions",
       "modules": [],
       "category": "Time",
@@ -2017,7 +2031,7 @@
       "author": "Acedia",
       "files": {
         "data.json": "1c02e739262f14ed13f5a17566488cd3",
-        "main.js": "71b6bb43f420bc3fce82cb6c0aac173d",
+        "main.js": "cafd0ba9d8888de60fbca05ab50f1e2f",
         "startup.js": "d177790ae73f2ab2fb17197b3864fc75",
         "startup_info.json": "f00aec4bef3d34f6dde5277e0130aafe"
       }
@@ -2027,7 +2041,7 @@
       "author": "Acedia",
       "files": {
         "data.json": "a17c2d39f0df11353d09ca436240480c",
-        "main.js": "34e22d6f30a35190108aaa13fe92b431",
+        "main.js": "b16c81d9cd123284d218555c12d18d62",
         "startup.js": "6fe8b1bfb8ec56b9e14a8d6476ba6f9d",
         "startup_info.json": "c8801f67b32c43a8f1b5bbb0b99a49c1"
       }
