@@ -30,7 +30,19 @@ module.exports = {
     const botData = require("../data.json")
     const workingDir = path.normalize(process.cwd())
     let projectFolder
-    if (workingDir.includes(path.join("common", "Bot Maker For Discord"))) {
+    if (
+      workingDir.includes(path.join("common", "Bot Maker For Discord")) ||
+      workingDir.endsWith("Bot Maker For Discord") ||
+      fs.existsSync(path.join(workingDir, "AppData", "Kits", "flex.js")) ||
+      fs.existsSync(path.join(workingDir, "linux-data")) ||
+      fs.existsSync(path.join(workingDir, "mac-data")) ||
+      fs.existsSync(path.join(workingDir, "resources", "app.asar.unpacked", "app.asar")) ||
+      (fs.existsSync(path.join(workingDir, "stage1")) &&
+        fs.existsSync(path.join(workingDir, "stage2")) &&
+        fs.existsSync(path.join(workingDir, "stage3")) &&
+        fs.existsSync(path.join(workingDir, "stage4")) &&
+        fs.existsSync(path.join(workingDir, "stage5")))
+    ) {
       projectFolder = botData.prjSrc
     } else {
       projectFolder = workingDir

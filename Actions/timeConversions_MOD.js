@@ -116,7 +116,7 @@ module.exports = {
     },
   ],
 
-  subtitle: (values, letants, thisAction) => {
+  subtitle: (values, constants, thisAction) => {
     let inputUnits = values.inputUnit.type
     let outputUnits = values.outputUnit.type
 
