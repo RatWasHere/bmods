@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 const indexByStoreAs = (values, storeAs) => {
   if (typeof storeAs != "string") {
     return console.log("Not String")
@@ -23,6 +23,12 @@ module.exports = {
     donate: "https://ko-fi.com/slothyacedia",
   },
   UI: [
+    {
+      element: "variable",
+      storeAs: "player",
+      name: "Player (Leave Empty To Get The Current Server's Player)",
+    },
+    "-",
     {
       element: "typedDropdown",
       storeAs: "action",
@@ -58,7 +64,7 @@ module.exports = {
     "_",
     {
       element: "text",
-      text: "Will do nothing if no music is playing, no previous track or incorrect track numbers.",
+      text: "Will Do Nothing If No Music Is Playing, No Previous Track Or Incorrect Track Numbers.",
     },
     "-",
     {
@@ -106,6 +112,10 @@ module.exports = {
         break
       }
 
+      case "remove": {
+        subtitlePart = `Remove Track #${values.action.value}`
+      }
+
       case "repeat": {
         switch (values.repeatMode.type) {
           case "off": {
@@ -142,7 +152,17 @@ module.exports = {
       await client.getMods().require(moduleName)
     }
     let actionType = bridge.transf(values.action.type)
-    let player = client.lavalink.getPlayer(bridge.guild.id)
+    let player
+
+    if (values.player?.value !== "") {
+      try {
+        player = bridge.get(values.player)
+      } catch {}
+    }
+
+    if (!player) {
+      player = client.lavalink.getPlayer(bridge.guild.id)
+    }
 
     if (!player) {
       return console.error(`[${this.data.name}] Player Not Found`)
@@ -242,16 +262,19 @@ module.exports = {
 
       case "connectDifferent": {
         if (client.lavalink.bmdManager) {
+          let details = {
+            guildId: player.guildId,
+            voiceChannelId: player.voiceChannelId,
+            textChannelId: player.textChannelId,
+          }
           await player.destroy()
           let node = getHealthyNode(client)
           if (!node) {
-            console.log(`[${this.data.name}] No Healthy Lavalink Nodes Found.`)
+            console.log(`[${this.data.name}] No Healthy Lavalink Nodes Found`)
             return
           }
           player = client.lavalink.createPlayer({
-            guildId: bridge.guild.id,
-            voiceChannelId: voiceChannel.id,
-            textChannelId: message.channel.id,
+            ...details,
             node,
           })
           await player.connect()

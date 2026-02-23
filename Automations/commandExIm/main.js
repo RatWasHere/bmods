@@ -1,4 +1,4 @@
-modVersion = "v1.4.5"
+modVersion = "v1.4.6"
 
 const modMan = {
   installModule(moduleName, version) {
@@ -407,7 +407,7 @@ module.exports = {
                       const fs = require('fs')
                       const path = require('path')
                       let tempImportDir = path.join(process.cwd(), 'Automations', 'commandExIm', 'importCache')
-                      let fileName = (commandJSON.name + '_' + commandJSON.type + Date.now()).replace(/[^\\w\\-]+/g, '_') + '.json'
+                      let fileName = (Date.now() + commandJSON.name + '_' + commandJSON.type).replace(/[^\\w\\-]+/g, '_') + '.json'
                       let importFilePath = path.join(tempImportDir, fileName)
                       console.log(importFilePath)
                       fs.writeFileSync(importFilePath, JSON.stringify(commandJSON, null, 2))
