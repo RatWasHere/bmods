@@ -270,7 +270,7 @@
       "creator": "Rat"
     },
     "controlLavalinkMusic2_MOD.js": {
-      "md5": "df1aefbc9e42ad0ae996a0744daf864b",
+      "md5": "f00fd70284568291794150f2f6504de1",
       "name": "Control Lavalink Music 2",
       "modules": [
         "lavalink-client"
@@ -1184,7 +1184,7 @@
       "creator": "TheMonDon"
     },
     "lavalinkMultiConnection_MOD.js": {
-      "md5": "e5ad5253e21cb9ebfd318d311331c8fa",
+      "md5": "0ee779bdf2067fccbfdafc7dd30eb525",
       "name": "Lavalink Multi Connection",
       "modules": [
         "lavalink-client"
@@ -2031,7 +2031,7 @@
       "author": "Acedia",
       "files": {
         "data.json": "1c02e739262f14ed13f5a17566488cd3",
-        "main.js": "cafd0ba9d8888de60fbca05ab50f1e2f",
+        "main.js": "b3cfb2f75d2a18d9ec522ccbe988957c",
         "startup.js": "d177790ae73f2ab2fb17197b3864fc75",
         "startup_info.json": "f00aec4bef3d34f6dde5277e0130aafe"
       }
