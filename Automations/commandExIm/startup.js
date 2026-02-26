@@ -7,9 +7,11 @@ module.exports = {
       element.onclick = () => {
         options.eval('runAutomation("commandExIm")')
       }
-      element.id = "commandExImQuickAccess"
+      element.id = "commandExImQA"
 
-      element.appendAfter(document.getElementById("collaborationStatus"))
+      let elementAnchor = document.getElementById("collaborationStatus")
+
+      element.appendAfter(elementAnchor)
     }
   },
 }

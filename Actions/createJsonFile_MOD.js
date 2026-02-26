@@ -108,10 +108,9 @@ module.exports = {
     if (
       workingDir.includes(path.join("common", "Bot Maker For Discord")) ||
       workingDir.endsWith("Bot Maker For Discord") ||
-      fs.existsSync(path.join(workingDir, "AppData", "Kits", "flex.js")) ||
+      fs.existsSync(path.join(workingDir, "AppData", "Kits", "EditorBones.js")) ||
       fs.existsSync(path.join(workingDir, "linux-data")) ||
       fs.existsSync(path.join(workingDir, "mac-data")) ||
-      fs.existsSync(path.join(workingDir, "resources", "app.asar.unpacked", "app.asar")) ||
       (fs.existsSync(path.join(workingDir, "stage1")) &&
         fs.existsSync(path.join(workingDir, "stage2")) &&
         fs.existsSync(path.join(workingDir, "stage3")) &&

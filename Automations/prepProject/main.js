@@ -1,10 +1,8 @@
-modVersion = "v1.1.0"
+modVersion = "v1.1.1"
 module.exports = {
   run: async (options) => {
     const fs = require("node:fs")
     const path = require("node:path")
-    const os = require("node:os")
-    const https = require("node:https")
 
     let dataJSONPath = path.join(process.cwd(), "AppData", "data.json")
     let botData = JSON.parse(fs.readFileSync(dataJSONPath))
@@ -51,53 +49,35 @@ module.exports = {
 
     let elementTab = document.getElementById("prepProjectQA")
     if (initPageData.downloadScripts == true) {
-      switch (initPageData.environment.type) {
-        case "windows": {
-          try {
-            console.log("Downloading Scripts")
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Downloading Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
-            let scriptFilePath = path.join(projectFolder, "start.bat")
-            let persistScriptFilePath = path.join(projectFolder, "start_persist.bat")
+      if (elementTab) {
+        elementTab.innerHTML = "Prep (Downloading Scripts)"
+        await new Promise((resolve) => setTimeout(resolve, 350))
+      }
 
-            let startScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/start.bat`, { method: "GET" })
-            let startPersistScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/start_persist.bat`, { method: "GET" })
+      let scriptFilePath
+      let persistScriptFilePath
+
+      try {
+        switch (initPageData.environment.type) {
+          case "windows": {
+            scriptFilePath = path.join(projectFolder, "start.bat")
+            persistScriptFilePath = path.join(projectFolder, "start_persist.bat")
+
+            let startScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/windows/start.bat`, { method: "GET" })
+            let startPersistScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/windows/start_persist.bat`, {
+              method: "GET",
+            })
             let startScriptText = await startScript.text()
             let persistScriptText = await startPersistScript.text()
 
             fs.writeFileSync(scriptFilePath, startScriptText)
             fs.writeFileSync(persistScriptFilePath, persistScriptText)
-            try {
-              options.burstInform(`✅ Start Scripts Downloaded`)
-            } catch {}
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Downloaded Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
-          } catch (err) {
-            try {
-              options.burstInform(`⚠️ Something Went Wrong...`)
-            } catch {}
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Something Went Wrong...)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
+            break
           }
-          break
-        }
 
-        case "linux": {
-          try {
-            console.log("Downloading Scripts")
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Downloading Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
-
-            let scriptFilePath = path.join(projectFolder, "start.sh")
-            let persistScriptFilePath = path.join(projectFolder, "start_persist.sh")
+          case "linux": {
+            scriptFilePath = path.join(projectFolder, "start.sh")
+            persistScriptFilePath = path.join(projectFolder, "start_persist.sh")
 
             let startScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/linux/start.sh`, { method: "GET" })
             let startPersistScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/linux/start_persist.sh`, {
@@ -110,35 +90,12 @@ module.exports = {
             fs.writeFileSync(persistScriptFilePath, persistScriptText)
             fs.chmodSync(scriptFilePath, 0o755)
             fs.chmodSync(persistScriptFilePath, 0o755)
-            try {
-              options.burstInform(`✅ Start Scripts Downloaded`)
-            } catch {}
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Downloaded Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
-          } catch (err) {
-            try {
-              options.burstInform(`⚠️ Something Went Wrong...`)
-            } catch {}
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Something Went Wrong...)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
+            break
           }
-          break
-        }
 
-        case "macos": {
-          try {
-            console.log("Downloading Scripts")
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Downloading Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
-
-            let scriptFilePath = path.join(projectFolder, "start.command")
-            let persistScriptFilePath = path.join(projectFolder, "start_persist.command")
+          case "macos": {
+            scriptFilePath = path.join(projectFolder, "start.command")
+            persistScriptFilePath = path.join(projectFolder, "start_persist.command")
 
             let startScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/mac/start.sh`, { method: "GET" })
             let startPersistScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/mac/start_persist.sh`, {
@@ -151,23 +108,35 @@ module.exports = {
             fs.writeFileSync(persistScriptFilePath, persistScriptText)
             fs.chmodSync(scriptFilePath, 0o755)
             fs.chmodSync(persistScriptFilePath, 0o755)
-            try {
-              options.burstInform(`✅ Start Scripts Downloaded`)
-            } catch {}
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Downloaded Scripts)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
-          } catch (err) {
-            try {
-              options.burstInform(`⚠️ Something Went Wrong...`)
-            } catch {}
-            if (elementTab) {
-              elementTab.innerHTML = "Prep (Something Went Wrong...)"
-              await new Promise((resolve) => setTimeout(resolve, 350))
-            }
+            break
           }
-          break
+
+          default: {
+            try {
+              options.burstInform(`✅ Non Valid OS`)
+            } catch {}
+            if (elementTab) {
+              elementTab.innerHTML = "Prep (Non Valid OS)"
+              await new Promise((resolve) => setTimeout(resolve, 350))
+            }
+            break
+          }
+        }
+
+        try {
+          options.burstInform(`✅ Start Scripts Downloaded`)
+        } catch {}
+        if (elementTab) {
+          elementTab.innerHTML = "Prep (Scripts Downloaded)"
+          await new Promise((resolve) => setTimeout(resolve, 350))
+        }
+      } catch {
+        try {
+          options.burstInform(`⚠️ Something Went Wrong...`)
+        } catch {}
+        if (elementTab) {
+          elementTab.innerHTML = "Prep (Error Downloading Scripts)"
+          await new Promise((resolve) => setTimeout(resolve, 350))
         }
       }
     }
@@ -178,7 +147,6 @@ module.exports = {
     }
     let storedDataPath = path.join(projectFolder, "AppData", "Toolkit", "storedData.json")
     if (!fs.existsSync(storedDataPath)) {
-      console.log("Creating Default storedData.json")
       if (elementTab) {
         elementTab.innerHTML = "Prep (Writing storedData.json)"
         await new Promise((resolve) => setTimeout(resolve, 350))
@@ -227,9 +195,8 @@ module.exports = {
 
     if (elementTab) {
       elementTab.innerHTML = "Prep (Complete)"
-      setTimeout(() => {
-        elementTab.innerHTML = "Prep"
-      }, 500)
+      await new Promise((resolve) => setTimeout(resolve, 350))
+      elementTab.innerHTML = "Prep"
     }
   },
 }

@@ -1,4 +1,4 @@
-modVersion = "v1.4.5"
+modVersion = "v1.4.6"
 
 const modMan = {
   installModule(moduleName, version) {
@@ -133,7 +133,7 @@ module.exports = {
       },
     ])
 
-    let elementTab = document.getElementById("commandExImQuickAccess")
+    let elementTab = document.getElementById("commandExImQuickAccess") || document.getElementById("commandExImQA")
     switch (data.action.type) {
       case "export": {
         let botData = JSON.parse(fs.readFileSync(dataJSONPath))
@@ -504,12 +504,9 @@ module.exports = {
           if (elementTab) {
             elementTab.innerHTML = `Export/Import (${commandsMerged} Files Imported)`
             await new Promise((resolve) => setTimeout(resolve, 350))
-          }
-          if (elementTab) {
             elementTab.innerHTML = "Export/Import (Complete)"
-            setTimeout(() => {
-              elementTab.innerHTML = "Export/Import"
-            }, 350)
+            await new Promise((resolve) => setTimeout(resolve, 350))
+            elementTab.innerHTML = "Export/Import"
           }
           try {
             options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`))
@@ -518,9 +515,8 @@ module.exports = {
         } else {
           if (elementTab) {
             elementTab.innerHTML = "Export/Import (No Imports)"
-            setTimeout(() => {
-              elementTab.innerHTML = "Export/Import"
-            }, 350)
+            await new Promise((resolve) => setTimeout(resolve, 350))
+            elementTab.innerHTML = "Export/Import"
           }
           try {
             options.result(titleCase(`⚠️ No Commands Were Imported`))
