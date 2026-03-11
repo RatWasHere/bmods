@@ -1,4 +1,4 @@
-modVersion = "v1.1.1"
+modVersion = "v1.1.2"
 module.exports = {
   data: {
     name: "Play Lavalink Music Via Track Object",
@@ -65,11 +65,11 @@ module.exports = {
       return
     }
 
-    if (!client.lavalink.nodeManager.nodes.size) {
-      console.log(`No Lavalink Connection Found, Please Connect First.`)
-      await bridge.call(values.ifError, values.ifErrorActions)
-      return
-    }
+    // if (!client.lavalink.nodeManager.nodes.size) {
+    //   console.log(`No Lavalink Connection Found, Please Connect First.`)
+    //   await bridge.call(values.ifError, values.ifErrorActions)
+    //   return
+    // }
 
     let node
     if (client.lavalink.bmdManager) {
