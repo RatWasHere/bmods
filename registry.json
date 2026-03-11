@@ -619,6 +619,20 @@
       "category": "Lists",
       "creator": "LikRus"
     },
+    "fuzzySearchInData_MOD.js": {
+      "md5": "9dcb2e2e587e59d7536fe0858d5639b5",
+      "name": "Fuzzy Search In Data",
+      "modules": [],
+      "category": "Search",
+      "creator": "Acedia"
+    },
+    "fuzzySearchInList_MOD.js": {
+      "md5": "c02c16d0c4b7d117534a2f48e62320be",
+      "name": "Fuzzy Search In List",
+      "modules": [],
+      "category": "Search",
+      "creator": "Acedia"
+    },
     "generateGiftKeys_MOD.js": {
       "md5": "8f9aef8d36a7f0b4ca3993a304bab5d1",
       "name": "Generate Gift Keys",
@@ -1684,7 +1698,7 @@
       "creator": "qschnitzel"
     },
     "searchLavalinkMusic_MOD.js": {
-      "md5": "f6e1b2e9b2e0de6ed049e6c8b92a60dd",
+      "md5": "e02d5ff6af947b3c272dc605d6e59cc3",
       "name": "Search Lavalink Music",
       "modules": [
         "lavalink-client"
