@@ -1,4 +1,4 @@
-modVersion = "v1.1.1"
+modVersion = "v1.1.2"
 module.exports = {
   data: {
     name: "Search Lavalink Music",
@@ -61,11 +61,11 @@ module.exports = {
     const voiceChannel = await bridge.getChannel(values.voiceChannel)
     const query = bridge.transf(values.query) || `Rick Astley - Never Gonna Give You Up`
 
-    if (!client.lavalink.nodeManager.nodes.size) {
-      console.log(`[${this.data.name}] No Lavalink Connection Found, Please Connect First.`)
-      await bridge.runner(values.ifError, values.ifErrorActions)
-      return
-    }
+    // if (!client.lavalink.nodeManager.nodes.size) {
+    //   console.log(`[${this.data.name}] No Lavalink Connection Found, Please Connect First.`)
+    //   await bridge.runner(values.ifError, values.ifErrorActions)
+    //   return
+    // }
 
     let node
     if (client.lavalink.bmdManager) {
@@ -80,7 +80,7 @@ module.exports = {
       node = getHealthyNode(client)
       if (!node) {
         console.log(`[${this.data.name}] No Healthy Lavalink Nodes Found.`)
-        await bridge.runner(values.ifError, values.ifErrorActions)
+        await bridge.call(values.ifError, values.ifErrorActions)
         return
       }
     }
