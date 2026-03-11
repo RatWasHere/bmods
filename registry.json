@@ -1476,7 +1476,7 @@
       "creator": "Acedia"
     },
     "playLavalinkMusicByObject_MOD.js": {
-      "md5": "28a48c35780749b5a4737647c4634735",
+      "md5": "13a631a199a80bfa15f0ecbd06e8a73a",
       "name": "Play Lavalink Music Via Track Object",
       "modules": [
         "lavalink-client"
