@@ -71,7 +71,7 @@ module.exports = {
             text: `
               <div style="text-align=left">
               Check Out Available Themes On GitHub
-              <button class="hoverablez" style="width: fit-content;" onclick="require('electron').shell.openExternal('https://github.com/slothyace/bmd-statusPage/tree/main/themes')">
+              <button class="hoverablez" style="width: fit-content;" onclick="require('electron').shell.openExternal('https://github.com/slothyacedia/bmd-statusPage/tree/main/themes')">
               <btext>Explore Themes</btext>
               </button>
               </div>
@@ -250,21 +250,21 @@ module.exports = {
 
     let siteFiles = {
       html: {
-        source: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/index.html`,
+        source: `https://raw.githubusercontent.com/slothyacedia/bmd-statusPage/refs/heads/main/themes/${theme}/index.html`,
         path: path.join(themeDir, "index.html"),
         name: "index.html",
         required: true,
         type: "theme",
       },
       css: {
-        source: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/style.css`,
+        source: `https://raw.githubusercontent.com/slothyacedia/bmd-statusPage/refs/heads/main/themes/${theme}/style.css`,
         path: path.join(themeDir, "style.css"),
         name: `style.css`,
         required: false,
         type: "theme",
       },
       icon: {
-        source: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/${theme}/bmd.ico`,
+        source: `https://raw.githubusercontent.com/slothyacedia/bmd-statusPage/refs/heads/main/themes/${theme}/bmd.ico`,
         path: path.join(themeDir, "bmd.ico"),
         name: `bmd.ico`,
         required: false,
@@ -274,7 +274,7 @@ module.exports = {
 
     if (loginSystem === "token") {
       siteFiles["login"] = {
-        source: `https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/core/login.html`,
+        source: `https://raw.githubusercontent.com/slothyacedia/bmd-statusPage/refs/heads/main/core/login.html`,
         path: path.join(projectFolder, "statusPage", "core", "login.html"),
         name: `login.html`,
         required: true,
@@ -282,7 +282,7 @@ module.exports = {
       }
     }
 
-    let fileHashesRaw = await fetch(`https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/file-hashes.json`)
+    let fileHashesRaw = await fetch(`https://raw.githubusercontent.com/slothyacedia/bmd-statusPage/refs/heads/main/file-hashes.json`)
     let fileHashes = await fileHashesRaw.json()
 
     for (let entry in siteFiles) {
@@ -499,7 +499,7 @@ module.exports = {
       if (fs.existsSync(siteFiles.icon.path)) {
         return response.sendFile(siteFiles.icon.path)
       } else {
-        return response.redirect(`https://raw.githubusercontent.com/slothyace/bmd-statusPage/refs/heads/main/themes/default/bmd.ico`)
+        return response.redirect(`https://raw.githubusercontent.com/slothyacedia/bmd-statusPage/refs/heads/main/themes/default/bmd.ico`)
       }
     })
     app.get(`/statusPage/login`, (request, response) => {
