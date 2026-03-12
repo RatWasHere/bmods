@@ -6,7 +6,7 @@ module.exports = {
   },
   category: "Music",
   info: {
-    source: "https://github.com/slothyace/bmods-ace/tree/main/QOLs",
+    source: "https://github.com/slothyacedia/bmods-acedia/tree/main/QOLs",
     creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -87,7 +87,7 @@ module.exports = {
         new Promise((_, reject) =>
           setTimeout(() => {
             reject(new Error(`Fetching Audio Took Too Long!`))
-          }, timeoutDur)
+          }, timeoutDur),
         ),
       ])
     } catch (err) {

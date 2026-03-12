@@ -248,15 +248,7 @@ module.exports = {
         }
 
         if (selectedIds.length === 0) {
-          if (elementTab) {
-            elementTab.innerHTML = "Export/Import (No Exports)"
-            await new Promise((resolve) => setTimeout(resolve, 350))
-            elementTab.innerHTML = "Export/Import"
-          }
-          try {
-            options.result(titleCase(`⚠️ No Commands Were Selected For Export`))
-          } catch {}
-          return
+          return options.result(titleCase(`⚠️ No Commands Were Selected For Export`))
         }
 
         let exportPaths = []
@@ -343,8 +335,9 @@ module.exports = {
 
         if (elementTab) {
           elementTab.innerHTML = "Export/Import (Complete)"
-          await new Promise((resolve) => setTimeout(resolve, 350))
-          elementTab.innerHTML = "Export/Import"
+          setTimeout(() => {
+            elementTab.innerHTML = "Export/Import"
+          }, 350)
         }
         try {
           options.result(titleCase(`✅ Exported ${exportedCount} Command(s) To ${downloadsDir}`))
@@ -508,9 +501,6 @@ module.exports = {
         fs.rmSync(defaultImportFolderPath, { recursive: true, force: true })
 
         if (commandsMerged > 0) {
-          try {
-            options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`))
-          } catch {}
           if (elementTab) {
             elementTab.innerHTML = `Export/Import (${commandsMerged} Files Imported)`
             await new Promise((resolve) => setTimeout(resolve, 350))
@@ -518,16 +508,19 @@ module.exports = {
             await new Promise((resolve) => setTimeout(resolve, 350))
             elementTab.innerHTML = "Export/Import"
           }
+          try {
+            options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`))
+          } catch {}
           setTimeout(() => location.reload(), 1000)
         } else {
-          try {
-            options.result(titleCase(`⚠️ No Commands Were Imported`))
-          } catch {}
           if (elementTab) {
             elementTab.innerHTML = "Export/Import (No Imports)"
             await new Promise((resolve) => setTimeout(resolve, 350))
             elementTab.innerHTML = "Export/Import"
           }
+          try {
+            options.result(titleCase(`⚠️ No Commands Were Imported`))
+          } catch {}
         }
         break
       }

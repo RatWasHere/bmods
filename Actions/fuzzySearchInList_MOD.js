@@ -7,7 +7,7 @@ module.exports = {
   modules: [],
   category: "Search",
   info: {
-    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
+    source: "https://github.com/slothyacedia/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },

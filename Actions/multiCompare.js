@@ -6,7 +6,7 @@ module.exports = {
   category: "Control",
 
   info: {
-    source: "https://github.com/slothyace/bmods-ace/tree/main/QOLs",
+    source: "https://github.com/slothyacedia/bmods-acedia/tree/main/QOLs",
     creator: "Acedia QOLs",
     donate: "https://ko-fi.com/slothyacedia",
   },

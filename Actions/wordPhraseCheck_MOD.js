@@ -24,7 +24,7 @@ module.exports = {
   modules: [],
   category: "Text",
   info: {
-    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
+    source: "https://github.com/slothyacedia/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -156,7 +156,7 @@ module.exports = {
         () => {
           values.updateUI()
         },
-        skipAnimation ? 1 : values.commonAnimation * 100
+        skipAnimation ? 1 : values.commonAnimation * 100,
       )
     }
 

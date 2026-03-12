@@ -1,11 +1,11 @@
-modVersion = "v1.1.2"
+modVersion = "v1.1.1"
 module.exports = {
   data: {
     name: "Play Lavalink Music Via Track Object",
   },
   category: "Lavalink Music",
   info: {
-    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
+    source: "https://github.com/slothyacedia/bmods-acedia/tree/main/Actions",
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
@@ -65,11 +65,11 @@ module.exports = {
       return
     }
 
-    // if (!client.lavalink.nodeManager.nodes.size) {
-    //   console.log(`No Lavalink Connection Found, Please Connect First.`)
-    //   await bridge.call(values.ifError, values.ifErrorActions)
-    //   return
-    // }
+    if (!client.lavalink.nodeManager.nodes.size) {
+      console.log(`No Lavalink Connection Found, Please Connect First.`)
+      await bridge.call(values.ifError, values.ifErrorActions)
+      return
+    }
 
     let node
     if (client.lavalink.bmdManager) {

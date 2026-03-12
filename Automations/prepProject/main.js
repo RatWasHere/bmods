@@ -63,8 +63,8 @@ module.exports = {
             scriptFilePath = path.join(projectFolder, "start.bat")
             persistScriptFilePath = path.join(projectFolder, "start_persist.bat")
 
-            let startScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/windows/start.bat`, { method: "GET" })
-            let startPersistScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/windows/start_persist.bat`, {
+            let startScript = await fetch(`https://github.com/slothyacedia/bmods-acedia/raw/refs/heads/main/Scripts/prep/windows/start.bat`, { method: "GET" })
+            let startPersistScript = await fetch(`https://github.com/slothyacedia/bmods-acedia/raw/refs/heads/main/Scripts/prep/windows/start_persist.bat`, {
               method: "GET",
             })
             let startScriptText = await startScript.text()
@@ -79,8 +79,8 @@ module.exports = {
             scriptFilePath = path.join(projectFolder, "start.sh")
             persistScriptFilePath = path.join(projectFolder, "start_persist.sh")
 
-            let startScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/linux/start.sh`, { method: "GET" })
-            let startPersistScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/linux/start_persist.sh`, {
+            let startScript = await fetch(`https://github.com/slothyacedia/bmods-acedia/raw/refs/heads/main/Scripts/prep/linux/start.sh`, { method: "GET" })
+            let startPersistScript = await fetch(`https://github.com/slothyacedia/bmods-acedia/raw/refs/heads/main/Scripts/prep/linux/start_persist.sh`, {
               method: "GET",
             })
             let startScriptText = await startScript.text()
@@ -97,8 +97,8 @@ module.exports = {
             scriptFilePath = path.join(projectFolder, "start.command")
             persistScriptFilePath = path.join(projectFolder, "start_persist.command")
 
-            let startScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/mac/start.sh`, { method: "GET" })
-            let startPersistScript = await fetch(`https://github.com/slothyace/bmods-ace/raw/refs/heads/main/Scripts/prep/mac/start_persist.sh`, {
+            let startScript = await fetch(`https://github.com/slothyacedia/bmods-acedia/raw/refs/heads/main/Scripts/prep/mac/start.sh`, { method: "GET" })
+            let startPersistScript = await fetch(`https://github.com/slothyacedia/bmods-acedia/raw/refs/heads/main/Scripts/prep/mac/start_persist.sh`, {
               method: "GET",
             })
             let startScriptText = await startScript.text()

@@ -15,7 +15,7 @@ module.exports = {
   category: "Utilities",
   modVersion,
   info: {
-    source: "https://github.com/slothyace/bmods-ace/tree/main/Actions",
+    source: "https://github.com/slothyacedia/bmods-acedia/tree/main/Actions",
     creator: "Acedia & qizzle",
     donate: "https://ko-fi.com/slothyacedia",
   },
