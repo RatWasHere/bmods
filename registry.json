@@ -620,7 +620,7 @@
       "creator": "LikRus"
     },
     "fuzzySearchInData_MOD.js": {
-      "md5": "773bcc69cd9b7a558d0a2ba9de6e4ecb",
+      "md5": "55856c65cb4605530b064e71fff3b406",
       "name": "Fuzzy Search In Data",
       "modules": [],
       "category": "Search",
@@ -1198,7 +1198,7 @@
       "creator": "TheMonDon"
     },
     "lavalinkMultiConnection_MOD.js": {
-      "md5": "b304e375782db938f272f023a1327c1a",
+      "md5": "95df1282e50ffbae1dfeff25108a1b31",
       "name": "Lavalink Multi Connection",
       "modules": [
         "lavalink-client"
