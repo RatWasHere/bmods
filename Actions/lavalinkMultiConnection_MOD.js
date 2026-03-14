@@ -1,4 +1,4 @@
-modVersion = "v1.2.0"
+modVersion = "v1.3.1"
 module.exports = {
   data: {
     name: "Lavalink Multi Connection",
@@ -20,7 +20,7 @@ module.exports = {
       max: 50,
       UItypes: {
         node: {
-          data: {},
+          data: { enabled: true },
           name: "Node",
           preview: "`${option.data.host||''}:${option.data.port||''} (${option.data.nodeName||''})`",
           UI: [
@@ -187,6 +187,11 @@ module.exports = {
             console.log(`[${this.data.name}] Disconnected From Lavalink Node: ${node.id}, Reason ${JSON.stringify(reason)}`)
           }
 
+          if (reason.code == 1000) {
+            client.lavalink.bmdManager.states.active.delete(node.id)
+            return
+          }
+
           let disconnectReason = reason?.reason?.toLowerCase() || ""
           if (disconnectReason.includes("proxy")) {
             if (values.logging) {
@@ -203,7 +208,7 @@ module.exports = {
                 id: node.id,
               },
             })
-            client.lavalink.nodeManager.deleteNode(node)
+            node.disconnect()
             return
           }
 
@@ -238,7 +243,7 @@ module.exports = {
               },
             })
             console.log(`[${this.data.name}] Lavalink Node ${node.id} Connection Failed After ${attempts} Attempts, Attempting Connection At A Later Time`)
-            client.lavalink.nodeManager.deleteNode(node)
+            node.disconnect()
           }
         })
         .on("error", (node, error) => {
@@ -267,27 +272,21 @@ module.exports = {
       let retryInterval = (Number(bridge.transf(values.retryAfterMinutes) || 30) || 30) * 60 * 1000
       setInterval(async () => {
         for (const [id, nodeInfo] of client.lavalink.bmdManager.states.bad) {
-          let { node, movedAt, details } = nodeInfo
-
-          if (node.connected || Date.now() - movedAt < retryInterval) continue
+          if (nodeInfo.node.connected || Date.now() - nodeInfo.movedAt < retryInterval) continue
+          let details = nodeInfo.details
           console.log(`[${this.data.name}] Retrying Connection To Bad Node: ${id}`)
 
           try {
-            const newNode = client.lavalink.nodeManager.createNode({
-              host: details.host,
-              port: details.port,
-              authorization: details.authorization,
-              id: details.id,
-            })
+            let node = client.lavalink.nodeManager.nodes.get(id)
 
             client.lavalink.bmdManager.states.bad.set(id, {
-              node: newNode,
+              node,
               movedAt: Date.now(),
               details,
             })
 
             try {
-              await newNode.connect()
+              await node.connect()
             } catch (err) {
               console.warn(`[${this.data.name}] Reconnection To Bad Node Failed: ${id}, ${err}`)
             }

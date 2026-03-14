@@ -46,11 +46,13 @@ module.exports = {
       storeAs: "top",
       name: "Only Store Top # | Leave Empty To Return Whole Data",
     },
+    "_",
     {
       element: "toggle",
       storeAs: "listify",
       name: "Return As List",
     },
+    "_",
     {
       element: "store",
       storeAs: "result",
