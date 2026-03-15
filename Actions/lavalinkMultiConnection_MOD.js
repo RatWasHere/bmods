@@ -1,4 +1,4 @@
-modVersion = "v1.3.1"
+modVersion = "v1.3.2"
 module.exports = {
   data: {
     name: "Lavalink Multi Connection",
@@ -272,12 +272,23 @@ module.exports = {
       let retryInterval = (Number(bridge.transf(values.retryAfterMinutes) || 30) || 30) * 60 * 1000
       setInterval(async () => {
         for (const [id, nodeInfo] of client.lavalink.bmdManager.states.bad) {
-          if (nodeInfo.node.connected || Date.now() - nodeInfo.movedAt < retryInterval) continue
           let details = nodeInfo.details
+          let movedAt = nodeInfo.movedAt
+          let prevNode = nodeInfo.node
+          if (prevNode.connected || Date.now() - movedAt < retryInterval) continue
           console.log(`[${this.data.name}] Retrying Connection To Bad Node: ${id}`)
 
           try {
             let node = client.lavalink.nodeManager.nodes.get(id)
+
+            if (!node) {
+              node = client.lavalink.nodeManager.createNode({
+                host: details.host,
+                port: details.port,
+                authorization: details.authorization,
+                id: details.id,
+              })
+            }
 
             client.lavalink.bmdManager.states.bad.set(id, {
               node,
