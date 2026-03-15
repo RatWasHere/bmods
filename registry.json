@@ -1198,7 +1198,7 @@
       "creator": "TheMonDon"
     },
     "lavalinkMultiConnection_MOD.js": {
-      "md5": "95df1282e50ffbae1dfeff25108a1b31",
+      "md5": "7623536332864b4ceca44268078b42ac",
       "name": "Lavalink Multi Connection",
       "modules": [
         "lavalink-client"
@@ -1268,6 +1268,15 @@
       "modules": [],
       "category": "API",
       "creator": "Made with <3 by @lucxanul"
+    },
+    "manageLavalinkNodes_MOD.js": {
+      "md5": "ce722ce432ff55169b7d114ff0b9c58f",
+      "name": "Manage Lavalink Nodes",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "Acedia"
     },
     "modifiedAwaitMessage_MOD.js": {
       "md5": "cedeaf54ba50a3e888c4ab740951e7c8",
