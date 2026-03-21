@@ -1,4 +1,4 @@
-modVersion = "v1.0.0";
+modVersion = "v1.1.0";
 
 module.exports = {
   data: {
@@ -57,7 +57,7 @@ module.exports = {
 
       if (!getServerPrefix) {
         console.error(
-          "Server Prefix Injection System not found! Make sure serverPrefixInject_MOD.js is loaded."
+          "Server Prefix Injection System not found! Make sure serverPrefixInject_MOD.js is loaded.",
         );
         return;
       }

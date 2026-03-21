@@ -1,4 +1,4 @@
-modVersion = "v1.0.0";
+modVersion = "v1.1.0";
 
 module.exports = {
   data: {
@@ -13,7 +13,14 @@ module.exports = {
   UI: [
     {
       element: "text",
-      text: "Set a custom prefix for the current server. Leave empty to reset to global prefix.",
+      text: "Set a custom prefix for the a server. Leave empty to reset to global prefix.",
+    },
+    "-",
+    {
+      element: "input",
+      storeAs: "guildID",
+      name: "Guild ID (Optional)",
+      placeholder: "Leave empty for current server",
     },
     "-",
     {
@@ -34,14 +41,17 @@ module.exports = {
     return `Set Server Prefix: "${data.serverPrefix || "Reset to Global"}"`;
   },
 
-  run: async (data, interaction, client, bridge) => {
+  run: async (values, interaction, client, bridge) => {
     try {
-      const guildID = bridge.guild?.id;
+      let guildID;
+      if (values.guildID && values.guildID.trim()) {
+        guildID = bridge.transf(values.guildID);
+      } else {
+        guildID = bridge.guild?.id;
+      }
 
       if (!guildID) {
-        const errorMsg = "This command can only be used in a server!";
-        console.error(errorMsg);
-        return;
+        return console.error("Guild ID is required to set a server prefix!");
       }
 
       const setServerPrefix = bridge.getGlobal({
@@ -50,22 +60,22 @@ module.exports = {
       });
 
       if (!setServerPrefix) {
-        const errorMsg =
-          "Server Prefix Injection System not found! Make sure serverPrefixInject_MOD.js is loaded.";
-        console.error(errorMsg);
-        return;
+        return console.error(
+          "Server Prefix Injection System not found! Make sure serverPrefixInject_MOD.js is loaded.",
+        );
       }
 
-      const newPrefix = bridge.transf(data.serverPrefix || "");
+      const newPrefix = bridge.transf(values.serverPrefix || "");
 
       const success = setServerPrefix(guildID, newPrefix);
 
       if (!success) {
-        console.error(errorMsg);
+        console.error(
+          "Failed to set server prefix. Check console for details.",
+        );
       }
     } catch (error) {
-      const errorMsg = `Error setting server prefix: ${error.message}`;
-      console.error(errorMsg, error);
+      console.error(`Error setting server prefix: ${error.message}`, error);
     }
   },
 };
