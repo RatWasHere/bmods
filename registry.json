@@ -1072,7 +1072,7 @@
       "creator": "nitiqt"
     },
     "getServerPrefix_MOD.js": {
-      "md5": "dfb953308a4c26993659d3f98047f74f",
+      "md5": "cc82f315614b7ad1d0b7a9c5cf257cfc",
       "name": "Get Server Prefix",
       "modules": [],
       "category": "Servers",
@@ -1774,7 +1774,7 @@
       "creator": "TheMonDon"
     },
     "serverPrefixInject_MOD.js": {
-      "md5": "3f1e28f27cee7f1a5a86ae2015941c6e",
+      "md5": "0fa9c119ae2ca4a64f47ef8f7b254520",
       "name": "Server Prefix Injection",
       "modules": [],
       "category": "Server Management",
@@ -1787,7 +1787,7 @@
       "category": "Linked Roles"
     },
     "setServerPrefix_MOD.js": {
-      "md5": "54aeee51b8d65cb0362444bfe20e86b3",
+      "md5": "6a62477f8b1d57a97cf1c6ec0a1bcdbe",
       "name": "Set Server Prefix",
       "modules": [],
       "category": "Servers",
