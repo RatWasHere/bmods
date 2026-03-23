@@ -1,4 +1,4 @@
-modVersion = "v1.2.3"
+modVersion = "v1.3.3"
 module.exports = {
   data: {
     name: "Multi Modify JSON File",
@@ -291,13 +291,21 @@ module.exports = {
 
       switch (actionType) {
         case "create": {
-          target[lastKey] = parsedContent
+          if (!objectPath) {
+            jsonObjectClone = parsedContent
+          } else {
+            target[lastKey] = parsedContent
+          }
           break
         }
 
         case "delete": {
-          delete target[lastKey]
-          cleanEmpty(jsonObjectClone, keys)
+          if (!objectPath) {
+            jsonObjectClone = {}
+          } else {
+            delete target[lastKey]
+            cleanEmpty(jsonObjectClone, keys)
+          }
           break
         }
       }

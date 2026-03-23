@@ -1,4 +1,4 @@
-modVersion = "v1.2.0"
+modVersion = "v1.3.0"
 module.exports = {
   data: {
     name: "Modify JSON Object",
@@ -228,13 +228,21 @@ module.exports = {
       if (original && isJSON(original)) {
         switch (actionType) {
           case "create": {
-            target[lastKey] = parsedContent
+            if (!objectPath) {
+              originalClone = parsedContent
+            } else {
+              target[lastKey] = parsedContent
+            }
             break
           }
 
           case "delete": {
-            delete target[lastKey]
-            cleanEmpty(originalClone, keys)
+            if (!objectPath) {
+              originalClone = {}
+            } else {
+              delete target[lastKey]
+              cleanEmpty(originalClone, keys)
+            }
             break
           }
         }
