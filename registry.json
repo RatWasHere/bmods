@@ -1285,7 +1285,7 @@
       "category": "Messages"
     },
     "modifyJsonFile_MOD.js": {
-      "md5": "56c246aad9387d322948bf28c763b34a",
+      "md5": "cde3d39072cd9bb922a51c534b0917de",
       "name": "Modify JSON File",
       "modules": [
         "node:path",
@@ -1295,7 +1295,7 @@
       "creator": "Acedia"
     },
     "modifyObject_MOD.js": {
-      "md5": "c1d448a9e2fd95d2514871e07c25d5b1",
+      "md5": "3d5eadd0b3c5906e9ef0b8a3bc10a631",
       "name": "Modify JSON Object",
       "modules": [],
       "category": "JSON",
@@ -1365,7 +1365,7 @@
       "creator": "candiedapple"
     },
     "multiModifyJsonFile_MOD.js": {
-      "md5": "14212f9a1cb077ca298c009d94b00c02",
+      "md5": "200e54e2cda42e51c64036417800f8c4",
       "name": "Multi Modify JSON File",
       "modules": [
         "node:path",
@@ -1603,10 +1603,11 @@
       "creator": "nitiqt"
     },
     "rconCommanderMulti_MOD.js": {
-      "md5": "813035c2e78393151c7042d2c1440e32",
+      "md5": "7ed8fb97e7e4201e16697d8c1475cf11",
       "name": "Extended RCON MultiCommander",
       "modules": [
-        "rcon"
+        "rcon",
+        "p-limit"
       ],
       "category": "RCON",
       "creator": "Acedia"
@@ -1621,10 +1622,11 @@
       "creator": "Acedia"
     },
     "rconLegacyCommanderMulti_MOD.js": {
-      "md5": "c7bc43beb0ceef2ffb0aaf058ecd8d8e",
+      "md5": "0eb6a4cdc5b8f72c70b32e3ade3b251e",
       "name": "RCON MultiCommander",
       "modules": [
-        "mbr-rcon"
+        "mbr-rcon",
+        "p-limit"
       ],
       "category": "RCON",
       "creator": "Acedia"
