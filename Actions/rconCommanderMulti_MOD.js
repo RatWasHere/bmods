@@ -1,4 +1,4 @@
-modVersion = "v1.2.0"
+modVersion = "v1.3.0"
 module.exports = {
   data: {
     name: "Extended RCON MultiCommander",
@@ -10,7 +10,7 @@ module.exports = {
     creator: "Acedia",
     donate: "https://ko-fi.com/slothyacedia",
   },
-  modules: ["rcon"],
+  modules: ["rcon", "p-limit"],
   UI: [
     {
       element: "input",
@@ -69,11 +69,13 @@ module.exports = {
               storeAs: "rconResponse",
               name: "Store Command Response As",
             },
+            "_",
             {
               element: "actions",
               storeAs: "actions",
               name: "On Response, Run",
             },
+            "_",
             {
               element: "toggle",
               storeAs: "logging",
@@ -102,67 +104,75 @@ module.exports = {
       await client.getMods().require(moduleName)
     }
     const Rcon = require("rcon")
+    const pLimitImport = require("p-limit")
+    const pLimit = pLimitImport.default || pLimitImport
+    const concurrentLimit = pLimit(5)
+    const modName = this.data.name
 
-    for (let rconDetails of values.rconList) {
-      await new Promise((resolve, reject) => {
-        const config = {
-          tcp: bridge.transf(rconDetails.data.tcpudp),
-          challenge: bridge.transf(rconDetails.data.challengePtc),
-        }
-
-        const ipAddr = bridge.transf(rconDetails.data.ipAddress)
-        const ipPort = bridge.transf(rconDetails.data.ipPort)
-        const rconPw = bridge.transf(rconDetails.data.rconPassword)
-        const rconCm = bridge.transf(rconDetails.data.rconCommand)
-        const logging = rconDetails.data.logging
-
-        const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
-        rconServer.setTimeout(() => {
-          if (logging == true) {
-            console.log(`[${this.data.name}] Connection to ${ipAddr}:${ipPort} timed out.`)
+    let rconPromises = values.rconList.map((rconDetails) => {
+      return concurrentLimit(() => {
+        return new Promise((resolve, reject) => {
+          const config = {
+            tcp: bridge.transf(rconDetails.data.tcpudp),
+            challenge: bridge.transf(rconDetails.data.challengePtc),
           }
-          bridge.store(rconDetails.data.rconResponse, `Connection timed out.`)
-          rconServer.disconnect()
-          reject()
-        }, 1500)
 
-        rconServer.on("auth", function () {
-          if (logging == true) {
-            console.log(`[${this.data.name}] Connection to ${ipAddr}:${ipPort} established.`)
-            console.log(`[${this.data.name}] Sending command: ${rconCm}`)
-          }
-          rconServer.send(rconCm)
+          const ipAddr = bridge.transf(rconDetails.data.ipAddress)
+          const ipPort = bridge.transf(rconDetails.data.ipPort)
+          const rconPw = bridge.transf(rconDetails.data.rconPassword)
+          const rconCm = bridge.transf(rconDetails.data.rconCommand)
+          const logging = rconDetails.data.logging
+
+          const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
+          rconServer.setTimeout(() => {
+            if (logging == true) {
+              console.log(`[${modName}] Connection to ${ipAddr}:${ipPort} timed out.`)
+            }
+            bridge.store(rconDetails.data.rconResponse, `Connection timed out.`)
+            rconServer.disconnect()
+            reject()
+          }, 1500)
+
+          rconServer.on("auth", function () {
+            if (logging == true) {
+              console.log(`[${modName}] Connection to ${ipAddr}:${ipPort} established.`)
+              console.log(`[${modName}] Sending command: ${rconCm}`)
+            }
+            rconServer.send(rconCm)
+          })
+
+          rconServer.on("response", function (str) {
+            if (logging == true) {
+              console.log(`[${modName}] Response received: ` + str)
+            }
+            bridge.store(rconDetails.data.rconResponse, str)
+            rconServer.disconnect()
+            bridge.runner(rconDetails.data.actions)
+            resolve()
+          })
+
+          rconServer.on("end", function () {
+            if (logging == true) {
+              console.log(`[${modName}] Connection to ${ipAddr}:${ipPort} dropped.`)
+            }
+            rconServer.disconnect()
+            resolve()
+          })
+
+          rconServer.on("error", function (str) {
+            if (logging == true) {
+              console.log(`[${modName}] Error: ${str}`)
+            }
+            bridge.store(rconDetails.data.rconResponse, `Error: ${str}`)
+            rconServer.disconnect()
+            reject()
+          })
+
+          rconServer.connect()
         })
-
-        rconServer.on("response", function (str) {
-          if (logging == true) {
-            console.log(`[${this.data.name}] Response received: ` + str)
-          }
-          bridge.store(rconDetails.data.rconResponse, str)
-          rconServer.disconnect()
-          bridge.runner(rconDetails.data.actions)
-          resolve()
-        })
-
-        rconServer.on("end", function () {
-          if (logging == true) {
-            console.log(`[${this.data.name}] Connection to ${ipAddr}:${ipPort} dropped.`)
-          }
-          rconServer.disconnect()
-          resolve()
-        })
-
-        rconServer.on("error", function (str) {
-          if (logging == true) {
-            console.log(`[${this.data.name}] Error: ${str}`)
-          }
-          bridge.store(rconDetails.data.rconResponse, `Error: ${str}`)
-          rconServer.disconnect()
-          reject()
-        })
-
-        rconServer.connect()
       })
-    }
+    })
+
+    await Promise.allSettled(rconPromises)
   },
 }

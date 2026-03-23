@@ -1,4 +1,4 @@
-modVersion = "v1.2.0"
+modVersion = "v1.3.0"
 module.exports = {
   data: {
     name: "RCON MultiCommander",
@@ -11,7 +11,7 @@ module.exports = {
     donate: "https://ko-fi.com/slothyacedia",
   },
   category: "RCON",
-  modules: ["mbr-rcon"],
+  modules: ["mbr-rcon", "p-limit"],
   UI: [
     {
       element: "input",
@@ -64,11 +64,13 @@ module.exports = {
               storeAs: "rconResponse",
               name: "Store Command Response As",
             },
+            "_",
             {
               element: "actions",
               storeAs: "actions",
               name: "On Response, Run",
             },
+            "_",
             {
               element: "toggle",
               storeAs: "logging",
@@ -97,13 +99,19 @@ module.exports = {
       await client.getMods().require(moduleName)
     }
     const Rcon = require("mbr-rcon")
+    const pLimitImport = require("p-limit")
+    const pLimit = pLimitImport.default || pLimitImport
+    const concurrentLimit = pLimit(5)
+    const modName = this.data.name
 
-    for (let server of values.serverList) {
-      const timeout = bridge.transf(server.data.timeout) ? Number(bridge.transf(server.data.timeout)) * 1000 : 5000
-      const logging = server.data.logging
+    let rconPromises = values.serverList.map((server) => {
+      return concurrentLimit(() => {
+        const timeout = bridge.transf(server.data.timeout) ? Number(bridge.transf(server.data.timeout)) * 1000 : 5000
 
-      try {
-        await Promise.race([
+        const logging = server.data.logging
+        let rconServer
+
+        return Promise.race([
           new Promise((resolve, reject) => {
             const ipAddr = bridge.transf(server.data.ipAddress)
             const ipPort = bridge.transf(server.data.ipPort)
@@ -118,16 +126,16 @@ module.exports = {
 
             const rcon = new Rcon(config)
 
-            const rconServer = rcon
+            rconServer = rcon
               .connect({
                 onSuccess: () => {
-                  if (logging == true) {
-                    console.log(`[${this.data.name}] Connection to ${ipAddr}:${ipPort} established.`)
+                  if (logging) {
+                    console.log(`[${modName}] Connected ${ipAddr}:${ipPort}`)
                   }
                 },
                 onError: (error) => {
-                  if (logging == true) {
-                    console.log(`[${this.data.name}] Connection error: ${error}`)
+                  if (logging) {
+                    console.log(`[${modName}] Connection error: ${error}`)
                   }
                   bridge.store(server.data.rconResponse, `Connection Error: Server Offline.`)
                   reject(error)
@@ -135,14 +143,13 @@ module.exports = {
               })
               .auth({
                 onSuccess: () => {
-                  if (logging == true) {
-                    console.log(`[${this.data.name}] Authenticated.`)
-                    console.log(`[${this.data.name}] Sending command: ${rconCm}`)
+                  if (logging) {
+                    console.log(`[${modName}] Authenticated`)
                   }
                 },
                 onError: (error) => {
-                  if (logging == true) {
-                    console.log(`[${this.data.name}] Authentication error: ${error}`)
+                  if (logging) {
+                    console.log(`[${modName}] Auth error: ${error}`)
                   }
                   bridge.store(server.data.rconResponse, `Authentication Error: Wrong Password.`)
                   reject(error)
@@ -150,31 +157,43 @@ module.exports = {
               })
               .send(rconCm, {
                 onSuccess: (response) => {
-                  if (logging == true) {
-                    console.log(`[${this.data.name}] Server response: ${response}`)
+                  if (logging) {
+                    console.log(`[${modName}] Response: ${response}`)
                   }
                   rconServer.close()
                   bridge.store(server.data.rconResponse, response)
-                  resolve(response)
                   bridge.runner(server.data.actions)
+                  resolve(response)
                 },
                 onError: (error) => {
-                  if (logging == true) {
-                    console.log(`[${this.data.name}] Command error: ${error}`)
+                  if (logging) {
+                    console.log(`[${modName}] Command error: ${error}`)
                   }
                   bridge.store(server.data.rconResponse, `Command Error: Execution Error.`)
                   reject(error)
                 },
               })
           }),
-          new Promise((_, reject) => setTimeout(() => reject(new Error(`Server Took Too Long!`)), timeout)),
-        ])
-      } catch (error) {
-        if (logging == true) {
-          console.log(`[${this.data.name}] Command error: ${error}`)
-        }
-        bridge.store(server.data.rconResponse, `RCON Error: ${error.message}`)
-      }
-    }
+
+          new Promise((_, reject) =>
+            setTimeout(() => {
+              if (rconServer) {
+                try {
+                  rconServer.close()
+                } catch {}
+              }
+              reject(new Error(`Server Took Too Long!`))
+            }, timeout),
+          ),
+        ]).catch((error) => {
+          if (logging) {
+            console.log(`[${modName}] Error: ${error}`)
+          }
+          bridge.store(server.data.rconResponse, `RCON Error: ${error.message}`)
+        })
+      })
+    })
+
+    await Promise.allSettled(rconPromises)
   },
 }

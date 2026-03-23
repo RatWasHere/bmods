@@ -251,7 +251,7 @@ module.exports = {
     }
 
     let actionType = bridge.transf(values.jsonAction.type)
-    let objectPath = bridge.transf(values.jsonAction.value).trim()
+    let objectPath = bridge.transf(values.jsonAction.value).trim() || ""
     let rawContent = bridge.transf(values.content)
 
     objectPath = objectPath.replaceAll(/\.{2,}/g, ".")
