@@ -1,4 +1,4 @@
-modVersion = "v1.1.0"
+modVersion = "v1.1.1"
 const indexByStoreAs = (values, storeAs) => {
   if (typeof storeAs != "string") {
     return console.log("Not String")
@@ -12,7 +12,7 @@ const indexByStoreAs = (values, storeAs) => {
 }
 module.exports = {
   data: {
-    name: "Control Lavalink Music 2",
+    name: "Control Lavalink Music v2",
   },
   aliases: [],
   modules: ["lavalink-client"],
@@ -235,30 +235,30 @@ module.exports = {
         break
       }
 
-      case "pause": {
-        await player.pause()
-        break
-      }
+      // case "pause": {
+      //   await player.pause()
+      //   break
+      // }
 
-      case "resume": {
-        await player.resume()
-        break
-      }
+      // case "resume": {
+      //   await player.resume()
+      //   break
+      // }
 
       case "stop": {
         await player.stopPlaying()
         break
       }
 
-      case "destroy": {
-        await player.destroy()
-        break
-      }
+      // case "destroy": {
+      //   await player.destroy()
+      //   break
+      // }
 
-      case "connect": {
-        await player.connect()
-        break
-      }
+      // case "connect": {
+      //   await player.connect()
+      //   break
+      // }
 
       case "connectDifferent": {
         if (client.lavalink.bmdManager) {
