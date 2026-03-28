@@ -270,8 +270,8 @@
       "creator": "Rat"
     },
     "controlLavalinkMusic2_MOD.js": {
-      "md5": "99ce98912acef1d4cd90baa7bfccf764",
-      "name": "Control Lavalink Music 2",
+      "md5": "72590468949cce82a20c3faf546302c9",
+      "name": "Control Lavalink Music v2",
       "modules": [
         "lavalink-client"
       ],
@@ -875,6 +875,15 @@
       ],
       "category": "Media",
       "creator": "lik_rus"
+    },
+    "getLavalinkPlayerInfo2_MOD.js": {
+      "md5": "1466db1b847fbed8def49f84287297f9",
+      "name": "Get Lavalink Player Info v2",
+      "modules": [
+        "lavalink-client"
+      ],
+      "category": "Lavalink Music",
+      "creator": "Acedia"
     },
     "getLavalinkPlayerInfo_MOD.js": {
       "md5": "3b632e56ea96b0c0c1c190d0fea7804c",
