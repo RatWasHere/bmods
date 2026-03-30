@@ -1,6 +1,7 @@
 module.exports = {
   data: {
     name: "Play Lavalink Music",
+    source: "ytsearch",
   },
   category: "Lavalink Music",
   info: {
@@ -21,6 +22,12 @@ module.exports = {
       element: "input",
       name: "Query",
       storeAs: "query",
+    },
+    "-",
+    {
+      element: "input",
+      name: "Source",
+      storeAs: "source",
     },
     "-",
     {
@@ -58,6 +65,7 @@ module.exports = {
   async run(values, message, client, bridge) {
     const voiceChannel = await bridge.getChannel(values.voiceChannel);
     const query = bridge.transf(values.query);
+    const source = bridge.transf(values.source);
 
     if (!voiceChannel) {
       console.log("Voice channel not found or not specified.");
@@ -94,7 +102,7 @@ module.exports = {
       const result = await player.search(
         {
           query,
-          source: "ytsearch",
+          source: source,
         },
         message.author || message.user
       );
