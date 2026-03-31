@@ -65,7 +65,7 @@ module.exports = {
   async run(values, message, client, bridge) {
     const voiceChannel = await bridge.getChannel(values.voiceChannel);
     const query = bridge.transf(values.query);
-    const source = bridge.transf(values.source);
+    const source = bridge.transf(values.source || 'ytsearch');
 
     if (!voiceChannel) {
       console.log("Voice channel not found or not specified.");
