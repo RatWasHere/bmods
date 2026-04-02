@@ -1279,7 +1279,7 @@
       "creator": "Made with <3 by @lucxanul"
     },
     "manageLavalinkNodes_MOD.js": {
-      "md5": "ce722ce432ff55169b7d114ff0b9c58f",
+      "md5": "63dfe04854d23759ab621e84e9607e69",
       "name": "Manage Lavalink Nodes",
       "modules": [
         "lavalink-client"
@@ -2032,7 +2032,7 @@
       "creator": "Acedia"
     },
     "wordPhraseCheck_MOD.js": {
-      "md5": "ef882214fc2a611ae82b2ce6ec0b0fc2",
+      "md5": "875a96b73a248fef550635fd1257e515",
       "name": "Check Text For Word",
       "modules": [],
       "category": "Text",
