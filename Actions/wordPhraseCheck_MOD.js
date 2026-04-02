@@ -1,4 +1,4 @@
-modVersion = "v2.0.1"
+modVersion = "v2.1.1"
 const titleCase = (string) =>
   string
     .split(" ")
@@ -59,6 +59,7 @@ module.exports = {
         startsWith: { name: "Starts With" },
         endsWith: { name: "Ends With" },
         includes: { name: "Includes" },
+        equals: { name: "Equals" },
       },
     },
     "_",
@@ -147,6 +148,10 @@ module.exports = {
           ifIncludes: "If Text Includes",
           ifNotIncludes: "If Text Doesn't Include",
         },
+        equals: {
+          ifIncludes: "If Text Equals",
+          ifNotIncludes: "If Text Doesn't Equal",
+        },
       }
 
       values.UI[indexByStoreAs(values, "ifIncludes")].name = phraseMap[inclusionType].ifIncludes
@@ -211,8 +216,44 @@ module.exports = {
         word = word.toLowerCase()
       }
 
-      if (sourceText[inclusionType](word)) {
-        includesWords = true
+      switch (inclusionType) {
+        case "equals": {
+          if (sourceText == word) {
+            includesWords = true
+          }
+          break
+        }
+
+        case "includes": {
+          if (sourceText.includes(word)) {
+            includesWords = true
+          }
+          break
+        }
+
+        case "startsWith": {
+          if (sourceText.startsWith(word)) {
+            includesWords = true
+          }
+          break
+        }
+
+        case "endsWith": {
+          if (sourceText.endsWith(word)) {
+            includesWords = true
+          }
+          break
+        }
+
+        default: {
+          if (sourceText[inclusionType](word)) {
+            includesWords = true
+          }
+          break
+        }
+      }
+
+      if (includesWords == true) {
         break
       }
     }

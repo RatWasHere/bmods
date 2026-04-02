@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "Manage Lavalink Nodes",
@@ -24,6 +24,28 @@ module.exports = {
       },
     },
     "-",
+    {
+      element: "variable",
+      storeAs: "node",
+      name: "Node",
+      help: {
+        title: "Node",
+        UI: [
+          {
+            element: "text",
+            text: "This Variable Takes Priority Over Manual Details",
+          },
+        ],
+      },
+    },
+    "_",
+    {
+      element: "text",
+      text: "OR",
+      header: true,
+      storeAs: "orText",
+    },
+    "_",
     {
       element: "input",
       storeAs: "host",
@@ -67,12 +89,14 @@ module.exports = {
       }
 
       case "remove": {
-        subtitle = `Remove Node ${values.nodeName || ""}`
+        let subtitlePart = values.node.value ? `${values.node.type}(${values.node.value})` : values.nodeName || ""
+        subtitle = `Remove Node ${subtitlePart}`
         break
       }
 
       case "test": {
-        subtitle = `Test Node Connectivity ${values.host || ""}:${values.port || ""}`
+        let subtitlePart = values.node.value ? `${values.node.type}(${values.node.value})` : `${values.host || ""}:${values.port || ""}`
+        subtitle = `Test Node Connectivity ${subtitlePart}`
         break
       }
 
@@ -107,6 +131,8 @@ module.exports = {
           values.UI[indexByStoreAs(values, "port")].element = "input"
           values.UI[indexByStoreAs(values, "password")].element = "input"
           values.UI[indexByStoreAs(values, "nodeName")].element = "input"
+          values.UI[indexByStoreAs(values, "orText")].element = ""
+          values.UI[indexByStoreAs(values, "node")].element = ""
           break
         }
 
@@ -115,6 +141,8 @@ module.exports = {
           values.UI[indexByStoreAs(values, "port")].element = ""
           values.UI[indexByStoreAs(values, "password")].element = ""
           values.UI[indexByStoreAs(values, "nodeName")].element = "input"
+          values.UI[indexByStoreAs(values, "orText")].element = "text"
+          values.UI[indexByStoreAs(values, "node")].element = "variable"
           break
         }
 
@@ -123,6 +151,8 @@ module.exports = {
           values.UI[indexByStoreAs(values, "port")].element = "input"
           values.UI[indexByStoreAs(values, "password")].element = "input"
           values.UI[indexByStoreAs(values, "nodeName")].element = "input"
+          values.UI[indexByStoreAs(values, "orText")].element = "text"
+          values.UI[indexByStoreAs(values, "node")].element = "variable"
           break
         }
 
@@ -131,6 +161,8 @@ module.exports = {
           values.UI[indexByStoreAs(values, "port")].element = ""
           values.UI[indexByStoreAs(values, "password")].element = ""
           values.UI[indexByStoreAs(values, "nodeName")].element = ""
+          values.UI[indexByStoreAs(values, "orText")].element = ""
+          values.UI[indexByStoreAs(values, "node")].element = ""
           break
         }
       }
@@ -199,7 +231,9 @@ module.exports = {
       }
 
       case "remove": {
-        let id = bridge.transf(values.nodeName)
+        let inputNode = values.node.value ? bridge.get(values.node) : undefined
+        let id = inputNode?.id || bridge.transf(values.nodeName)
+
         if (!id) {
           console.log(`[${this.data.name}] Please Input A Node Name (id) To Remove`)
           return
@@ -230,16 +264,23 @@ module.exports = {
       }
 
       case "test": {
-        let host = bridge.transf(values.host)
-        let port = Number(bridge.transf(values.port))
-        let authorization = bridge.transf(values.password)
+        let inputNode = values.node.value ? bridge.get(values.node) : undefined
+        let host = inputNode?.options.host || bridge.transf(values.host)
+        let port = inputNode?.options.port || Number(bridge.transf(values.port))
+        let authorization = inputNode?.options.authorization || bridge.transf(values.password)
 
+        let past
+        let current
         try {
+          past = Date.now()
           let response = await fetch(`http://${host}:${port}/v4/info`, {
             headers: {
               Authorization: authorization,
             },
           })
+          current = Date.now()
+
+          let diff = current - past
 
           if (!response.ok) {
             console.log(`[${this.data.name}] No Response From Node`)
@@ -249,7 +290,7 @@ module.exports = {
 
           let responseJSON = await response.json()
           console.log(`[${this.data.name}] Node Is Valid Lavalink, v${responseJSON.version.semver}`)
-          bridge.store(values.result, "online")
+          bridge.store(values.result, { status: "online", ping: diff })
         } catch (err) {
           console.log(`[${this.data.name}] Node Test Failed `, err)
           bridge.store(values.result, "error")
