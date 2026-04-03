@@ -393,6 +393,30 @@ module.exports = {
                 consoleArea.scrollTop = consoleArea.scrollHeight
               }
 
+              let validateCmdJSON = (commandJSON) => {
+                if (typeof commandJSON.name != 'string') {
+                  return false
+                }
+
+                if (typeof commandJSON.type != 'string') {
+                  return false
+                }
+
+                if (typeof commandJSON.trigger != 'string') {
+                  return false
+                }
+
+                if (!Array.isArray(commandJSON.actions)) {
+                  return false
+                }
+
+                if (typeof commandJSON.customId != 'number') {
+                  return false
+                }
+
+                return true
+              }
+
               for (let file of files){
 
                 if (!file.name.toLowerCase().endsWith('.json')){
@@ -403,7 +427,7 @@ module.exports = {
                 file.text().then(fileContent => {
                   try {
                     commandJSON = JSON.parse(fileContent)
-                    if (commandJSON.name && commandJSON.type && commandJSON.trigger && commandJSON.actions && commandJSON.customId){
+                    if (validateCmdJSON(commandJSON)){
                       const fs = require('fs')
                       const path = require('path')
                       let tempImportDir = path.join(process.cwd(), 'Automations', 'commandExIm', 'importCache')
