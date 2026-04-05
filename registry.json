@@ -2065,8 +2065,8 @@
       "author": "Acedia",
       "files": {
         "data.json": "1c02e739262f14ed13f5a17566488cd3",
-        "main.js": "16da44797b8a5f8fddb27e414a660e73",
-        "startup.js": "98d615a2069bba7c025a3b4790ab4d3d",
+        "main.js": "3dda0fbedc019b805e369d06d6343687",
+        "startup.js": "d654c091143d2b86bfe8ef6df8bae106",
         "startup_info.json": "511cd0936ad5d871beac9a3efed6a727"
       }
     },
@@ -2076,7 +2076,7 @@
       "files": {
         "data.json": "a17c2d39f0df11353d09ca436240480c",
         "main.js": "6d9c37519d4b09ec21e8208685fa253c",
-        "startup.js": "4e810e11aa7ccf71f6280da59a2abb5c",
+        "startup.js": "410d75d04d5c4ffe06c79b388852be2f",
         "startup_info.json": "b8c61c8c8d166ca2ed27927c51fa066b"
       }
     }
