@@ -8,10 +8,11 @@ module.exports = {
         options.eval('runAutomation("prepProject")')
       }
       element.id = "prepProjectQA"
-      let elementAnchor =
-        document.getElementById("commandExImQuickAccess") || document.getElementById("commandExImQA") || document.getElementById("collaborationStatus")
+      const anchorIds = ["commandExImQuickAccess", "commandExImQA", "collaborationStatus"]
 
-      element.appendAfter(elementAnchor)
+      const elementAnchor = anchorIds.reduce((found, id) => found || document.getElementById(id), null)
+
+      if (elementAnchor) element.appendAfter(elementAnchor)
     }
   },
 }

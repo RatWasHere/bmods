@@ -1,4 +1,4 @@
-modVersion = "v1.4.6"
+modVersion = "v1.5.6"
 
 const modMan = {
   installModule(moduleName, version) {
@@ -29,24 +29,47 @@ module.exports = {
     const os = require("node:os")
     const crypto = require("node:crypto")
 
-    let dataJSONPath = path.join(process.cwd(), "AppData", "data.json")
-    let downloadsDir = path.join(os.homedir(), "Downloads")
-    let defaultDownloadsDir = downloadsDir
-    let automationDataJSONPath = path.join(process.cwd(), "Automations", "commandExIm", "preferences.json")
-    if (!fs.existsSync(automationDataJSONPath)) {
-      fs.mkdirSync(path.dirname(automationDataJSONPath), { recursive: true })
-      let defaultDataStructure = {
-        export: "",
-      }
-      fs.writeFileSync(automationDataJSONPath, JSON.stringify(defaultDataStructure, null, 2))
+    let editorDataFilePath = path.join(process.cwd(), "AppData", "data.json")
+    let preferencesFilePath = path.join(process.cwd(), "Automations", "commandExIm", "preferences.json")
+
+    let defaultPreferences = {
+      export: "",
+      importDnD: 0,
     }
 
-    let automationPreferances = JSON.parse(fs.readFileSync(automationDataJSONPath))
-    if (automationPreferances.export !== "" && automationPreferances.export !== "undefined") {
-      downloadsDir = automationPreferances.export
+    if (!fs.existsSync(preferencesFilePath)) {
+      fs.mkdirSync(path.dirname(preferencesFilePath), { recursive: true })
+      fs.writeFileSync(preferencesFilePath, JSON.stringify(defaultPreferences, null, 2))
     }
-    if (!fs.existsSync(downloadsDir)) {
-      downloadsDir = defaultDownloadsDir
+    let preferences
+
+    function getPreferences() {
+      let preferencesRaw = fs.readFileSync(preferencesFilePath)
+      preferences = JSON.parse(preferencesRaw)
+    }
+
+    let validateCmdJSON = (commandJSON) => {
+      if (typeof commandJSON.name != "string") {
+        return false
+      }
+
+      if (typeof commandJSON.type != "string") {
+        return false
+      }
+
+      if (typeof commandJSON.trigger != "string") {
+        return false
+      }
+
+      if (!Array.isArray(commandJSON.actions)) {
+        return false
+      }
+
+      if (typeof commandJSON.customId != "number") {
+        return false
+      }
+
+      return true
     }
 
     let titleCase = (string) =>
@@ -54,67 +77,6 @@ module.exports = {
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ")
-
-    let commandTypes = {
-      textCommand: "Text Cmd",
-      slashCommand: "Slash Cmd",
-      anyMessage: "Any Message",
-      messageContent: "Message Content",
-      message: "Message Cmd",
-      user: "User Cmd",
-      event: "Event",
-    }
-
-    let readAndPush = (fileLocation, commands) => {
-      let rawCommandJson
-      try {
-        rawCommandJson = fs.readFileSync(fileLocation, "utf8")
-      } catch {
-        try {
-          options.burstInform({ element: "text", text: titleCase(`⚠️ Could Not Read File ${fileLocation}`) })
-        } catch {}
-        return false
-      }
-
-      let commandJson
-      try {
-        commandJson = JSON.parse(rawCommandJson)
-      } catch {
-        try {
-          options.burstInform({ element: "text", text: titleCase(`⚠️ ${fileLocation} Contains Invalid JSON`) })
-        } catch {}
-        return false
-      }
-
-      if (
-        commandJson.name &&
-        commandJson.type &&
-        commandJson.trigger &&
-        commandJson.actions &&
-        commandJson.customId &&
-        typeof commandJson.name == "string" &&
-        typeof commandJson.trigger == "string" &&
-        typeof commandJson.type == "string" &&
-        Array.isArray(commandJson.actions)
-      ) {
-      } else {
-        try {
-          options.burstInform({ element: "text", text: titleCase(`⚠️ Command Validation Failed`) })
-        } catch {}
-        return false
-      }
-
-      if (Array.isArray(commandJson)) {
-        commands.push(...commandJson)
-      } else {
-        commands.push(commandJson)
-      }
-
-      try {
-        options.burstInform({ element: "text", text: titleCase(`✅ Imported ${fileLocation}`) })
-      } catch {}
-      return true
-    }
 
     let data = await options.showInterface([
       {
@@ -133,10 +95,30 @@ module.exports = {
       },
     ])
 
-    let elementTab = document.getElementById("commandExImQuickAccess") || document.getElementById("commandExImQA")
     switch (data.action.type) {
       case "export": {
-        let botData = JSON.parse(fs.readFileSync(dataJSONPath))
+        getPreferences()
+        let exportButton = document.getElementById("ceiExport")
+        let downloadsDir = path.join(os.homedir(), "Downloads")
+        let defaultDownloadsDir = downloadsDir
+        if (preferences.export !== "" && preferences.export !== "undefined") {
+          downloadsDir = preferences.export
+        }
+        if (!fs.existsSync(downloadsDir)) {
+          downloadsDir = defaultDownloadsDir
+        }
+
+        let commandTypes = {
+          textCommand: "Text Cmd",
+          slashCommand: "Slash Cmd",
+          anyMessage: "Any Message",
+          messageContent: "Message Content",
+          message: "Message Cmd",
+          user: "User Cmd",
+          event: "Event",
+        }
+
+        let botData = JSON.parse(fs.readFileSync(editorDataFilePath))
         let commands = botData.commands
 
         let exportUI = [
@@ -149,24 +131,24 @@ module.exports = {
           {
             element: "html",
             html: `
-            <button
-              style="width: var(--width-in-editor); margin-left: auto; margin-right: auto"
-              class="hoverablez flexbox"
-              onclick="
-                let inputPath = awaitIPCResponse({channel: 'saveDialog'}, 'saveDialogResult').then(path => {
-                  let inputPath = path[0]
-                  let inputArea = document.getElementById('exportPath')
-                  if (inputPath == undefined) {
+              <button
+                style="width: var(--width-in-editor); margin-left: auto; margin-right: auto"
+                class="hoverablez flexbox"
+                onclick="
+                  let inputPath = awaitIPCResponse({channel: 'saveDialog'}, 'saveDialogResult').then(path => {
+                    let inputPath = path[0]
+                    let inputArea = document.getElementById('exportPath')
+                    if (inputPath == undefined) {
+                      inputArea.focus()
+                      return
+                    }
+                    inputArea.value = inputPath
                     inputArea.focus()
-                    return
-                  }
-                  inputArea.value = inputPath
-                  inputArea.focus()
-                })"
-            >
-              <btext id="buttonText"> Choose Export Path </btext>
-            </button>
-            `,
+                  })"
+              >
+                <btext id="buttonText"> Choose Export Path </btext>
+              </button>
+              `,
           },
           "_",
           {
@@ -178,10 +160,10 @@ module.exports = {
           {
             element: "text",
             text: `<div style="text-align: center">
-            Enabling "Zip It" Will Make Create A Zip File Of The Exported Commands<br>
-            Enabling "Inverse Selection" Will Export Those Not Selected
-            </div>
-            `,
+              Enabling "Zip It" Will Make Create A Zip File Of The Exported Commands<br>
+              Enabling "Inverse Selection" Will Export Those Not Selected
+              </div>
+              `,
           },
           "-",
         ]
@@ -213,13 +195,15 @@ module.exports = {
           )
         })
 
+        exportUI.push("-", { element: "text", text: modVersion })
+
         resultData = await options.showInterface(exportUI, defaultData)
-        if (resultData.exportPath !== automationPreferances.export) {
-          automationPreferances.export = path.normalize(resultData.exportPath)
-          fs.writeFileSync(automationDataJSONPath, JSON.stringify(automationPreferances, null, 2))
+        if (resultData.exportPath !== preferences.export) {
+          preferences.export = path.normalize(resultData.exportPath)
+          fs.writeFileSync(preferencesFilePath, JSON.stringify(preferences, null, 2))
         }
 
-        let exportedCount = 0
+        let exportCount = 0
         downloadsDir = path.normalize(resultData.exportPath)
         let zipIt = resultData.zip
         let inverseSelection = resultData.inverse
@@ -228,7 +212,7 @@ module.exports = {
         delete resultData["inverse"]
         let selectedIds = Object.keys(resultData).filter((commandId) => resultData[commandId]?.length > 0)
         if (inverseSelection == true) {
-          let botData = JSON.parse(fs.readFileSync(dataJSONPath))
+          let botData = JSON.parse(fs.readFileSync(editorDataFilePath))
           let commands = botData.commands
           selectedIds = Object.keys(resultData).filter((commandId) => resultData[commandId]?.length == 0)
           for (let selectedId of selectedIds) {
@@ -253,8 +237,8 @@ module.exports = {
 
         let exportPaths = []
 
-        if (elementTab) {
-          elementTab.innerHTML = "Export/Import (Exporting...)"
+        if (exportButton) {
+          exportButton.innerHTML = "Export (Exporting...)"
           await new Promise((resolve) => setTimeout(resolve, 350))
         }
 
@@ -270,7 +254,7 @@ module.exports = {
 
           try {
             fs.writeFileSync(exportPath, JSON.stringify(selectedData.data, null, 2))
-            exportedCount++
+            exportCount++
             exportPaths.push(exportPath)
           } catch {
             try {
@@ -279,14 +263,14 @@ module.exports = {
           }
         }
 
-        if (elementTab) {
-          elementTab.innerHTML = `Export/Import (Exported ${exportedCount} Files)`
+        if (exportButton) {
+          exportButton.innerHTML = `Export (Exported ${exportCount} Files)`
           await new Promise((resolve) => setTimeout(resolve, 350))
         }
 
         if (zipIt == true) {
-          if (elementTab) {
-            elementTab.innerHTML = "Export/Import (Zipping...)"
+          if (exportButton) {
+            exportButton.innerHTML = "Export (Zipping...)"
             await new Promise((resolve) => setTimeout(resolve, 350))
           }
           const archiver = await modMan.require("archiver")
@@ -323,8 +307,8 @@ module.exports = {
           })
 
           if (zipResult == true) {
-            if (elementTab) {
-              elementTab.innerHTML = "Export/Import (Zipped)"
+            if (exportButton) {
+              exportButton.innerHTML = "Export (Zipped)"
               await new Promise((resolve) => setTimeout(resolve, 350))
             }
             try {
@@ -333,119 +317,121 @@ module.exports = {
           }
         }
 
-        if (elementTab) {
-          elementTab.innerHTML = "Export/Import (Complete)"
+        if (exportButton) {
+          exportButton.innerHTML = "Export (Complete)"
           setTimeout(() => {
-            elementTab.innerHTML = "Export/Import"
+            exportButton.innerHTML = "Export"
           }, 350)
         }
         try {
-          options.result(titleCase(`✅ Exported ${exportedCount} Command(s) To ${downloadsDir}`))
+          options.result(titleCase(`✅ Exported ${exportCount} Command(s) To ${downloadsDir}`))
         } catch {}
         break
       }
 
       case "import": {
-        let botData = JSON.parse(fs.readFileSync(dataJSONPath))
+        getPreferences()
+        let importButton = document.getElementById("ceiImport")
+        let botData = JSON.parse(fs.readFileSync(editorDataFilePath))
         let commands = botData.commands
-        let defaultImportFolderPath = path.join(process.cwd(), "Automations", "commandExIm", "ImportCache")
-        if (fs.existsSync(defaultImportFolderPath)) {
-          fs.rmSync(defaultImportFolderPath, { recursive: true, force: true })
+        let importFolderPath = path.join(process.cwd(), "Automations", "commandExIm", "ImportCache")
+        if (fs.existsSync(importFolderPath)) {
+          fs.rmSync(importFolderPath, { recursive: true, force: true })
         }
-        fs.mkdirSync(defaultImportFolderPath, { recursive: true })
-        let defaultData = { path: defaultImportFolderPath, generateBackup: true }
+        fs.mkdirSync(importFolderPath, { recursive: true })
+        let defaultData = { generateBackup: true }
 
         let importUI = [
           {
             element: "html",
             html: `
-            <div
-            id="dropArea"
-            style="width: var(--width-in-editor);
-            height: 60px;
-            margin-left: auto;
-            margin-right: auto;
-            border: 2px dashed #555;
-            border-radius: 6px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition:
-            border-color 0.2s;
-            box-sizing: border-box"
-            class="hoverablez noanims"
-            ondragover="event.preventDefault(); this.style.borderColor='#00b4d8';"
-            ondragleave="this.style.borderColor='#555';"
-            ondrop="
-              event.preventDefault();
-              this.style.borderColor='#555';
-              let files = event.dataTransfer.files;
-              let dropArea = this
-              let dropText = dropArea.querySelector('#dropText')
-              let consoleArea = document.getElementById('console')
+                <div
+                id="dropArea"
+                style="width: var(--width-in-editor);
+                height: 60px;
+                margin-left: auto;
+                margin-right: auto;
+                border: 2px dashed #555;
+                border-radius: 6px;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition:
+                border-color 0.2s;
+                box-sizing: border-box"
+                class="hoverablez noanims"
+                ondragover="event.preventDefault(); this.style.borderColor='#00b4d8';"
+                ondragleave="this.style.borderColor='#555';"
+                ondrop="
+                  event.preventDefault();
+                  this.style.borderColor='#555';
+                  let files = event.dataTransfer.files;
+                  let dropArea = this
+                  let dropText = dropArea.querySelector('#dropText')
+                  let consoleArea = document.getElementById('console')
 
-              function logToConsole(msg, color){
-                let line = document.createElement('div')
-                line.style.color = color
-                line.textContent = msg
-                consoleArea.appendChild(line)
-                consoleArea.scrollTop = consoleArea.scrollHeight
-              }
+                  function logToConsole(msg, color){
+                    let line = document.createElement('div')
+                    line.style.color = color
+                    line.textContent = msg
+                    consoleArea.appendChild(line)
+                    consoleArea.scrollTop = consoleArea.scrollHeight
+                  }
 
-              let validateCmdJSON = (commandJSON) => {
-                if (typeof commandJSON.name != 'string') {
-                  return false
-                }
+                  let validateCmdJSON = (commandJSON) => {
+                    if (typeof commandJSON.name != 'string') {
+                      return false
+                    }
 
-                if (typeof commandJSON.type != 'string') {
-                  return false
-                }
+                    if (typeof commandJSON.type != 'string') {
+                      return false
+                    }
 
-                if (typeof commandJSON.trigger != 'string') {
-                  return false
-                }
+                    if (typeof commandJSON.trigger != 'string') {
+                      return false
+                    }
 
-                if (!Array.isArray(commandJSON.actions)) {
-                  return false
-                }
+                    if (!Array.isArray(commandJSON.actions)) {
+                      return false
+                    }
 
-                if (typeof commandJSON.customId != 'number') {
-                  return false
-                }
+                    if (typeof commandJSON.customId != 'number') {
+                      return false
+                    }
 
-                return true
-              }
+                    return true
+                  }
 
-              for (let file of files){
+                  for (let file of files){
 
-                if (!file.name.toLowerCase().endsWith('.json')){
-                  logToConsole('Invalid File (Non-JSON): ' + file.name, '#ff0000')
-                  continue
-                }
+                    if (!file.name.toLowerCase().endsWith('.json')){
+                      logToConsole('Invalid File (Non-JSON): ' + file.name, '#ff0000')
+                      continue
+                    }
 
-                file.text().then(fileContent => {
-                  try {
-                    commandJSON = JSON.parse(fileContent)
-                    if (validateCmdJSON(commandJSON)){
-                      const fs = require('fs')
-                      const path = require('path')
-                      let tempImportDir = path.join(process.cwd(), 'Automations', 'commandExIm', 'importCache')
-                      let fileName = (commandJSON.name + '_' + commandJSON.type + Date.now()).replace(/[^\\w\\-]+/g, '_') + '.json'
-                      let importFilePath = path.join(tempImportDir, fileName)
-                      console.log(importFilePath)
-                      fs.writeFileSync(importFilePath, JSON.stringify(commandJSON, null, 2))
-                      logToConsole('File Cached For Import: ' + file.name, '#00ff00')
-                    } else {
-                      throw new error('Content Not Valid JSON')}
-                  } catch {logToConsole('Invalid File (Invalid Command Structure): ' + file.name, '#ff0000')}
-                })
-              }
-            "
-          >
-            <span id="dropText">Drop JSON File(s) Here</span>
-          </div>
-            `,
+                    file.text().then(fileContent => {
+                      try {
+                        commandJSON = JSON.parse(fileContent)
+                        if (validateCmdJSON(commandJSON)){
+                          const fs = require('fs')
+                          const path = require('path')
+                          let tempImportDir = path.join(process.cwd(), 'Automations', 'commandExIm', 'importCache')
+                          let fileName = (commandJSON.name + '_' + commandJSON.type + Date.now()).replace(/[^\\w\\-]+/g, '_') + '.json'
+                          let importFilePath = path.join(tempImportDir, fileName)
+                          console.log(importFilePath)
+                          fs.writeFileSync(importFilePath, JSON.stringify(commandJSON, null, 2))
+                          logToConsole('File Cached For Import: ' + file.name, '#00ff00')
+                        } else {
+                          throw new error('Content Not Valid JSON')}
+                      } catch {logToConsole('Invalid File (Invalid Command Structure): ' + file.name, '#ff0000')}
+                    })
+                  }
+                "
+              >
+                <span id="dropText">Drop JSON File(s) Here</span>
+              </div>
+                `,
           },
           "-",
           {
@@ -457,34 +443,38 @@ module.exports = {
           {
             element: "html",
             html: `
-          <div
-            id="console"
-            class="noanims hoverablez"
-            style="width: var(--width-in-editor);
-            height: 150px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 6px;
-            font-size: 16px;
-            overflow-y: auto;
-            padding: 4px;
-            box-sizing: border-box;
-            border: 1px solid #555;"
-          >
-            <div style='color:#979797;'>Logs</div>
-          </div>
-          `,
+              <div
+                id="console"
+                class="noanims hoverablez"
+                style="width: var(--width-in-editor);
+                height: 150px;
+                margin-left: auto;
+                margin-right: auto;
+                border-radius: 6px;
+                font-size: 16px;
+                overflow-y: auto;
+                padding: 4px;
+                box-sizing: border-box;
+                border: 1px solid #555;"
+              >
+                <div style='color:#979797;'>Logs</div>
+              </div>
+              `,
+          },
+          "-",
+          {
+            element: "text",
+            text: modVersion,
           },
         ]
 
         resultData = await options.showInterface(importUI, defaultData)
-        let resultDataPath = resultData.path.replaceAll(`"`, "").replaceAll(`'`, "")
         let generateBackup = resultData.generateBackup
-        let commandsMerged = 0
+        let importCount = 0
 
         if (generateBackup) {
-          if (elementTab) {
-            elementTab.innerHTML = "Export/Import (Backing Up...)"
+          if (importButton) {
+            importButton.innerHTML = "Import (Backing Up...)"
             await new Promise((resolve) => setTimeout(resolve, 350))
           }
           let projectDir = botData.prjSrc
@@ -495,52 +485,52 @@ module.exports = {
           } catch {}
         }
 
-        let stats
-        try {
-          stats = fs.statSync(resultDataPath)
-        } catch {
-          return options.result(titleCase(`⚠️ Path ${resultDataPath} Doesn't Exist`))
-        }
-
-        if (elementTab) {
-          elementTab.innerHTML = "Export/Import (Importing...)"
+        if (importButton) {
+          importButton.innerHTML = "Import (Importing...)"
           await new Promise((resolve) => setTimeout(resolve, 350))
         }
 
-        if (stats.isDirectory()) {
-          let files = fs.readdirSync(resultDataPath)
-          for (let file of files) {
-            if (path.extname(file).toLowerCase() !== ".json") continue
-            let fileLocation = path.join(resultDataPath, file)
-            if (readAndPush(fileLocation, commands)) commandsMerged++
-          }
-        } else if (stats.isFile()) {
-          if (readAndPush(resultDataPath, commands)) commandsMerged++
-        } else {
-          return options.result(titleCase(`⚠️ ${resultDataPath} Is Neither A File Nor A Folder`))
-        }
+        let files = fs.readdirSync(importFolderPath)
+
+        await Promise.all(
+          files.map(async (file) => {
+            let fileLoc = path.join(importFolderPath, file)
+            try {
+              const fileContent = fs.readFileSync(fileLoc)
+              const commandJSON = JSON.parse(fileContent)
+              if (validateCmdJSON(commandJSON)) {
+                commands.push(commandJSON)
+                importCount++
+              } else {
+                console.log(`Invalid Command JSON In ${file.name}`)
+              }
+            } catch (err) {
+              console.log(`Failed To Parse ${file.name}:`, err)
+            }
+          }),
+        )
 
         botData.commands = commands
-        fs.writeFileSync(dataJSONPath, JSON.stringify(botData, null, 2), "utf8")
-        fs.rmSync(defaultImportFolderPath, { recursive: true, force: true })
+        fs.writeFileSync(editorDataFilePath, JSON.stringify(botData, null, 2), "utf8")
+        fs.rmSync(importFolderPath, { recursive: true, force: true })
 
-        if (commandsMerged > 0) {
-          if (elementTab) {
-            elementTab.innerHTML = `Export/Import (${commandsMerged} Files Imported)`
+        if (importCount > 0) {
+          if (importButton) {
+            importButton.innerHTML = `Import (${importCount} Files Imported)`
             await new Promise((resolve) => setTimeout(resolve, 350))
-            elementTab.innerHTML = "Export/Import (Complete)"
+            importButton.innerHTML = "Import (Complete)"
             await new Promise((resolve) => setTimeout(resolve, 350))
-            elementTab.innerHTML = "Export/Import"
+            importButton.innerHTML = "Import"
           }
           try {
-            options.result(titleCase(`✅ ${commandsMerged} Command(s) Imported Successfully, Reloading...`))
+            options.result(titleCase(`✅ ${importCount} Command(s) Imported Successfully, Reloading...`))
           } catch {}
           setTimeout(() => location.reload(), 1000)
         } else {
-          if (elementTab) {
-            elementTab.innerHTML = "Export/Import (No Imports)"
+          if (importButton) {
+            importButton.innerHTML = "Import (No Imports)"
             await new Promise((resolve) => setTimeout(resolve, 350))
-            elementTab.innerHTML = "Export/Import"
+            importButton.innerHTML = "Import"
           }
           try {
             options.result(titleCase(`⚠️ No Commands Were Imported`))
