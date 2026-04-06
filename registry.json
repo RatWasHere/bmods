@@ -1503,7 +1503,7 @@
       "creator": "Acedia"
     },
     "playLavalinkMusic_MOD.js": {
-      "md5": "548f38a514a8b2028c33be960fb2f54d",
+      "md5": "e2a4d25e6742e6a190c721124ab433c1",
       "name": "Play Lavalink Music",
       "modules": [
         "lavalink-client"
