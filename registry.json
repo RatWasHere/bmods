@@ -2066,8 +2066,8 @@
       "files": {
         "data.json": "1c02e739262f14ed13f5a17566488cd3",
         "main.js": "3dda0fbedc019b805e369d06d6343687",
-        "startup.js": "d654c091143d2b86bfe8ef6df8bae106",
-        "startup_info.json": "511cd0936ad5d871beac9a3efed6a727"
+        "startup.js": "afab4e1ef6c20a8bd9297d20a922c02b",
+        "startup_info.json": "045437d7b9f8808fe41b7a923a3b3c3b"
       }
     },
     "prepProject": {
