@@ -165,10 +165,10 @@ module.exports = {
 
         commandBar.addEventListener("drop", async (event) => {
           event.preventDefault()
-          getPreferences()
           if (event.dataTransfer.files.length == 0) {
             return
           }
+          getPreferences()
           let botData = JSON.parse(fs.readFileSync(editorDataFilePath))
           let commands = botData.commands
           let files = Array.from(event.dataTransfer.files)
