@@ -30,16 +30,24 @@ After installing a mod, make sure to reload (**CTRL + R**) or restart Bot Maker 
 
 > [!CAUTION]  
 > Please make sure that you have an existing command in your project before trying to access the Mod Manager!
+<br><br>
+### Using bmodsInstaller
+
+Download the bmodsInstaller script from [here](https://github.com/slothyacedia/bmods-acedia/releases/bmodsInstaller) and run it.
+
+> [!NOTE]
+> bmodsInstaller is a script developed by one of the community admins, if you do not trust the script, you can look at the source code [here](https://github.com/slothyacedia/bmods-acedia/blob/main/Scripts/bmodsInstaller.bat).
+
 
 ### Manual Installation
 
 1. Download the repository by clicking "Code" on the repository's home page and selecting "Download ZIP".
 2. Extract the ZIP archive.
-3. Move the "Actions" folder to your Bot Maker for Discord's AppData directory, typically located at:
+3. Move the "Actions" and "Events" folder to your Bot Maker for Discord's AppData directory, typically located at:
    ```
    C:\Program Files (x86)\Steam\steamapps\common\Bot Maker For Discord\AppData
    ```
-4. Move the "Themes" folder to the main directory of your Bot Maker for Discord installation, typically located at:
+4. Move the "Themes" and "Automations" folder to the main directory of your Bot Maker for Discord installation, typically located at:
    ```
    C:\Program Files (x86)\Steam\steamapps\common\Bot Maker For Discord
    ```
