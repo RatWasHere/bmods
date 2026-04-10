@@ -154,7 +154,7 @@ module.exports = {
         await player.setVolume(Number(volume))
       }
 
-      let source = values.source.type ? bridge.transf(values.source.type) : "ytsearch"
+      let source = values.source?.type ? bridge.transf(values.source.type) : "ytsearch"
       if (source == "others") {
         source = bridge.transf(values.source.value)
       }
