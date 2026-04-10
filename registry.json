@@ -1503,7 +1503,7 @@
       "creator": "Acedia"
     },
     "playLavalinkMusic_MOD.js": {
-      "md5": "8266072aa3e26903f53d03f011f12913",
+      "md5": "1149ba4c67d6701844f8941402cb68b1",
       "name": "Play Lavalink Music",
       "modules": [
         "lavalink-client"
@@ -1718,7 +1718,7 @@
       "creator": "qschnitzel"
     },
     "searchLavalinkMusic_MOD.js": {
-      "md5": "0dda988a79f49089a67b5563c0d4f233",
+      "md5": "5ec28a58103ab47469f8e37cca7183d4",
       "name": "Search Lavalink Music",
       "modules": [
         "lavalink-client"
