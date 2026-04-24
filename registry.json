@@ -571,7 +571,7 @@
       "creator": "Acedia QOLs"
     },
     "filterList_MOD.js": {
-      "md5": "02686c7a634f788e73a05932377f925f",
+      "md5": "a4bd52e8ccdd3fa118dc69c28c1b8eda",
       "name": "Filter List",
       "modules": [],
       "category": "Lists",
@@ -1582,6 +1582,46 @@
       "category": "API",
       "creator": "Made with <3 by @lucxanul"
     },
+    "quickDBDelete_MOD.js": {
+      "md5": "9db36f3d655616010be112f0312c62d1",
+      "name": "QuickDB Delete Document",
+      "modules": [
+        "quick.db",
+        "node:path"
+      ],
+      "category": "QuickDB",
+      "creator": "Acedia"
+    },
+    "quickDBInsert_MOD.js": {
+      "md5": "4c5d868428474d545ab28cfad783ecfa",
+      "name": "QuickDB Insert Document",
+      "modules": [
+        "quick.db",
+        "node:path"
+      ],
+      "category": "QuickDB",
+      "creator": "Acedia"
+    },
+    "quickDBQuery_MOD.js": {
+      "md5": "0e5cf53eb960d974f269beb6c1f75bb7",
+      "name": "QuickDB Query Collection",
+      "modules": [
+        "quick.db",
+        "node:path"
+      ],
+      "category": "QuickDB",
+      "creator": "Acedia"
+    },
+    "quickDBUpdate_MOD.js": {
+      "md5": "886eff9dbccb6540274532822865b029",
+      "name": "QuickDB Update Document",
+      "modules": [
+        "quick.db",
+        "node:path"
+      ],
+      "category": "QuickDB",
+      "creator": "Acedia"
+    },
     "randomChance_MOD.js": {
       "md5": "ce25ad30e51836fdf423284b5300374b",
       "name": "Random Chance",
@@ -1612,7 +1652,7 @@
       "creator": "nitiqt"
     },
     "rconCommanderMulti_MOD.js": {
-      "md5": "7ed8fb97e7e4201e16697d8c1475cf11",
+      "md5": "e74a9f8c7a4f3e720d4d0953bfa35cde",
       "name": "Extended RCON MultiCommander",
       "modules": [
         "rcon",
@@ -1622,7 +1662,7 @@
       "creator": "Acedia"
     },
     "rconCommander_MOD.js": {
-      "md5": "15b495e8b53d2d429c1beebffe116472",
+      "md5": "0f0db6df56f3e7fe9bf511f39c6f3df0",
       "name": "Extended RCON Commander",
       "modules": [
         "rcon"
@@ -1631,7 +1671,7 @@
       "creator": "Acedia"
     },
     "rconLegacyCommanderMulti_MOD.js": {
-      "md5": "0eb6a4cdc5b8f72c70b32e3ade3b251e",
+      "md5": "bb9cf0df6a69240b2126ebf8533a246e",
       "name": "RCON MultiCommander",
       "modules": [
         "mbr-rcon",
@@ -1641,7 +1681,7 @@
       "creator": "Acedia"
     },
     "rconLegacyCommander_MOD.js": {
-      "md5": "13fcbd66ef9ded184e4bdbc037d27876",
+      "md5": "1e2e1667bb3e092d50e8f411f5a07a8c",
       "name": "RCON Commander",
       "modules": [
         "mbr-rcon"
