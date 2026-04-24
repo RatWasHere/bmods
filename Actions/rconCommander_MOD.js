@@ -55,6 +55,7 @@ module.exports = {
       storeAs: "actions",
       name: "On Response, Run",
     },
+    "_",
     {
       element: "toggle",
       storeAs: "logging",
@@ -62,6 +63,7 @@ module.exports = {
       true: "Yes",
       false: "No",
     },
+    "-",
     {
       element: "text",
       text: modVersion,

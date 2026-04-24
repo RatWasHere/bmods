@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "Filter List",
@@ -27,6 +27,14 @@ module.exports = {
         out: { name: "Filter Out Elements", field: false },
       },
     },
+    "_",
+    {
+      element: "input",
+      storeAs: "attribute",
+      name: "Attribute (optional)",
+      placeholder: "dot.notation.supported",
+    },
+    "_",
     {
       element: "typedDropdown",
       storeAs: "filter",
@@ -169,8 +177,34 @@ module.exports = {
       }
     }
 
+    function isJSON(testObject) {
+      return testObject != undefined && typeof testObject === "object" && testObject.constructor === Object
+    }
+
     let filteredList = list.filter((el) => {
+      if (values.attribute && isJSON(el)) {
+        let objectPath = bridge.transf(values.attribute).trim()
+        objectPath = objectPath.replaceAll(/\.{2,}/g, ".")
+        if (objectPath.startsWith(".")) {
+          objectPath = objectPath.slice(1)
+        }
+
+        if (objectPath === "" || objectPath.startsWith(".") || objectPath.endsWith(".")) {
+          console.error(`[${this.data.name}] Invalid Path: "${objectPath}"`)
+          return
+        }
+        let keys = objectPath.split(".")
+        let lastKey = keys.pop()
+        let target = el
+
+        for (const key of keys) {
+          if (target?.[key] == null) return null
+          target = target[key]
+        }
+        el = target[lastKey]
+      }
       let matchResult = testFunction(el)
+
       return filterType === "for" ? matchResult : !matchResult
     })
 
