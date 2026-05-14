@@ -1613,7 +1613,7 @@
       "creator": "Acedia"
     },
     "quickDBUpdate_MOD.js": {
-      "md5": "886eff9dbccb6540274532822865b029",
+      "md5": "3a322a1e3a2e1dff4da736d1642b950b",
       "name": "QuickDB Update Document",
       "modules": [
         "quick.db",
