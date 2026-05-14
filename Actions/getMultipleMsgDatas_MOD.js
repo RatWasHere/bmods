@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.0.1"
 module.exports = {
   data: {
     name: "Get Multiple Message Datas",
@@ -62,7 +62,7 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run(values, msg, client, bridge) {
+  async run(values, message, client, bridge) {
     let storedData = bridge.data.IO.get()
     let dataType = "messages"
 
