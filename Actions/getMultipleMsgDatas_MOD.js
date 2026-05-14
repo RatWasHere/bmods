@@ -62,13 +62,13 @@ module.exports = {
 
   compatibility: ["Any"],
 
-  async run(values, message, client, bridge) {
+  async run(values, msg, client, bridge) {
     let storedData = bridge.data.IO.get()
     let dataType = "messages"
 
     for (let retrieve of values.retrieveList) {
       let retrieveData = retrieve.data
-      let retrieveObject = await bridge.getMessage(retrieveData.channel)
+      let retrieveObject = await bridge.getMessage(retrieveData.message)
       let id = retrieveObject.id
 
       let defaultVal = bridge.transf(retrieveData.defaultValue) || ""
