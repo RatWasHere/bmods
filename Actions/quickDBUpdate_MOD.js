@@ -319,7 +319,7 @@ module.exports = {
           result = values.returnDocument ? doc : { numAffected: 1, upsert: false }
         } else if (upsert) {
           const id = Date.now().toString(36) + Math.random().toString(36).slice(2)
-          const doc = { ...$set }
+          const doc = { ...attributes, ...$set }
           await db.set(`documents.${id}`, doc)
           result = values.returnDocument ? doc : { numAffected: 1, upsert: true }
         } else {
