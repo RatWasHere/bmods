@@ -627,7 +627,7 @@
       "creator": "Acedia"
     },
     "fuzzySearchInList_MOD.js": {
-      "md5": "8b1465545230a19700815f73b7f0a799",
+      "md5": "f12c1beed704229389967cecfc187541",
       "name": "Fuzzy Search In List",
       "modules": [],
       "category": "Search",
@@ -2115,7 +2115,7 @@
       "author": "Acedia",
       "files": {
         "data.json": "a17c2d39f0df11353d09ca436240480c",
-        "main.js": "6d9c37519d4b09ec21e8208685fa253c",
+        "main.js": "9cea17fb41d79258cdc108c98a50ef35",
         "startup.js": "410d75d04d5c4ffe06c79b388852be2f",
         "startup_info.json": "b8c61c8c8d166ca2ed27927c51fa066b"
       }
