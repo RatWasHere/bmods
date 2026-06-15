@@ -1,4 +1,4 @@
-modVersion = "v1.0.0"
+modVersion = "v1.1.0"
 module.exports = {
   data: {
     name: "Fuzzy Search In List",
@@ -107,7 +107,7 @@ module.exports = {
     }
 
     let results = cloneList.map((el, index) => {
-      let str = el.toLowerCase().replace(/\s+/g, "")
+      let str = String(el).toLowerCase().replace(/\s+/g, "")
 
       let trigrams = new Set()
       for (let j = 0; j < str.length - 2; j++) {

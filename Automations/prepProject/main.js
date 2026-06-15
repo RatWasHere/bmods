@@ -1,4 +1,4 @@
-modVersion = "v1.1.1"
+modVersion = "v1.2.1"
 module.exports = {
   run: async (options) => {
     const fs = require("node:fs")
@@ -9,7 +9,7 @@ module.exports = {
     let projectFolder = botData.prjSrc
 
     let initPageDefaultData = {
-      downloadScripts: true,
+      downloadScripts: false,
       syncActions: true,
       syncEvents: true,
     }
@@ -38,6 +38,27 @@ module.exports = {
           storeAs: ["syncActions", "syncEvents"],
           nameSchemes: ["Sync Actions", "Sync Events"],
         },
+        "_",
+        {
+          element: "toggleGroup",
+          storeAs: ["removeUnusedActions", "removeUnusedEvents"],
+          nameSchemes: ["Remove Unused Actions", "Remove Unused Events"],
+        },
+        // "_",
+        // {
+        //   element: "toggle",
+        //   storeAs: "modifyRuntime",
+        //   name: "Exported Project?",
+        //   help: {
+        //     title: "What Is This Used For?",
+        //     UI: [
+        //       {
+        //         element: "text",
+        //         text: "This tells the automation that it is meant to be a export and it will modify certain files to allow it to run flawlessly.",
+        //       },
+        //     ],
+        //   },
+        // },
         "-",
         {
           element: "text",
@@ -46,6 +67,34 @@ module.exports = {
       ],
       initPageDefaultData,
     )
+
+    const findActionFiles = (rootNode) => {
+      const fileSet = new Set()
+
+      const traverse = (node) => {
+        if (!node || typeof node !== "object") return
+        if (Array.isArray(node)) {
+          for (const item of node) {
+            traverse(item)
+          }
+        } else {
+          if (typeof node.file === "string") {
+            fileSet.add(node.file)
+          }
+          if (typeof node.eventFile === "string") {
+            fileSet.add(node.eventFile)
+          }
+          for (const key in node) {
+            if (Object.prototype.hasOwnProperty.call(node, key)) {
+              traverse(node[key])
+            }
+          }
+        }
+      }
+
+      traverse(rootNode)
+      return Array.from(fileSet)
+    }
 
     let elementTab = document.getElementById("prepProjectQA")
     if (initPageData.downloadScripts == true) {
@@ -163,7 +212,7 @@ module.exports = {
     }
 
     let currentDir = process.cwd()
-    if (initPageData.syncActions == true) {
+    if (initPageData.syncActions == true || initPageData.removeUnusedActions == true) {
       if (elementTab) {
         elementTab.innerHTML = "Prep (Syncing Actions)"
         await new Promise((resolve) => setTimeout(resolve, 350))
@@ -178,7 +227,7 @@ module.exports = {
       } catch {}
     }
 
-    if (initPageData.syncEvents == true) {
+    if (initPageData.syncEvents == true || initPageData.removeUnusedEvents == true) {
       if (elementTab) {
         elementTab.innerHTML = "Prep (Syncing Events)"
         await new Promise((resolve) => setTimeout(resolve, 350))
@@ -191,6 +240,72 @@ module.exports = {
       try {
         options.burstInform(`✅ Events Folder Synced`)
       } catch {}
+    }
+
+    let actionsUsed = new Set()
+    let botCommands = botData.commands
+    for (let command of botCommands) {
+      findActionFiles(command).forEach((file) => actionsUsed.add(file))
+    }
+
+    if (initPageData.removeUnusedActions == true) {
+      let removedCount = 0
+      if (elementTab) {
+        elementTab.innerHTML = "Prep (Removing Unused Actions)"
+        await new Promise((resolve) => setTimeout(resolve, 350))
+      }
+      let actionsFolder = path.join(projectFolder, "AppData", "Actions")
+      let actionFiles = fs.readdirSync(actionsFolder)
+      for (action of actionFiles) {
+        if (!actionsUsed.has(action) && fs.existsSync(path.join(actionsFolder, action))) {
+          fs.rmSync(path.join(actionsFolder, action))
+          removedCount++
+        }
+      }
+      if (elementTab) {
+        elementTab.innerHTML = `Prep (Removed ${removedCount} Unused Actions)`
+        await new Promise((resolve) => setTimeout(resolve, 350))
+      }
+    }
+
+    if (initPageData.removeUnusedEvents == true) {
+      let removedCount = 0
+      if (elementTab) {
+        elementTab.innerHTML = "Prep (Removing Unused Events)"
+        await new Promise((resolve) => setTimeout(resolve, 350))
+      }
+      let eventsFolder = path.join(projectFolder, "AppData", "Events")
+      let eventsFiles = fs.readdirSync(eventsFolder)
+      for (event of eventsFiles) {
+        if (!actionsUsed.has(event) && fs.existsSync(path.join(eventsFolder, event))) {
+          fs.rmSync(path.join(eventsFolder, event))
+          removedCount++
+        }
+      }
+      if (elementTab) {
+        elementTab.innerHTML = `Prep (Removed ${removedCount} Unused Events)`
+        await new Promise((resolve) => setTimeout(resolve, 350))
+      }
+    }
+
+    if (initPageData.modifyRuntime == true) {
+      if (elementTab) {
+        elementTab.innerHTML = "Prep (Modifying Runtime Files...)"
+        await new Promise((resolve) => setTimeout(resolve, 350))
+      }
+      fs.cpSync(path.join(process.cwd(), "bot.js"), path.join(projectFolder, "bot_original.js"))
+      let prjSrcBotDataFile = path.join(projectFolder, "AppData", "data.json")
+      let prjSrcBotData = JSON.parse(fs.readFileSync(prjSrcBotDataFile))
+      prjSrcBotData.altPrjSrc = "."
+      let prjBotFile = path.join(projectFolder, "bot.js")
+      let botjsFileContent = fs.readFileSync(prjBotFile)
+      let updatedBotjsFileContent = String(botjsFileContent).replaceAll("data.prjSrc", "data.altPrjSrc")
+      fs.writeFileSync(prjSrcBotDataFile, JSON.stringify(prjSrcBotData, null, 2))
+      fs.writeFileSync(prjBotFile, updatedBotjsFileContent)
+      if (elementTab) {
+        elementTab.innerHTML = "Prep (Modified Runtime Files...)"
+        await new Promise((resolve) => setTimeout(resolve, 350))
+      }
     }
 
     if (elementTab) {
