@@ -160,7 +160,7 @@ module.exports = {
     })
   },
 
-  init: (values, bridge) => {
+  startup: (bridge) => {
     const path = require("node:path")
     const fs = require("node:fs")
 
@@ -185,7 +185,7 @@ module.exports = {
       projectFolder = workingDir
     }
 
-    let restrictionsFilePath = path.join(projectFolder, "aceModsJSON", "restrictions.json")
+    let restrictionsFilePath = path.join(projectFolder, "jsonData", "restrictions.json")
 
     if (!fs.existsSync(restrictionsFilePath)) {
       fs.mkdirSync(path.dirname(restrictionsFilePath), { recursive: true })

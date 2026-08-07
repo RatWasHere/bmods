@@ -133,7 +133,7 @@ module.exports = {
     return `Start Status Page On ${values.host}:${values.port}`
   },
 
-  init: (values, bridge) => {
+  startup: (bridge) => {
     const path = require("node:path")
     const fs = require("node:fs")
 

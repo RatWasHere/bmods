@@ -409,7 +409,7 @@ module.exports = {
     }
 
     try {
-      let routesFilePath = path.join(projectFolder, "aceModsJSON", "webapiRoutes.json")
+      let routesFilePath = path.join(projectFolder, "jsonData", "webapiRoutes.json")
       fs.writeFileSync(routesFilePath, JSON.stringify(routeMap, null, 2))
       if (values.logSetup) {
         console.log(`[${this.data.name}] webApiRoutes.json Generated.`)
