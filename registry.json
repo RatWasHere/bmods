@@ -392,7 +392,7 @@
       "creator": "nitiqt"
     },
     "createWebApi_MOD.js": {
-      "md5": "493bbcad3eb0d65600173eaf664bb1b2",
+      "md5": "41bdae83c91fbf4cc7f320cc3eda7ba2",
       "name": "Create Web API",
       "modules": [
         "node:fs",
@@ -535,7 +535,7 @@
       "creator": "nitiqt"
     },
     "editTrackedTimeRestriction_MOD.js": {
-      "md5": "78358d553cb83aa7d39f5c041ee97f9a",
+      "md5": "a4a8e1a19c2b86aeaed462ead8dd0583",
       "name": "Edit Tracked Time Restriction",
       "modules": [],
       "category": "Control",
@@ -1845,7 +1845,7 @@
       "creator": "TheMonDon"
     },
     "setTrackedTimeRestriction_MOD.js": {
-      "md5": "462302dc6d3b91b4a9ff245d717d0b61",
+      "md5": "204e99c66139edf2f76281e8feef5ddc",
       "name": "Set Tracked Time Restriction",
       "modules": [],
       "category": "Control",
@@ -1917,7 +1917,7 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "ba1b43de95cc67f55e1a463359d4bdaf",
+      "md5": "ab30ab9eac9873623b595cfb6f0f3017",
       "name": "Start Status Page",
       "modules": [
         "node:fs",
