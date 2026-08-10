@@ -138,7 +138,7 @@ module.exports = {
     })
   },
 
-  startup: (bridge) => {
+  init: (values, bridge) => {
     const path = require("node:path")
     const fs = require("node:fs")
 
