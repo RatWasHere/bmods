@@ -535,7 +535,7 @@
       "creator": "nitiqt"
     },
     "editTrackedTimeRestriction_MOD.js": {
-      "md5": "a4a8e1a19c2b86aeaed462ead8dd0583",
+      "md5": "9a5be28dd34605bec08a82313b9cd386",
       "name": "Edit Tracked Time Restriction",
       "modules": [],
       "category": "Control",
@@ -1845,7 +1845,7 @@
       "creator": "TheMonDon"
     },
     "setTrackedTimeRestriction_MOD.js": {
-      "md5": "204e99c66139edf2f76281e8feef5ddc",
+      "md5": "2e71b405c0e9349a92f5b89bdc12c2e0",
       "name": "Set Tracked Time Restriction",
       "modules": [],
       "category": "Control",
@@ -1917,7 +1917,7 @@
       "creator": "candiedapple"
     },
     "statusPage_MOD.js": {
-      "md5": "ab30ab9eac9873623b595cfb6f0f3017",
+      "md5": "ba1b43de95cc67f55e1a463359d4bdaf",
       "name": "Start Status Page",
       "modules": [
         "node:fs",
