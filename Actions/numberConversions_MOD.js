@@ -153,17 +153,14 @@ module.exports = {
       if (!isNaN(number) && number <= 1.7e308) {
         switch (conversionType) {
           case "plain":
-          case "Normal":
             convertedTxt = number
             break
 
           case "standard":
-          case "Standardise":
             convertedTxt = number.toLocaleString()
             break
 
           case "sciNot":
-          case "SciNot":
             let sciNotValues = number.toExponential().split("e")
             let exponent = parseInt(sciNotValues[1])
             let coefficient = parseFloat(sciNotValues[0]).toFixed(3)
@@ -175,7 +172,6 @@ module.exports = {
             break
 
           case "generalized":
-          case "Generalise":
             if (number >= 1e12) {
               convertedTxt = (number / 1e12).toFixed(2) + "T"
             } else if (number >= 1e9) {
@@ -210,7 +206,6 @@ module.exports = {
             break;
 
           case "log2r":
-          case "Log2r":
             const expressAsP2 = (num) => {
               let exponent = Math.floor(Math.log2(num))
               let highestPowerOf2 = Math.pow(2, exponent)
@@ -237,7 +232,6 @@ module.exports = {
             break
 
           case "primeFactors":
-          case "PrimeFactors":
             const expressAsPF = (num) => {
               let factors = {}
               let divisor = 2
@@ -279,12 +273,10 @@ module.exports = {
             break
 
           case "price":
-          case "Price":
             convertedTxt = number.toFixed(2)
             break
 
           case "standardPrice":
-          case "GeneralisedPrice":
             let parts = number.toFixed(2).split(".")
             let formattedDollar = parseInt(parts[0]).toLocaleString()
             convertedTxt = `${formattedDollar}.${parts[1]}`
