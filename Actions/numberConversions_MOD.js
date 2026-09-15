@@ -27,6 +27,7 @@ module.exports = {
         standard: { name: "Standardized Expression | Example: 12,345.678", field: false },
         sciNot: { name: "Scientific Notation | Example: 1.234×10⁵", field: false },
         generalized: { name: "Generalized Expression | Example: 1.23 + K/M/B/T", field: false },
+        ordinal: { name: "Ordinal Number | Example: 1st", field: false },
         log2r: { name: "Log2r | Example: 2³+1", field: false },
         primeFactors: { name: "Prime Factors | Example: 2³×3²x11", field: false },
         price: { name: "Price | Example: 1234.56", field: false },
@@ -187,6 +188,26 @@ module.exports = {
               convertedTxt = number
             }
             break
+
+          case 'ordinal':
+            if (number < 1) {
+              convertedTxt = number;
+              break;
+            }
+
+            number = Math.floor(number);
+            const lastDigit = number % 10;
+            const lastTwoDigits = number % 100;
+            let suffix;
+
+            if (lastTwoDigits >= 11 && lastTwoDigits <= 13) suffix = 'th';
+            else if (lastDigit === 1) suffix = 'st';
+            else if (lastDigit === 2) suffix = 'nd';
+            else if (lastDigit === 3) suffix = 'rd';
+            else suffix = 'th';
+
+            convertedTxt = `${number}${suffix}`;
+            break;
 
           case "log2r":
           case "Log2r":
