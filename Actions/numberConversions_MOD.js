@@ -1,4 +1,4 @@
-modVersion = "v2.1.5"
+modVersion = "v2.2.0"
 module.exports = {
   data: {
     name: "Number Conversions",
