@@ -1452,7 +1452,7 @@
       "creator": "Acedia"
     },
     "numberConversions_MOD.js": {
-      "md5": "c2710373d691fc5da849b71552e2b102",
+      "md5": "538b0e5e26dde2b8d391768a2f38b881",
       "name": "Number Conversions",
       "modules": [
         "mathjs"
