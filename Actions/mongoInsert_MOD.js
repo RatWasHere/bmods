@@ -1,4 +1,4 @@
-modVersion = "v1.1.0"
+modVersion = "v1.2.0"
 module.exports = {
   data: {
     name: "MongoDB Insert Document",
@@ -57,7 +57,11 @@ module.exports = {
               element: "variable",
               storeAs: "attributeValue",
               name: "Equals",
-              also: { string: "Text" },
+              additionalOptions: {
+                string: { name: "Text", field: true },
+                number: { name: "Number", field: true },
+                bool: { name: "Bool", field: true },
+              },
             },
           ],
         },
@@ -99,7 +103,11 @@ module.exports = {
                       element: "variable",
                       storeAs: "attributeValue",
                       name: "Equals",
-                      also: { string: "Text" },
+                      additionalOptions: {
+                        string: { name: "Text", field: true },
+                        number: { name: "Number", field: true },
+                        bool: { name: "Bool", field: true },
+                      },
                     },
                   ],
                 },
@@ -208,11 +216,45 @@ module.exports = {
         for (let attribute of values.attributes) {
           let attributeData = attribute.data
           let attributeKey = bridge.transf(attributeData.attributeKey)
-          let attributeValue =
-            attributeData.attributeValue.type == "string" ? bridge.transf(attributeData.attributeValue.value) : bridge.get(attributeData.attributeValue)
+          let attributeValue
+
+          if (["string", "increment", "bool", "number"].includes(updateData.attributeValue.type)) {
+            attributeValue = bridge.transf(updateData.attributeValue.value)
+          } else {
+            attributeValue = bridge.get(updateData.attributeValue)
+          }
+
           if (attributeKey == "_id") {
             attributeValue = new mongodb.ObjectId(attributeValue)
           }
+
+          switch (updateData.attributeData.type) {
+            case "number": {
+              if (Number(attributeValue) == NaN) {
+                return console.log(`[${this.data.name}] ${attributeValue} Is Not A Valid Number`)
+              }
+
+              attributeValue = Number(attributeValue)
+            }
+
+            case "bool": {
+              let boolValue
+              if (typeof attributeValue == "string") {
+                if (["false", "0"].includes(attributeValue.toLowerCase())) {
+                  boolValue = false
+                } else {
+                  boolValue = true
+                }
+              }
+
+              attributeValue = boolValue
+            }
+
+            default: {
+              attributeValue = attributeValue
+            }
+          }
+
           let parts = attributeKey.split(".").filter(Boolean)
 
           let current = attributes
@@ -246,10 +288,43 @@ module.exports = {
           for (let attribute of documentData.attributes) {
             let attributeData = attribute.data
             let attributeKey = bridge.transf(attributeData.attributeKey)
-            let attributeValue =
-              attributeData.attributeValue.type == "string" ? bridge.transf(attributeData.attributeValue.value) : bridge.get(attributeData.attributeValue)
+            let attributeValue
+
+            if (["string", "increment", "bool", "number"].includes(updateData.attributeValue.type)) {
+              attributeValue = bridge.transf(updateData.attributeValue.value)
+            } else {
+              attributeValue = bridge.get(updateData.attributeValue)
+            }
+
             if (attributeKey == "_id") {
               attributeValue = new mongodb.ObjectId(attributeValue)
+            }
+
+            switch (updateData.attributeData.type) {
+              case "number": {
+                if (Number(attributeValue) == NaN) {
+                  return console.log(`[${this.data.name}] ${attributeValue} Is Not A Valid Number`)
+                }
+
+                attributeValue = Number(attributeValue)
+              }
+
+              case "bool": {
+                let boolValue
+                if (typeof attributeValue == "string") {
+                  if (["false", "0"].includes(attributeValue.toLowerCase())) {
+                    boolValue = false
+                  } else {
+                    boolValue = true
+                  }
+                }
+
+                attributeValue = boolValue
+              }
+
+              default: {
+                attributeValue = attributeValue
+              }
             }
             let parts = attributeKey.split(".").filter(Boolean)
 

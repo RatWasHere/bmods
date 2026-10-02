@@ -1,4 +1,4 @@
-modVersion = "v2.2.0"
+modVersion = "v2.2.1"
 module.exports = {
   data: {
     name: "Number Conversions",
@@ -27,7 +27,7 @@ module.exports = {
         standard: { name: "Standardized Expression | Example: 12,345.678", field: false },
         sciNot: { name: "Scientific Notation | Example: 1.234×10⁵", field: false },
         generalized: { name: "Generalized Expression | Example: 1.23 + K/M/B/T", field: false },
-        ordinal: { name: "Ordinal Number | Example: 1st", field: false },
+        ordinal: { name: "Ordinal Number | Example: 1st, 2nd, 3rd", field: false },
         log2r: { name: "Log2r | Example: 2³+1", field: false },
         primeFactors: { name: "Prime Factors | Example: 2³×3²x11", field: false },
         price: { name: "Price | Example: 1234.56", field: false },
@@ -153,17 +153,19 @@ module.exports = {
       if (!isNaN(number) && number <= 1.7e308) {
         switch (conversionType) {
           case "plain":
-          case "Normal":
+          case "Normal": {
             convertedTxt = number
             break
+          }
 
           case "standard":
-          case "Standardise":
+          case "Standardise": {
             convertedTxt = number.toLocaleString()
             break
+          }
 
           case "sciNot":
-          case "SciNot":
+          case "SciNot": {
             let sciNotValues = number.toExponential().split("e")
             let exponent = parseInt(sciNotValues[1])
             let coefficient = parseFloat(sciNotValues[0]).toFixed(3)
@@ -173,9 +175,10 @@ module.exports = {
               convertedTxt = `${coefficient}x10^${exponent}`
             }
             break
+          }
 
           case "generalized":
-          case "Generalise":
+          case "Generalise": {
             if (number >= 1e12) {
               convertedTxt = (number / 1e12).toFixed(2) + "T"
             } else if (number >= 1e9) {
@@ -188,29 +191,10 @@ module.exports = {
               convertedTxt = number
             }
             break
-
-          case 'ordinal':
-            if (number < 1) {
-              convertedTxt = number;
-              break;
-            }
-
-            number = Math.floor(number);
-            const lastDigit = number % 10;
-            const lastTwoDigits = number % 100;
-            let suffix;
-
-            if (lastTwoDigits >= 11 && lastTwoDigits <= 13) suffix = 'th';
-            else if (lastDigit === 1) suffix = 'st';
-            else if (lastDigit === 2) suffix = 'nd';
-            else if (lastDigit === 3) suffix = 'rd';
-            else suffix = 'th';
-
-            convertedTxt = `${number}${suffix}`;
-            break;
+          }
 
           case "log2r":
-          case "Log2r":
+          case "Log2r": {
             const expressAsP2 = (num) => {
               let exponent = Math.floor(Math.log2(num))
               let highestPowerOf2 = Math.pow(2, exponent)
@@ -235,9 +219,10 @@ module.exports = {
               convertedTxt = expressAsP2(number)
             }
             break
+          }
 
           case "primeFactors":
-          case "PrimeFactors":
+          case "PrimeFactors": {
             const expressAsPF = (num) => {
               let factors = {}
               let divisor = 2
@@ -277,18 +262,53 @@ module.exports = {
 
             convertedTxt = expressAsPF(number)
             break
+          }
 
           case "price":
-          case "Price":
+          case "Price": {
             convertedTxt = number.toFixed(2)
             break
+          }
 
           case "standardPrice":
-          case "GeneralisedPrice":
+          case "GeneralisedPrice": {
             let parts = number.toFixed(2).split(".")
             let formattedDollar = parseInt(parts[0]).toLocaleString()
             convertedTxt = `${formattedDollar}.${parts[1]}`
             break
+          }
+
+          case "ordinal": {
+            number = Math.floor(number)
+
+            if (number < 1) {
+              throw new Error(`An Ordinal Must Be Greater Than 0`)
+            }
+
+            let lastDigit = number % 10
+            let lastTwoDigits = number % 100
+
+            let suffix = "th"
+
+            if (lastDigit == 1) {
+              suffix = "st"
+            }
+
+            if (lastDigit == 2) {
+              suffix = "nd"
+            }
+
+            if (lastDigit == 3) {
+              suffix = "rd"
+            }
+
+            if ([11, 12, 13].includes(lastTwoDigits)) {
+              suffix = "th"
+            }
+
+            convertedTxt = `${number}${suffix}`
+            break
+          }
         }
 
         if (decimalNotation == "comma") {

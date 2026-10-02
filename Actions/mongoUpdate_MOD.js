@@ -1,4 +1,4 @@
-modVersion = "v1.1.0"
+modVersion = "v1.2.0"
 module.exports = {
   data: {
     name: "MongoDB Update Document",
@@ -93,7 +93,12 @@ module.exports = {
               element: "variable",
               storeAs: "attributeValue",
               name: "New Value",
-              also: { string: "Text" },
+              additionalOptions: {
+                string: { name: "Text", field: true },
+                number: { name: "Number", field: true },
+                bool: { name: "Bool", field: true },
+                increment: { name: "Increment Number", field: true, placeholder: "Amount" },
+              },
             },
           ],
         },
@@ -257,27 +262,88 @@ module.exports = {
 
       attributes[attributeKey] = attributeValue
     }
+
     let $set = {}
+    let $inc = {}
+
     for (let update of values.updates) {
       let updateData = update.data
       let updateKey = bridge.transf(updateData.attributeKey)
-      let updateValue = updateData.attributeValue.type == "string" ? bridge.transf(updateData.attributeValue.value) : bridge.get(updateData.attributeValue)
-      $set[updateKey] = updateValue
+
+      let updateValue
+      if (["string", "increment", "bool", "number"].includes(updateData.attributeValue.type)) {
+        updateValue = bridge.transf(updateData.attributeValue.value)
+      } else {
+        updateValue = bridge.get(updateData.attributeValue)
+      }
+
+      if (updateData.attributeValue.type == "increment") {
+        updateValue = Number(updateValue)
+
+        if (isNaN(updateValue)) {
+          console.log(`[${this.data.name}] ${updateValue} Is Not A Number For Increment`)
+          continue
+        }
+
+        $inc[updateKey] = updateValue
+      } else {
+        switch (updateData.attributeData.type) {
+          case "number": {
+            if (Number(updateValue) == NaN) {
+              return console.log(`[${this.data.name}] ${updateValue} Is Not A Valid Number`)
+            }
+
+            $set[updateKey] = Number(updateValue)
+          }
+
+          case "bool": {
+            let boolValue
+            if (typeof updateValue == "string") {
+              if (["false", "0"].includes(updateValue.toLowerCase())) {
+                boolValue = false
+              } else {
+                boolValue = true
+              }
+            }
+
+            $set[updateKey] = boolValue
+          }
+
+          default: {
+            $set[updateKey] = updateValue
+          }
+        }
+      }
+    }
+
+    let updateOperations = {}
+
+    if (Object.keys($set).length > 0) {
+      updateOperations.$set = $set
+    }
+
+    if (Object.keys($inc).length > 0) {
+      updateOperations.$inc = $inc
+    }
+
+    if (Object.keys(updateOperations).length == 0) {
+      return console.log(`[${this.data.name}] No Valid Updates Were Provided`)
     }
 
     let upsert = values.upsert
+
     switch (values.update.type) {
       case "single": {
         if (values.returnDocument == true) {
-          result = await collection.findOneAndUpdate(attributes, { $set }, { upsert, returnDocument: "after" })
+          result = await collection.findOneAndUpdate(attributes, updateOperations, { upsert, returnDocument: "after" })
         } else {
-          result = await collection.updateOne(attributes, { $set }, { upsert })
+          result = await collection.updateOne(attributes, updateOperations, { upsert })
         }
         break
       }
 
       case "multi": {
-        result = await collection.updateMany(attributes, { $set }, { upsert })
+        result = await collection.updateMany(attributes, updateOperations, { upsert })
       }
     }
 

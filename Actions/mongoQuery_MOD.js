@@ -1,4 +1,4 @@
-modVersion = "v1.1.0"
+modVersion = "v1.1.1"
 module.exports = {
   data: {
     name: "MongoDB Query Collection",
@@ -157,7 +157,7 @@ module.exports = {
         case "boolean": {
           if (typeof attributeValue === "boolean") {
           } else if (/^(true|false)$/i.test(attributeValue)) {
-            attributeValue = attributeValue.toLowerCase() === "true"
+            attributeValue = attributeValue.toLowerCase() === "true" || attributeValue === "1"
           } else {
             console.log(`[${this.data.name}] ${attributeValue} Is Not A Boolean`)
           }
