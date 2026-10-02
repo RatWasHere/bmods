@@ -1,0 +1,139 @@
+modVersion = "v1.2.0"
+module.exports = {
+  data: {
+    name: "Extended RCON Commander",
+  },
+  aliases: ["Send RCON Command v2"],
+  category: "RCON",
+  info: {
+    source: "https://github.com/slothyacedia/bmods-acedia/tree/main/Actions",
+    creator: "Acedia",
+    donate: "https://ko-fi.com/slothyacedia",
+  },
+  modules: ["rcon"],
+  UI: [
+    {
+      element: "input",
+      storeAs: "ipAddress",
+      name: "RCON Server IP Address",
+    },
+    {
+      element: "input",
+      storeAs: "ipPort",
+      name: "RCON Server Port",
+    },
+    {
+      element: "input",
+      storeAs: "rconPassword",
+      name: "RCON Server Password",
+    },
+    {
+      element: "toggle",
+      storeAs: "tcpudp",
+      name: "TCP / UDP",
+      true: "TCP",
+      false: "UDP",
+    },
+    {
+      element: "toggle",
+      storeAs: "challengePtc",
+      name: "Use Challenge Protocol",
+    },
+    "-",
+    {
+      element: "largeInput",
+      storeAs: "rconCommand",
+      name: "RCON Command",
+    },
+    {
+      element: "store",
+      storeAs: "rconResponse",
+      name: "Store Command Response As",
+    },
+    {
+      element: "actions",
+      storeAs: "actions",
+      name: "On Response, Run",
+    },
+    "_",
+    {
+      element: "toggle",
+      storeAs: "logging",
+      name: "Log To Console For Debugging?",
+      true: "Yes",
+      false: "No",
+    },
+    "-",
+    {
+      element: "text",
+      text: modVersion,
+    },
+  ],
+
+  subtitle: (values) => {
+    return `Send command: ${values.rconCommand} to ${values.ipAddress}:${values.ipPort}`
+  },
+
+  compatibility: ["Any"],
+
+  async run(values, interaction, client, bridge) {
+    for (const moduleName of this.modules) {
+      await client.getMods().require(moduleName)
+    }
+    const Rcon = require("rcon")
+
+    const config = {
+      tcp: bridge.transf(values.tcpudp),
+      challenge: bridge.transf(values.challengePtc),
+    }
+
+    const ipAddr = bridge.transf(values.ipAddress)
+    const ipPort = bridge.transf(values.ipPort)
+    const rconPw = bridge.transf(values.rconPassword)
+    const rconCm = bridge.transf(values.rconCommand)
+    const logging = values.logging
+
+    const rconServer = new Rcon(ipAddr, ipPort, rconPw, config)
+    rconServer.setTimeout(() => {
+      if (logging == true) {
+        console.log(`[${this.data.name}] Connection to ${ipAddr}:${ipPort} timed out.`)
+      }
+      bridge.store(values.rconResponse, `Connection timed out.`)
+      rconServer.disconnect()
+    }, 1500)
+
+    rconServer.on("auth", function () {
+      if (logging == true) {
+        console.log(`[${this.data.name}] Connection to ${ipAddr}:${ipPort} established.`)
+        console.log(`[${this.data.name}] Sending command: ${rconCm}`)
+      }
+      rconServer.send(rconCm)
+    })
+
+    rconServer.on("response", function (str) {
+      if (logging == true) {
+        console.log(`[${this.data.name}] Response received: ` + str)
+      }
+      bridge.store(values.rconResponse, str)
+      rconServer.disconnect()
+      bridge.runner(values.actions)
+    })
+
+    rconServer.on("end", function () {
+      if (logging == true) {
+        console.log(`[${this.data.name}] Connection to ${ipAddr}:${ipPort} dropped.`)
+      }
+      rconServer.disconnect()
+    })
+
+    rconServer.on("error", function (str) {
+      if (logging == true) {
+        console.log(`[${this.data.name}] Error: ${str}`)
+      }
+      bridge.store(values.rconResponse, `Error: ${str}`)
+      rconServer.disconnect()
+    })
+
+    rconServer.connect()
+  },
+}
